@@ -1,3 +1,5 @@
+require 'liquid'
+
 Dir[File.dirname(__FILE__) + '/mushy/*.rb'].each { |f| require f }
 
 module Mushy

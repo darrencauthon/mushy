@@ -1,7 +1,7 @@
 module Mushy
   class Masher
     def mash one, two
-      one
+      Liquid::Template.parse(one).render two
     end
   end
 end

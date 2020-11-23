@@ -11,6 +11,11 @@ describe Mushy::Masher do
       masher.mash(value, {} ).must_equal value
     end
 
+    it "should use basic liquid templating" do
+      value = SecureRandom.uuid
+      masher.mash("{{ name }}", { "name" => value } ).must_equal value
+    end
+
   end
 
 end
