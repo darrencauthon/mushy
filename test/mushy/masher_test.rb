@@ -16,6 +16,11 @@ describe Mushy::Masher do
       masher.mash("{{ name }}", { "name" => value } ).must_equal value
     end
 
+    it "should allow for symbolized hashes" do
+      value = SecureRandom.uuid
+      masher.mash("{{ name }}", { name: value } ).must_equal value
+    end
+
   end
 
 end
