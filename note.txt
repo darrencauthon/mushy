@@ -1,0 +1,2 @@
+Run the test:
+docker run -it -v //c/Users/darre/Desktop/mushy:/usr/src/mushy ruby:2.5 ruby //usr/src/mushy/test/mushy/masher_test.rb
