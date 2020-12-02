@@ -39,6 +39,15 @@ describe Mushy::Masher do
 
     end
 
+    describe "with an array" do
+
+      it "should return a hash with the same value" do
+        value = SecureRandom.uuid
+        masher.mash(['{{ name }}'], { "name" => value } )[0].must_equal value
+      end
+
+    end
+
   end
 
 end
