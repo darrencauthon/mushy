@@ -1,5 +1,7 @@
 module Mushy
+
   class Masher
+
     def mash value, data
 
       if value.is_a? String
@@ -8,9 +10,12 @@ module Mushy
         return value.each { |k, v| value[k] = mash v, data }
       elsif value.is_a? Array
         return value.map { |v| mash v, data }
+      else
+        return value
       end
 
-      return value
     end
+
   end
+
 end
