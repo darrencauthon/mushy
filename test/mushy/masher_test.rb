@@ -32,6 +32,11 @@ describe Mushy::Masher do
         masher.mash( { name: "{{ name }}" }, { "name" => value } )[:name].must_equal value
       end
 
+      it "should handle hashes with hashes" do
+        value = SecureRandom.uuid
+        masher.mash( { test: { name: "{{ name }}" } }, { "name" => value } )[:test][:name].must_equal value
+      end
+
     end
 
   end
