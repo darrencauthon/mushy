@@ -2,11 +2,17 @@ module Mushy
 
   class Runner
 
+    attr_accessor :runner
+
+    def initialize
+      self.runner = self
+    end
+
     def start event_data, step, workflow
       run = find_run step, workflow
       event = build_event event_data, workflow, run
       events = step.execute event
-      events.each { |e| EventRunner.run e }
+      events.each { |e| runner.run e }
       run
     end
 
@@ -38,9 +44,6 @@ module Mushy
   end
 
   class Step
-  end
-
-  class EventRunner
   end
 
   class Event
