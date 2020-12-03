@@ -4,11 +4,15 @@ describe Mushy::Run do
 
   describe "start" do
 
-    let(:event)    { Object.new }
+    let(:event)    { Mushy::Event.new }
     let(:step)     { Mushy::Step.new }
     let(:workflow) { Mushy::Workflow.new }
 
-    let(:the_run) { Mushy::Run.new }
+    let(:the_run) do
+      r = Mushy::Run.new
+      r.id = SecureRandom.uuid
+      r
+    end
 
     let(:events) { [] }
 
@@ -26,6 +30,12 @@ describe Mushy::Run do
       run = Mushy::Run.start event, step, workflow
 
       run.must_be_same_as the_run
+    end
+
+    it "should set the run_id on the event" do
+      Mushy::Run.start event, step, workflow
+
+      event.run_id.must_equal the_run.id
     end
 
     describe "when there are child events" do

@@ -9,7 +9,9 @@ module Mushy
       events = step.execute event
       events.each { |e| EventRunner.run e }
 
-      find_run event, step, workflow
+      run = find_run event, step, workflow
+      event.run_id = run.id
+      run
     end
 
     def self.find_run event, step, workflow
@@ -32,6 +34,7 @@ module Mushy
   end
 
   class Event
+    attr_accessor :run_id
   end
 
 end
