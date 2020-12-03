@@ -5,3 +5,5 @@ require 'securerandom'
 
 require 'minitest/autorun'
 require 'minitest/spec'
+
+require 'mocha/minitest'
