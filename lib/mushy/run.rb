@@ -44,6 +44,8 @@ module Mushy
   end
 
   class Step
+    def execute event
+    end
   end
 
   class Event
