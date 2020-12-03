@@ -23,6 +23,14 @@ module Mushy
       run
     end
 
+    def self.build_event event_data, step, workflow, run
+      event = Mushy::Event.new
+      event.id = SecureRandom.uuid
+      event.run_id = run.id
+      event.workflow_id = workflow.id
+      event
+    end
+
   end
 
   class Workflow
@@ -36,6 +44,7 @@ module Mushy
   end
 
   class Event
+    attr_accessor :id
     attr_accessor :run_id
     attr_accessor :workflow_id
   end

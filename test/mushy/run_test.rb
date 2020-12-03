@@ -94,4 +94,45 @@ describe Mushy::Run do
 
   end
 
+  describe "building an event" do
+
+    let(:event_data) { Object.new }
+    let(:step)       { Mushy::Step.new }
+
+    let(:workflow) do
+      w = Mushy::Workflow.new
+      w.id = SecureRandom.uuid
+      w
+    end
+
+    let(:the_run) do
+      r = Mushy::Run.new
+      r.id = SecureRandom.uuid
+      r
+    end
+
+    it "should set the id to a random guid" do
+      event_id = Object.new
+      SecureRandom.stubs(:uuid).returns event_id
+      event = Mushy::Run.build_event event_data, step, workflow, the_run
+      event.id.must_be_same_as event_id
+    end
+
+    it "should return a run" do
+      event = Mushy::Run.build_event event_data, step, workflow, the_run
+      event.is_a?(Mushy::Event).must_equal true
+    end
+
+    it "should set the workflow id" do
+      event = Mushy::Run.build_event event_data, step, workflow, the_run
+      event.workflow_id.must_equal workflow.id
+    end
+
+    it "should set the run id" do
+      event = Mushy::Run.build_event event_data, step, workflow, the_run
+      event.run_id.must_equal the_run.id
+    end
+
+  end
+
 end
