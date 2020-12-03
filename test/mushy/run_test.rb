@@ -26,7 +26,7 @@ describe Mushy::Run do
     before do
       Mushy::EventRunner.stubs :run
 
-      Mushy::Run.stubs(:find_run).with(event, step, workflow).returns the_run
+      Mushy::Run.stubs(:find_run).with(step, workflow).returns the_run
       Mushy::Run.stubs(:build_event).with(event_data, step, workflow).returns event
 
       step.stubs(:execute).with(event).returns events
@@ -71,25 +71,24 @@ describe Mushy::Run do
 
   describe "finding a run" do
 
-    let(:event)    { Object.new }
     let(:step)     { Mushy::Step.new }
     let(:workflow) { Mushy::Workflow.new }
 
     it "should return a run" do
-      run = Mushy::Run.find_run event, step, workflow
+      run = Mushy::Run.find_run step, workflow
       run.is_a?(Mushy::Run).must_equal true
     end
 
     it "should set the workflow id" do
       workflow.id = SecureRandom.uuid
-      run = Mushy::Run.find_run event, step, workflow
+      run = Mushy::Run.find_run step, workflow
       run.workflow_id.must_equal workflow.id
     end
 
     it "should set the run id to a new uuid" do
       run_id = SecureRandom.uuid
       SecureRandom.stubs(:uuid).returns run_id
-      run = Mushy::Run.find_run event, step, workflow
+      run = Mushy::Run.find_run step, workflow
       run.id.must_equal run_id
     end
 
