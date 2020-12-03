@@ -12,13 +12,8 @@ describe Mushy::Run do
 
     let(:events) { [] }
 
-    let(:uuid) { SecureRandom.uuid }
-
     before do
-      u = uuid
       workflow.id = SecureRandom.uuid
-
-      SecureRandom.stubs(:uuid).returns uuid
 
       Mushy::EventRunner.stubs :run
 
@@ -31,16 +26,6 @@ describe Mushy::Run do
       run = Mushy::Run.start event, step, workflow
 
       run.must_be_same_as the_run
-    end
-
-    it "should set a run id" do
-      run = Mushy::Run.start event, step, workflow
-      run.id.must_equal uuid
-    end
-
-    it "should set the workflow id on the run" do
-      run = Mushy::Run.start event, step, workflow
-      run.workflow_id.must_equal workflow.id
     end
 
     describe "when there are child events" do
