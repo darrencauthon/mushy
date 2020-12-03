@@ -11,8 +11,6 @@ module Mushy
       events = step.execute event
       events.each { |e| EventRunner.run e }
 
-      event.run_id = run.id
-      event.workflow_id = workflow.id
       run
     end
 

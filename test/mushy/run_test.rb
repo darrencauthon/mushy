@@ -38,18 +38,6 @@ describe Mushy::Run do
       run.must_be_same_as the_run
     end
 
-    it "should set the run_id on the event" do
-      Mushy::Run.start event_data, step, workflow
-
-      event.run_id.must_equal the_run.id
-    end
-
-    it "should set the workflow_id on the event" do
-      Mushy::Run.start event_data, step, workflow
-
-      event.workflow_id.must_equal workflow.id
-    end
-
     describe "when there are child events" do
 
       let (:child_event_1) { Mushy::Event.new }
