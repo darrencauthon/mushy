@@ -7,7 +7,7 @@ module Mushy
 
     def self.start event, step, workflow
       events = step.execute event
-      StepRunner.run events[0]
+      EventRunner.run events[0]
 
       run = Run.new
       run.id = SecureRandom.uuid
@@ -24,7 +24,7 @@ module Mushy
   class Step
   end
 
-  class StepRunner
+  class EventRunner
   end
 
   class Event

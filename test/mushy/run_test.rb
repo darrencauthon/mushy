@@ -18,7 +18,7 @@ describe Mushy::Run do
 
       SecureRandom.stubs(:uuid).returns uuid
 
-      Mushy::StepRunner.stubs(:run)
+      Mushy::EventRunner.stubs(:run)
 
       step.stubs(:execute).with(event).returns events
     end
@@ -48,7 +48,7 @@ describe Mushy::Run do
       end
 
       it "should load them up" do
-        Mushy::StepRunner.expects(:run).with(child_event)
+        Mushy::EventRunner.expects(:run).with(child_event)
         Mushy::Run.start event, step, workflow
       end
     end
