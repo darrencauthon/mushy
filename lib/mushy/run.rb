@@ -11,6 +11,8 @@ module Mushy
       events = step.execute event
       events.each { |e| EventRunner.run e }
 
+      event.run_id = run.id
+      event.workflow_id = workflow.id
       run
     end
 
@@ -26,6 +28,7 @@ module Mushy
       event.id = SecureRandom.uuid
       event.run_id = run.id
       event.workflow_id = workflow.id
+      event.data = event_data
       event
     end
 
@@ -45,6 +48,7 @@ module Mushy
     attr_accessor :id
     attr_accessor :run_id
     attr_accessor :workflow_id
+    attr_accessor :data
   end
 
 end

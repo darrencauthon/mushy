@@ -111,6 +111,11 @@ describe Mushy::Run do
       event.run_id.must_equal the_run.id
     end
 
+    it "should set the data" do
+      event = Mushy::Run.build_event event_data, step, workflow, the_run
+      event.data.must_be_same_as event_data
+    end
+
   end
 
 end
