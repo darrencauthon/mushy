@@ -4,9 +4,14 @@ describe Mushy::Run do
 
   describe "start" do
 
-    let(:event)    { Mushy::Event.new }
-    let(:step)     { Mushy::Step.new }
-    let(:workflow) { Mushy::Workflow.new }
+    let(:event) { Mushy::Event.new }
+    let(:step)  { Mushy::Step.new }
+
+    let(:workflow) do
+      w = Mushy::Workflow.new
+      w.id = SecureRandom.uuid
+      w
+    end
 
     let(:the_run) do
       r = Mushy::Run.new
@@ -17,8 +22,6 @@ describe Mushy::Run do
     let(:events) { [] }
 
     before do
-      workflow.id = SecureRandom.uuid
-
       Mushy::EventRunner.stubs :run
 
       Mushy::Run.stubs(:find_run).with(event, step, workflow).returns the_run
@@ -36,6 +39,12 @@ describe Mushy::Run do
       Mushy::Run.start event, step, workflow
 
       event.run_id.must_equal the_run.id
+    end
+
+    it "should set the workflow_id on the event" do
+      Mushy::Run.start event, step, workflow
+
+      event.workflow_id.must_equal workflow.id
     end
 
     describe "when there are child events" do

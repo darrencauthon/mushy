@@ -11,6 +11,7 @@ module Mushy
 
       run = find_run event, step, workflow
       event.run_id = run.id
+      event.workflow_id = workflow.id
       run
     end
 
@@ -35,6 +36,7 @@ module Mushy
 
   class Event
     attr_accessor :run_id
+    attr_accessor :workflow_id
   end
 
 end
