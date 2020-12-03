@@ -17,6 +17,7 @@ module Mushy
 
     def self.find_run event, step, workflow
       run = Mushy::Run.new
+      run.id = SecureRandom.uuid
       run.workflow_id = workflow.id
       run
     end

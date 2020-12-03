@@ -79,6 +79,13 @@ describe Mushy::Run do
       run.workflow_id.must_equal workflow.id
     end
 
+    it "should set the run id to a new uuid" do
+      run_id = SecureRandom.uuid
+      SecureRandom.stubs(:uuid).returns run_id
+      run = Mushy::Run.find_run event, step, workflow
+      run.id.must_equal run_id
+    end
+
   end
 
 end
