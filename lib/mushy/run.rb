@@ -1,11 +1,8 @@
 module Mushy
 
-  class Run
+  class Runner
 
-    attr_accessor :id
-    attr_accessor :workflow_id
-
-    def self.start event_data, step, workflow
+    def start event_data, step, workflow
       run = find_run step, workflow
       event = build_event event_data, workflow, run
       events = step.execute event
@@ -13,14 +10,14 @@ module Mushy
       run
     end
 
-    def self.find_run step, workflow
+    def find_run step, workflow
       run = Mushy::Run.new
       run.id = SecureRandom.uuid
       run.workflow_id = workflow.id
       run
     end
 
-    def self.build_event event_data, workflow, run
+    def build_event event_data, workflow, run
       event = Mushy::Event.new
       event.id = SecureRandom.uuid
       event.run_id = run.id
@@ -29,6 +26,11 @@ module Mushy
       event
     end
 
+  end
+
+  class Run
+    attr_accessor :id
+    attr_accessor :workflow_id
   end
 
   class Workflow
