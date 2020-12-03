@@ -6,10 +6,10 @@ describe Mushy::Run do
 
     let(:event_data) { Object.new }
 
-    let(:event)    { Mushy::Event.new }
-    let(:step)     { Mushy::Step.new }
-    let(:workflow) { Mushy::Workflow.new }
-    let(:the_run)  { Mushy::Run.new }
+    let(:event)    { Object.new }
+    let(:step)     { Object.new }
+    let(:workflow) { Object.new }
+    let(:the_run)  { Object.new }
 
     let(:events) { [] }
 
