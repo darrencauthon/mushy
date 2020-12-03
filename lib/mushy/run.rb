@@ -1,6 +1,6 @@
 module Mushy
 
-  class Mush
+  class Run
   end
 
 end
