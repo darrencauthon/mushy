@@ -27,7 +27,7 @@ describe Mushy::Run do
       Mushy::EventRunner.stubs :run
 
       Mushy::Run.stubs(:find_run).with(step, workflow).returns the_run
-      Mushy::Run.stubs(:build_event).with(event_data, step, workflow).returns event
+      Mushy::Run.stubs(:build_event).with(event_data, step, workflow, the_run).returns event
 
       step.stubs(:execute).with(event).returns events
     end
