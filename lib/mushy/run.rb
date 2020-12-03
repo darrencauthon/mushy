@@ -5,7 +5,8 @@ module Mushy
     attr_accessor :id
     attr_accessor :workflow_id
 
-    def self.start event, step, workflow
+    def self.start event_data, step, workflow
+      event = build_event event_data, step, workflow
       events = step.execute event
       events.each { |e| EventRunner.run e }
 
