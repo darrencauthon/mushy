@@ -7,7 +7,7 @@ module Mushy
 
     def self.start event_data, step, workflow
       run = find_run step, workflow
-      event = build_event event_data, step, workflow, run
+      event = build_event event_data, workflow, run
       events = step.execute event
       events.each { |e| EventRunner.run e }
 
@@ -23,7 +23,7 @@ module Mushy
       run
     end
 
-    def self.build_event event_data, step, workflow, run
+    def self.build_event event_data, workflow, run
       event = Mushy::Event.new
       event.id = SecureRandom.uuid
       event.run_id = run.id
