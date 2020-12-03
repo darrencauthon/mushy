@@ -21,8 +21,15 @@ describe Mushy::Run do
       run = Mushy::Run.start event, step, workflow
 
       run.is_a?(Mushy::Run).must_equal true
+    end
 
+    it "should set a run id" do
+      run = Mushy::Run.start event, step, workflow
       run.id.must_equal uuid
+    end
+
+    it "should set the workflow id on the run" do
+      run = Mushy::Run.start event, step, workflow
       run.workflow_id.must_equal workflow.id
     end
 
