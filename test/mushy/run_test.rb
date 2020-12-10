@@ -183,6 +183,18 @@ describe Mushy::Runner do
         runner.expects(:run_event).with(child_event_2)
         runner.start event_data, step, workflow
       end
+
+      describe "when using a different runner" do
+
+        let(:different_runner) { Mushy::Runner.new }
+        let(:runner) { Mushy::Runner.new different_runner }
+
+        it "should use the different runner" do
+          different_runner.expects(:run_event).with(child_event_1)
+          different_runner.expects(:run_event).with(child_event_2)
+          runner.start event_data, step, workflow
+        end
+      end
     end
 
   end
