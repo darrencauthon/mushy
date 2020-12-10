@@ -73,8 +73,18 @@ describe Mushy::Runner do
 
     let(:event)    { Object.new }
     let(:step)     { Object.new }
-    let(:workflow) { Object.new }
-    let(:the_run)  { Object.new }
+
+    let(:workflow) do
+      w = Mushy::Workflow.new
+      w.id = SecureRandom.uuid
+      w
+    end
+
+    let(:the_run) do
+      r = Mushy::Run.new
+      r.id = SecureRandom.uuid
+      r
+    end
 
     let(:runner) { Mushy::Runner.new }
 
@@ -84,7 +94,7 @@ describe Mushy::Runner do
       runner.stubs :run_event
 
       runner.stubs(:find_run).with(step, workflow).returns the_run
-      runner.stubs(:build_event).with(event_data, workflow, the_run).returns event
+      runner.stubs(:build_event).with(event_data, workflow.id, the_run.id).returns event
 
       step.stubs(:execute).with(event).returns events
     end
@@ -162,27 +172,27 @@ describe Mushy::Runner do
     it "should set the id to a random guid" do
       event_id = Object.new
       SecureRandom.stubs(:uuid).returns event_id
-      event = runner.build_event event_data, workflow, the_run
+      event = runner.build_event event_data, workflow.id, the_run.id
       event.id.must_be_same_as event_id
     end
 
     it "should return a run" do
-      event = runner.build_event event_data, workflow, the_run
+      event = runner.build_event event_data, workflow.id, the_run.id
       event.is_a?(Mushy::Event).must_equal true
     end
 
     it "should set the workflow id" do
-      event = runner.build_event event_data, workflow, the_run
+      event = runner.build_event event_data, workflow.id, the_run.id
       event.workflow_id.must_equal workflow.id
     end
 
     it "should set the run id" do
-      event = runner.build_event event_data, workflow, the_run
+      event = runner.build_event event_data, workflow.id, the_run.id
       event.run_id.must_equal the_run.id
     end
 
     it "should set the data" do
-      event = runner.build_event event_data, workflow, the_run
+      event = runner.build_event event_data, workflow.id, the_run.id
       event.data.must_be_same_as event_data
     end
 
