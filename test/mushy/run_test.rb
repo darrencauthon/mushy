@@ -21,16 +21,17 @@ describe Mushy::Runner do
   describe "run_event_and_step" do
 
     let(:step)   { Object.new }
-    let(:events) { [Mushy::Event.new, Mushy::Event.new] }
     let(:event)  { Mushy::Event.new }
 
     let(:runner) { Mushy::Runner.new }
 
     before do
-      step.stubs(:execute).with(event).returns events
     end
 
     it "should return the events returned by the step" do
+      events = [Mushy::Event.new, Mushy::Event.new]
+      step.stubs(:execute).with(event).returns events
+
       results = runner.run_event_and_step event, step
 
       results.count.must_equal events.count
