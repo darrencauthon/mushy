@@ -1,5 +1,21 @@
 require_relative '../test_helper.rb'
 
+describe Mushy::Workflow do
+
+  it "should fire" do
+
+    workflow = Mushy::Workflow.new
+    workflow.steps = [Mushy::Step.new]
+
+    step = Mushy::Step.new
+
+    runner = Mushy::Runner.new
+    runner.start({}, step, workflow)
+
+  end
+
+end
+
 describe Mushy::Runner do
 
   describe "run_event_in_workflow" do

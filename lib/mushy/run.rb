@@ -53,9 +53,13 @@ module Mushy
 
   class Workflow
     attr_accessor :id
+    attr_accessor :steps
   end
 
   class Step
+    def execute event
+      puts event.inspect
+    end
   end
 
   class Event
