@@ -32,7 +32,7 @@ describe Mushy::Runner do
     let(:events) { [] }
 
     before do
-      runner.stubs :run
+      runner.stubs :run_event
 
       runner.stubs(:find_run).with(step, workflow).returns the_run
       runner.stubs(:build_event).with(event_data, workflow, the_run).returns event
@@ -57,8 +57,8 @@ describe Mushy::Runner do
       end
 
       it "should load them up" do
-        runner.expects(:run).with(child_event_1)
-        runner.expects(:run).with(child_event_2)
+        runner.expects(:run_event).with(child_event_1)
+        runner.expects(:run_event).with(child_event_2)
         runner.start event_data, step, workflow
       end
     end
