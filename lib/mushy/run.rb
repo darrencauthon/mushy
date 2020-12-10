@@ -11,9 +11,13 @@ module Mushy
     def start event_data, step, workflow
       run = find_run step, workflow
       event = build_event event_data, workflow, run
-      events = step.execute event
+      events = execute_this event, step
       events.each { |e| runner.run e }
       run
+    end
+
+    def execute_this event, step
+      step.execute event
     end
 
     def find_run step, workflow
