@@ -12,14 +12,13 @@ module Mushy
       run = find_run step, workflow
       event = build_event event_data, workflow.id, run.id
       events = run_event_and_step event, step
-      events.each { |e| runner.run_event e }
+      events.each { |e| runner.run_event_in_workflow e, workflow }
       run
     end
 
-    def run_event event
-      Mushy::Workflow
-        .find(event.workflow_id)
-        .steps_applicable_to(event).each { |s| runner.run_event_and_step event, s }
+    def run_event_in_workflow event, workflow
+      workflow.steps
+        .each { |s| runner.run_event_and_step event, s }
     end
 
     def run_event_and_step event, step
@@ -54,6 +53,7 @@ module Mushy
 
   class Workflow
     attr_accessor :id
+    attr_accessor :steps
   end
 
   class Step

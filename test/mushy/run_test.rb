@@ -18,7 +18,7 @@ end
 
 describe Mushy::Runner do
 
-  describe "run_event" do
+  describe "run_event_in_workflow" do
 
     let(:runner)   { Mushy::Runner.new }
     let(:workflow) { Mushy::Workflow.new }
@@ -29,20 +29,16 @@ describe Mushy::Runner do
       e
     end
 
-    before do
-      Mushy::Workflow.stubs(:find).with(event.workflow_id).returns workflow
-    end
-
     it "should look up all of the steps applicable to the event" do
 
       steps = [Mushy::Step.new, Mushy::Step.new]
 
-      workflow.stubs(:steps_applicable_to).returns steps
+      workflow.stubs(:steps).returns steps
 
       runner.expects(:run_event_and_step).with(event, steps[0])
       runner.expects(:run_event_and_step).with(event, steps[1])
 
-      runner.run_event event
+      runner.run_event_in_workflow event, workflow
     end
 
     describe "when using a different runner" do
@@ -54,12 +50,12 @@ describe Mushy::Runner do
 
         steps = [Mushy::Step.new, Mushy::Step.new]
 
-        workflow.stubs(:steps_applicable_to).returns steps
+        workflow.stubs(:steps).returns steps
 
         different_runner.expects(:run_event_and_step).with(event, steps[0])
         different_runner.expects(:run_event_and_step).with(event, steps[1])
 
-        runner.run_event event
+        runner.run_event_in_workflow event, workflow
       end
     end
 
@@ -172,7 +168,7 @@ describe Mushy::Runner do
     let(:events) { [] }
 
     before do
-      runner.stubs :run_event
+      runner.stubs :run_event_in_workflow
 
       runner.stubs(:find_run).with(step, workflow).returns the_run
       runner.stubs(:build_event).with(event_data, workflow.id, the_run.id).returns event
@@ -197,8 +193,8 @@ describe Mushy::Runner do
       end
 
       it "should run the events" do
-        runner.expects(:run_event).with(child_event_1)
-        runner.expects(:run_event).with(child_event_2)
+        runner.expects(:run_event_in_workflow).with(child_event_1, workflow)
+        runner.expects(:run_event_in_workflow).with(child_event_2, workflow)
         runner.start event_data, step, workflow
       end
 
@@ -208,8 +204,8 @@ describe Mushy::Runner do
         let(:runner) { Mushy::Runner.new different_runner }
 
         it "should use the different runner" do
-          different_runner.expects(:run_event).with(child_event_1)
-          different_runner.expects(:run_event).with(child_event_2)
+          different_runner.expects(:run_event_in_workflow).with(child_event_1, workflow)
+          different_runner.expects(:run_event_in_workflow).with(child_event_2, workflow)
           runner.start event_data, step, workflow
         end
       end
