@@ -19,7 +19,7 @@ module Mushy
     def run_event event
       Mushy::Workflow
         .find(event.workflow_id)
-        .steps_applicable_to(event).each { |s| run_event_and_step event, s }
+        .steps_applicable_to(event).each { |s| runner.run_event_and_step event, s }
     end
 
     def run_event_and_step event, step

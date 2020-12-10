@@ -45,6 +45,24 @@ describe Mushy::Runner do
       runner.run_event event
     end
 
+    describe "when using a different runner" do
+
+      let(:different_runner) { Mushy::Runner.new }
+      let(:runner) { Mushy::Runner.new different_runner }
+
+      it "should look up all of the steps applicable to the event" do
+
+        steps = [Mushy::Step.new, Mushy::Step.new]
+
+        workflow.stubs(:steps_applicable_to).returns steps
+
+        different_runner.expects(:run_event_and_step).with(event, steps[0])
+        different_runner.expects(:run_event_and_step).with(event, steps[1])
+
+        runner.run_event event
+      end
+    end
+
   end
 
   describe "run_event_and_step" do
