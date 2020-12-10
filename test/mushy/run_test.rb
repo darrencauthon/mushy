@@ -178,7 +178,7 @@ describe Mushy::Runner do
         events << child_event_2
       end
 
-      it "should load them up" do
+      it "should run the events" do
         runner.expects(:run_event).with(child_event_1)
         runner.expects(:run_event).with(child_event_2)
         runner.start event_data, step, workflow
