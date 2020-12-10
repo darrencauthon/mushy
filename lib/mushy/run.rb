@@ -12,7 +12,7 @@ module Mushy
       run = find_run step, workflow
       event = build_event event_data, workflow.id, run.id
       events = run_event_and_step event, step
-      events.each { |e| runner.run_event e }
+      events.each { |e| run_event e }
       run
     end
 
