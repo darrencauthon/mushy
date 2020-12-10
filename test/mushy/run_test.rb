@@ -31,7 +31,7 @@ describe Mushy::Runner do
 
       steps = [Mushy::Step.new, Mushy::Step.new]
 
-      workflow.stubs(:steps).returns steps
+      workflow.stubs(:steps_for).with(event).returns steps
 
       runner.expects(:run_event_and_step).with(event, steps[0])
       runner.expects(:run_event_and_step).with(event, steps[1])
@@ -48,7 +48,7 @@ describe Mushy::Runner do
 
         steps = [Mushy::Step.new, Mushy::Step.new]
 
-        workflow.stubs(:steps).returns steps
+        workflow.stubs(:steps_for).returns steps
 
         different_runner.expects(:run_event_and_step).with(event, steps[0])
         different_runner.expects(:run_event_and_step).with(event, steps[1])

@@ -17,7 +17,7 @@ module Mushy
     end
 
     def run_event_in_workflow event, workflow
-      workflow.steps
+      workflow.steps_for(event)
         .each { |s| runner.run_event_and_step event, s }
     end
 
@@ -54,6 +54,10 @@ module Mushy
   class Workflow
     attr_accessor :id
     attr_accessor :steps
+
+    def steps_for event
+      []
+    end
   end
 
   class Step
