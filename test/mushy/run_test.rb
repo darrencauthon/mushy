@@ -43,7 +43,7 @@ describe Mushy::Runner do
       value_1 = SecureRandom.uuid
       value_2 = SecureRandom.uuid
 
-      events = [ { key => value_1, key => value_2 } ]
+      events = [ { key => value_1 }, { key => value_2 } ]
       step.stubs(:execute).with(event).returns events
 
       results = runner.run_event_and_step event, step
