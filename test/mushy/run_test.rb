@@ -18,6 +18,35 @@ end
 
 describe Mushy::Runner do
 
+  describe "run_event" do
+
+    let(:runner)   { Mushy::Runner.new }
+    let(:workflow) { Mushy::Workflow.new }
+
+    let(:event) do
+      e = Mushy::Event.new
+      e.workflow_id = Object.new
+      e
+    end
+
+    before do
+      Mushy::Workflow.stubs(:find).with(event.workflow_id).returns workflow
+    end
+
+    it "should look up all of the steps applicable to the event" do
+
+      steps = [Mushy::Step.new, Mushy::Step.new]
+
+      workflow.stubs(:steps_applicable_to).returns steps
+
+      runner.expects(:run_event_and_step).with(event, steps[0])
+      runner.expects(:run_event_and_step).with(event, steps[1])
+
+      runner.run_event event
+    end
+
+  end
+
   describe "run_event_and_step" do
 
     let(:step)   { Object.new }
