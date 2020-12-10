@@ -65,6 +65,16 @@ describe Mushy::Runner do
       results[0].data[key].must_equal value_1
     end
 
+    it "should build new events when the step returns one hash" do
+      event.run_id = Object.new
+
+      step.stubs(:execute).with(event).returns( {} )
+
+      results = runner.run_event_and_step event, step
+
+      results[0].run_id.must_be_same_as event.run_id
+    end
+
   end
 
   describe "start" do

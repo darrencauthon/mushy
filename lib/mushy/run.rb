@@ -18,7 +18,7 @@ module Mushy
 
     def run_event_and_step event, step
       events = [step.execute(event)].flatten
-      events = events.map { |x| x.is_a?(Hash) ? build_event(x, nil, nil) : x }
+      events = events.map { |x| x.is_a?(Hash) ? build_event(x, nil, event.run_id) : x }
       events
     end
 
