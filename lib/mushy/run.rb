@@ -17,7 +17,7 @@ module Mushy
     end
 
     def run_event_and_step event, step
-      events = [step.execute(event)].flatten
+      events = [step.execute(event)].flatten.reject { |x| x.nil? }
       events = events.map { |x| x.is_a?(Hash) ? build_event(x, event.workflow_id, event.run_id) : x }
       events
     end
