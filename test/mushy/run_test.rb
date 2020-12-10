@@ -1,21 +1,5 @@
 require_relative '../test_helper.rb'
 
-describe Mushy::Step do
-
-  describe "execute" do
-
-    let(:event) { Mushy::Event.new }
-
-    let(:step) { Mushy::Step.new }
-
-    it "should exist" do
-      step.execute event
-    end
-
-  end
-
-end
-
 describe Mushy::Runner do
 
   describe "run_event_in_workflow" do
