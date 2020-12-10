@@ -18,6 +18,27 @@ end
 
 describe Mushy::Runner do
 
+  describe "run_event_and_step" do
+
+    let(:step)   { Object.new }
+    let(:events) { [Mushy::Event.new, Mushy::Event.new] }
+    let(:event)  { Mushy::Event.new }
+
+    let(:runner) { Mushy::Runner.new }
+
+    before do
+      step.stubs(:execute).with(event).returns events
+    end
+
+    it "should return the events returned by the step" do
+      results = runner.run_event_and_step event, step
+
+      results.count.must_equal events.count
+      results.each { |r| events.select { |e| e.object_id == r.object_id }.count.must_equal 1 }
+    end
+
+  end
+
   describe "start" do
 
     let(:event_data) { Object.new }
