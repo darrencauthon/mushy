@@ -7,10 +7,8 @@ describe Mushy::Workflow do
     workflow = Mushy::Workflow.new
     workflow.steps = [Mushy::Step.new]
 
-    step = Mushy::Step.new
-
     runner = Mushy::Runner.new
-    runner.start({}, step, workflow)
+    runner.start({}, workflow.steps[0], workflow)
 
   end
 
