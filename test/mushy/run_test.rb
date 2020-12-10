@@ -52,6 +52,19 @@ describe Mushy::Runner do
       results.each { |r| events.select { |e| e[key] == r.data[key] }.count.must_equal 1 }
     end
 
+    it "should build new events when the step returns one hash" do
+      key     = SecureRandom.uuid
+      value_1 = SecureRandom.uuid
+
+      events = { key => value_1 }
+      step.stubs(:execute).with(event).returns events
+
+      results = runner.run_event_and_step event, step
+
+      results.count.must_equal 1
+      results[0].data[key].must_equal value_1
+    end
+
   end
 
   describe "start" do
