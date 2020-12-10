@@ -17,7 +17,9 @@ module Mushy
     end
 
     def run_event_and_step event, step
-      step.execute event
+      events = step.execute event
+      events = events.map { |x| x.is_a?(Hash) ? build_event(x, Mushy::Run.new, Mushy::Workflow.new) : x }
+      events
     end
 
     def find_run step, workflow
