@@ -64,7 +64,12 @@ describe Mushy::Runner do
   describe "run_event_and_step" do
 
     let(:step)   { Object.new }
-    let(:event)  { Mushy::Event.new }
+
+    let(:event) do
+      e = Mushy::Event.new
+      e.data = Object.new
+      e
+    end
 
     let(:runner) { Mushy::Runner.new }
 
@@ -73,7 +78,7 @@ describe Mushy::Runner do
 
     it "should return the events returned by the step" do
       events = [Mushy::Event.new, Mushy::Event.new]
-      step.stubs(:execute).with(event).returns events
+      step.stubs(:execute).with(event.data).returns events
 
       results = runner.run_event_and_step event, step
 
@@ -87,7 +92,7 @@ describe Mushy::Runner do
       value_2 = SecureRandom.uuid
 
       events = [ { key => value_1 }, { key => value_2 } ]
-      step.stubs(:execute).with(event).returns events
+      step.stubs(:execute).with(event.data).returns events
 
       results = runner.run_event_and_step event, step
 
@@ -101,7 +106,7 @@ describe Mushy::Runner do
       value_2 = SecureRandom.uuid
 
       events = [ { key => value_1 }, { key => value_2 }, nil ]
-      step.stubs(:execute).with(event).returns events
+      step.stubs(:execute).with(event.data).returns events
 
       results = runner.run_event_and_step event, step
 
@@ -114,7 +119,7 @@ describe Mushy::Runner do
       value_1 = SecureRandom.uuid
 
       events = { key => value_1 }
-      step.stubs(:execute).with(event).returns events
+      step.stubs(:execute).with(event.data).returns events
 
       results = runner.run_event_and_step event, step
 
@@ -125,7 +130,7 @@ describe Mushy::Runner do
     it "should carry the run id through" do
       event.run_id = Object.new
 
-      step.stubs(:execute).with(event).returns( {} )
+      step.stubs(:execute).with(event.data).returns( {} )
 
       results = runner.run_event_and_step event, step
 
@@ -135,7 +140,7 @@ describe Mushy::Runner do
     it "should carry the workflow id through" do
       event.workflow_id = Object.new
 
-      step.stubs(:execute).with(event).returns( {} )
+      step.stubs(:execute).with(event.data).returns( {} )
 
       results = runner.run_event_and_step event, step
 
@@ -148,7 +153,12 @@ describe Mushy::Runner do
 
     let(:event_data) { Object.new }
 
-    let(:event)    { Object.new }
+    let(:event) do
+      e = Mushy::Event.new
+      e.data = Object.new
+      e
+    end
+
     let(:step)     { Object.new }
 
     let(:workflow) do
@@ -173,7 +183,7 @@ describe Mushy::Runner do
       runner.stubs(:find_run).with(step, workflow).returns the_run
       runner.stubs(:build_event).with(event_data, workflow.id, the_run.id).returns event
 
-      step.stubs(:execute).with(event).returns events
+      step.stubs(:execute).with(event.data).returns events
     end
 
     it "should return a run" do
