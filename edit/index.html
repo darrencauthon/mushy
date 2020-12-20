@@ -32,8 +32,8 @@
                   '<input v-if="data.type == \'text\'" :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<input v-if="data.type == \'email\'" :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<textarea v-if="data.type == \'textarea\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></textarea>' +
-                  '<div v-if="data.type == \'radio\'"><div v-for="option in data.options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="console.log($event.target.value);$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>' +
-                  '<div v-if="data.type == \'select\'"><select :name="id" :id="id"><option v-for="option in data.options" v-bind:value="option" v-on:input="console.log($event.target.value);$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>' +
+                  '<div v-if="data.type == \'radio\'"><div v-for="option in data.options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>' +
+                  '<div v-if="data.type == \'select\'"><select :name="id" :id="id"><option v-for="option in data.options" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>' +
                   '</div>'
     });
 
