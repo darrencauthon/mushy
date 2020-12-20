@@ -7,28 +7,15 @@
         <div id="app">
             {{ message }}
             <form>
-                <text-field type="email" id="email" label="Email" v-model="thing.email.value"></text-field>
+                <text-field :data="thing.email" v-model="thing.email.value"></thing>
             </form>
-            <special-field :data="thing.email" v-model="thing.email.value"></thing>
         </div>
     </body>
 </html>
 
 <script type="text/javascript">
-   Vue.component('text-field', {
-        data: function () {
-                  return {
-                  }
-        },
-        props: ['id', 'label', 'placeholder', 'type', 'value', 'readonly', 'disabled'],
-        template: '<div>' +
-                  '<label :for="id">{{label}}</label>' +
-                  '<input v-if="type != \'textarea\'" :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'">' +
-                  '<textarea v-if="type == \'textarea\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea>' +
-                  '</div>'
-    });
 
-   Vue.component('special-field', {
+   Vue.component('text-field', {
         data: function () {
                   return {
                       console: console,
