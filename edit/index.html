@@ -19,9 +19,10 @@
                       console: console,
                   }
         },
+        //
         props: ['data', 'value', 'id'],
         template: '<div>' +
-                  '<label :for="id" v-if="data.label != \'\'">{{data.label}}</label>' +
+                  '<label :for="id" v-if="data.label != \'\'">{{data.label || (id.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</label>' +
                   '<input v-if="data.type == \'text\'" :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<input v-if="data.type == \'email\'" :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<textarea v-if="data.type == \'textarea\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></textarea>' +
@@ -33,9 +34,9 @@
         data: {
             message: 'test',
             fields: {
-                email: { type: 'email', label: 'Email', value: 'darren@cauthon.com' },
-                first_name: { type: 'text', label: 'First Name', value: 'Darren' },
-                description: { type: 'textarea', label: 'Description', value: 'more data' }
+                email: { type: 'email', value: 'darren@cauthon.com' },
+                first_name: { type: 'text', value: 'Darren' },
+                description: { type: 'textarea', value: 'more data' }
             }
         }
     });
