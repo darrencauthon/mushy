@@ -7,9 +7,7 @@
         <div id="app">
             {{ message }}
             <form>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="john.doe@gmail.com">
-                <text-field></text-field>
+                <text-field id="email" label="Email"></text-field>
             </form>
         </div>
     </body>
@@ -22,7 +20,9 @@
                       count: 0
                   }
         },
-        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+        props: ['id', 'label', 'placeholder', 'type'],
+        template: '<div><label :for="id">{{label}}</label>' +
+                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder"></div>'
     });
 
     var app = new Vue({
