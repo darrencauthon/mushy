@@ -7,7 +7,7 @@
         <div id="app">
             {{ message }}
             <form>
-                <text-field id="email" label="Email"></text-field>
+                <text-field id="email" label="Email" v-model="message"></text-field>
             </form>
         </div>
     </body>
@@ -20,9 +20,9 @@
                       count: 0
                   }
         },
-        props: ['id', 'label', 'placeholder', 'type'],
+        props: ['id', 'label', 'placeholder', 'type', 'value'],
         template: '<div><label :for="id">{{label}}</label>' +
-                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder"></div>'
+                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)"></div>'
     });
 
     var app = new Vue({
