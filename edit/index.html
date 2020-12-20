@@ -7,7 +7,7 @@
         <div id="app">
             {{ message }}
             <form>
-                <text-field id="email" label="Email" v-model="message"></text-field>
+                <text-field id="email" label="Email" v-model="message" readonly="true"></text-field>
             </form>
         </div>
     </body>
@@ -20,9 +20,9 @@
                       count: 0
                   }
         },
-        props: ['id', 'label', 'placeholder', 'type', 'value', 'readonly'],
+        props: ['id', 'label', 'placeholder', 'type', 'value', 'readonly', 'disabled'],
         template: '<div><label :for="id">{{label}}</label>' +
-                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="readonly == \'true\'"></div>'
+                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
     });
 
     var app = new Vue({
