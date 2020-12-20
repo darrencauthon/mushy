@@ -25,7 +25,6 @@
                       console: console,
                   }
         },
-        //
         props: ['data', 'value', 'id'],
         template: '<div>' +
                   '<label :for="id" v-if="data.label != \'\'">{{data.label || (id.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</label>' +
