@@ -7,7 +7,7 @@
         <div id="app">
             {{ message }}
             <form>
-                <text-field id="email" label="Email" v-model="message" readonly="true"></text-field>
+                <text-field type="email" id="email" label="Email" v-model="message" readonly="true"></text-field>
             </form>
         </div>
     </body>
@@ -22,7 +22,9 @@
         },
         props: ['id', 'label', 'placeholder', 'type', 'value', 'readonly', 'disabled'],
         template: '<div><label :for="id">{{label}}</label>' +
-                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+                  '<input v-if="type != \'textarea\'" :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'">' +
+                  '<textarea v-if="type == \'textarea\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea>' +
+                  '</div>'
     });
 
     var app = new Vue({
