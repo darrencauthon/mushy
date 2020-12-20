@@ -6,9 +6,7 @@
     <body>
         <div id="app">
             {{ message }}
-            <form>
-                <text-field v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></thing>
-            </form>
+            <text-field v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></thing>
         </div>
     </body>
 </html>
