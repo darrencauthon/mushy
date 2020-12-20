@@ -7,7 +7,7 @@
         <div id="app">
             {{ message }}
             <form>
-                <text-field v-for="t in thing" :data="t" v-model="t.value"></thing>
+                <text-field v-for="field in fields" :data="field" v-model="field.value"></thing>
             </form>
         </div>
     </body>
@@ -33,9 +33,10 @@
         el: '#app',
         data: {
             message: 'test',
-            thing: [
+            fields: [
                 { type: 'email', id: 'email', label: 'Email', value: 'darren@cauthon.com' },
-                { type: 'text', id: 'first_name', label: 'First Name', value: 'Darren' }
+                { type: 'text', id: 'first_name', label: 'First Name', value: 'Darren' },
+                { type: 'textarea', id: 'description', label: 'Description', value: 'more data' }
             ]
         }
     });
