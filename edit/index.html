@@ -6,14 +6,14 @@
     <body>
         <div id="app">
             {{ message }}
-            <text-field v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></thing>
+            <mip v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value">
         </div>
     </body>
 </html>
 
 <script type="text/javascript">
 
-   Vue.component('text-field', {
+   Vue.component('mip', {
         data: function () {
                   return {
                       console: console,
