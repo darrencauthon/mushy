@@ -20,9 +20,9 @@
                       count: 0
                   }
         },
-        props: ['id', 'label', 'placeholder', 'type', 'value'],
+        props: ['id', 'label', 'placeholder', 'type', 'value', 'readonly'],
         template: '<div><label :for="id">{{label}}</label>' +
-                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)"></div>'
+                  '<input :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="readonly == \'true\'"></div>'
     });
 
     var app = new Vue({
