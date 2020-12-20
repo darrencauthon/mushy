@@ -23,7 +23,7 @@
         },
         props: ['data', 'value'],
         template: '<div>' +
-                  '<label :for="data.id">{{data.label}}</label>' +
+                  '<label :for="data.id" v-if="data.label != \'\'">{{data.label}}</label>' +
                   '<input v-if="data.type == \'text\'" :type="data.type || \'text\'" :name="data.id" :id="data.id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<input v-if="data.type == \'email\'" :type="data.type || \'text\'" :name="data.id" :id="data.id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<textarea v-if="data.type == \'textarea\'" :name="data.id" :id="data.id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></textarea>' +
