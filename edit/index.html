@@ -9,12 +9,22 @@
             <form>
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="john.doe@gmail.com">
+                <text-field></text-field>
             </form>
         </div>
     </body>
 </html>
 
 <script type="text/javascript">
+    Vue.component('text-field', {
+        data: function () {
+                  return {
+                      count: 0
+                  }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    });
+
     var app = new Vue({
         el: '#app',
         data: {
