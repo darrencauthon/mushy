@@ -21,7 +21,8 @@
                   }
         },
         props: ['id', 'label', 'placeholder', 'type', 'value', 'readonly', 'disabled'],
-        template: '<div><label :for="id">{{label}}</label>' +
+        template: '<div>' +
+                  '<label :for="id">{{label}}</label>' +
                   '<input v-if="type != \'textarea\'" :type="type || \'text\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'">' +
                   '<textarea v-if="type == \'textarea\'" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea>' +
                   '</div>'
