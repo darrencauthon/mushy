@@ -6,7 +6,13 @@
     <body>
         <div id="app">
             {{ fields.size.value }}
-            <mip v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value">
+            <mip v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></mip>
+
+                TEST
+
+<label for="cars">Choose a car:</label>
+
+<select name="cars" id="cars"><option value="volvo">Volvo</option></select>
         </div>
     </body>
 </html>
@@ -27,8 +33,8 @@
                   '<input v-if="data.type == \'email\'" :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'">' +
                   '<textarea v-if="data.type == \'textarea\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></textarea>' +
                   '<div v-if="data.type == \'radio\'"><div v-for="option in data.options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="console.log($event.target.value);$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>' +
+                  '<div v-if="data.type == \'select\'"><select :name="id" :id="id"><option v-for="option in data.options" v-bind:value="option" v-on:input="console.log($event.target.value);$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>' +
                   '</div>'
-                //   
     });
 
     var app = new Vue({
@@ -39,7 +45,7 @@
                 email: { type: 'email', value: 'darren@cauthon.com' },
                 first_name: { type: 'text', value: 'Darren' },
                 description: { type: 'textarea', value: 'more data' },
-                size: { type: 'radio', value: 'small', options: ['small', 'medium', 'large']}
+                size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']}
             }
         }
     });
