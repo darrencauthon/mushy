@@ -33,6 +33,7 @@
                   '<textarea v-if="data.type == \'textarea\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></textarea>' +
                   '<div v-if="data.type == \'radio\'"><div v-for="option in data.options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>' +
                   '<div v-if="data.type == \'select\'"><select :name="id" :id="id"><option v-for="option in data.options" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>' +
+                  '<div v-if="data.type == \'table\'"><table><tr v-for="v in data.value"><td v-for="(d, i) in v">{{d}}</td></tr></table>' +
                   '</div>'
     });
 
@@ -44,7 +45,10 @@
                 email: { type: 'email', value: 'darren@cauthon.com' },
                 first_name: { type: 'text', value: 'Darren' },
                 description: { type: 'textarea', value: 'more data' },
-                size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']}
+                size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
+                past: { type: 'table', value: [
+                                                  { name: 'Godzilla', quantity: 1 },
+                                              ] }
             }
         }
     });
