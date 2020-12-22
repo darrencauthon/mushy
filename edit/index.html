@@ -22,6 +22,16 @@
         template: '<label :for="id" v-if="label != \'\'">{{label || (id.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</label>'
    });
 
+   Vue.component('mip-text', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['label', 'id', 'placeholder', 'disabled', 'readonly', 'value'],
+        template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+   });
+
    Vue.component('mip-thing', {
         data: function () {
                   return {
@@ -30,7 +40,7 @@
         },
         props: ['data', 'value', 'id'],
         template: '<div>' +
-                  '<div v-if="data.type == \'text\'"><mip-label :id="id" :label="data.label"></mip-label><input :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></div>' +
+                  '<mip-text v-if="data.type == \'text\'" :id="id" :label="data.label" :placeholder="data.placeholder" :disabled="data.disabled" :readonly="data.readonly" :value="data.value"></mip-text>' +
                   '<div v-if="data.type == \'email\'"><mip-label :id="id" :label="data.label"></mip-label><input :type="data.type || \'text\'" :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></div>' +
                   '<div v-if="data.type == \'textarea\'"><mip-label :id="id" :label="data.label"></mip-label><textarea :name="id" :id="id" :placeholder="data.placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="data.disabled == \'true\'" :readonly="data.readonly == \'true\'"></textarea></div>' +
                   '<div v-if="data.type == \'radio\'"><mip-label :id="id" :label="data.label"></mip-label><div v-for="option in data.options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>' +
