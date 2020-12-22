@@ -43,6 +43,12 @@
            props: ['records'],
            template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
+       editgrid: {
+           props: ['records', 'editors'],
+           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.data" :id="editor.id"></mip-thing></td></tr></table>'
+
+                                                                                                                                                                                                    //<mip-thing v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></mip-thing>
+       },
        button: {
            props: ['click'],
            template: '<button :id="id" v-on:click="click">{{id}}</button>'
@@ -88,10 +94,15 @@
                 first_name: { type: 'text', value: 'Darren' },
                 description: { type: 'textarea', value: 'more data' },
                 size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
-                past: { type: 'table', records: [
-                                                    { name: 'Godzilla', quantity: 1 },
-                                                    { name: 'Mothra', quantity: 2 },
-                                                ] },
+                past: { type: 'editgrid',
+                        records: [
+                            { name: 'Godzilla', quantity: 1 },
+                            { name: 'Mothra', quantity: 2 },
+                        ],
+                        editors: [
+                                    { id: 'new_name', data: { type: 'text', value: 'goforit' } },
+                                    { id: 'new_quantity', data: { type: 'select', value: '2', options: [1, 2, 3] } }
+                                 ] },
                 super_action: { type: 'button', click: function() { console.log('ok') } },
             }
         }
