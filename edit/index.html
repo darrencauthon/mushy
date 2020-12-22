@@ -46,7 +46,7 @@
        editgrid: {
            data: function() {
                return {
-                   removeRecord: function(record, records, index) { console.log(record); console.log(records); console.log(index); }
+                   removeRecord: function(record, records, index) { records.splice(index, 1); }
                };
            },
            props: ['records', 'editors'],
