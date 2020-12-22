@@ -40,8 +40,8 @@
            template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id"><option v-for="option in options" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>'
        },
        table: {
-           props: ['value'],
-           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
+           props: ['records'],
+           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        button: {
            props: ['value'],
@@ -88,10 +88,10 @@
                 first_name: { type: 'text', value: 'Darren' },
                 description: { type: 'textarea', value: 'more data' },
                 size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
-                past: { type: 'table', value: [
-                                                  { name: 'Godzilla', quantity: 1 },
-                                                  { name: 'Mothra', quantity: 2 },
-                                              ] },
+                past: { type: 'table', records: [
+                                                    { name: 'Godzilla', quantity: 1 },
+                                                    { name: 'Mothra', quantity: 2 },
+                                                ] },
                 super_action: { type: 'button', value: function() { console.log('ok') } },
             }
         }
