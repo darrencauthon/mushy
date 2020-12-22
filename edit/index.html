@@ -12,85 +12,55 @@
 
 <script type="text/javascript">
 
-   Vue.component('mip-label', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['label', 'id'],
-        template: '<label :for="id" v-if="label != \'\'">{{label || (id.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</label>'
-   });
+   var components = {
+       label: {
+           props: ['label'],
+           template: '<label :for="id" v-if="label != \'\'">{{label || (id.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</label>'
+       },
+       text:  {
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+       },
+       email: {
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+       },
+       textarea: {
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+       },
+       radio: {
+           props: ['label', 'value', 'options'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
+       },
+       select: {
+           props: ['label', 'value', 'options'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id"><option v-for="option in options" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>'
+       },
+       table: {
+           props: ['value'],
+           template: '<table><tr><th v-for="(d, i) in value[0]">{{(i.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
+       },
+       button: {
+           props: ['value'],
+           template: '<button :id="id" v-on:click="value">{{id}}</button>'
+       }
+   };
 
-   Vue.component('mip-text', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['label', 'id', 'placeholder', 'disabled', 'readonly', 'value'],
-        template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
-   });
+   for(var property in components)
+   {
+       components[property].props.push('id');
+       Vue.component('mip-' + property, {
+            data: function () {
+                      return {
+                          console: console,
+                      }
+                  },
+            props: components[property].props,
+            template: components[property].template
+       });
+   }
 
-   Vue.component('mip-email', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['label', 'id', 'placeholder', 'disabled', 'readonly', 'value'],
-        template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
-   });
-
-   Vue.component('mip-textarea', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['label', 'id', 'placeholder', 'disabled', 'readonly', 'value'],
-        template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
-   });
-
-   Vue.component('mip-radio', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['label', 'id', 'value', 'options'],
-        template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
-   });
-
-   Vue.component('mip-select', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['label', 'id', 'value', 'options'],
-        template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id"><option v-for="option in options" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>'
-   });
-
-   Vue.component('mip-table', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['id', 'value'],
-        template: '<table><tr><th v-for="(d, i) in value[0]">{{(i.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
-   });
-
-   Vue.component('mip-button', {
-        data: function () {
-                  return {
-                      console: console,
-                  }
-        },
-        props: ['id', 'value'],
-        template: '<button :id="id" v-on:click="value">{{id}}</button>'
-   });
 
    Vue.component('mip-thing', {
         data: function () {
