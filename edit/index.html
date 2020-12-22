@@ -44,9 +44,13 @@
            template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        editgrid: {
-           data: function() { return { click: function() { console.log('ok'); } } },
+           data: function() {
+               return {
+                   removeRecord: function(record, records) { console.log(record); console.log(records); }
+               };
+           },
            props: ['records', 'editors'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="click">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td></tr></table>'
+           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, records)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td></tr></table>'
        },
        button: {
            props: ['click'],
