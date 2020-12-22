@@ -44,8 +44,8 @@
            template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        button: {
-           props: ['value'],
-           template: '<button :id="id" v-on:click="value">{{id}}</button>'
+           props: ['click'],
+           template: '<button :id="id" v-on:click="click">{{id}}</button>'
        }
    };
 
@@ -92,7 +92,7 @@
                                                     { name: 'Godzilla', quantity: 1 },
                                                     { name: 'Mothra', quantity: 2 },
                                                 ] },
-                super_action: { type: 'button', value: function() { console.log('ok') } },
+                super_action: { type: 'button', click: function() { console.log('ok') } },
             }
         }
     });
