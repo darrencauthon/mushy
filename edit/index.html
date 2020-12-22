@@ -82,6 +82,16 @@
         template: '<table><tr><th v-for="(d, i) in value[0]">{{(i.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
    });
 
+   Vue.component('mip-button', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['id', 'value'],
+        template: '<button :id="id" v-on:click="value">{{id}}</button>'
+   });
+
    Vue.component('mip-thing', {
         data: function () {
                   return {
@@ -96,7 +106,7 @@
                   '<mip-radio v-if="data.type == \'radio\'" :id="id" :label="data.label" :value="data.value" :options="data.options"></mip-radio>' +
                   '<mip-select v-if="data.type == \'select\'" :id="id" :label="data.label" :value="data.value" :options="data.options"></mip-select>' +
                   '<mip-table v-if="data.type == \'table\'" :id="id" :value="data.value"></mip-table>' +
-                  '<button v-if="data.type == \'button\'" :id="id" v-on:click="value">{{id}}</button>' +
+                  '<mip-button v-if="data.type == \'button\'" :id="id" :value="data.value"></mip-button>' +
                   '</div>'
     });
 
