@@ -49,18 +49,23 @@
 
    for(var property in components)
    {
-       components[property].props.push('id');
+       var props = JSON.parse(JSON.stringify(components[property].props));
+       props.push('id');
        Vue.component('mip-' + property, {
             data: function () {
                       return {
                           console: console,
                       }
                   },
-            props: components[property].props,
+            props: props,
             template: components[property].template
        });
    }
 
+   var thingTemplate = '<div>';
+   for (var property in components)
+       thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \'' + property + '\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
+   thingTemplate = thingTemplate + '</div>';
 
    Vue.component('mip-thing', {
         data: function () {
@@ -69,15 +74,7 @@
                   }
         },
         props: ['data', 'value', 'id'],
-        template: '<div>' +
-                  '<mip-text v-if="data.type == \'text\'" :id="id" :label="data.label" :placeholder="data.placeholder" :disabled="data.disabled" :readonly="data.readonly" :value="data.value"></mip-text>' +
-                  '<mip-email v-if="data.type == \'email\'" :id="id" :label="data.label" :placeholder="data.placeholder" :disabled="data.disabled" :readonly="data.readonly" :value="data.value"></mip-email>' +
-                  '<mip-textarea v-if="data.type == \'textarea\'" :id="id" :label="data.label" :placeholder="data.placeholder" :disabled="data.disabled" :readonly="data.readonly" :value="data.value"></mip-textarea>' +
-                  '<mip-radio v-if="data.type == \'radio\'" :id="id" :label="data.label" :value="data.value" :options="data.options"></mip-radio>' +
-                  '<mip-select v-if="data.type == \'select\'" :id="id" :label="data.label" :value="data.value" :options="data.options"></mip-select>' +
-                  '<mip-table v-if="data.type == \'table\'" :id="id" :value="data.value"></mip-table>' +
-                  '<mip-button v-if="data.type == \'button\'" :id="id" :value="data.value"></mip-button>' +
-                  '</div>'
+        template: thingTemplate
     });
 
     var app = new Vue({
