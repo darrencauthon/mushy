@@ -12,10 +12,12 @@
 
 <script type="text/javascript">
 
+   var fancyName = function(id) { return '(' + id + '.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))' };
+
    var components = {
        label: {
            props: ['label'],
-           template: '<label :for="id" v-if="label != \'\'">{{label || (id.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</label>'
+           template: '<label :for="id" v-if="label != \'\'">{{label || ' + fancyName('id') + '}}</label>'
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
@@ -39,7 +41,7 @@
        },
        table: {
            props: ['value'],
-           template: '<table><tr><th v-for="(d, i) in value[0]">{{(i.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
+           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        button: {
            props: ['value'],
