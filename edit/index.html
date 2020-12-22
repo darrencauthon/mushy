@@ -45,7 +45,7 @@
        },
        editgrid: {
            props: ['records', 'editors'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.data" :id="editor.id"></mip-thing></td></tr></table>'
+           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td></tr></table>'
 
                                                                                                                                                                                                     //<mip-thing v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></mip-thing>
        },
@@ -100,8 +100,8 @@
                             { name: 'Mothra', quantity: 2 },
                         ],
                         editors: [
-                                    { id: 'new_name', data: { type: 'text', value: 'goforit' } },
-                                    { id: 'new_quantity', data: { type: 'select', value: '2', options: [1, 2, 3] } }
+                                    { id: 'new_name', field: { type: 'text', value: 'goforit' } },
+                                    { id: 'new_quantity', field: { type: 'select', value: '2', options: [1, 2, 3] } }
                                  ] },
                 super_action: { type: 'button', click: function() { console.log('ok') } },
             }
