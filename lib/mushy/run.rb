@@ -60,10 +60,4 @@ module Mushy
     end
   end
 
-  class Step
-    def execute event
-      puts event.inspect
-    end
-  end
-
 end
