@@ -19,10 +19,10 @@ module Mushy
     end
 
     def run_event_in_workflow event, workflow
-      elephant event, workflow.steps_for(event)
+      elephant event, workflow.steps_for(event), workflow
     end
 
-    def elephant event, steps
+    def elephant event, steps, workflow
       steps
         .each { |s| runner.run_event_and_step event, s }
     end
