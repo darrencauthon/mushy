@@ -4,7 +4,7 @@ describe Mushy::EventFormatter do
 
   let(:step) { Mushy::EventFormatter.new }
 
-  let(:event) { Mushy::Event.new }
+  let(:event) { {} }
 
   it "should return a hash" do
     result = step.execute event
@@ -34,7 +34,7 @@ describe Mushy::EventFormatter do
 
       step.config[:model]['test mashing'] = "{{#{key}}}"
 
-      event.data[key] = value
+      event[key] = value
 
       result = step.execute(event)
 

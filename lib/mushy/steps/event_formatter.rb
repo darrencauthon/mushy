@@ -11,7 +11,7 @@ module Mushy
 
     def process event
       model = config[:model] || {}
-      masher.mash model, event.data
+      masher.mash model, event
     end
 
   end
