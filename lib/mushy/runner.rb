@@ -12,7 +12,7 @@ module Mushy
       run = find_run step, workflow
       starting_event = build_event event_data, workflow.id, run.id, step.id
 
-      events = run_event_and_step starting_event, step
+      events = run_event_with_step starting_event, step
 
       while events.any?
         events = events.map { |e| runner.run_event_in_workflow e, workflow }.flatten
@@ -23,11 +23,11 @@ module Mushy
 
     def run_event_in_workflow event, workflow
       workflow.steps_for(event)
-        .map { |s| runner.run_event_and_step event, s }
+        .map { |s| runner.run_event_with_step event, s }
         .flatten
     end
 
-    def run_event_and_step event, step
+    def run_event_with_step event, step
       [step.execute(event.data)]
         .flatten
         .reject { |x| x.nil? }
