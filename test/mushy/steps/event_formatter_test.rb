@@ -14,14 +14,14 @@ describe Mushy::EventFormatter do
   describe "setting config" do
 
     before do
-      step.config[:instructions] = SymbolizedHash.new
+      step.config[:model] = SymbolizedHash.new
     end
 
     it "should allow hardcoded results" do
       key = SecureRandom.uuid
       value = SecureRandom.uuid
 
-      step.config[:instructions][key] = value
+      step.config[:model][key] = value
 
       result = step.execute(event)
 
@@ -32,7 +32,7 @@ describe Mushy::EventFormatter do
       key = SecureRandom.uuid
       value = SecureRandom.uuid
 
-      step.config[:instructions]['test mashing'] = "{{#{key}}}"
+      step.config[:model]['test mashing'] = "{{#{key}}}"
 
       event.data[key] = value
 

@@ -10,8 +10,8 @@ module Mushy
     end
 
     def process event
-      instructions = config[:instructions] || {}
-      masher.mash instructions, event.data
+      model = config[:model] || {}
+      masher.mash model, event.data
     end
 
   end
