@@ -5,6 +5,7 @@ module Mushy
     attr_accessor :id
     attr_accessor :parent_steps
     attr_accessor :config
+    attr_accessor :masher
 
     def initialize
       guard
@@ -14,6 +15,7 @@ module Mushy
       self.id ||= SecureRandom.uuid
       self.parent_steps ||= []
       self.config ||= SymbolizedHash.new
+      self.masher ||= Masher.new
     end
 
     def execute event
@@ -28,7 +30,7 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
-      results = results.map { |x| Masher.new.mash config[:model], x } if config[:model]
+      results = results.map { |x| masher.mash config[:model], x } if config[:model]
       
       returned_one_result ? results.first : results
     end
