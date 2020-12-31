@@ -13,7 +13,8 @@ module Mushy
       starting_event = build_event event_data, workflow.id, run.id, step.id
 
       events = run_event_and_step starting_event, step
-      events.each { |e| runner.run_event_in_workflow e, workflow }
+      more_events = events.map { |e| runner.run_event_in_workflow e, workflow }.flatten
+      more_events2 = more_events.map { |e| runner.run_event_in_workflow e, workflow }.flatten
 
       run
     end
@@ -24,7 +25,8 @@ module Mushy
 
     def elephant event, steps, workflow
       steps
-        .each { |s| runner.run_event_and_step event, s }
+        .map { |s| runner.run_event_and_step event, s }
+        .flatten
     end
 
     def run_event_and_step event, step
