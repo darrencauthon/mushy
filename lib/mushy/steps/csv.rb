@@ -6,12 +6,19 @@ module Mushy
 
     def process event, config
       data = event[config[:key]]
-      rows = CSV.new data, headers: false
+
+      headers = config[:headers].to_s.strip.downcase == 'true' ? true : false
+
+      rows = CSV.new data, headers: headers
 
       rows.map do |row|
-        record = {}
-        row.each_with_index { |r, i| record[i.to_s] = r }
-        record
+        if headers
+          row.to_hash
+        else
+          record = {}
+          row.each_with_index { |r, i| record[i.to_s] = r }
+          record
+        end
       end
     end
 

@@ -21,4 +21,18 @@ d,e,f}
     puts result.inspect
   end
 
+  it "should allow headers" do
+    key = SecureRandom.uuid
+
+    config[:key] = key
+    config[:headers] = true
+
+    event[key] = %{a,b,c
+d,e,f}
+
+    result = step.process event, config
+
+    puts result.inspect
+  end
+
 end
