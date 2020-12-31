@@ -10,8 +10,8 @@ module Mushy
 
     def start event_data, step, workflow
       run = find_run step, workflow
-      event = build_event event_data, workflow.id, run.id
-      events = run_event_and_step event, step
+      starting_event = build_event event_data, workflow.id, run.id
+      events = run_event_and_step starting_event, step
       events.each { |e| runner.run_event_in_workflow e, workflow }
       run
     end
