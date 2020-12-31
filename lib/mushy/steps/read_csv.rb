@@ -2,7 +2,7 @@ require 'csv'
 
 module Mushy
   
-  class Csv < Step
+  class ReadCsv < Step
 
     def process event, config
       data = event[config[:key]]

@@ -1,8 +1,8 @@
 require_relative '../../test_helper.rb'
 
-describe Mushy::Csv do
+describe Mushy::ReadCsv do
 
-  let(:step) { Mushy::Csv.new }
+  let(:step) { Mushy::ReadCsv.new }
 
   let(:event) { {} }
 
