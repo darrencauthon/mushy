@@ -21,14 +21,10 @@ describe Mushy::Runner do
     let(:runner)   { Mushy::Runner.new }
     let(:workflow) { Mushy::Workflow.new }
 
-    it "should work" do
-
+    it "should work with one step" do
       starting_step = Mushy::ThroughStep.new
-
       workflow.steps = [starting_step]
-
       runner.start({}, starting_step, workflow)
-
     end
 
   end
