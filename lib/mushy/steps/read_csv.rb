@@ -16,7 +16,7 @@ module Mushy
           row.to_hash
         else
           record = {}
-          row.each_with_index { |r, i| record[i.to_s] = r }
+          row.each_with_index { |r, i| record[("a".ord + i).chr] = r }
           record
         end
       end

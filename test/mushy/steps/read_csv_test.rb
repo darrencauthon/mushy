@@ -35,4 +35,23 @@ d,e,f}
     puts result.inspect
   end
 
+  it "should allow a model to convert header-less data to something better" do
+    key = SecureRandom.uuid
+
+    step.config[:key] = key
+
+    step.config[:model] = {
+      first: '{{a}}',
+      second: '{{b}}',
+      third: '{{c}}',
+    }
+
+    event[key] = %{a,b,c
+d,e,f}
+
+    result = step.execute event
+
+    puts result.inspect
+  end
+
 end
