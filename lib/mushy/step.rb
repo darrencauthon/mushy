@@ -7,12 +7,18 @@ module Mushy
     attr_accessor :config
 
     def initialize
-      self.id = SecureRandom.uuid
-      self.parent_steps = []
-      self.config = SymbolizedHash.new
+      guard
+    end
+
+    def guard
+      self.id ||= SecureRandom.uuid
+      self.parent_steps ||= []
+      self.config ||= SymbolizedHash.new
     end
 
     def execute event
+      guard
+
       results = process(event)
 
       returned_one_result = results.is_a?(Hash)
