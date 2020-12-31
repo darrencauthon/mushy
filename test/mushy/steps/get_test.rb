@@ -8,10 +8,20 @@ describe Mushy::Get do
 
   let(:config) { {} }
 
-  it "should should make a GET call" do
+  it "should make a GET call" do
     config[:url] = 'https://www.google.com'
 
     result = step.process event, config
+
+    #puts result.inspect
+  end
+
+  it "should allow for the controlling of the form with the model" do
+
+    step.config[:model] = { reason_phrase: '{{reason_phrase}}' }
+    step.config[:url] = 'https://www.google.com'
+
+    result = step.execute event
 
     puts result.inspect
   end
