@@ -27,6 +27,17 @@ describe Mushy::Runner do
       runner.start({}, starting_step, workflow)
     end
 
+    it "should work with two steps" do
+      starting_step = Mushy::ThroughStep.new
+
+      second_step = Mushy::ThroughStep.new
+      second_step.parent_steps << starting_step
+
+      workflow.steps = [starting_step, second_step]
+
+      runner.start({}, starting_step, workflow)
+    end
+
   end
 
   describe "run_event_in_workflow" do
@@ -74,7 +85,7 @@ describe Mushy::Runner do
 
   describe "run_event_and_step" do
 
-    let(:step)   { Object.new }
+    let(:step)   { Mushy::Step.new }
 
     let(:event) do
       e = Mushy::Event.new
@@ -170,7 +181,7 @@ describe Mushy::Runner do
       e
     end
 
-    let(:step)     { Object.new }
+    let(:step)     { Mushy::Step.new }
 
     let(:workflow) do
       w = Mushy::Workflow.new
@@ -192,7 +203,7 @@ describe Mushy::Runner do
       runner.stubs :run_event_in_workflow
 
       runner.stubs(:find_run).with(step, workflow).returns the_run
-      runner.stubs(:build_event).with(event_data, workflow.id, the_run.id).returns event
+      runner.stubs(:build_event).with(event_data, workflow.id, the_run.id, step.id).returns event
 
       step.stubs(:execute).with(event.data).returns events
     end
@@ -267,6 +278,8 @@ describe Mushy::Runner do
 
     let(:runner) { Mushy::Runner.new }
 
+    let(:step) { Mushy::Step.new }
+
     let(:workflow) do
       w = Mushy::Workflow.new
       w.id = SecureRandom.uuid
@@ -282,27 +295,32 @@ describe Mushy::Runner do
     it "should set the id to a random guid" do
       event_id = Object.new
       SecureRandom.stubs(:uuid).returns event_id
-      event = runner.build_event event_data, workflow.id, the_run.id
+      event = runner.build_event event_data, workflow.id, the_run.id, step.id
       event.id.must_be_same_as event_id
     end
 
     it "should return a run" do
-      event = runner.build_event event_data, workflow.id, the_run.id
+      event = runner.build_event event_data, workflow.id, the_run.id, step.id
       event.is_a?(Mushy::Event).must_equal true
     end
 
     it "should set the workflow id" do
-      event = runner.build_event event_data, workflow.id, the_run.id
+      event = runner.build_event event_data, workflow.id, the_run.id, step.id
       event.workflow_id.must_equal workflow.id
     end
 
     it "should set the run id" do
-      event = runner.build_event event_data, workflow.id, the_run.id
+      event = runner.build_event event_data, workflow.id, the_run.id, step.id
       event.run_id.must_equal the_run.id
     end
 
+    it "should set the step id" do
+      event = runner.build_event event_data, workflow.id, the_run.id, step.id
+      event.step_id.must_equal step.id
+    end
+
     it "should set the data" do
-      event = runner.build_event event_data, workflow.id, the_run.id
+      event = runner.build_event event_data, workflow.id, the_run.id, step.id
       event.data.must_be_same_as event_data
     end
 

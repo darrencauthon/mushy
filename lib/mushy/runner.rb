@@ -10,7 +10,7 @@ module Mushy
 
     def start event_data, step, workflow
       run = find_run step, workflow
-      starting_event = build_event event_data, workflow.id, run.id
+      starting_event = build_event event_data, workflow.id, run.id, step.id
 
       events = run_event_and_step starting_event, step
       events.each { |e| runner.run_event_in_workflow e, workflow }
@@ -31,7 +31,7 @@ module Mushy
       [step.execute(event.data)]
         .flatten
         .reject { |x| x.nil? }
-        .map { |x| x.is_a?(Hash) ? build_event(x, event.workflow_id, event.run_id) : x }
+        .map { |x| x.is_a?(Hash) ? build_event(x, event.workflow_id, event.run_id, step.id) : x }
     end
 
     def find_run step, workflow
@@ -41,11 +41,12 @@ module Mushy
       run
     end
 
-    def build_event event_data, workflow_id, run_id
+    def build_event event_data, workflow_id, run_id, step_id
       event = Mushy::Event.new
       event.id = SecureRandom.uuid
       event.run_id = run_id
       event.workflow_id = workflow_id
+      event.step_id = step_id
       event.data = event_data
       event
     end
