@@ -11,7 +11,7 @@ module Mushy
 
     def steps_for event
       steps
-        .select { |x| x.parent_steps.select { |y| y.id == event.id } }
+        .select { |x| x.parent_steps.any? { |y| y.id == event.step_id } }
         .flatten
     end
   end
