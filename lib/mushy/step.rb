@@ -4,6 +4,7 @@ module Mushy
 
     attr_accessor :id
     attr_accessor :parent_steps
+    attr_accessor :config_to_mash
     attr_accessor :config
     attr_accessor :masher
 
@@ -14,12 +15,28 @@ module Mushy
     def guard
       self.id ||= SecureRandom.uuid
       self.parent_steps ||= []
-      self.config ||= SymbolizedHash.new
       self.masher ||= Masher.new
+
+      self.config ||= SymbolizedHash.new
+      self.config_to_mash ||= SymbolizedHash.new
+
+      self.config.each do |key, value|
+        if config_to_mash[key].nil?
+          config_to_mash[key] = value
+        end
+      end
+
+      self.config
+        .select { |k, _| config_to_mash[k].nil? }
+        .each   { |k, v| config_to_mash[k] = v }
+
+      self.config_to_mash.each { |k, v| config[k] = v }
     end
 
     def execute event
       guard
+
+      self.config = masher.mash config, event
 
       results = process(event)
 

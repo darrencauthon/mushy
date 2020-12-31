@@ -15,4 +15,18 @@ describe Mushy::Bash do
     puts result.inspect
   end
 
+  it "should not alter the original config" do
+    step.config[:command] = '{{leaf}}'
+
+    event[:leaf] = 'clear'
+
+    result = step.execute event
+
+    event[:leaf] = 'ls'
+
+    result = step.execute event
+
+    puts result.inspect
+  end
+
 end
