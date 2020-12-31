@@ -6,6 +6,10 @@ module Mushy
     attr_accessor :step_id
     attr_accessor :workflow_id
     attr_accessor :data
+
+    def initialize
+      self.data = SymbolizedHash.new
+    end
   end
 
 end
