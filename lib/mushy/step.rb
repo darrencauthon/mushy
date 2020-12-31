@@ -2,7 +2,12 @@ module Mushy
 
   class Step
     def execute event
-      puts event.inspect
+    end
+  end
+
+  class ThroughStep
+    def execute event
+      event
     end
   end
 

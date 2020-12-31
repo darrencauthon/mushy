@@ -16,6 +16,23 @@ end
 
 describe Mushy::Runner do
 
+  describe "a more concrete example" do
+
+    let(:runner)   { Mushy::Runner.new }
+    let(:workflow) { Mushy::Workflow.new }
+
+    it "should work" do
+
+      starting_step = Mushy::ThroughStep.new
+
+      workflow.steps = [starting_step]
+
+      runner.start({}, starting_step, workflow)
+
+    end
+
+  end
+
   describe "run_event_in_workflow" do
 
     let(:runner)   { Mushy::Runner.new }
