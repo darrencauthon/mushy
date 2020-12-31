@@ -47,6 +47,13 @@ describe Mushy::Step do
         result.is_a?(Hash).must_equal true
       end
 
+      it "should return an array when an array is returned" do
+        step.return_this = [{}, {}]
+        result = step.execute(event)
+        result.empty?.must_equal false
+        result.count.must_equal 2
+      end
+
     end
 
   end
