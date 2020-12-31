@@ -56,6 +56,22 @@ describe Mushy::Step do
 
     end
 
+    describe "standardizing the results" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      it "should return a single hash when a single hash is returned" do
+        value = SecureRandom.uuid
+        step.return_this = { "key" => value }
+
+        result = step.execute(event)
+
+        result["key"].must_equal value
+        result[:key].must_equal value
+      end
+
+    end
+
   end
 
 end
