@@ -19,7 +19,11 @@ module Mushy
     end
 
     def run_event_in_workflow event, workflow
-      workflow.steps_for(event)
+      run_event_with_steps event, workflow.steps_for(event)
+    end
+
+    def run_event_with_steps event, steps
+      steps
         .each { |s| runner.run_event_and_step event, s }
     end
 
