@@ -10,11 +10,8 @@ module Mushy
     end
 
     def process event
-      data = {}
-      (config[:instructions] || {}).each do |key, value|
-        data[key] = Masher.new.mash value, event.data
-      end
-      data
+      instructions = config[:instructions] || {}
+      masher.mash instructions, event.data
     end
 
   end

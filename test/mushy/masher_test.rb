@@ -27,6 +27,11 @@ describe Mushy::Masher do
 
     describe "with a hash" do
 
+      it "should return an empty hash for an empty hash" do
+        result = masher.mash({}, {})
+        result.any?.must_equal false
+      end
+
       it "should return a hash with the same value" do
         value = SecureRandom.uuid
         masher.mash( { name: "{{ name }}" }, { "name" => value } )[:name].must_equal value
