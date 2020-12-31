@@ -6,25 +6,12 @@ describe Mushy::Bash do
 
   let(:event) { {} }
 
+  let(:config) { {} }
+
   it "should return the event it was given" do
-    event[:leaf] = 'ls'
-    step.config[:command] = '{{leaf}}'
+    config[:command] = 'ls'
 
-    result = step.execute event
-
-    puts result.inspect
-  end
-
-  it "should not alter the original config" do
-    step.config[:command] = '{{leaf}}'
-
-    event[:leaf] = 'clear'
-
-    result = step.execute event
-
-    event[:leaf] = 'ls'
-
-    result = step.execute event
+    result = step.process event, config
 
     puts result.inspect
   end

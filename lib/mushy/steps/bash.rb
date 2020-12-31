@@ -2,7 +2,7 @@ module Mushy
   
   class Bash < Step
 
-    def process event
+    def process event, config
       command = config[:command]
 
       text = `#{command}`
