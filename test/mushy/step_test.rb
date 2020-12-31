@@ -1,8 +1,19 @@
 require_relative '../test_helper.rb'
 
+class MushyStepTestClass < Mushy::Step
+
+  attr_accessor :return_this
+
+  def process event
+    return_this
+  end
+
+end
+
 describe Mushy::Step do
 
   let(:step) { Mushy::Step.new }
+  let(:event) { Mushy::Event.new }
 
   describe "the basics" do
 
@@ -16,6 +27,26 @@ describe Mushy::Step do
 
     it "should have a unique id" do
       step.id.nil?.must_equal false
+    end
+
+    describe "handling processed results" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      it "should return an empty set when nil is returned" do
+        step.return_this = nil
+        result = step.execute(event)
+        result.empty?.must_equal true
+        result.is_a?(Array).must_equal true
+      end
+
+      it "should return a single hash when a single hash is returned" do
+        step.return_this = {}
+        result = step.execute(event)
+        result.empty?.must_equal true
+        result.is_a?(Hash).must_equal true
+      end
+
     end
 
   end
