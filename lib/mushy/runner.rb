@@ -14,6 +14,7 @@ module Mushy
 
       events = run_event_and_step starting_event, step
       events.each { |e| runner.run_event_in_workflow e, workflow }
+
       run
     end
 
