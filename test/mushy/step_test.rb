@@ -13,7 +13,7 @@ end
 describe Mushy::Step do
 
   let(:step) { Mushy::Step.new }
-  let(:event) { Mushy::Event.new }
+  let(:event) { {} }
 
   describe "the basics" do
 
@@ -68,6 +68,42 @@ describe Mushy::Step do
 
         result["key"].must_equal value
         result[:key].must_equal value
+      end
+
+    end
+
+    describe "setting config" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      before do
+        step.config[:model] = SymbolizedHash.new
+
+        step.return_this = event
+      end
+
+      it "should allow hardcoded results" do
+        key = SecureRandom.uuid
+        value = SecureRandom.uuid
+
+        step.config[:model][key] = value
+
+        result = step.execute(event)
+
+        result[key].must_equal value
+      end
+
+      it "should should allow mashing" do
+        key = SecureRandom.uuid
+        value = SecureRandom.uuid
+
+        step.config[:model]['test mashing'] = "{{#{key}}}"
+
+        event[key] = value
+
+        result = step.execute(event)
+
+        result['test mashing'].must_equal value
       end
 
     end

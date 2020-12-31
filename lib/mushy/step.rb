@@ -28,7 +28,7 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
-      results = results.map { |x| masher.mash config[:model], x } if config[:model]
+      results = results.map { |x| Masher.new.mash config[:model], x } if config[:model]
       
       returned_one_result ? results.first : results
     end
