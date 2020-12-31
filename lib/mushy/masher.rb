@@ -8,7 +8,11 @@ module Mushy
       self.mash_methods = 
         {
           String => ->(x, d) { Liquid::Template.parse(x).render SymbolizedHash.new(d) },
-          Hash   => ->(x, d) { x.each { |k, v| x[k] = mash v, d } },
+          Hash   => ->(x, d) do
+                               h = SymbolizedHash.new(x)
+                               h.each { |k, v| h[k] = mash v, d }
+                               h
+                             end,
           Array  => ->(x, d) { x.map { |x| mash x, d } }
         }
     end

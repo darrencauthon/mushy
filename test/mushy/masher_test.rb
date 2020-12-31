@@ -42,6 +42,14 @@ describe Mushy::Masher do
         masher.mash( { test: { name: "{{ name }}" } }, { "name" => value } )[:test][:name].must_equal value
       end
 
+      it "should NOT alter the original" do
+        value = SecureRandom.uuid
+        input = { test: { name: "{{ name }}" } }
+        masher.mash(input, { "name" => value } )
+
+        input[:test][:name].must_equal "{{ name }}"
+      end
+
     end
 
     describe "with an array" do
