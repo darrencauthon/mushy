@@ -38,6 +38,22 @@ describe Mushy::Runner do
       runner.start({}, starting_step, workflow)
     end
 
+    it "should work with two children" do
+      starting_step = Mushy::ThroughStep.new
+
+      first_child = Mushy::ThroughStep.new
+      first_child.parent_steps << starting_step
+      first_child.id = 'first child'
+
+      second_child = Mushy::ThroughStep.new
+      second_child.parent_steps << starting_step
+      second_child.id = 'second child'
+
+      workflow.steps = [starting_step, first_child, second_child]
+
+      runner.start({}, starting_step, workflow)
+    end
+
   end
 
   describe "run_event_in_workflow" do
