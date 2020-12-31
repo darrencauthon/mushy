@@ -10,8 +10,7 @@ module Mushy
     end
 
     def process event
-      model = config[:model] || {}
-      masher.mash model, event
+      event
     end
 
   end
