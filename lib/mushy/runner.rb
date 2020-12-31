@@ -15,6 +15,7 @@ module Mushy
       events = run_event_and_step starting_event, step
       more_events = events.map { |e| runner.run_event_in_workflow e, workflow }.flatten
       more_events2 = more_events.map { |e| runner.run_event_in_workflow e, workflow }.flatten
+      more_events3 = more_events2.map { |e| runner.run_event_in_workflow e, workflow }.flatten;
 
       run
     end

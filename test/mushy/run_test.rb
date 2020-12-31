@@ -60,6 +60,27 @@ describe Mushy::Runner do
       runner.start({}, a, workflow)
     end
 
+    it "should allow a chain from A to B to C to D" do
+      a = Mushy::ThroughStep.new
+      a.id = 'A'
+
+      b = Mushy::ThroughStep.new
+      b.parent_steps << a
+      b.id = 'B'
+
+      c = Mushy::ThroughStep.new
+      c.parent_steps << b
+      c.id = 'C'
+
+      d = Mushy::ThroughStep.new
+      d.parent_steps << c
+      d.id = 'D'
+
+      workflow.steps = [a, b, c, d]
+
+      runner.start({}, a, workflow)
+    end
+
   end
 
 end
