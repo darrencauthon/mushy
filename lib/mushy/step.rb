@@ -36,7 +36,7 @@ module Mushy
 
       results = results.map { |x| Masher.new.dig config[:split], x }.flatten if config[:split]
 
-      results = results.map { |x| masher.mash config[:model], x } if config[:model]
+      results = model_these_results(results, event, config) if config[:model]
 
       results = SymbolizedHash.new( { config[:join] => results } ) if config[:join]
 
@@ -45,6 +45,10 @@ module Mushy
       return results if config[:split]
       
       returned_one_result ? results.first : results
+    end
+
+    def model_these_results results, event, config
+      results.map { |x| masher.mash config[:model], x }
     end
 
     def merge_these_results results, event, config
