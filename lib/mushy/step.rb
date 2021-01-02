@@ -32,13 +32,13 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
-      results = merge_these_results(results, event, config[:merge]) if config[:merge]
+      shaping = [:merge, :split, :model, :join]
+                  .select { |x| config[x] }
+                  .reduce({}) { |t, i| t[i] = config[i]; t }
 
-      results = split_these_results(results, event, config[:split]) if config[:split]
-
-      results = model_these_results(results, event, config[:model]) if config[:model]
-
-      results = join_these_results(results, event, config[:join]) if config[:join]
+      shaping.each do |key, value|
+        results = self.send("#{key}_these_results".to_sym, results, event, value)
+      end
 
       return results if config[:join]
 
