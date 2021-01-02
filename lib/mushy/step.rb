@@ -50,12 +50,4 @@ module Mushy
 
   end
 
-  class ThroughStep < Step
-    def process event, config
-      puts "id: #{id}"
-      puts event.inspect
-      event
-    end
-  end
-
 end
