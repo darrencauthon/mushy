@@ -38,13 +38,17 @@ module Mushy
 
       results = model_these_results(results, event, config) if config[:model]
 
-      results = SymbolizedHash.new( { config[:join] => results } ) if config[:join]
+      results = join_these_results(results, event, config) if config[:join]
 
       return results if config[:join]
 
       return results if config[:split]
       
       returned_one_result ? results.first : results
+    end
+
+    def join_these_results results, event, config
+      SymbolizedHash.new( { config[:join] => results } )
     end
 
     def model_these_results results, event, config
