@@ -29,7 +29,15 @@ module Mushy
     end
 
     def dig key, data
-      data[key]
+      return nil unless key
+
+      segments = key.split '.'
+
+      segments.each do |segment|
+        data = data.is_a?(Hash) ? (data[segment] || data[segment.to_sym]) : (data ? data.send(segment.to_sym) : nil)
+      end
+
+      data
     end
 
   end

@@ -72,6 +72,15 @@ describe Mushy::Masher do
       result = masher.dig key, data
       result.must_equal value
     end
+
+    it "should pull data out of a deeper hash" do
+      value = SecureRandom.uuid
+      data = { one: { two: value } }
+
+      result = masher.dig 'one.two', data
+      result.must_equal value
+    end
+
   end
 
 end
