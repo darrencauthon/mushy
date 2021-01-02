@@ -36,6 +36,10 @@ module Mushy
 
       results = results.map { |x| masher.mash config[:model], x } if config[:model]
 
+      results = SymbolizedHash.new( { config[:join] => results } ) if config[:join]
+
+      return results if config[:join]
+
       return results if config[:split]
       
       returned_one_result ? results.first : results

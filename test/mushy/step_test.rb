@@ -89,6 +89,24 @@ describe Mushy::Step do
 
     end
 
+    describe "joining the results" do
+
+      it "should join multiple results from an agent into a single" do
+        step.config[:join] = 'hey'
+
+        events = [ { a: 'b' }, { c: 'd' } ]
+
+        # Normally, execute will never get multiple events.
+        # I am doing this to quickly replicate multiple events being returned.
+        result = step.execute events
+
+        result.count.must_equal 1
+        result[:hey][0][:a].must_equal 'b'
+        result[:hey][1][:c].must_equal 'd'
+      end
+
+    end
+
     describe "standardizing the results" do
 
       let(:step) { MushyStepTestClass.new }
