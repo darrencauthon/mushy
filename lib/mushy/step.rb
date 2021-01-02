@@ -32,6 +32,14 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
+      if config[:merge]
+        results = results.map do |result|
+                    event.each do |k, v|
+                      result[k] = v unless result[k]
+                    end
+                  end
+      end
+
       results = results.map { |x| Masher.new.dig config[:split], x }.flatten if config[:split]
 
       results = results.map { |x| masher.mash config[:model], x } if config[:model]
