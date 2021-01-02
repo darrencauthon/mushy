@@ -204,7 +204,7 @@ describe Mushy::Step do
 
         result[:a].must_be_nil
         result[:c].must_equal 'd'
-        result[:d].must_equal 'd'
+        result[:e].must_equal 'f'
       end
 
     end

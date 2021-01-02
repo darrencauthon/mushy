@@ -33,7 +33,7 @@ module Mushy
         .select { |x| x }
 
       if config[:merge]
-        keys_to_merge = config[:merge] == '*' ? event.keys.map { |x| x.to_s } : [config[:merge]]
+        keys_to_merge = config[:merge] == '*' ? event.keys.map { |x| x.to_s } : [config[:merge].split(',').map { |x| x.strip }].flatten
         results = results.map do |result|
                     event.select { |k, _| keys_to_merge.include? k.to_s }.each do |k, v|
                       result[k] = v unless result[k]
