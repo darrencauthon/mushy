@@ -44,8 +44,7 @@ module Mushy
     end
 
     def process event, config
-      puts id
-      nil
+      event
     end
 
   end

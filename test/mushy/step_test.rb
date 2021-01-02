@@ -4,7 +4,7 @@ class MushyStepTestClass < Mushy::Step
 
   attr_accessor :return_this
 
-  def process event
+  def process event, config
     return_this
   end
 
