@@ -207,6 +207,22 @@ describe Mushy::Step do
         result[:e].must_equal 'f'
       end
 
+      it "should allow conditional merging with an array" do
+        step.config[:merge] = ['c', 'e']
+
+        step.return_this = {}
+
+        event[:a] = 'b'
+        event[:c] = 'd'
+        event[:e] = 'f'
+
+        result = step.execute event
+
+        result[:a].must_be_nil
+        result[:c].must_equal 'd'
+        result[:e].must_equal 'f'
+      end
+
     end
 
   end
