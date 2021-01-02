@@ -177,6 +177,20 @@ describe Mushy::Step do
 
       end
 
+      it "should only merge what is asked" do
+        step.config[:merge] = 'c'
+
+        step.return_this = {}
+
+        event[:a] = 'b'
+        event[:c] = 'd'
+
+        result = step.execute event
+
+        result[:a].must_be_nil
+        result[:c].must_equal 'd'
+      end
+
     end
 
   end
