@@ -20,7 +20,7 @@ module Mushy
         status: response.status,
         url: url,
         reason_phrase: response.reason_phrase,
-        reason_header: response.headers,
+        headers: response.headers,
         body: response.body,
       }
     end
