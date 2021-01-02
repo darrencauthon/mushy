@@ -32,13 +32,13 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
-      results = merge_these_results(results, event, config) if config[:merge]
+      results = merge_these_results(results, event, config[:merge]) if config[:merge]
 
-      results = split_these_results(results, event, config) if config[:split]
+      results = split_these_results(results, event, config[:split]) if config[:split]
 
-      results = model_these_results(results, event, config) if config[:model]
+      results = model_these_results(results, event, config[:model]) if config[:model]
 
-      results = join_these_results(results, event, config) if config[:join]
+      results = join_these_results(results, event, config[:join]) if config[:join]
 
       return results if config[:join]
 
@@ -47,23 +47,23 @@ module Mushy
       returned_one_result ? results.first : results
     end
 
-    def split_these_results results, event, config
-      results.map { |x| Masher.new.dig config[:split], x }.flatten
+    def split_these_results results, event, by
+      results.map { |x| Masher.new.dig by, x }.flatten
     end
 
-    def join_these_results results, event, config
-      SymbolizedHash.new( { config[:join] => results } )
+    def join_these_results results, event, by
+      SymbolizedHash.new( { by => results } )
     end
 
-    def model_these_results results, event, config
-      results.map { |x| masher.mash config[:model], x }
+    def model_these_results results, event, by
+      results.map { |x| masher.mash by, x }
     end
 
-    def merge_these_results results, event, config
-      keys_to_merge = if config[:merge] == '*'
+    def merge_these_results results, event, by
+      keys_to_merge = if by == '*'
                         event.keys.map { |x| x.to_s }
                       else
-                        [config[:merge]].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
+                        [by].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
                       end
 
       results.map do |result|
