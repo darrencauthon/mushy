@@ -32,18 +32,7 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
-      if config[:merge]
-        keys_to_merge = if config[:merge] == '*'
-                          event.keys.map { |x| x.to_s }
-                        else
-                          [config[:merge]].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
-                        end
-        results = results.map do |result|
-                    event.select { |k, _| keys_to_merge.include? k.to_s }.each do |k, v|
-                      result[k] = v unless result[k]
-                    end
-                  end
-      end
+      results = merge_these_results(results, event, config) if config[:merge]
 
       results = results.map { |x| Masher.new.dig config[:split], x }.flatten if config[:split]
 
@@ -56,6 +45,20 @@ module Mushy
       return results if config[:split]
       
       returned_one_result ? results.first : results
+    end
+
+    def merge_these_results results, event, config
+      keys_to_merge = if config[:merge] == '*'
+                        event.keys.map { |x| x.to_s }
+                      else
+                        [config[:merge]].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
+                      end
+
+      results.map do |result|
+                    event.select { |k, _| keys_to_merge.include? k.to_s }.each do |k, v|
+                      result[k] = v unless result[k]
+                    end
+                  end
     end
 
     def convert_to_symbolized_hash event
