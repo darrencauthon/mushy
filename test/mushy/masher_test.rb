@@ -63,4 +63,15 @@ describe Mushy::Masher do
 
   end
 
+  describe "dig" do
+
+    it "should pull data out of a simple hash" do
+      key, value = SecureRandom.uuid, SecureRandom.uuid
+      data = { key => value }
+
+      result = masher.dig key, data
+      result.must_equal value
+    end
+  end
+
 end

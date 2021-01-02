@@ -28,6 +28,10 @@ module Mushy
         .first || ->(x, _) { x }
     end
 
+    def dig key, data
+      data[key]
+    end
+
   end
 
 end
