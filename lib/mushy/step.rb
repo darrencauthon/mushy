@@ -34,7 +34,7 @@ module Mushy
 
       results = merge_these_results(results, event, config) if config[:merge]
 
-      results = results.map { |x| Masher.new.dig config[:split], x }.flatten if config[:split]
+      results = split_these_results(results, event, config) if config[:split]
 
       results = model_these_results(results, event, config) if config[:model]
 
@@ -45,6 +45,10 @@ module Mushy
       return results if config[:split]
       
       returned_one_result ? results.first : results
+    end
+
+    def split_these_results results, event, config
+      results.map { |x| Masher.new.dig config[:split], x }.flatten
     end
 
     def join_these_results results, event, config
