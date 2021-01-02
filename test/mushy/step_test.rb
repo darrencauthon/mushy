@@ -56,6 +56,39 @@ describe Mushy::Step do
 
     end
 
+    describe "splitting the results" do
+
+      it "should convert one property with many records into many events" do
+        step.config[:split] = 'hey'
+
+        event[:hey] = [ { a: 'b' }, { c: 'd' } ]
+
+        result = step.execute event
+
+        result.count.must_equal 2
+        result[0][:a].must_equal 'b'
+        result[1][:c].must_equal 'd'
+      end
+
+      it "should allow splitting when multiple events are returned" do
+        step.config[:split] = 'you'
+
+        events = [
+          { you: [ { a: 'b' }, { c: 'd' } ] },
+          { you: [ { e: 'f' }, { g: 'h' } ] },
+        ]
+
+        result = step.execute events
+
+        result.count.must_equal 4
+        result[0][:a].must_equal 'b'
+        result[1][:c].must_equal 'd'
+        result[2][:e].must_equal 'f'
+        result[3][:g].must_equal 'h'
+      end
+
+    end
+
     describe "standardizing the results" do
 
       let(:step) { MushyStepTestClass.new }
