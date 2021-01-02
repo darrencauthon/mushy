@@ -159,6 +159,26 @@ describe Mushy::Step do
 
     end
 
+    describe "merging the results" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      it "should join multiple results from an agent into a single" do
+
+        step.config[:merge] = '*'
+
+        step.return_this = {}
+
+        event[:a] = 'b'
+
+        result = step.execute event
+
+        result[:a].must_equal 'b'
+
+      end
+
+    end
+
   end
 
 end
