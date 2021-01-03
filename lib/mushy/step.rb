@@ -62,8 +62,7 @@ module Mushy
     end
 
     def sort_these_results results, event, by
-      results
-        .sort { |x| x[by].to_i }
+      results.sort { |x| x[by].to_i }
     end
 
     def limit_these_results results, event, by
