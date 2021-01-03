@@ -71,7 +71,7 @@ module Mushy
       keys_to_merge = if by == '*'
                         event.keys.map { |x| x.to_s }
                       else
-                        [by].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
+                        convert_this_to_an_array by
                       end
 
       results.map do |result|
@@ -80,6 +80,10 @@ module Mushy
                     end
                     result
                   end
+    end
+
+    def convert_this_to_an_array value
+      [value].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
     end
 
     def convert_to_symbolized_hash event
