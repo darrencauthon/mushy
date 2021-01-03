@@ -56,6 +56,28 @@ describe Mushy::Step do
 
     end
 
+    describe "grouping the results" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      it "should group on the provided key" do
+
+        step.return_this = [ { a: 'b', y: 1 }, { a: 'b', y: 2 }, { a: 'c', y: 3 } ]
+
+        step.config[:group] = 'a|hey'
+
+        result = step.execute event
+
+        result.count.must_equal 2
+        result[0][:hey].count.must_equal 2
+        result[0][:hey][0][:y].must_equal 1
+        result[0][:hey][1][:y].must_equal 2
+        result[1][:hey].count.must_equal 1
+        result[1][:hey][0][:y].must_equal 3
+      end
+
+    end
+
     describe "splitting the results" do
 
       it "should convert one property with many records into many events" do

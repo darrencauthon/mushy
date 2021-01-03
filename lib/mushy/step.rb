@@ -46,7 +46,7 @@ module Mushy
     end
 
     def shape_these results, event, config
-      supported_shaping = [:merge, :split, :model, :join, :sort, :limit]
+      supported_shaping = [:merge, :split, :group, :model, :join, :sort, :limit]
 
       shaping = supported_shaping
       if (config[:shaping])
@@ -71,6 +71,12 @@ module Mushy
         .each_with_index
         .select { |x, i| i < by.to_i }
         .map { |x| x }
+    end
+
+    def group_these_results results, event, by
+      group_by = by.split('|')[0]
+      result_key = by.split('|')[1]
+      results.group_by { |x| x[group_by] }.map { |k, v| SymbolizedHash.new( { result_key => v } ) }
     end
 
     def split_these_results results, event, by
