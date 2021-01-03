@@ -68,11 +68,8 @@ module Mushy
     end
 
     def merge_these_results results, event, by
-      keys_to_merge = if by == '*'
-                        event.keys.map { |x| x.to_s }
-                      else
-                        convert_this_to_an_array by
-                      end
+      keys_to_merge = convert_this_to_an_array by
+      keys_to_merge = event.keys.map { |x| x.to_s } if (keys_to_merge[0] == '*')
 
       results.map do |result|
                     event.select { |k, _| keys_to_merge.include? k.to_s }.each do |k, v|
@@ -83,7 +80,11 @@ module Mushy
     end
 
     def convert_this_to_an_array value
-      [value].flatten.map { |x| x.to_s.split(',').map { |x| x.strip } }.flatten
+      [value]
+        .flatten
+        .map { |x| x.to_s.split(',').map { |x| x.strip } }
+        .flatten
+        .select { |x| x && x != '' }
     end
 
     def convert_to_symbolized_hash event
