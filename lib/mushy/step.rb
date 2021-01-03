@@ -46,22 +46,18 @@ module Mushy
     end
 
     def shape_these results, event, config
-      shaping_methods = [:merge, :split, :model, :join]
-      shaping = shaping_methods
-                  .select { |x| config[x] }
-                  .each_with_index
-                  .sort_by { |x, i|
-                    if config[:shaping] && config[:shaping].include?(x)
-                      config[:shaping].index(x)
-                    else
-                      i
-                    end }
-                  .map { |x, _| x }
-                  .reduce({}) { |t, i| t[i] = config[i]; t }
-
-      shaping.reduce(results) do |t, i|
-        self.send("#{i[0]}_these_results".to_sym, t, event, i[1])
-      end
+      [:merge, :split, :model, :join]
+        .select { |x| config[x] }
+        .each_with_index
+        .sort_by { |x, i|
+          if config[:shaping] && config[:shaping].include?(x)
+            config[:shaping].index(x)
+          else
+            i
+          end }
+        .map { |x, _| x }
+        .reduce({}) { |t, i| t[i] = config[i]; t }
+        .reduce(results) { |t, i| self.send("#{i[0]}_these_results".to_sym, t, event, i[1]) }
     end
 
     def split_these_results results, event, by
