@@ -52,8 +52,7 @@ module Mushy
         .each_with_index
         .sort_by { |x, i| shaping.index(x) || i }
         .map { |x, _| x }
-        .reduce({}) { |t, i| t[i] = config[i]; t }
-        .reduce(results) { |t, i| self.send("#{i[0]}_these_results".to_sym, t, event, i[1]) }
+        .reduce(results) { |t, i| self.send("#{i}_these_results".to_sym, t, event, config[i]) }
     end
 
     def split_these_results results, event, by
