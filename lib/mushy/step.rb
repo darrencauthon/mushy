@@ -46,12 +46,13 @@ module Mushy
     end
 
     def shape_these results, event, config
-      [:merge, :split, :model, :join]
+      shaping = config[:shaping] || [:merge, :split, :model, :join]
+      shaping
         .select { |x| config[x] }
         .each_with_index
         .sort_by do |x, i|
-          if config[:shaping] && config[:shaping].include?(x)
-            config[:shaping].index(x)
+          if shaping.include?(x)
+            shaping.index(x)
           else
             i
           end
