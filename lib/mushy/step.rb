@@ -51,11 +51,7 @@ module Mushy
         .select { |x| config[x] }
         .each_with_index
         .sort_by do |x, i|
-          if shaping.include?(x)
-            shaping.index(x)
-          else
-            i
-          end
+          shaping.include?(x) ? shaping.index(x) : i
         end
         .map { |x, _| x }
         .reduce({}) { |t, i| t[i] = config[i]; t }
