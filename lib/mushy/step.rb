@@ -49,12 +49,13 @@ module Mushy
       [:merge, :split, :model, :join]
         .select { |x| config[x] }
         .each_with_index
-        .sort_by { |x, i|
+        .sort_by do |x, i|
           if config[:shaping] && config[:shaping].include?(x)
             config[:shaping].index(x)
           else
             i
-          end }
+          end
+        end
         .map { |x, _| x }
         .reduce({}) { |t, i| t[i] = config[i]; t }
         .reduce(results) { |t, i| self.send("#{i[0]}_these_results".to_sym, t, event, i[1]) }
