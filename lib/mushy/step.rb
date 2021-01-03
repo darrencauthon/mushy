@@ -46,7 +46,7 @@ module Mushy
     end
 
     def shape_these results, event, config
-      shaping = config[:shaping] || [:merge, :split, :model, :join]
+      shaping = config[:shaping] ? convert_this_to_an_array(config[:shaping]) : [:merge, :split, :model, :join]
       shaping
         .select { |x| config[x] }
         .each_with_index
@@ -83,7 +83,7 @@ module Mushy
     end
 
     def convert_this_to_an_array value
-      [value].flatten.map { |x| x.split(',').map { |x| x.strip } }.flatten
+      [value].flatten.map { |x| x.to_s.split(',').map { |x| x.strip } }.flatten
     end
 
     def convert_to_symbolized_hash event

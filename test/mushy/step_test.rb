@@ -254,15 +254,41 @@ describe Mushy::Step do
           step.return_this = [ { a: 1 }, { a: 2 } ]
         end
 
-        it "should allow me to join before merging" do
-          step.config[:shaping] = [:join, :merge]
+        describe "joining before merging" do
 
-          result = step.execute event
+          it "should allow me to join before merging" do
+            step.config[:shaping] = [:join, :merge]
 
-          result[:records].count.must_equal 2
-          result[:original].must_equal 'yes'
-          result[:records][0][:original].must_be_nil
-          result[:records][1][:original].must_be_nil
+            result = step.execute event
+
+            result[:records].count.must_equal 2
+            result[:original].must_equal 'yes'
+            result[:records][0][:original].must_be_nil
+            result[:records][1][:original].must_be_nil
+          end
+
+          it "should allow the shaping to be an array of strings" do
+            step.config[:shaping] = ['join', 'merge']
+
+            result = step.execute event
+
+            result[:records].count.must_equal 2
+            result[:original].must_equal 'yes'
+            result[:records][0][:original].must_be_nil
+            result[:records][1][:original].must_be_nil
+          end
+
+          it "should allow the shaping to be a comma-delimited list of strings" do
+            step.config[:shaping] = 'join,merge'
+
+            result = step.execute event
+
+            result[:records].count.must_equal 2
+            result[:original].must_equal 'yes'
+            result[:records][0][:original].must_be_nil
+            result[:records][1][:original].must_be_nil
+          end
+
         end
 
         it "should allow me to merge before joining" do
