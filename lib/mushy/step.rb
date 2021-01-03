@@ -32,15 +32,24 @@ module Mushy
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
 
-      shaping = [:merge, :split, :model, :join]
+      shaping_methods = [:merge, :split, :model, :join]
+      shaping = shaping_methods
                   .select { |x| config[x] }
+                  .each_with_index
+                  .sort_by { |x, i|
+                    if config[:shaping] && config[:shaping].include?(x)
+                      config[:shaping].index(x)
+                    else
+                      i
+                    end }
+                  .map { |x, _| x }
                   .reduce({}) { |t, i| t[i] = config[i]; t }
 
       shaping.each do |key, value|
         results = self.send("#{key}_these_results".to_sym, results, event, value)
       end
 
-      return results if config[:join]
+      return results.first if config[:join]
 
       return results if config[:split]
       
@@ -52,7 +61,7 @@ module Mushy
     end
 
     def join_these_results results, event, by
-      SymbolizedHash.new( { by => results } )
+      [SymbolizedHash.new( { by => results } )]
     end
 
     def model_these_results results, event, by
@@ -70,6 +79,7 @@ module Mushy
                     event.select { |k, _| keys_to_merge.include? k.to_s }.each do |k, v|
                       result[k] = v unless result[k]
                     end
+                    result
                   end
     end
 

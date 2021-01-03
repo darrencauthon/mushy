@@ -223,6 +223,61 @@ describe Mushy::Step do
         result[:e].must_equal 'f'
       end
 
+      it "should always give precedence to the data returned from the step" do
+
+        step.config[:merge] = '*'
+
+        step.return_this = { a: 'c' }
+
+        event[:a] = 'b'
+
+        result = step.execute event
+
+        result[:a].must_equal 'c'
+
+      end
+
+    end
+
+    describe "shaping the results" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      describe "swapping join and merge" do
+
+        before do
+          step.config[:join] = 'records'
+          step.config[:merge] = '*'
+
+          event[:original] = 'yes'
+
+          step.return_this = [ { a: 1 }, { a: 2 } ]
+        end
+
+        it "should allow me to join before merging" do
+          step.config[:shaping] = [:join, :merge]
+
+          result = step.execute event
+
+          result[:records].count.must_equal 2
+          result[:original].must_equal 'yes'
+          result[:records][0][:original].must_be_nil
+          result[:records][1][:original].must_be_nil
+        end
+
+        it "should allow me to merge before joining" do
+          step.config[:shaping] = [:merge, :join]
+
+          result = step.execute event
+
+          result[:records].count.must_equal 2
+          result[:original].must_be_nil
+          result[:records][0][:original].must_equal 'yes'
+          result[:records][1][:original].must_equal 'yes'
+        end
+
+      end
+
     end
 
   end
