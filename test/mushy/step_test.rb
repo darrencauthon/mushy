@@ -345,6 +345,23 @@ describe Mushy::Step do
         result[3][:a].must_equal '4'
         result[4][:a].must_equal '5'
       end
+
+      it "should sort string values that are NOT numeric" do
+        step.config[:sort] = 'a'
+
+        step.return_this = ['xe', 'xd', 'xc', 'xb', 'xa']
+                             .map { |x| { a: x.to_s } }
+                             .reverse
+
+        result = step.execute event
+
+        result.count.must_equal 5
+        result[0][:a].must_equal 'xa'
+        result[1][:a].must_equal 'xb'
+        result[2][:a].must_equal 'xc'
+        result[3][:a].must_equal 'xd'
+        result[4][:a].must_equal 'xe'
+      end
     end
 
     describe "limiting the results" do
