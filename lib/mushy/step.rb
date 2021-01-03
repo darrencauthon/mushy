@@ -59,10 +59,9 @@ module Mushy
                   .map { |x, _| x }
                   .reduce({}) { |t, i| t[i] = config[i]; t }
 
-      shaping.each do |key, value|
-        results = self.send("#{key}_these_results".to_sym, results, event, value)
+      shaping.reduce(results) do |t, i|
+        self.send("#{i[0]}_these_results".to_sym, t, event, i[1])
       end
-      results
     end
 
     def split_these_results results, event, by
