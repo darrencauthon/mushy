@@ -322,6 +322,14 @@ describe Mushy::Step do
         result.count.must_equal 2
       end
 
+      it "should allow the limit to be a string" do
+        step.config[:limit] = '2'
+
+        result = step.execute event
+
+        result.count.must_equal 2
+      end
+
     end
 
   end

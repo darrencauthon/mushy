@@ -64,7 +64,7 @@ module Mushy
     def limit_these_results results, event, by
       results
         .each_with_index
-        .select { |x, i| i < by }
+        .select { |x, i| i < by.to_i }
         .map { |x| x }
     end
 
