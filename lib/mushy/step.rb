@@ -46,11 +46,17 @@ module Mushy
     end
 
     def shape_these results, event, config
-      shaping = config[:shaping] ? convert_this_to_an_array(config[:shaping]) : [:merge, :split, :model, :join]
-      shaping
+      supported_shaping = [:merge, :split, :model, :join]
+
+      shaping = supported_shaping
+      if (config[:shaping])
+        shaping = convert_this_to_an_array(config[:shaping]).map { |x| x.to_sym }
+      end
+
+      supported_shaping
         .select { |x| config[x] }
         .each_with_index
-        .sort_by { |x, i| shaping.index(x) || i }
+        .sort_by { |x, i| shaping.index(x) || i + supported_shaping.count }
         .map { |x, _| x }
         .reduce(results) { |t, i| self.send("#{i}_these_results".to_sym, t, event, config[i]) }
     end
