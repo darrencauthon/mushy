@@ -306,6 +306,24 @@ describe Mushy::Step do
 
     end
 
+    describe "limiting the results" do
+
+      let(:step) { MushyStepTestClass.new }
+
+      before do
+        step.return_this = [1, 2, 3, 4, 5].map { |x| { a: x } }
+      end
+
+      it "should only return the number of results expected" do
+        step.config[:limit] = 2
+
+        result = step.execute event
+
+        result.count.must_equal 2
+      end
+
+    end
+
   end
 
 end
