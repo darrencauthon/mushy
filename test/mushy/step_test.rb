@@ -306,6 +306,29 @@ describe Mushy::Step do
 
     end
 
+    describe "sorting the results" do
+      let(:step) { MushyStepTestClass.new }
+
+      before do
+        step.return_this = [1, 2, 3, 4, 5]
+                             .map { |x| { a: x } }
+                             .reverse
+      end
+
+      it "should only return the number of results expected" do
+        step.config[:sort] = 'a'
+
+        result = step.execute event
+
+        result.count.must_equal 5
+        result[0][:a].must_equal 1
+        result[1][:a].must_equal 2
+        result[2][:a].must_equal 3
+        result[3][:a].must_equal 4
+        result[4][:a].must_equal 5
+      end
+    end
+
     describe "limiting the results" do
 
       let(:step) { MushyStepTestClass.new }
