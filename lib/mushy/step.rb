@@ -27,11 +27,25 @@ module Mushy
 
       returned_one_result = results.is_a?(Hash)
 
-      results = [results]
+      results = standardize_these results
+
+      results = shape_these results, event, config
+
+      return results.first if config[:join]
+
+      return results if config[:split]
+      
+      returned_one_result ? results.first : results
+    end
+
+    def standardize_these results
+      [results]
         .flatten
         .map { |x| x.is_a?(Hash) ? convert_to_symbolized_hash(x) : nil }
         .select { |x| x }
+    end
 
+    def shape_these results, event, config
       shaping_methods = [:merge, :split, :model, :join]
       shaping = shaping_methods
                   .select { |x| config[x] }
@@ -48,12 +62,7 @@ module Mushy
       shaping.each do |key, value|
         results = self.send("#{key}_these_results".to_sym, results, event, value)
       end
-
-      return results.first if config[:join]
-
-      return results if config[:split]
-      
-      returned_one_result ? results.first : results
+      results
     end
 
     def split_these_results results, event, by
