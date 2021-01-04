@@ -23,6 +23,7 @@ module Mushy
 
       workflow.steps = (data['steps'] || []).map do |record|
         step = Mushy::Step.new
+        step.id = record['id']
         step
       end
 
