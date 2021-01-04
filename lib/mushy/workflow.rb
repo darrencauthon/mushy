@@ -23,7 +23,7 @@ module Mushy
 
       workflow.steps = (data['steps'] || []).map do |record|
         step = Mushy::Step.new
-        step.id = record['id']
+        step.id = record['id'] || step.id
         step.config = SymbolizedHash.new(record['config'])
         step
       end

@@ -40,6 +40,30 @@ DOC
 DOC
       end
 
+      describe "missing step data" do
+
+        let(:data) do
+        <<DOC
+{
+    "steps": [
+        {}
+    ]
+}
+DOC
+        end
+
+        it "should set a temp id" do
+          steps = Mushy::Workflow.parse(data).steps
+          (steps[0].id.nil?).must_equal false
+          (steps[0].id == '').must_equal false
+        end
+
+        it "should set default config" do
+          steps = Mushy::Workflow.parse(data).steps
+          (steps[0].config.nil?).must_equal false
+        end
+      end
+
       it "should have two steps" do
         steps = Mushy::Workflow.parse(data).steps
         steps.count.must_equal 2
