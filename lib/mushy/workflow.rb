@@ -14,6 +14,11 @@ module Mushy
         .select { |x| x.parent_steps.any? { |y| y.id == event.step_id } }
         .flatten
     end
+
+    def self.parse data
+      new
+    end
+
   end
 
 end
