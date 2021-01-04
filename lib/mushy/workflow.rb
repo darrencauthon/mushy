@@ -1,3 +1,5 @@
+require 'json'
+
 module Mushy
 
   class Workflow
@@ -16,7 +18,15 @@ module Mushy
     end
 
     def self.parse data
-      new
+      data = JSON.parse data
+      workflow = new
+
+      workflow.steps = (data['steps'] || []).map do |record|
+        step = Mushy::Step.new
+        step
+      end
+
+      workflow
     end
 
   end

@@ -27,6 +27,26 @@ DOC
       (id == '').must_equal false
     end
 
+    describe "steps" do
+
+      let(:data) do
+        <<DOC
+{
+    "steps": [
+        { "id": "abcd" },
+        { "id": "efgh" }
+    ]
+}
+DOC
+      end
+
+      it "should have two steps" do
+        steps = Mushy::Workflow.parse(data).steps
+        steps.count.must_equal 2
+      end
+
+    end
+
   end
 
 end
