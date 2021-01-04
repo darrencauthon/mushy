@@ -21,7 +21,9 @@ module Mushy
       data = JSON.parse data
       workflow = new
 
-      workflow.steps = (data['steps'] || []).map do |record|
+      data_steps = data['steps'] || []
+
+      workflow.steps = data_steps.map do |record|
         step = Mushy::Step.new
         step.id = record['id'] || step.id
         step.config = SymbolizedHash.new(record['config'])
@@ -29,7 +31,7 @@ module Mushy
       end
 
       things = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
-      (data['steps'] || []).map do |record|
+      data_steps.map do |record|
         things[record['id']] = record['parent_steps'] || []
       end
 
@@ -37,7 +39,7 @@ module Mushy
         step.parent_steps = workflow.steps.select { |x| things[step.id].include?(x.id) }
       end
 
-      (data['steps'] || []).map do |record|
+      data_steps.map do |record|
         step = Mushy::Step.new
         step.id = record['id'] || step.id
         step.config = SymbolizedHash.new(record['config'])
