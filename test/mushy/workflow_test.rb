@@ -62,6 +62,11 @@ DOC
           steps = Mushy::Workflow.parse(data).steps
           (steps[0].config.nil?).must_equal false
         end
+
+        it "should set default parents" do
+          steps = Mushy::Workflow.parse(data).steps
+          (steps[0].config.nil?).must_equal false
+        end
       end
 
       it "should have two steps" do
