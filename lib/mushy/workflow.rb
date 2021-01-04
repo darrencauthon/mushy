@@ -30,11 +30,11 @@ module Mushy
         step
       end
 
-      things = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
-      data_steps.map { |r| things[r['id']] = r['parent_steps'] || [] }
+      steps_with_parent_ids = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
+      data_steps.map { |r| steps_with_parent_ids[r['id']] = r['parent_steps'] || [] }
 
       workflow.steps.each do |step|
-        step.parent_steps = workflow.steps.select { |x| things[step.id].include?(x.id) }
+        step.parent_steps = workflow.steps.select { |x| steps_with_parent_ids[step.id].include?(x.id) }
       end
 
       workflow
