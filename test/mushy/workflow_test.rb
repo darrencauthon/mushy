@@ -45,6 +45,12 @@ DOC
         steps.count.must_equal 2
       end
 
+      it "should load the id" do
+        steps = Mushy::Workflow.parse(data).steps
+        steps[0].id.must_equal 'abcd'
+        steps[1].id.must_equal 'efgh'
+      end
+
     end
 
   end
