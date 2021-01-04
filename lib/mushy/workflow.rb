@@ -31,19 +31,10 @@ module Mushy
       end
 
       things = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
-      data_steps.map do |record|
-        things[record['id']] = record['parent_steps'] || []
-      end
+      data_steps.map { |r| things[r['id']] = r['parent_steps'] || [] }
 
       workflow.steps.each do |step|
         step.parent_steps = workflow.steps.select { |x| things[step.id].include?(x.id) }
-      end
-
-      data_steps.map do |record|
-        step = Mushy::Step.new
-        step.id = record['id'] || step.id
-        step.config = SymbolizedHash.new(record['config'])
-        step
       end
 
       workflow
