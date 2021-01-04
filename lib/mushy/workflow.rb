@@ -24,7 +24,7 @@ module Mushy
       data_steps = data['steps'] || []
 
       workflow.steps = data_steps.map do |record|
-        step = Object.const_get("Mushy::Step").new
+        step = Object.const_get("Mushy::#{record['type'] || 'Step'}").new
         step.id = record['id'] || step.id
         step.config = SymbolizedHash.new(record['config'])
         step

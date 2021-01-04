@@ -34,10 +34,20 @@ DOC
 {
     "steps": [
         { "id": "abcd", "config": { "a": "b"} },
-        { "id": "efgh", "config": { "c": "d" }, "parent_steps": ["abcd"] }
+        { "id": "efgh", "config": { "c": "d" }, "parent_steps": ["abcd"], "type": "Get" }
     ]
 }
 DOC
+      end
+
+      describe "the types of steps" do
+        it "should default the type to Step" do
+          Mushy::Workflow.parse(data).steps[0].class.must_equal Mushy::Step
+        end
+
+        it "should allow the type to be overwritten" do
+          Mushy::Workflow.parse(data).steps[1].class.must_equal Mushy::Get
+        end
       end
 
       describe "parent steps" do
