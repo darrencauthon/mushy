@@ -51,10 +51,19 @@ DOC
         steps[1].id.must_equal 'efgh'
       end
 
-      it "should load the config" do
-        steps = Mushy::Workflow.parse(data).steps
-        steps[0].config['a'].must_equal 'b'
-        steps[1].config['c'].must_equal 'd'
+      describe "config" do
+        it "should load the config" do
+          steps = Mushy::Workflow.parse(data).steps
+          steps[0].config['a'].must_equal 'b'
+          steps[1].config['c'].must_equal 'd'
+        end
+
+        it "should load the config with symbols" do
+          steps = Mushy::Workflow.parse(data).steps
+          steps[0].config[:a].must_equal 'b'
+          steps[1].config[:c].must_equal 'd'
+        end
+
       end
 
     end
