@@ -28,6 +28,25 @@ module Mushy
         step
       end
 
+      things = {}
+      workflow.steps.each do |record|
+        things[record.id] = []
+      end
+      (data['steps'] || []).map do |record|
+        things[record['id']] = record['parent_steps'] || []
+      end
+
+      workflow.steps.each do |step|
+        step.parent_steps = workflow.steps.select { |x| things[step.id].include?(x.id) }
+      end
+
+      (data['steps'] || []).map do |record|
+        step = Mushy::Step.new
+        step.id = record['id'] || step.id
+        step.config = SymbolizedHash.new(record['config'])
+        step
+      end
+
       workflow
     end
 

@@ -34,10 +34,21 @@ DOC
 {
     "steps": [
         { "id": "abcd", "config": { "a": "b"} },
-        { "id": "efgh", "config": { "c": "d" } }
+        { "id": "efgh", "config": { "c": "d" }, "parent_steps": ["abcd"] }
     ]
 }
 DOC
+      end
+
+      describe "parent steps" do
+
+        it "should load the parent steps" do
+          steps = Mushy::Workflow.parse(data).steps
+          steps[0].parent_steps.count.must_equal 0
+          steps[1].parent_steps.count.must_equal 1
+          steps[1].parent_steps[0].must_be_same_as steps[0]
+        end
+
       end
 
       describe "missing step data" do
@@ -65,7 +76,7 @@ DOC
 
         it "should set default parents" do
           steps = Mushy::Workflow.parse(data).steps
-          (steps[0].config.nil?).must_equal false
+          steps[0].parent_steps.count.must_equal 0
         end
       end
 
