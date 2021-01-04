@@ -33,8 +33,8 @@ DOC
         <<DOC
 {
     "steps": [
-        { "id": "abcd" },
-        { "id": "efgh" }
+        { "id": "abcd", "config": { "a": "b"} },
+        { "id": "efgh", "config": { "c": "d" } }
     ]
 }
 DOC
@@ -49,6 +49,12 @@ DOC
         steps = Mushy::Workflow.parse(data).steps
         steps[0].id.must_equal 'abcd'
         steps[1].id.must_equal 'efgh'
+      end
+
+      it "should load the config" do
+        steps = Mushy::Workflow.parse(data).steps
+        steps[0].config['a'].must_equal 'b'
+        steps[1].config['c'].must_equal 'd'
       end
 
     end
