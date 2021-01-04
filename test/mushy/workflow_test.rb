@@ -52,6 +52,7 @@ DOC
       end
 
       describe "config" do
+
         it "should load the config" do
           steps = Mushy::Workflow.parse(data).steps
           steps[0].config['a'].must_equal 'b'
