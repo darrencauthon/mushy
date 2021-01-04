@@ -28,10 +28,7 @@ module Mushy
         step
       end
 
-      things = {}
-      workflow.steps.each do |record|
-        things[record.id] = []
-      end
+      things = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
       (data['steps'] || []).map do |record|
         things[record['id']] = record['parent_steps'] || []
       end
