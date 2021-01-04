@@ -7,9 +7,6 @@ describe Mushy::Workflow do
     let(:data) do
       <<DOC
 {
-    "steps": [
-                {}
-             ]
 }
 DOC
     end
