@@ -21,10 +21,10 @@ module Mushy
          .each_with_index
          .map { |_, i| i }
          .map do |i|
-                matches.keys.reduce(SymbolizedHash.new( { } )) do |t, key|
-                  t[key] = matches[key][i]
-                  t[key] = t[key].strip if t[key]
-                  t
+                matches.keys.reduce(SymbolizedHash.new( { } )) do |record, key|
+                  record[key] = matches[key][i]
+                  record[key] = record[key].strip if record[key]
+                  record
                 end
               end
     end
