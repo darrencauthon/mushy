@@ -9,9 +9,9 @@ module Mushy
       doc = Nokogiri::HTML event[config[:path]]
 
       matches = config[:extract].keys.reduce( { } ) do |matches, key|
-        extract = config[:extract][key]
-        css, value = extract.split('|')
+        css, value = config[:extract][key].split('|')
         value = value || './node()'
+
         matches[key] = doc.css(css).map { |x| x.xpath(value).to_s }
         matches
       end
