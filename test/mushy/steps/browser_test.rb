@@ -20,15 +20,21 @@ describe Mushy::Browser do
   end
 
   it "should allow return information about the page" do
-    result = step.execute event
+    #result = step.execute event
 
-    puts result.inspect
+    #puts result.inspect
   end
 
-  describe "passing cookies" do
+  describe "passing headers" do
 
     before do
-      config[:cookies] = []
+      config[:headers] = { test: 'abcd' }
+    end
+
+    it "should allow return information about the page" do
+      #result = step.execute event
+
+      #puts result[:headers].inspect
     end
 
   end
