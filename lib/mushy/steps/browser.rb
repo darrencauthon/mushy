@@ -6,6 +6,13 @@ module Mushy
 
     def process step, config
       browser = Ferrum::Browser.new
+
+      (config[:cookies] || []).each do |cookie|
+        brower.cookies.set nil, nil, cookie
+      end
+
+      browser.headers.add(config[:headers]) if config[:headers]
+
       browser.goto config[:url]
 
       result = {
