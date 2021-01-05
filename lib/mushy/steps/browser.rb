@@ -10,6 +10,8 @@ module Mushy
 
       {
         url: browser.url,
+        cookies: browser.cookies.all.map { |k, v| v.instance_variable_get('@attributes') },
+        headers: browser.headers.get,
       }
     end
 
