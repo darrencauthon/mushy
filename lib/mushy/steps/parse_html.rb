@@ -6,15 +6,14 @@ module Mushy
 
     def process event, config
 
-      content = event[config[:path]]
-      doc = Nokogiri::HTML content
+      doc = Nokogiri::HTML event[config[:path]]
 
-      matches = {}
-      config[:extract].keys.each do |key|
+      matches = config[:extract].keys.reduce( { } ) do |matches, key|
         extract = config[:extract][key]
         css, value = extract.split('|')
         value = value || './node()'
         matches[key] = doc.css(css).map { |x| x.xpath(value).to_s }
+        matches
       end
 
       matches[matches.keys.first]
