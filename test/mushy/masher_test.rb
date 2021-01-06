@@ -61,6 +61,15 @@ describe Mushy::Masher do
 
     end
 
+    describe "with more complicated objects than value types" do
+
+      it "should still pass the complicated object through" do
+        darren = Object.new
+        masher.mash("{{darren}}", { darren: darren }).must_be_same_as darren
+      end
+
+    end
+
   end
 
   describe "dig" do
