@@ -13,9 +13,7 @@ module Mushy
                                    match_on_key = d.keys.select { |x| x.to_s == m.captures[0].to_s }.first
                                    if match_on_key
                                      value = dig match_on_key.to_s, d
-                                     if value
-                                       return value unless value.is_a?(String) || value.is_a?(Numeric)
-                                     end
+                                     return value unless value.is_a?(String) || value.is_a?(Numeric)
                                    end
                                  end
                                end
