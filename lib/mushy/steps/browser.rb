@@ -4,7 +4,7 @@ module Mushy
 
   class Browser < Step
 
-    def process step, config
+    def process event, config
 
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
