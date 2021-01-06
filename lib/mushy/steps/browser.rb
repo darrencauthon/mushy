@@ -5,7 +5,7 @@ module Mushy
   class Browser < Step
 
     def process step, config
-      browser = Ferrum::Browser.new
+      browser = Ferrum::Browser.new(headless: false)
 
       (config[:cookies] || []).each { |c| brower.cookies.set nil, nil, c }
 
