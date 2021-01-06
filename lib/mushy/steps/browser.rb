@@ -7,9 +7,7 @@ module Mushy
     def process step, config
       browser = Ferrum::Browser.new
 
-      (config[:cookies] || []).each do |cookie|
-        brower.cookies.set nil, nil, cookie
-      end
+      (config[:cookies] || []).each { |c| brower.cookies.set nil, nil, c }
 
       browser.headers.add(config[:headers]) if config[:headers]
 

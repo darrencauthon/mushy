@@ -20,9 +20,9 @@ describe Mushy::Browser do
   end
 
   it "should allow return information about the page" do
-    #result = step.execute event
+    result = step.execute event
 
-    #puts result.inspect
+    puts result.inspect
   end
 
   describe "passing headers" do
