@@ -13,6 +13,8 @@ module Mushy
 
       browser.goto config[:url]
 
+      browser.execute(config[:execute]) if config[:execute]
+
       result = {
         url: browser.url,
         cookies: browser.cookies.all.map { |k, v| v.instance_variable_get('@attributes') },
