@@ -7,7 +7,16 @@ module Mushy
     def initialize
       self.mash_methods = 
         {
-          String => ->(x, d) { Liquid::Template.parse(x).render SymbolizedHash.new(d) },
+          String => ->(x, d) do
+                               x.match('{{\s?(\w*)\s?}}') do |m|
+                                 if (m.captures.count == 1)
+                                   match_on_key = d.keys.select { |x| x.to_s == m.captures[0].to_s }.first
+                                   value = dig match_on_key.to_s, d
+                                   return value unless value.is_a?(String) || value.is_a?(Numeric)
+                                 end
+                               end
+                               Liquid::Template.parse(x).render SymbolizedHash.new(d)
+                             end,
           Hash   => ->(x, d) do
                                h = SymbolizedHash.new(x)
                                h.each { |k, v| h[k] = mash v, d }
