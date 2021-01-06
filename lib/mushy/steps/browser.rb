@@ -5,11 +5,15 @@ module Mushy
   class Browser < Step
 
     def process step, config
+
+      config[:cookies] = [] unless config[:cookies].is_a?(Array)
+      config[:headers] = {} unless config[:headers].is_a?(Hash)
+
       browser = Ferrum::Browser.new(headless: false)
 
-      (config[:cookies] || []).each { |c| brower.cookies.set nil, nil, c }
+      config[:cookies].each { |c| browser.cookies.set(c) }
 
-      browser.headers.add(config[:headers]) if config[:headers]
+      browser.headers.add config[:headers]
 
       browser.goto config[:url]
 
