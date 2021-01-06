@@ -11,8 +11,12 @@ module Mushy
                                x.match('{{\s?(\w*)\s?}}') do |m|
                                  if (m.captures.count == 1)
                                    match_on_key = d.keys.select { |x| x.to_s == m.captures[0].to_s }.first
-                                   value = dig match_on_key.to_s, d
-                                   return value unless value.is_a?(String) || value.is_a?(Numeric)
+                                   if match_on_key
+                                     value = dig match_on_key.to_s, d
+                                     if value
+                                       return value unless value.is_a?(String) || value.is_a?(Numeric)
+                                     end
+                                   end
                                  end
                                end
                                Liquid::Template.parse(x).render SymbolizedHash.new(d)

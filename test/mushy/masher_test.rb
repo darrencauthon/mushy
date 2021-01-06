@@ -68,6 +68,11 @@ describe Mushy::Masher do
         masher.mash("{{ darren }}", { darren: darren }).must_be_same_as darren
       end
 
+      it "should return nothing if the objet does not match" do
+        darren = Object.new
+        masher.mash("{{ darren }}", { something_else: darren }).must_equal ''
+      end
+
     end
 
   end
