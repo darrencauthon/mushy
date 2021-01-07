@@ -24,7 +24,7 @@ module Mushy
         end
       end
 
-      nil
+      event
     end
 
   end

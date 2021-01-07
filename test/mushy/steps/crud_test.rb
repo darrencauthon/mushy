@@ -27,14 +27,17 @@ describe Mushy::Crud do
 
     end
 
-    it "should return nothing" do
+    it "should return the event passed to it" do
+
+      key, value = SecureRandom.uuid, SecureRandom.uuid
 
       event[:id] = SecureRandom.uuid
       event[:name] = SecureRandom.uuid
+      event[key] = value
 
       result = step.execute event
 
-      result.count.must_equal 0
+      result[key].must_equal value
 
     end
 
@@ -92,16 +95,19 @@ describe Mushy::Crud do
 
     end
 
-    it "should return nothing" do
+    it "should return the event passed to it" do
+
+      key, value = SecureRandom.uuid, SecureRandom.uuid
 
       event[:id] = SecureRandom.uuid
+      event[key] = value
 
       step.collection[event[:id]] = {}
       step.collection[SecureRandom.uuid] = {}
 
-      results = step.execute event
+      result = step.execute event
 
-      results.count.must_equal 0
+      result[key].must_equal value
 
     end
 
