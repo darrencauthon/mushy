@@ -2,18 +2,17 @@ module Mushy
 
   class Crud < Step
 
-    attr_accessor :collections
+    attr_accessor :collection
 
     def initialize
-      self.collections = {}
+      self.collection = {}
       super
     end
 
     def process event, config
       collection = config[:collection]
       id = event[config[:id]]
-      self.collections[collection] = {} unless self.collections[collection]
-      self.collections[collection][id] = event
+      self.collection[id] = event
       nil
     end
 
