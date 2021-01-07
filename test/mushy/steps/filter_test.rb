@@ -10,16 +10,16 @@ describe Mushy::Filter do
   let(:config) { {} }
 
   before do
-    step.config[:equals] = {}
+    step.config[:equal] = {}
   end
 
-  describe "equals" do
+  describe "equal" do
 
     it "should return the object if the clause matches" do
 
       key, value = SecureRandom.uuid, SecureRandom.uuid
 
-      step.config[:equals][key] = value
+      step.config[:equal][key] = value
 
       event[key] = value
 
@@ -33,7 +33,7 @@ describe Mushy::Filter do
 
       key = SecureRandom.uuid
 
-      step.config[:equals][key] = SecureRandom.uuid
+      step.config[:equal][key] = SecureRandom.uuid
 
       event[key] = SecureRandom.uuid
 
