@@ -11,6 +11,7 @@ describe Mushy::Filter do
 
   before do
     step.config[:equal] = {}
+    step.config[:notequal] = {}
   end
 
   describe "equal" do
@@ -29,7 +30,7 @@ describe Mushy::Filter do
 
     end
 
-    it "should return the event if the clause does not match" do
+    it "should NOT return the event if it does not match" do
 
       key = SecureRandom.uuid
 
@@ -40,6 +41,38 @@ describe Mushy::Filter do
       result = step.execute event
 
       result.count.must_equal 0
+
+    end
+
+  end
+
+  describe "not equal" do
+
+    it "should NOT return the value if it matches" do
+
+      key, value = SecureRandom.uuid, SecureRandom.uuid
+
+      step.config[:notequal][key] = value
+
+      event[key] = value
+
+      result = step.execute event
+
+      result.count.must_equal 0
+
+    end
+
+    it "should return the event if the clause does not match" do
+
+      key, value = SecureRandom.uuid, SecureRandom.uuid
+
+      step.config[:notequal][key] = SecureRandom.uuid
+
+      event[key] = value
+
+      result = step.execute event
+
+      result[key].must_equal value
 
     end
 
