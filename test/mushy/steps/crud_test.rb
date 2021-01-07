@@ -74,6 +74,27 @@ describe Mushy::Crud do
 
     end
 
+    describe "returning the result of the operation" do
+
+      it "should return the result of the operation using the provided key" do
+        key = SecureRandom.uuid
+        step.config[:operation_performed] = key
+
+        event[:id] = SecureRandom.uuid
+        event[:name] = SecureRandom.uuid
+
+        event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
+        event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
+        result1 = step.execute event1
+        result2 = step.execute event2
+
+        result1[key].must_equal "inserted"
+        result2[key].must_equal "updated"
+
+      end
+
+    end
+
   end
 
   describe "delete" do

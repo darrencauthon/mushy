@@ -19,8 +19,10 @@ module Mushy
       else
         if self.collection[id]
           event.each { |k, v| self.collection[id][k] = v }
+          event[config[:operation_performed]] = 'updated' if config[:operation_performed]
         else
           self.collection[id] = event
+          event[config[:operation_performed]] = 'inserted' if config[:operation_performed]
         end
       end
 
