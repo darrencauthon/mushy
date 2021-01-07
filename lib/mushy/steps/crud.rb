@@ -16,6 +16,7 @@ module Mushy
         return self.collection.values
       elsif config[:operation] == 'delete'
         self.collection.delete id
+        event[config[:operation_performed]] = 'deleted' if config[:operation_performed]
       else
         if self.collection[id]
           event.each { |k, v| self.collection[id][k] = v }

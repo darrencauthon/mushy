@@ -132,6 +132,22 @@ describe Mushy::Crud do
 
     end
 
+    it "should return the operation performed" do
+
+      key = SecureRandom.uuid
+      step.config[:operation_performed] = key
+
+      event[:id] = SecureRandom.uuid
+
+      step.collection[event[:id]] = {}
+      step.collection[SecureRandom.uuid] = {}
+
+      result = step.execute event
+
+      result[key].must_equal 'deleted'
+
+    end
+
   end
 
   describe "all" do
