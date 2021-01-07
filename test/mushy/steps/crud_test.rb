@@ -62,4 +62,25 @@ describe Mushy::Crud do
 
   end
 
+  describe "delete" do
+
+    before do
+      step.config[:operation] = 'delete'
+    end
+
+    it "should delete by the id" do
+
+      event[:id] = SecureRandom.uuid
+
+      step.collection[event[:id]] = {}
+      step.collection[SecureRandom.uuid] = {}
+
+      step.execute event
+
+      step.collection.count.must_equal 1
+
+    end
+
+  end
+
 end

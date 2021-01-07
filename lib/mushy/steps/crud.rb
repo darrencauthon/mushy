@@ -10,13 +10,16 @@ module Mushy
     end
 
     def process event, config
-      collection = config[:collection]
       id = event[config[:id]]
 
-      if self.collection[id]
-        event.each { |k, v| self.collection[id][k] = v }
+      if config[:operation] == 'delete'
+        self.collection.delete id
       else
-        self.collection[id] = event
+        if self.collection[id]
+          event.each { |k, v| self.collection[id][k] = v }
+        else
+          self.collection[id] = event
+        end
       end
 
       nil
