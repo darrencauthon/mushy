@@ -12,7 +12,8 @@ module Mushy
     def process event, config
       id = event[config[:id]]
 
-      if config[:operation] == 'delete'
+      if config[:operation] == 'all'
+      elsif config[:operation] == 'delete'
         self.collection.delete id
       else
         if self.collection[id]
@@ -22,7 +23,7 @@ module Mushy
         end
       end
 
-      nil
+      self.collection.values
     end
 
   end

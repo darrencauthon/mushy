@@ -83,4 +83,27 @@ describe Mushy::Crud do
 
   end
 
+  describe "all" do
+
+    before do
+      step.config[:operation] = 'all'
+    end
+
+    it "should return all of the items" do
+
+      step.collection['a'] = { a: 1 }
+      step.collection['b'] = { b: 2 }
+      step.collection['c'] = { c: 3 }
+
+      results = step.execute event
+
+      results.count.must_equal 3
+      results[0][:a].must_equal 1
+      results[1][:b].must_equal 2
+      results[2][:c].must_equal 3
+
+    end
+
+  end
+
 end
