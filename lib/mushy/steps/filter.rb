@@ -5,16 +5,24 @@ module Mushy
     def process event, config
 
       matches = config[:equal]
-                  .reject { |k, v| event[k] == config[:equal][k] }
+                  .reject { |k, v| equal event[k], v }
                   .count == 0
 
       return nil unless matches
 
       matches = config[:notequal]
-                  .reject { |k, v| event[k] != config[:notequal][k] }
+                  .reject { |k, v| notequal event[k], v }
                   .count == 0
 
       matches ? event : nil
+    end
+
+    def equal a, b
+      a == b
+    end
+
+    def notequal a, b
+      equal(a, b) == false
     end
 
   end
