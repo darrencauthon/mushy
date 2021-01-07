@@ -10,7 +10,7 @@ describe Mushy::Filter do
   let(:config) { {} }
 
   before do
-    step.config[:filter] = {}
+    step.config[:equals] = {}
   end
 
   describe "equals" do
@@ -19,7 +19,7 @@ describe Mushy::Filter do
 
       key, value = SecureRandom.uuid, SecureRandom.uuid
 
-      step.config[:filter][key] = value
+      step.config[:equals][key] = value
 
       event[key] = value
 
@@ -33,7 +33,7 @@ describe Mushy::Filter do
 
       key = SecureRandom.uuid
 
-      step.config[:filter][key] = SecureRandom.uuid
+      step.config[:equals][key] = SecureRandom.uuid
 
       event[key] = SecureRandom.uuid
 
