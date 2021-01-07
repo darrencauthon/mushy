@@ -10,23 +10,40 @@ module Mushy
     end
 
     def process event, config
-      id = event[config[:id]]
+      self.send(config[:operation].to_sym, event, config)
+    end
 
-      if config[:operation] == 'all'
-        return self.collection.values
-      elsif config[:operation] == 'delete'
-        self.collection.delete id
-        event[config[:operation_performed]] = 'deleted' if config[:operation_performed]
+    def get_the_id event, config
+      event[config[:id]]
+    end
+
+    def all event, config
+      self.collection.values
+    end
+
+    def delete event, config
+      self.collection.delete get_the_id(event, config)
+      event[config[:operation_performed]] = 'deleted' if config[:operation_performed]
+      event
+    end
+
+    def upsert event, config
+      if self.collection[get_the_id(event, config)]
+        update event, config
       else
-        if self.collection[id]
-          event.each { |k, v| self.collection[id][k] = v }
-          event[config[:operation_performed]] = 'updated' if config[:operation_performed]
-        else
-          self.collection[id] = event
-          event[config[:operation_performed]] = 'inserted' if config[:operation_performed]
-        end
+        insert event, config
       end
+    end
 
+    def update event, config
+      event.each { |k, v| self.collection[get_the_id(event, config)][k] = v }
+      event[config[:operation_performed]] = 'updated' if config[:operation_performed]
+      event
+    end
+
+    def insert event, config
+      self.collection[get_the_id(event, config)] = event
+      event[config[:operation_performed]] = 'inserted' if config[:operation_performed]
       event
     end
 
