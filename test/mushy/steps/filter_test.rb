@@ -10,7 +10,7 @@ describe Mushy::Filter do
   let(:config) { {} }
 
   before do
-    step.config[:select] = {}
+    step.config[:filter] = {}
   end
 
   describe "equals" do
@@ -19,13 +19,28 @@ describe Mushy::Filter do
 
       key, value = SecureRandom.uuid, SecureRandom.uuid
 
-      step.config[:select][key] = value
+      step.config[:filter][key] = value
 
       event[key] = value
 
       result = step.execute event
 
       result[key].must_equal value
+
+    end
+
+    it "should return the event if the clause does not match" do
+
+      key = SecureRandom.uuid
+
+      step.config[:filter][key] = SecureRandom.uuid
+
+      event[key] = SecureRandom.uuid
+
+      result = step.execute event
+
+      result.count.must_equal 0
+
     end
 
   end
