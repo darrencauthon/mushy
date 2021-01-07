@@ -37,8 +37,8 @@ module Mushy
 
     def update event, config
       item = self.collection[get_the_id(event, config)]
-      event.each { |k, v| item[k] = v }
-      event[config[:operation_performed]] = 'updated' if config[:operation_performed]
+      event.each { |k, v| item[k] = v } if item
+      event[config[:operation_performed]] = (item ? 'updated' : 'not exist') if config[:operation_performed]
       event
     end
 

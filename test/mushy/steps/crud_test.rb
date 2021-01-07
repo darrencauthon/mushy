@@ -173,4 +173,34 @@ describe Mushy::Crud do
 
   end
 
+  describe "update" do
+
+    before do
+      step.config[:operation] = 'update'
+    end
+
+    it "should should not throw if the record does not exist" do
+
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
+
+      step.execute event
+
+    end
+
+    it "should should report back the operation as not exists if the record does not exist" do
+
+      key = SecureRandom.uuid
+      step.config[:operation_performed] = key
+
+      event[:id] = SecureRandom.uuid
+
+      result = step.execute event
+
+      result[key].must_equal 'not exist'
+
+    end
+
+  end
+
 end
