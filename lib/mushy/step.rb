@@ -21,6 +21,8 @@ module Mushy
     def execute event
       guard
 
+      event = SymbolizedHash.new event
+
       mashed_config = masher.mash config, event
 
       results = process event, mashed_config
