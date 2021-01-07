@@ -13,6 +13,7 @@ module Mushy
       id = event[config[:id]]
 
       if config[:operation] == 'all'
+        return self.collection.values
       elsif config[:operation] == 'delete'
         self.collection.delete id
       else
@@ -23,7 +24,7 @@ module Mushy
         end
       end
 
-      self.collection.values
+      nil
     end
 
   end

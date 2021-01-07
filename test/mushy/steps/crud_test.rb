@@ -27,6 +27,17 @@ describe Mushy::Crud do
 
     end
 
+    it "should return nothing" do
+
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
+
+      result = step.execute event
+
+      result.count.must_equal 0
+
+    end
+
     it "should allow multiple inserts" do
 
       event[:id] = SecureRandom.uuid
@@ -78,6 +89,19 @@ describe Mushy::Crud do
       step.execute event
 
       step.collection.count.must_equal 1
+
+    end
+
+    it "should return nothing" do
+
+      event[:id] = SecureRandom.uuid
+
+      step.collection[event[:id]] = {}
+      step.collection[SecureRandom.uuid] = {}
+
+      results = step.execute event
+
+      results.count.must_equal 0
 
     end
 
