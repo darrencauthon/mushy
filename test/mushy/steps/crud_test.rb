@@ -1,8 +1,8 @@
 require_relative '../../test_helper.rb'
 
-describe Mushy::Crud do
+describe Mushy::Collection do
 
-  let(:step) { Mushy::Crud.new }
+  let(:step) { Mushy::Collection.new }
 
   let(:event) { {} }
 

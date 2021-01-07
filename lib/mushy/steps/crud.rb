@@ -1,6 +1,6 @@
 module Mushy
 
-  class Crud < Step
+  class Collection < Step
 
     attr_accessor :collection
 
