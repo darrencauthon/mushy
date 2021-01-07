@@ -12,7 +12,13 @@ module Mushy
     def process event, config
       collection = config[:collection]
       id = event[config[:id]]
-      self.collection[id] = event
+
+      if self.collection[id]
+        event.each { |k, v| self.collection[id][k] = v }
+      else
+        self.collection[id] = event
+      end
+
       nil
     end
 
