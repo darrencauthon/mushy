@@ -28,6 +28,22 @@ describe Mushy::Crud do
 
     end
 
+    it "should allow multiple inserts" do
+
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
+
+      event1 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
+      event2 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
+      step.execute event1
+      step.execute event2
+
+      step.collections['Elephants'].count.must_equal 2
+      step.collections['Elephants'][event1[:id]][:name].must_equal event1[:name]
+      step.collections['Elephants'][event2[:id]][:name].must_equal event2[:name]
+
+    end
+
   end
 
 end

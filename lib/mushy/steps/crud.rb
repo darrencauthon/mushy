@@ -12,7 +12,8 @@ module Mushy
     def process event, config
       collection = config[:collection]
       id = event[config[:id]]
-      self.collections[collection] = { id => event }
+      self.collections[collection] = {} unless self.collections[collection]
+      self.collections[collection][id] = event
       nil
     end
 
