@@ -21,7 +21,7 @@ module Mushy
     def execute event
       guard
 
-      event = SymbolizedHash.new event
+      event = SymbolizedHash.new(event) if event.is_a?(Hash)
 
       mashed_config = masher.mash config, event
 
