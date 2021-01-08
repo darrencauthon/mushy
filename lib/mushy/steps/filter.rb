@@ -4,14 +4,16 @@ module Mushy
 
     def process event, config
 
-      operations = (config[:equal].is_a?(Hash) ? config[:equal] : {}).map { |k, v| [:equal, event[k], v] } +
-                   (config[:notequal].is_a?(Hash) ? config[:notequal] : {}).map { |k, v| [:notequal, event[k], v] }
-      
-      matches = operations
+      differences = [:equal, :notequal]
+        .select { |x| config[x].is_a? Hash }
+        .map { |x| config[x].map { |k, v| { m: x, k: k, v1: v } } }
+        .flatten
+        .map { |x| x[:v2] = event[x[:k]] ; x }
+        .map { |x| [x[:m], x[:v1], x[:v2]] }
         .reject { |x| self.send x[0], x[1], x[2] }
-        .count == 0
 
-      matches ? event : nil
+      differences.count == 0 ? event : nil
+
     end
 
     def equal a, b
