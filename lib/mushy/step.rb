@@ -4,6 +4,7 @@ module Mushy
 
     attr_accessor :id
     attr_accessor :parent_steps
+    attr_accessor :subscribed_to
     attr_accessor :config
     attr_accessor :masher
 
@@ -14,6 +15,7 @@ module Mushy
     def guard
       self.id ||= SecureRandom.uuid
       self.parent_steps ||= []
+      self.subscribed_to ||= []
       self.masher ||= Masher.new
       self.config ||= SymbolizedHash.new
     end

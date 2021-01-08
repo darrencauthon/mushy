@@ -25,6 +25,10 @@ describe Mushy::Step do
       step.parent_steps.count.must_equal 0
     end
 
+    it "should have an empty subscribed to" do
+      step.subscribed_to.count.must_equal 0
+    end
+
     it "should have a unique id" do
       step.id.nil?.must_equal false
     end
