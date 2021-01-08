@@ -15,9 +15,10 @@ module Mushy
     end
 
     def equal a, b
-      a = a.to_f if numeric?(a)
-      b = b.to_f if numeric?(b)
-      a == b
+      [a, b]
+        .map { |x| numeric?(x) ? x.to_f : x }
+        .group_by { |x| x }
+        .count == 1
     end
 
     def notequal a, b
