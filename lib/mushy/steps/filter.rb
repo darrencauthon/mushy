@@ -4,8 +4,8 @@ module Mushy
 
     def process event, config
 
-      operations = config[:equal].map { |k, v| [:equal, event[k], v] } +
-                   config[:notequal].map { |k, v| [:notequal, event[k], v] }
+      operations = (config[:equal] || {}).map { |k, v| [:equal, event[k], v] } +
+                   (config[:notequal] || {}).map { |k, v| [:notequal, event[k], v] }
       
       matches = operations
         .reject { |x| self.send x[0], x[1], x[2] }
