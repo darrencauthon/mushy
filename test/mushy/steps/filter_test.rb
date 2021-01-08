@@ -45,7 +45,6 @@ describe Mushy::Filter do
     end
 
     it "should match numbers and numeric strings in a loosey-goosey way" do
-
       step.config[:equal][:number] = "01"
       event[:number] = "001"
 
@@ -54,12 +53,19 @@ describe Mushy::Filter do
     end
 
     it "another loosey-goosey number match" do
-
       step.config[:equal][:number] = "1"
       event[:number] = 1
 
       result = step.execute event
       result[:number].must_equal 1
+    end
+
+    it "should trim the strings before matching" do
+      step.config[:equal][:number] = "  a   "
+      event[:number] = "a"
+
+      result = step.execute event
+      result[:number].must_equal "a"
     end
 
   end

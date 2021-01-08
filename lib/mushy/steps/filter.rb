@@ -17,6 +17,7 @@ module Mushy
     def equal a, b
       [a, b]
         .map { |x| numeric?(x) ? x.to_f : x }
+        .map { |x| x.to_s.strip }
         .group_by { |x| x }
         .count == 1
     end
