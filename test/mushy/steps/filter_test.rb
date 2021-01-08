@@ -30,6 +30,24 @@ describe Mushy::Filter do
 
     end
 
+    it "should match numbers and numeric strings in a loosey-goosey way" do
+
+      step.config[:equal][:number] = "01"
+      event[:number] = "001"
+
+      result = step.execute event
+      result[:number].must_equal "001"
+    end
+
+    it "another loosey-goosey number match" do
+
+      step.config[:equal][:number] = "1"
+      event[:number] = 1
+
+      result = step.execute event
+      result[:number].must_equal 1
+    end
+
     it "should NOT return the event if it does not match" do
 
       key = SecureRandom.uuid
