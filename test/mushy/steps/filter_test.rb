@@ -68,6 +68,14 @@ describe Mushy::Filter do
       result[:number].must_equal "a"
     end
 
+    it "should be case-insensitive" do
+      step.config[:equal][:number] = "A"
+      event[:number] = "a"
+
+      result = step.execute event
+      result[:number].must_equal "a"
+    end
+
   end
 
   describe "not equal" do
