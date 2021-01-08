@@ -19,6 +19,17 @@ describe Mushy::Filter do
       result[key].must_equal value
     end
 
+    it "should not let strings serve as config" do
+      step.config[:equal] = ""
+      step.config[:notequal] = ""
+
+      key, value = SecureRandom.uuid, SecureRandom.uuid
+      event[key] = value
+
+      result = step.execute event
+      result[key].must_equal value
+    end
+
   end
 
   describe "matching with values" do
