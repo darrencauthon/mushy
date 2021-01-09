@@ -4,6 +4,17 @@ module Mushy
 
   class Browser < Step
 
+    def config_details
+      {
+        cookies: {
+                   description: 'Cookies to set in the browser before making the GET.'
+                 },
+        headers: {
+                   description: 'Headers to pass in the web request.'
+                 }
+      }
+    end
+
     def process event, config
 
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
