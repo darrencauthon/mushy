@@ -47,11 +47,16 @@
            data: function() {
                return {
                    removeRecord: function(record, records, index) { records.splice(index, 1); },
-                   addRecord: function(editors) { console.log(editors) },
+                   addRecord: function(editors, records) {
+                                                    var record = {};
+                                                    for (var i = 0; i < editors.length; i++)
+                                                        record[editors[i].target] = editors[i].field.value;
+                                                    records.push(record);
+                                                }
                };
            },
            props: ['records', 'editors'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in records"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, records, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors)">[Add]</a></td></tr></table>'
+           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in records"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, records, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, records)">[Add]</a></td></tr></table>'
        },
        button: {
            props: ['click'],
@@ -104,8 +109,8 @@
                             { name: 'Mothra', quantity: 2 },
                         ],
                         editors: [
-                                    { id: 'new_name', field: { type: 'text', value: 'goforit' } },
-                                    { id: 'new_quantity', field: { type: 'select', value: '2', options: [1, 2, 3] } }
+                                    { id: 'new_name', target: 'name', field: { type: 'text', value: 'goforit' } },
+                                    { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '2', options: [1, 2, 3] } }
                                  ] },
                 super_action: { type: 'button', click: function() { console.log('ok') } },
             }
