@@ -50,7 +50,10 @@
                    addRecord: function(editors, records) {
                                                     var record = {};
                                                     for (var i = 0; i < editors.length; i++)
+                                                    {
                                                         record[editors[i].target] = editors[i].field.value;
+                                                        editors[i].field.value = editors[i].field.default ? editors[i].field.default : '';
+                                                    }
                                                     records.push(record);
                                                 }
                };
@@ -109,8 +112,8 @@
                             { name: 'Mothra', quantity: 2 },
                         ],
                         editors: [
-                                    { id: 'new_name', target: 'name', field: { type: 'text', value: 'goforit' } },
-                                    { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '2', options: [1, 2, 3] } }
+                                    { id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
+                                    { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
                                  ] },
                 super_action: { type: 'button', click: function() { console.log('ok') } },
             }
