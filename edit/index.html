@@ -5,7 +5,7 @@
     </head>
     <body>
         <div id="app">
-            <mip-thing v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></mip-thing>
+            <mip-thing v-for="(data, id) in fields" :data="data" :id="id"></mip-thing>
             <div v-for="(data, id) in fields"><input type="text" v-model="data.value"></input></div>
         </div>
     </body>
