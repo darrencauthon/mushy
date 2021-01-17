@@ -121,10 +121,14 @@
                      super_action: { type: 'button', click: function(x) { console.log(x) } },
                  };
 
+    var bash = {
+                   command: { type: 'text', value: 'ls' },
+               };
+
     var app = new Vue({
         el: '#app',
         data: {
-            fields: sample
+            fields: bash
         }
     });
 </script>
