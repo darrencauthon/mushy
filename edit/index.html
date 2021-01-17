@@ -41,8 +41,8 @@
            template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
        table: {
-           props: ['records'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
+           props: ['value'],
+           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        editgrid: {
            data: function() {
@@ -59,8 +59,8 @@
                                                 }
                };
            },
-           props: ['records', 'editors'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in records"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, records, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, records)">[Add]</a></td></tr></table>'
+           props: ['value', 'editors'],
+           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
        },
        button: {
            props: ['click'],
@@ -104,7 +104,7 @@
                      description: { type: 'textarea', value: 'more data' },
                      size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
                      past: { type: 'editgrid',
-                             records: [
+                             value: [
                                  { name: 'Godzilla', quantity: 1 },
                                  { name: 'Mothra', quantity: 2 },
                              ],
