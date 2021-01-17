@@ -64,7 +64,7 @@
        },
        button: {
            props: ['click'],
-           template: '<button :id="id" v-on:click="click(this)">{{id}}</button>'
+           template: '<button :id="id" v-on:click="click(hey(this))">{{id}}</button>'
        }
    };
 
@@ -76,6 +76,13 @@
             data: components[property].data ?? function () {
                       return {
                           console: console,
+                          hey: function(x){
+                                 var record = {};
+                                 for (var key in x.app._data.fields)
+                                   if (x.app._data.fields[key].value)
+                                     record[key] = x.app._data.fields[key].value;
+                                 return record;
+                               },
                       }
                   },
             props: props,
@@ -112,7 +119,7 @@
                                          { id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
                                          { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
                                       ] },
-                     super_action: { type: 'button', click: function(x) { console.log(x.app._data) } },
+                     super_action: { type: 'button', click: function(x) { console.log(x) } },
                  };
 
     var app = new Vue({
