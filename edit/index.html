@@ -64,7 +64,7 @@
        },
        button: {
            props: ['click'],
-           template: '<button :id="id" v-on:click="click(hey(this))">{{id}}</button>'
+           template: '<button :id="id" v-on:click="click(pull(this))">{{id}}</button>'
        }
    };
 
@@ -76,13 +76,13 @@
             data: components[property].data ?? function () {
                       return {
                           console: console,
-                          hey: function(x){
-                                 var record = {};
-                                 for (var key in x.app._data.fields)
-                                   if (x.app._data.fields[key].value)
-                                     record[key] = x.app._data.fields[key].value;
-                                 return record;
-                               },
+                          pull: function(x){
+                                  var record = {};
+                                  for (var key in x.app._data.fields)
+                                    if (x.app._data.fields[key].value)
+                                      record[key] = x.app._data.fields[key].value;
+                                  return record;
+                                },
                       }
                   },
             props: props,
