@@ -76,7 +76,6 @@
             data: components[property].data ?? function () {
                       return {
                           console: console,
-                          updateValue: function(x) { this['$emit']('input', x); },
                       }
                   },
             props: props,
