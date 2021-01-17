@@ -64,7 +64,7 @@
        },
        button: {
            props: ['click'],
-           template: '<button :id="id" v-on:click="click">{{id}}</button>'
+           template: '<button :id="id" v-on:click="click(this)">{{id}}</button>'
        }
    };
 
@@ -112,7 +112,7 @@
                                          { id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
                                          { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
                                       ] },
-                     super_action: { type: 'button', click: function() { console.log('ok') } },
+                     super_action: { type: 'button', click: function(x) { console.log(x.app._data) } },
                  };
 
     var app = new Vue({
