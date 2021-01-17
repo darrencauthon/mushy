@@ -101,20 +101,20 @@
     });
 
     var sample = {
-                     email: { type: 'email', value: 'darren@cauthon.com' },
+                     //email: { type: 'email', value: 'darren@cauthon.com' },
                      first_name: { type: 'text', value: 'Darren' },
-                     description: { type: 'textarea', value: 'more data' },
-                     size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
-                     past: { type: 'editgrid',
-                             records: [
-                                 { name: 'Godzilla', quantity: 1 },
-                                 { name: 'Mothra', quantity: 2 },
-                             ],
-                             editors: [
-                                         { id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
-                                         { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
-                                         ] },
-                     super_action: { type: 'button', click: function() { console.log('ok') } },
+                     //description: { type: 'textarea', value: 'more data' },
+                     //size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
+                     //past: { type: 'editgrid',
+                             //records: [
+                                 //{ name: 'Godzilla', quantity: 1 },
+                                 //{ name: 'Mothra', quantity: 2 },
+                             //],
+                             //editors: [
+                                         //{ id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
+                                         //{ id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
+                                         //] },
+                     //super_action: { type: 'button', click: function() { console.log('ok') } },
                  };
 
     var app = new Vue({
