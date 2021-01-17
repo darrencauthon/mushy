@@ -6,6 +6,7 @@
     <body>
         <div id="app">
             <mip-thing v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></mip-thing>
+            <div v-for="(data, id) in fields"><input type="text" v-model="data.value"></input></div>
         </div>
     </body>
 </html>
@@ -75,7 +76,7 @@
             data: components[property].data ?? function () {
                       return {
                           console: console,
-                          updateValue: function(x) { this['$emit']('input', x); this.value = x; },
+                          updateValue: function(x) { this['$emit']('input', x); console.log(x); },
                       }
                   },
             props: props,
