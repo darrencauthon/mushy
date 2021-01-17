@@ -26,19 +26,19 @@
        },
        email: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="updateValue($event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
        textarea: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="updateValue($event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
        radio: {
            props: ['label', 'value', 'options'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="updateValue($event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
        },
        select: {
            props: ['label', 'value', 'options'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id"><option v-for="option in options" v-bind:value="option" v-on:input="updateValue($event.target.value)" :selected="value == option">{{option}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id"><option v-for="option in options" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>'
        },
        table: {
            props: ['records'],
@@ -101,9 +101,9 @@
     });
 
     var sample = {
-                     //email: { type: 'email', value: 'darren@cauthon.com' },
+                     email: { type: 'email', value: 'darren@cauthon.com' },
                      first_name: { type: 'text', value: 'Darren' },
-                     //description: { type: 'textarea', value: 'more data' },
+                     description: { type: 'textarea', value: 'more data' },
                      //size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
                      //past: { type: 'editgrid',
                              //records: [
