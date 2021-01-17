@@ -72,11 +72,12 @@
    {
        var props = JSON.parse(JSON.stringify(components[property].props));
        props.push('id');
+       props.push('model');
        Vue.component('mip-' + property, {
             data: components[property].data ?? function () {
                       return {
                           console: console,
-                          updateValue: function(x) { this['$emit']('input', x); console.log(x); },
+                          updateValue: function(x) { this['$emit']('input', x); },
                       }
                   },
             props: props,
@@ -95,7 +96,7 @@
                       console: console,
                   }
         },
-        props: ['data', 'value', 'id'],
+        props: ['data', 'value', 'id', 'model'],
         template: thingTemplate
     });
 
