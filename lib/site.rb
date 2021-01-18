@@ -20,8 +20,8 @@ post '/run' do
 
   data = SymbolizedHash.new JSON.parse(request.body.read)
 
-  event = JSON.parse(data[:setup][:event])
-  step = Mushy::Workflow.build_step( { type: 'Browser', config: data[:config] } )
+  event = JSON.parse data[:setup][:event]
+  step = Mushy::Workflow.build_step( { type: data[:setup][:step], config: data[:config] } )
 
   result = step.execute event
 
