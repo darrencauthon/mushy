@@ -75,13 +75,20 @@
        props.push('id');
        Vue.component('mip-' + property, {
             data: components[property].data ?? function () {
+                      var foundIt = this.$parent;
+                      var counter = 0;
+                      while (foundIt.$parent.constructor.name == "VueComponent" && counter < 10)
+                      {
+                        foundIt = foundIt.$parent;
+                        counter += 1;
+                      }
                       return {
                           console: console,
                           pull: function(x){
                                   var record = {};
-                                  for (var key in x.app._data.config)
-                                    if (x.app._data.config[key].value)
-                                      record[key] = x.app._data.config[key].value;
+                                  for (var key in foundIt.data)
+                                    if (foundIt.data[key].value)
+                                      record[key] = foundIt.data[key].value;
                                   return record;
                                 },
                       }
