@@ -6,7 +6,7 @@
     </head>
     <body>
         <div id="app">
-            <mip-heavy :config="config"></mip-heavy>
+            <mip-heavy :data="config"></mip-heavy>
         </div>
     </body>
 </html>
@@ -111,8 +111,8 @@
                       console: console,
                   }
         },
-        props: ['config'],
-        template: '<div><mip-thing v-for="(data, id) in config" :data="data" :id="id"></mip-thing></div>',
+        props: ['data'],
+        template: '<div><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
     });
 
     var sample = {
