@@ -7,7 +7,7 @@
     <body>
         <div id="app">
             <mip-heavy :data="setup"></mip-heavy>
-            <mip-heavy :data="config"></mip-heavy>
+            <mip-heavy v-for="(data, id) in configs" :data="data"></mip-thing>
         </div>
     </body>
 </html>
@@ -170,7 +170,7 @@
     var app = new Vue({
         el: '#app',
         data: {
-            config: browser,
+            configs: { Browser: browser, Bash: bash },
             setup: setup
         }
     });
