@@ -6,6 +6,7 @@
     </head>
     <body>
         <div id="app">
+            <mip-heavy :data="setup"></mip-heavy>
             <mip-heavy :data="config"></mip-heavy>
         </div>
     </body>
@@ -151,10 +152,15 @@
                       } },
                   };
 
+    var setup = {
+                   event: { type: 'textarea', value: '{}' },
+               };
+
     var app = new Vue({
         el: '#app',
         data: {
-            config: browser
+            config: browser,
+            setup: bash
         }
     });
 </script>
