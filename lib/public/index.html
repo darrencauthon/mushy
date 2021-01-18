@@ -2,6 +2,7 @@
     <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <div id="app">
@@ -135,6 +136,9 @@
                                           { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
                                           { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
                                         ] },
+                     go: { type: 'button', click: function(c) { 
+                         axios.post('/run', { config: c }).then(function(r){console.log(r)});
+                      } },
                   };
 
     var app = new Vue({
