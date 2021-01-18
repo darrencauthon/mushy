@@ -6,7 +6,7 @@
     </head>
     <body>
         <div id="app">
-            <mip-thing v-for="(data, id) in config" :data="data" :id="id"></mip-thing>
+            <mip-heavy :config="config"></mip-heavy>
         </div>
     </body>
 </html>
@@ -103,6 +103,16 @@
         },
         props: ['data', 'value', 'id', 'model'],
         template: thingTemplate
+    });
+
+   Vue.component('mip-heavy', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['config'],
+        template: '<div><mip-thing v-for="(data, id) in config" :data="data" :id="id"></mip-thing></div>',
     });
 
     var sample = {
