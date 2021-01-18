@@ -157,7 +157,8 @@
                                           { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
                                         ] },
                      go: { type: 'button', click: function(c) { 
-                         axios.post('/run', { config: c }).then(function(r){console.log(r)});
+                         axios.post('/run', { config: thingToData(app.config), setup: thingToData(app.setup) })
+                              .then(function(r){console.log(r)});
                       } },
                   };
 
