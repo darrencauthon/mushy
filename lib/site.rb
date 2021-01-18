@@ -3,9 +3,6 @@ require 'sinatra'
 require_relative 'mushy'
 
 get '/' do
-  #`pwd`
-  #File.read(File.join('public', 'index.html'))
-  #/home/pi/Desktop/mushy
   File.read(File.join(File.dirname(__FILE__), 'public', 'index.html'))
 end
 
