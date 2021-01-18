@@ -17,18 +17,20 @@ module Mushy
         .flatten
     end
 
+    def self.build_step record
+      step = Object.const_get("Mushy::#{record[:type] || record['type'] || 'Step'}").new
+      step.id = record[:id] || record['id'] || step.id
+      step.config = SymbolizedHash.new(record[:config] || record['config'])
+      step
+    end
+
     def self.parse data
       data = JSON.parse data
       workflow = new
 
       data_steps = data['steps'] || []
 
-      workflow.steps = data_steps.map do |record|
-        step = Object.const_get("Mushy::#{record['type'] || 'Step'}").new
-        step.id = record['id'] || step.id
-        step.config = SymbolizedHash.new(record['config'])
-        step
-      end
+      workflow.steps = data_steps.map { |s| build_step s }
 
       steps_with_parent_ids = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
       data_steps.map { |r| steps_with_parent_ids[r['id']] = r['parent_steps'] || [] }
