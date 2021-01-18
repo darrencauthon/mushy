@@ -125,10 +125,22 @@
                    command: { type: 'text', value: 'ls' },
                };
 
+    var browser = {
+                    url: { type: 'text', value: '{{url}}' },
+                    execute: { type: 'textarea', value: '' },
+                    headers: { type: 'editgrid',
+                               value: [
+                                      ],
+                               editors: [
+                                          { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
+                                          { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                                        ] },
+                  };
+
     var app = new Vue({
         el: '#app',
         data: {
-            fields: bash
+            fields: browser
         }
     });
 </script>
