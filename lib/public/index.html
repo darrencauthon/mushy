@@ -7,7 +7,7 @@
     <body>
         <div id="app">
             <mip-heavy :data="setup"></mip-heavy>
-            <mip-heavy v-for="(data, id) in configs" :data="data"></mip-thing>
+            <mip-heavy v-for="(data, id) in configs" v-show="setup.step.value === id" :data="data"></mip-thing>
         </div>
     </body>
 </html>
