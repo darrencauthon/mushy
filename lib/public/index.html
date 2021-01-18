@@ -6,7 +6,7 @@
     </head>
     <body>
         <div id="app">
-            <mip-thing v-for="(data, id) in model" :data="data" :id="id"></mip-thing>
+            <mip-thing v-for="(data, id) in config" :data="data" :id="id"></mip-thing>
         </div>
     </body>
 </html>
@@ -78,9 +78,9 @@
                           console: console,
                           pull: function(x){
                                   var record = {};
-                                  for (var key in x.app._data.model)
-                                    if (x.app._data.model[key].value)
-                                      record[key] = x.app._data.model[key].value;
+                                  for (var key in x.app._data.config)
+                                    if (x.app._data.config[key].value)
+                                      record[key] = x.app._data.config[key].value;
                                   return record;
                                 },
                       }
@@ -144,7 +144,7 @@
     var app = new Vue({
         el: '#app',
         data: {
-            model: browser
+            config: browser
         }
     });
 </script>
