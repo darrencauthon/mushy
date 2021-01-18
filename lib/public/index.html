@@ -15,6 +15,13 @@
 <script type="text/javascript">
 
    var fancyName = function(id) { return '(' + id + '.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))' };
+   var thingToData = function(thing) {
+                         var record = {};
+                         for (var key in thing)
+                             if (thing[key].value)
+                                 record[key] = thing[key].value;
+                         return record;
+                     };
 
    var components = {
        label: {
@@ -84,13 +91,7 @@
                       }
                       return {
                           console: console,
-                          pull: function(x){
-                                  var record = {};
-                                  for (var key in foundIt.data)
-                                    if (foundIt.data[key].value)
-                                      record[key] = foundIt.data[key].value;
-                                  return record;
-                                },
+                          pull: function(x) { return thingToData(foundIt.data); },
                       }
                   },
             props: props,
