@@ -5,7 +5,7 @@
     </head>
     <body>
         <div id="app">
-            <mip-thing v-for="(data, id) in fields" :data="data" :id="id" v-model="data.value"></mip-thing>
+            <mip-thing v-for="(data, id) in fields" :data="data" :id="id"></mip-thing>
         </div>
     </body>
 </html>
@@ -21,41 +21,49 @@
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
        email: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
        textarea: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
        radio: {
            props: ['label', 'value', 'options'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
        },
        select: {
            props: ['label', 'value', 'options'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id"><option v-for="option in options" v-bind:value="option" v-on:input="$emit(\'input\', $event.target.value)" :selected="value == option">{{option}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
        table: {
-           props: ['records'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in records"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
+           props: ['value'],
+           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        editgrid: {
            data: function() {
                return {
                    removeRecord: function(record, records, index) { records.splice(index, 1); },
-                   addRecord: function(editors) { console.log(editors) },
+                   addRecord: function(editors, records) {
+                                                    var record = {};
+                                                    for (var i = 0; i < editors.length; i++)
+                                                    {
+                                                        record[editors[i].target] = editors[i].field.value;
+                                                        editors[i].field.value = editors[i].field.default ? editors[i].field.default : '';
+                                                    }
+                                                    records.push(record);
+                                                }
                };
            },
-           props: ['records', 'editors'],
-           template: '<table><tr><th v-for="(d, i) in records[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in records"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, records, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors)">[Add]</a></td></tr></table>'
+           props: ['value', 'editors'],
+           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
        },
        button: {
            props: ['click'],
-           template: '<button :id="id" v-on:click="click">{{id}}</button>'
+           template: '<button :id="id" v-on:click="click(pull(this))">{{id}}</button>'
        }
    };
 
@@ -67,6 +75,13 @@
             data: components[property].data ?? function () {
                       return {
                           console: console,
+                          pull: function(x){
+                                  var record = {};
+                                  for (var key in x.app._data.fields)
+                                    if (x.app._data.fields[key].value)
+                                      record[key] = x.app._data.fields[key].value;
+                                  return record;
+                                },
                       }
                   },
             props: props,
@@ -76,7 +91,7 @@
 
    var thingTemplate = '<div>';
    for (var property in components)
-       thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \'' + property + '\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
+       thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \'' + property + '\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
 
    Vue.component('mip-thing', {
@@ -85,30 +100,47 @@
                       console: console,
                   }
         },
-        props: ['data', 'value', 'id'],
+        props: ['data', 'value', 'id', 'model'],
         template: thingTemplate
     });
+
+    var sample = {
+                     email: { type: 'email', value: 'darren@cauthon.com' },
+                     first_name: { type: 'text', value: 'Darren' },
+                     description: { type: 'textarea', value: 'more data' },
+                     size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
+                     past: { type: 'editgrid',
+                             value: [
+                                 { name: 'Godzilla', quantity: 1 },
+                                 { name: 'Mothra', quantity: 2 },
+                             ],
+                             editors: [
+                                         { id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
+                                         { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
+                                      ] },
+                     super_action: { type: 'button', click: function(x) { console.log(x) } },
+                 };
+
+    var bash = {
+                   command: { type: 'text', value: 'ls' },
+               };
+
+    var browser = {
+                    url: { type: 'text', value: '{{url}}' },
+                    execute: { type: 'textarea', value: '' },
+                    headers: { type: 'editgrid',
+                               value: [
+                                      ],
+                               editors: [
+                                          { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
+                                          { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                                        ] },
+                  };
 
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'test',
-            fields: {
-                email: { type: 'email', value: 'darren@cauthon.com' },
-                first_name: { type: 'text', value: 'Darren' },
-                description: { type: 'textarea', value: 'more data' },
-                size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
-                past: { type: 'editgrid',
-                        records: [
-                            { name: 'Godzilla', quantity: 1 },
-                            { name: 'Mothra', quantity: 2 },
-                        ],
-                        editors: [
-                                    { id: 'new_name', field: { type: 'text', value: 'goforit' } },
-                                    { id: 'new_quantity', field: { type: 'select', value: '2', options: [1, 2, 3] } }
-                                 ] },
-                super_action: { type: 'button', click: function() { console.log('ok') } },
-            }
+            fields: browser
         }
     });
 </script>
