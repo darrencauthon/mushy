@@ -11,7 +11,7 @@ module Mushy
                    type:        'text',
                  },
         directory: {
-                     description: 'The directory in which the command will be run.',
+                     description: 'The working directory in which the command will be run.',
                      type:        'text',
                    },
       }
