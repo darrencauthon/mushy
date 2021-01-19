@@ -10,11 +10,17 @@ module Mushy
                    description: 'The command to run in bash.',
                    type:        'text',
                  },
+        directory: {
+                     description: 'The directory in which the command will be run.',
+                     type:        'text',
+                   },
       }
     end
 
     def process event, config
       command = config[:command]
+
+      command = "cd #{config[:directory]};#{command}" if config[:directory]
 
       text = `#{command}`
 
