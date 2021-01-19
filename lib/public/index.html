@@ -40,6 +40,10 @@
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
            template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
+       json: {
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+       },
        radio: {
            props: ['label', 'value', 'options'],
            template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
@@ -153,13 +157,8 @@
     var browser = {
                     url: { type: 'text', value: '{{url}}' },
                     execute: { type: 'textarea', value: '' },
-                    headers: { type: 'editgrid',
-                               value: [
-                                      ],
-                               editors: [
-                                          { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
-                                          { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
-                                        ] },
+                    headers: { type: 'json' },
+                    cookies: { type: 'json' },
                   };
 
     var setup = {
@@ -168,6 +167,15 @@
                };
 
     var configs = { Browser: browser, Bash: bash, Ls: ls };
+
+    axios.get('/steps')
+         .then(function(data){
+             console.log(data.data.steps);
+             var things = data.data.steps.map(function(x){
+                 return x.config;
+             });
+             console.log(things)
+    });
 
     for (var key in configs)
         configs[key].go = { type: 'button', click: function(c) {

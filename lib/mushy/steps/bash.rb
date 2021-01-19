@@ -6,14 +6,18 @@ module Mushy
       {
         name: 'Bash',
         description: 'Run a bash command.',
-        command: {
-                   description: 'The command to run in bash.',
-                   type:        'text',
-                 },
-        directory: {
-                     description: 'The working directory in which the command will be run.',
+        config: {
+          command: {
+                     description: 'The command to run in bash.',
                      type:        'text',
+                     value:       '{{command}}',
                    },
+          directory: {
+                       description: 'The working directory in which the command will be run.',
+                       type:        'text',
+                       value:       '',
+                     },
+        },
       }
     end
 
@@ -38,12 +42,15 @@ module Mushy
 
     def details
       {
-        name: 'LS',
+        name: 'Ls',
         description: 'Run the "ls" command.',
-        directory: {
-                     description: 'The working directory in which the command will be run.',
-                     type:        'text',
-                   },
+        config: {
+          directory: {
+                       description: 'The working directory in which the command will be run.',
+                       type:        'text',
+                       value:       '',
+                     },
+        },
       }
     end
 

@@ -8,18 +8,23 @@ module Mushy
       {
         name: 'Browser',
         description: 'Visit a page in a browser.',
-        url: {
-               description: 'The URL to visit.',
-               type:        'text',
-             },
-        cookies: {
-                   description: 'Cookies.',
-                   type:        'textarea',
-                 },
-        headers: {
-                   description: 'Headers.',
-                   type:        'textarea',
-                 },
+        config: {
+          url: {
+                 description: 'The URL to visit.',
+                 type:        'text',
+                 value:       'https://www.google.com',
+               },
+          cookies: {
+                     description: 'Cookies.',
+                     type:        'json',
+                     value:       '{}',
+                   },
+          headers: {
+                     description: 'Headers.',
+                     type:        'json',
+                     value:       '{}',
+                   },
+        },
       }
     end
 
