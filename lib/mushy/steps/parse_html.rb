@@ -4,6 +4,25 @@ module Mushy
   
   class ParseHtml < Step
 
+    def self.details
+      {
+        name: 'ParseHtml',
+        description: 'Parses HTML.',
+        config: {
+          path: {
+                  description: 'The path to the HTML in the incoming event.',
+                  type:        'text',
+                  value:       'body',
+                },
+          extract: {
+                     description: 'The form of the event that is meant to be pulled from this event.',
+                     type: 'json',
+                     value: '{ "url": "a|@href" }',
+                   }
+        },
+      }
+    end
+
     def process event, config
 
       doc = Nokogiri::HTML event[config[:path]]
