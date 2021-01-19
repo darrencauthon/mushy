@@ -64,7 +64,7 @@ module Mushy
 
       result[:text].split("\n").map do |x|
         {
-          result: x,
+          name: x,
         }
       end
     end
