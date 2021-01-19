@@ -11,6 +11,8 @@ get '/steps' do
   {
     steps: [
              Mushy::Bash.new,
+             Mushy::Ls.new,
+             Mushy::Browser.new,
            ].map { |x| x.details }
   }.to_json
 end

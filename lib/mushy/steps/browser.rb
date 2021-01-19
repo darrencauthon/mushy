@@ -4,6 +4,25 @@ module Mushy
 
   class Browser < Step
 
+    def details
+      {
+        name: 'Browser',
+        description: 'Visit a page in a browser.',
+        url: {
+               description: 'The URL to visit.',
+               type:        'text',
+             },
+        cookies: {
+                   description: 'Cookies.',
+                   type:        'textarea',
+                 },
+        headers: {
+                   description: 'Headers.',
+                   type:        'textarea',
+                 },
+      }
+    end
+
     def config_details
       {
         cookies: {
