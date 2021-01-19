@@ -145,24 +145,6 @@
                      super_action: { type: 'button', click: function(x) { console.log(x) } },
                  };
 
-    var bash = {
-                 command: { type: 'text', value: 'ls' },
-                 directory: { type: 'text', value: '' },
-               };
-
-    var ls = {
-               directory: { type: 'text', value: '' },
-             };
-
-    var browser = {
-                    url: { type: 'text', value: '{{url}}' },
-                    execute: { type: 'textarea', value: '' },
-                    headers: { type: 'json' },
-                    cookies: { type: 'json' },
-                  };
-
-    var configs = { Browser: browser, Bash: bash, Ls: ls };
-
     axios.get('/steps')
          .then(function(data){
 
@@ -172,7 +154,7 @@
              });
 
              var setup = {
-                   step: { type: 'select', value: 'Browser', options: data.data.steps.map(function(x){ return x.name })},
+                   step: { type: 'select', value: data.data.steps[0].name, options: data.data.steps.map(function(x){ return x.name })},
                    event: { type: 'textarea', value: '{}' },
              };
 
