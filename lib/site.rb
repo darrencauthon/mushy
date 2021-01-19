@@ -34,5 +34,7 @@ post '/run' do
 
   result = step.execute event
 
+  result = [result].flatten
+
   { result: result }.to_json
 end
