@@ -161,33 +161,33 @@
                     cookies: { type: 'json' },
                   };
 
-    var setup = {
-                   step: { type: 'select', value: 'Browser', options: ['Bash', 'Browser', 'Ls']},
-                   event: { type: 'textarea', value: '{}' },
-               };
-
     var configs = { Browser: browser, Bash: bash, Ls: ls };
 
     axios.get('/steps')
          .then(function(data){
-             console.log(data.data.steps);
-             var things = data.data.steps.map(function(x){
-                 return x.config;
+
+             var configs = {};
+             data.data.steps.map(function(x){
+                 configs[x.name] = x.config;
              });
-             console.log(things)
-    });
 
-    for (var key in configs)
-        configs[key].go = { type: 'button', click: function(c) {
-                             axios.post('/run', { config: c, setup: thingToData(app.setup) })
-                              .then(function(r){console.log(r)});
-                            } };
+             var setup = {
+                   step: { type: 'select', value: 'Browser', options: data.data.steps.map(function(x){ return x.name })},
+                   event: { type: 'textarea', value: '{}' },
+             };
 
-    var app = new Vue({
-        el: '#app',
-        data: {
-            configs: configs,
-            setup: setup
-        }
+             for (var key in configs)
+                 configs[key].go = { type: 'button', click: function(c) {
+                                      axios.post('/run', { config: c, setup: thingToData(app.setup) })
+                                       .then(function(r){console.log(r)});
+                                     } };
+
+             var app = new Vue({
+                 el: '#app',
+                 data: {
+                     configs: configs,
+                     setup: setup
+                 }
+            });
     });
 </script>
