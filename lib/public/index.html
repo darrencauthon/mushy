@@ -154,8 +154,8 @@
              });
 
              var setup = {
+                   event: { type: 'json', value: '{}' },
                    step: { type: 'select', value: data.data.steps[0].name, options: data.data.steps.map(function(x){ return x.name })},
-                   event: { type: 'textarea', value: '{}' },
              };
 
              for (var key in configs)
