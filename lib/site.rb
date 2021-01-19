@@ -13,7 +13,11 @@ get '/steps' do
              Mushy::Bash.new,
              Mushy::Ls.new,
              Mushy::Browser.new,
-           ].map { |x| x.details }
+           ].map do |step|
+                   details = step.details
+                   details[:config][:limit] = { type: 'integer' }
+                   details
+                 end
   }.to_json
 end
 

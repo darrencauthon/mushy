@@ -32,6 +32,10 @@
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
            template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
+       integer:  {
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
+           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+       },
        email: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
            template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
