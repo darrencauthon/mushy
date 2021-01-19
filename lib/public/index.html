@@ -25,39 +25,39 @@
 
    var components = {
        label: {
-           props: ['label'],
-           template: '<label :for="id" v-if="label != \'\'">{{label || ' + fancyName('id') + '}}</label>'
+           props: ['label', 'description'],
+           template: '<label :for="id" v-if="label != \'\'">{{label || ' + fancyName('id') + '}} <i v-show="description">({{description}})</i></label>'
        },
        text:  {
-           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
        integer:  {
-           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
        email: {
-           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
        },
        textarea: {
-           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
        json: {
-           props: ['label', 'placeholder', 'disabled', 'readonly', 'value'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><textarea type="email" :name="id" :id="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
        radio: {
-           props: ['label', 'value', 'options'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
+           props: ['label', 'value', 'options', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><div v-for="option in options"><input type="radio" :id="option" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
        },
        select: {
-           props: ['label', 'value', 'options'],
-           template: '<div><mip-label :id="id" :label="label"></mip-label><select :name="id" :id="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
+           props: ['label', 'value', 'options', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" :id="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
        table: {
-           props: ['value'],
+           props: ['value', 'description'],
            template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
        },
        editgrid: {
@@ -75,11 +75,11 @@
                                                 }
                };
            },
-           props: ['value', 'editors'],
+           props: ['value', 'editors', 'description'],
            template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
        },
        button: {
-           props: ['click'],
+           props: ['click', 'description'],
            template: '<button :id="id" v-on:click="click(pull(this))">{{id}}</button>'
        }
    };
