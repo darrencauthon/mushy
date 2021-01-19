@@ -58,8 +58,6 @@ module Mushy
       result[:text].split("\n").map do |x|
         {
           result: x,
-          success: result[:success],
-          exit_code: result[:result],
         }
       end
     end
