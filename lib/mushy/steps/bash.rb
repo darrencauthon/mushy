@@ -2,7 +2,7 @@ module Mushy
   
   class Bash < Step
 
-    def details
+    def self.details
       {
         name: 'Bash',
         description: 'Run a bash command.',
@@ -40,7 +40,7 @@ module Mushy
 
   class Ls < Bash
 
-    def details
+    def self.details
       {
         name: 'Ls',
         description: 'Run the "ls" command.',

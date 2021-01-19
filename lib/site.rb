@@ -9,11 +9,7 @@ end
 get '/steps' do
   content_type :json
   {
-    steps: [
-             Mushy::Bash.new,
-             Mushy::Ls.new,
-             Mushy::Browser.new,
-           ].map do |step|
+    steps: Mushy::Step.all.select { |x| x.respond_to? :details }.map do |step|
                    details = step.details
                    details[:config][:limit] = { type: 'integer' }
                    details

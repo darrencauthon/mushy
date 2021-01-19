@@ -4,7 +4,7 @@ module Mushy
 
   class Browser < Step
 
-    def details
+    def self.details
       {
         name: 'Browser',
         description: 'Visit a page in a browser.',
