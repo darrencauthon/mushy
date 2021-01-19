@@ -26,14 +26,14 @@ module Mushy
                      value:       '',
                    },
           cookies: {
-                     description: 'Cookies.',
+                     description: 'Cookies for the web request. These can be received from a previous browser event with {{cookies}}, or can be typed manually.',
                      type:        'json',
-                     value:       '{}',
+                     value:       '{{cookies}}',
                    },
           headers: {
-                     description: 'Headers.',
+                     description: 'Headers for the web request. These can be received from a previous browser event with {{headers}}, or can be typed manually.',
                      type:        'json',
-                     value:       '{}',
+                     value:       '{{headers}}',
                    },
         },
       }
