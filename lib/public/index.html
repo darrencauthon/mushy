@@ -156,10 +156,6 @@
                                           { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
                                           { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
                                         ] },
-                     go: { type: 'button', click: function(c) { 
-                         axios.post('/run', { config: thingToData(app.config), setup: thingToData(app.setup) })
-                              .then(function(r){console.log(r)});
-                      } },
                   };
 
     var setup = {
@@ -167,10 +163,20 @@
                    event: { type: 'textarea', value: '{}' },
                };
 
+
+
+    var configs = { Browser: browser, Bash: bash };
+
+    for (var key in configs)
+        configs[key].go = { type: 'button', click: function(c) {
+                             axios.post('/run', { config: c, setup: thingToData(app.setup) })
+                              .then(function(r){console.log(r)});
+                            } };
+
     var app = new Vue({
         el: '#app',
         data: {
-            configs: { Browser: browser, Bash: bash },
+            configs: configs,
             setup: setup
         }
     });
