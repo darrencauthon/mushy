@@ -14,6 +14,12 @@ module Mushy
                  type:        'text',
                  value:       'https://www.google.com',
                },
+          headless: {
+                      description: 'Run this browser headless.',
+                      type:        'select',
+                      value:       'true',
+                      options:     ['true', 'false'],
+                    },
           cookies: {
                      description: 'Cookies.',
                      type:        'json',
@@ -44,7 +50,7 @@ module Mushy
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
 
-      browser = Ferrum::Browser.new(headless: false)
+      browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
 
       config[:cookies].each { |c| browser.cookies.set(c) }
 
