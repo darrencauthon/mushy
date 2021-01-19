@@ -170,9 +170,8 @@
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
                                        .then(function(r){
                                            app.results = [];
-                                           console.log(r.data.result);
                                            for (var key in r.data.result)
-                                              app.results.push({darren: {type:'json', value: JSON.stringify(r.data.result[key]) }});
+                                               app.results.push({darren: { type:'json', value: JSON.stringify(r.data.result[key]) }});
                                         });
                                      } };
 
