@@ -142,9 +142,13 @@
                  };
 
     var bash = {
-                   command: { type: 'text', value: 'ls' },
-                   directory: { type: 'text', value: '' },
+                 command: { type: 'text', value: 'ls' },
+                 directory: { type: 'text', value: '' },
                };
+
+    var ls = {
+               directory: { type: 'text', value: '' },
+             };
 
     var browser = {
                     url: { type: 'text', value: '{{url}}' },
@@ -159,13 +163,11 @@
                   };
 
     var setup = {
-                   step: { type: 'select', value: 'Browser', options: ['Bash', 'Browser']},
+                   step: { type: 'select', value: 'Browser', options: ['Bash', 'Browser', 'Ls']},
                    event: { type: 'textarea', value: '{}' },
                };
 
-
-
-    var configs = { Browser: browser, Bash: bash };
+    var configs = { Browser: browser, Bash: bash, Ls: ls };
 
     for (var key in configs)
         configs[key].go = { type: 'button', click: function(c) {

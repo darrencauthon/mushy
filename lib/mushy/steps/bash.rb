@@ -26,10 +26,42 @@ module Mushy
 
       result = $?
       {
-        'text' => text,
-        'success' => result.success?,
-        'exit_code' => result.to_i,
+        text: text,
+        success: result.success?,
+        exit_code: result.to_i,
       }
+    end
+
+  end
+
+  class Ls < Bash
+
+    def details
+      {
+        name: 'LS',
+        description: 'Run the "ls" command.',
+        directory: {
+                     description: 'The working directory in which the command will be run.',
+                     type:        'text',
+                   },
+      }
+    end
+
+    def process event, config
+
+      config[:command] = 'ls'
+
+      result = super event, config
+
+      return result unless result[:success]
+
+      result[:text].split("\n").map do |x|
+        {
+          result: x,
+          success: result[:success],
+          exit_code: result[:result],
+        }
+      end
     end
 
   end
