@@ -22,7 +22,7 @@ post '/run' do
 
   data = SymbolizedHash.new JSON.parse(request.body.read)
 
-  event = SymbolizedHash.new JSON.parse(data[:setup][:event])
+  event = SymbolizedHash.new JSON.parse(data[:setup][:event].to_json)
 
   config = SymbolizedHash.new data[:config]
 

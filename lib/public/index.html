@@ -20,7 +20,10 @@
                          var record = {};
                          for (var key in thing)
                              if (thing[key].value)
-                                 record[key] = thing[key].value;
+                                 if (thing[key].type == 'json')
+                                     record[key] = JSON.parse(thing[key].value);
+                                 else
+                                     record[key] = thing[key].value;
                          return record;
                      };
 
