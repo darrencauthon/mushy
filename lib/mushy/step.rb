@@ -12,6 +12,19 @@ module Mushy
       guard
     end
 
+    class << self
+      attr_accessor :all
+
+      def inherited subclass
+        if (self != Mushy::Step)
+          Mushy::Step.inherited subclass
+        else
+          self.all ||= []
+          self.all << subclass
+        end
+      end
+    end
+
     def guard
       self.id ||= SecureRandom.uuid
       self.parent_steps ||= []
