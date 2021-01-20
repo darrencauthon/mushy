@@ -12,6 +12,7 @@ get '/steps' do
     steps: Mushy::Step.all.select { |x| x.respond_to? :details }.map do |step|
                    details = step.details
                    details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.' }
+                   details[:config][:join] = { type: 'text', description: 'Join all of the events from this step into one event, under this name.' }
                    details
                  end
   }.to_json
