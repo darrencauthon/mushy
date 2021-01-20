@@ -11,7 +11,7 @@ get '/steps' do
   {
     steps: Mushy::Step.all.select { |x| x.respond_to? :details }.map do |step|
                    details = step.details
-                   details[:config][:limit] = { type: 'integer' }
+                   details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.' }
                    details
                  end
   }.to_json
