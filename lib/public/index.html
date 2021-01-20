@@ -6,7 +6,6 @@
     </head>
     <body>
         <div id="app">
-            <mip-heavy :data="sample"></mip-heavy>
             <mip-heavy :data="setup"></mip-heavy>
             <mip-heavy v-for="(data, id) in configs" v-show="setup.step.value === id" :data="data"></mip-heavy>
             <mip-heavy v-for="data in results" :data="data"></mip-heavy>
@@ -205,7 +204,6 @@
              app = new Vue({
                  el: '#app',
                  data: {
-                     sample: sample,
                      configs: configs,
                      setup: setup,
                      results: [],
