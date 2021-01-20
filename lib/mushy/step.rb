@@ -86,7 +86,7 @@ module Mushy
       results
         .each_with_index
         .select { |x, i| i < by.to_i }
-        .map { |x| x }
+        .map { |x, _| x }
     end
 
     def group_these_results results, event, by
