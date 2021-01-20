@@ -82,6 +82,20 @@
            props: ['value', 'editors', 'description'],
            template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
        },
+       keyvalue: {
+           data: function() {
+               return {
+                   removeRecord: function(data, key) { Vue.delete(data, key) },
+                   addRecord: function(editors, data) {
+                                                   Vue.set(data, editors[0].field.value, editors[1].field.value)
+                                                   editors[0].field.value = editors[0].field.default;
+                                                   editors[1].field.value = editors[1].field.default;
+                                                }
+               };
+           },
+           props: ['value', 'editors', 'description'],
+           template: '<table><tr><th>Key</th><th>Value</th></tr><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><a href="#" v-on:click="removeRecord(value, k)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
+       },
        button: {
            props: ['click', 'description'],
            template: '<button :id="id" v-on:click="click(pull(this))">{{id}}</button>'
@@ -141,6 +155,15 @@
                      first_name: { type: 'text', value: 'Darren' },
                      description: { type: 'textarea', value: 'more data' },
                      size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
+                     heynow: { type: 'keyvalue',
+                             value: {
+                                 first_name: 'John',
+                                 last_name: 'Doe',
+                             },
+                             editors: [
+                                         { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
+                                         { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                                      ] },
                      past: { type: 'editgrid',
                              value: [
                                  { name: 'Godzilla', quantity: 1 },
