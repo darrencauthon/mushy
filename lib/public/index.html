@@ -94,8 +94,8 @@
                                                 }
                };
            },
-           props: ['value', 'editors', 'description'],
-           template: '<table><tr><th>Key</th><th>Value</th></tr><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><a href="#" v-on:click="removeRecord(value, k)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
+           props: ['value', 'label', 'editors', 'description'],
+            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><table><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><a href="#" v-on:click="removeRecord(value, k)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table></div>'
        },
        button: {
            props: ['click', 'description'],
