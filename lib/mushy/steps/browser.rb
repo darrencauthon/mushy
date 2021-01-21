@@ -44,11 +44,14 @@ module Mushy
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
 
+      cookies = config[:cookies]
+      headers = config[:headers]
+
       browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
 
-      config[:cookies].each { |c| browser.cookies.set(c) }
+      cookies.each { |c| browser.cookies.set(c) }
 
-      browser.headers.add config[:headers]
+      browser.headers.add headers
 
       browser.goto config[:url]
 
