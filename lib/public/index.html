@@ -198,9 +198,9 @@
 
              for (var key in configs)
                  configs[key].go = { type: 'button', click: function(c) {
+                                      app.results = [];
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
                                        .then(function(r){
-                                           app.results = [];
                                            for (var key in r.data.result)
                                                app.results.push({darren: { type:'json', value: JSON.stringify(r.data.result[key]) }});
                                         });
