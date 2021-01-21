@@ -27,8 +27,26 @@ module Mushy
                    },
           cookies: {
                      description: 'Cookies for the web request. These can be received from a previous browser event with {{cookies}}, or can be typed manually.',
-                     type:        'textarea',
-                     value:       '{{cookies}}',
+                     type:        'editgrid',
+                     value:       [],
+                     editors: [
+                                 { id: 'name', target: 'name', field: { type: 'text', value: '', default: '' } },
+                                 { id: 'value', target: 'value', field: { type: 'text', value: '', default: '' } },
+                                 { id: 'domain', target: 'domain', field: { type: 'text', value: '', default: '' } },
+                                 { id: 'path', target: 'path', field: { type: 'text', value: '', default: '' } },
+                                 { id: 'expires', target: 'expires', field: { type: 'text', value: '', default: '' } },
+                                 { id: 'size', target: 'size', field: { type: 'integer', value: 0, default: 0 } },
+                                 { id: 'httpOnly', target: 'httpOnly', field: { type: 'text', value: 'false', default: 'false' } },
+                                 { id: 'secure', target: 'secure', field: { type: 'text', value: 'true', default: 'true' } },
+                                 { id: 'sameSite', target: 'sameSite', field: { type: 'text', value: 'None', default: 'None' } },
+                                 { id: 'priority', target: 'priority', field: { type: 'text', value: 'Medium', default: 'Medium' } },
+                              ],
+                     #{"name":"1P_JAR","value":"2021-01-21-13","domain":".google.com","path":"/","expires":1613828458.870408,"size":19,"httpOnly":false,"secure":true,"session":false,"sameSite":"None","priority":"Medium"
+                   },
+          carry_cookies_from: {
+                     description: 'Carry the cookies from this path in the event.',
+                     type:        'text',
+                     value:       'cookies',
                    },
           headers: {
                      description: 'Headers for the web request. These can be received from a previous browser event with {{headers}}, or can be typed manually.',
@@ -40,7 +58,7 @@ module Mushy
                               ],
                    },
           carry_headers_from: {
-                     description: 'Carry the headers at this path from the event.',
+                     description: 'Carry the headers from this path in the event.',
                      type:        'text',
                      value:       'headers',
                    },
@@ -51,12 +69,16 @@ module Mushy
     def process event, config
 
       headers = (event[config[:carry_headers_from].to_sym])
+      cookies = (event[config[:carry_cookies_from].to_sym])
 
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
+      cookies = [] unless cookies.is_a?(Array)
+
       config[:headers] = {} unless config[:headers].is_a?(Hash)
       headers = {} unless headers.is_a?(Hash)
 
       config[:headers].each { |k, v| headers[k] = v }
+      config[:cookies].each { |x| cookies << x }
 
       browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
 
