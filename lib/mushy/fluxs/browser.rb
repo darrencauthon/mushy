@@ -2,7 +2,7 @@ require 'ferrum'
 
 module Mushy
 
-  class Browser < Step
+  class Browser < Flux
 
     def self.details
       {

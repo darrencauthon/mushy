@@ -2,7 +2,7 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::Bash do
 
-  let(:step) { Mushy::Bash.new }
+  let(:flux) { Mushy::Bash.new }
 
   let(:event) { {} }
 
@@ -11,7 +11,7 @@ describe Mushy::Bash do
   it "should return the event it was given" do
     config[:command] = 'ls'
 
-    result = step.process event, config
+    result = flux.process event, config
 
     puts result.inspect
   end

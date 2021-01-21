@@ -1,9 +1,9 @@
 module Mushy
 
-  class Step
+  class Flux
 
     attr_accessor :id
-    attr_accessor :parent_steps
+    attr_accessor :parent_fluxs
     attr_accessor :subscribed_to
     attr_accessor :config
     attr_accessor :masher
@@ -16,8 +16,8 @@ module Mushy
       attr_accessor :all
 
       def inherited subclass
-        if (self != Mushy::Step)
-          Mushy::Step.inherited subclass
+        if (self != Mushy::Flux)
+          Mushy::Flux.inherited subclass
         else
           self.all ||= []
           self.all << subclass
@@ -27,7 +27,7 @@ module Mushy
 
     def guard
       self.id ||= SecureRandom.uuid
-      self.parent_steps ||= []
+      self.parent_fluxs ||= []
       self.subscribed_to ||= []
       self.masher ||= Masher.new
       self.config ||= SymbolizedHash.new

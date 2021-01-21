@@ -4,39 +4,39 @@ module Mushy
 
   class Workflow
     attr_accessor :id
-    attr_accessor :steps
+    attr_accessor :fluxs
 
     def initialize
       self.id = SecureRandom.uuid
-      self.steps = []
+      self.fluxs = []
     end
 
-    def steps_for event
-      steps
-        .select { |x| x.parent_steps.any? { |y| y.id == event.step_id } }
+    def fluxs_for event
+      fluxs
+        .select { |x| x.parent_fluxs.any? { |y| y.id == event.flux_id } }
         .flatten
     end
 
-    def self.build_step record
-      step = Object.const_get("Mushy::#{record[:type] || record['type'] || 'Step'}").new
-      step.id = record[:id] || record['id'] || step.id
-      step.config = SymbolizedHash.new(record[:config] || record['config'])
-      step
+    def self.build_flux record
+      flux = Object.const_get("Mushy::#{record[:type] || record['type'] || 'Flux'}").new
+      flux.id = record[:id] || record['id'] || flux.id
+      flux.config = SymbolizedHash.new(record[:config] || record['config'])
+      flux
     end
 
     def self.parse data
       data = JSON.parse data
       workflow = new
 
-      data_steps = data['steps'] || []
+      data_fluxs = data['fluxs'] || []
 
-      workflow.steps = data_steps.map { |s| build_step s }
+      workflow.fluxs = data_fluxs.map { |s| build_flux s }
 
-      steps_with_parent_ids = workflow.steps.reduce({}) { |t, i| t[i.id] = []; t }
-      data_steps.map { |r| steps_with_parent_ids[r['id']] = r['parent_steps'] || [] }
+      fluxs_with_parent_ids = workflow.fluxs.reduce({}) { |t, i| t[i.id] = []; t }
+      data_fluxs.map { |r| fluxs_with_parent_ids[r['id']] = r['parent_fluxs'] || [] }
 
-      workflow.steps.each do |step|
-        step.parent_steps = workflow.steps.select { |x| steps_with_parent_ids[step.id].include?(x.id) }
+      workflow.fluxs.each do |flux|
+        flux.parent_fluxs = workflow.fluxs.select { |x| fluxs_with_parent_ids[flux.id].include?(x.id) }
       end
 
       workflow

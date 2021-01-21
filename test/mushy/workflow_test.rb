@@ -16,9 +16,9 @@ DOC
         .is_a?(Mushy::Workflow).must_equal true
     end
 
-    it "should have no steps" do
+    it "should have no fluxs" do
       Mushy::Workflow.parse(data)
-        .steps.count.must_equal 0
+        .fluxs.count.must_equal 0
     end
 
     it "should have an id" do
@@ -27,46 +27,46 @@ DOC
       (id == '').must_equal false
     end
 
-    describe "steps" do
+    describe "fluxs" do
 
       let(:data) do
         <<DOC
 {
-    "steps": [
+    "fluxs": [
         { "id": "abcd", "config": { "a": "b"} },
-        { "id": "efgh", "config": { "c": "d" }, "parent_steps": ["abcd"], "type": "Get" }
+        { "id": "efgh", "config": { "c": "d" }, "parent_fluxs": ["abcd"], "type": "Get" }
     ]
 }
 DOC
       end
 
-      describe "the types of steps" do
-        it "should default the type to Step" do
-          Mushy::Workflow.parse(data).steps[0].class.must_equal Mushy::Step
+      describe "the types of fluxs" do
+        it "should default the type to Flux" do
+          Mushy::Workflow.parse(data).fluxs[0].class.must_equal Mushy::Flux
         end
 
         it "should allow the type to be overwritten" do
-          Mushy::Workflow.parse(data).steps[1].class.must_equal Mushy::Get
+          Mushy::Workflow.parse(data).fluxs[1].class.must_equal Mushy::Get
         end
       end
 
-      describe "parent steps" do
+      describe "parent fluxs" do
 
-        it "should load the parent steps" do
-          steps = Mushy::Workflow.parse(data).steps
-          steps[0].parent_steps.count.must_equal 0
-          steps[1].parent_steps.count.must_equal 1
-          steps[1].parent_steps[0].must_be_same_as steps[0]
+        it "should load the parent fluxs" do
+          fluxs = Mushy::Workflow.parse(data).fluxs
+          fluxs[0].parent_fluxs.count.must_equal 0
+          fluxs[1].parent_fluxs.count.must_equal 1
+          fluxs[1].parent_fluxs[0].must_be_same_as fluxs[0]
         end
 
       end
 
-      describe "missing step data" do
+      describe "missing flux data" do
 
         let(:data) do
         <<DOC
 {
-    "steps": [
+    "fluxs": [
         {}
     ]
 }
@@ -74,45 +74,45 @@ DOC
         end
 
         it "should set a temp id" do
-          steps = Mushy::Workflow.parse(data).steps
-          (steps[0].id.nil?).must_equal false
-          (steps[0].id == '').must_equal false
+          fluxs = Mushy::Workflow.parse(data).fluxs
+          (fluxs[0].id.nil?).must_equal false
+          (fluxs[0].id == '').must_equal false
         end
 
         it "should set default config" do
-          steps = Mushy::Workflow.parse(data).steps
-          (steps[0].config.nil?).must_equal false
+          fluxs = Mushy::Workflow.parse(data).fluxs
+          (fluxs[0].config.nil?).must_equal false
         end
 
         it "should set default parents" do
-          steps = Mushy::Workflow.parse(data).steps
-          steps[0].parent_steps.count.must_equal 0
+          fluxs = Mushy::Workflow.parse(data).fluxs
+          fluxs[0].parent_fluxs.count.must_equal 0
         end
       end
 
-      it "should have two steps" do
-        steps = Mushy::Workflow.parse(data).steps
-        steps.count.must_equal 2
+      it "should have two fluxs" do
+        fluxs = Mushy::Workflow.parse(data).fluxs
+        fluxs.count.must_equal 2
       end
 
       it "should load the id" do
-        steps = Mushy::Workflow.parse(data).steps
-        steps[0].id.must_equal 'abcd'
-        steps[1].id.must_equal 'efgh'
+        fluxs = Mushy::Workflow.parse(data).fluxs
+        fluxs[0].id.must_equal 'abcd'
+        fluxs[1].id.must_equal 'efgh'
       end
 
       describe "config" do
 
         it "should load the config" do
-          steps = Mushy::Workflow.parse(data).steps
-          steps[0].config['a'].must_equal 'b'
-          steps[1].config['c'].must_equal 'd'
+          fluxs = Mushy::Workflow.parse(data).fluxs
+          fluxs[0].config['a'].must_equal 'b'
+          fluxs[1].config['c'].must_equal 'd'
         end
 
         it "should load the config with symbols" do
-          steps = Mushy::Workflow.parse(data).steps
-          steps[0].config[:a].must_equal 'b'
-          steps[1].config[:c].must_equal 'd'
+          fluxs = Mushy::Workflow.parse(data).fluxs
+          fluxs[0].config[:a].must_equal 'b'
+          fluxs[1].config[:c].must_equal 'd'
         end
 
       end

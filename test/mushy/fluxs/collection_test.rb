@@ -2,18 +2,18 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::Collection do
 
-  let(:step) { Mushy::Collection.new }
+  let(:flux) { Mushy::Collection.new }
 
   let(:event) { {} }
 
   before do
-    step.config[:id] = 'id'
+    flux.config[:id] = 'id'
   end
 
   describe "upsert" do
 
     before do
-      step.config[:operation] = 'upsert'
+      flux.config[:operation] = 'upsert'
     end
 
     it "should insert the record" do
@@ -21,9 +21,9 @@ describe Mushy::Collection do
       event[:id] = SecureRandom.uuid
       event[:name] = SecureRandom.uuid
 
-      result = step.execute event
+      result = flux.execute event
 
-      step.collection[event[:id]][:name].must_equal event[:name]
+      flux.collection[event[:id]][:name].must_equal event[:name]
 
     end
 
@@ -35,7 +35,7 @@ describe Mushy::Collection do
       event[:name] = SecureRandom.uuid
       event[key] = value
 
-      result = step.execute event
+      result = flux.execute event
 
       result[key].must_equal value
 
@@ -48,12 +48,12 @@ describe Mushy::Collection do
 
       event1 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
       event2 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
-      step.execute event1
-      step.execute event2
+      flux.execute event1
+      flux.execute event2
 
-      step.collection.count.must_equal 2
-      step.collection[event1[:id]][:name].must_equal event1[:name]
-      step.collection[event2[:id]][:name].must_equal event2[:name]
+      flux.collection.count.must_equal 2
+      flux.collection[event1[:id]][:name].must_equal event1[:name]
+      flux.collection[event2[:id]][:name].must_equal event2[:name]
 
     end
 
@@ -64,13 +64,13 @@ describe Mushy::Collection do
 
       event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
       event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
-      step.execute event1
-      step.execute event2
+      flux.execute event1
+      flux.execute event2
 
-      step.collection.count.must_equal 1
-      step.collection[event1[:id]][:first_name].must_equal event1[:first_name]
-      step.collection[event1[:id]][:last_name].must_equal event2[:last_name]
-      step.collection[event1[:id]][:middle].must_equal 'B'
+      flux.collection.count.must_equal 1
+      flux.collection[event1[:id]][:first_name].must_equal event1[:first_name]
+      flux.collection[event1[:id]][:last_name].must_equal event2[:last_name]
+      flux.collection[event1[:id]][:middle].must_equal 'B'
 
     end
 
@@ -78,15 +78,15 @@ describe Mushy::Collection do
 
       it "should return the result of the operation using the provided key" do
         key = SecureRandom.uuid
-        step.config[:operation_performed] = key
+        flux.config[:operation_performed] = key
 
         event[:id] = SecureRandom.uuid
         event[:name] = SecureRandom.uuid
 
         event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
         event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
-        result1 = step.execute event1
-        result2 = step.execute event2
+        result1 = flux.execute event1
+        result2 = flux.execute event2
 
         result1[key].must_equal "inserted"
         result2[key].must_equal "updated"
@@ -100,19 +100,19 @@ describe Mushy::Collection do
   describe "delete" do
 
     before do
-      step.config[:operation] = 'delete'
+      flux.config[:operation] = 'delete'
     end
 
     it "should delete by the id" do
 
       event[:id] = SecureRandom.uuid
 
-      step.collection[event[:id]] = {}
-      step.collection[SecureRandom.uuid] = {}
+      flux.collection[event[:id]] = {}
+      flux.collection[SecureRandom.uuid] = {}
 
-      step.execute event
+      flux.execute event
 
-      step.collection.count.must_equal 1
+      flux.collection.count.must_equal 1
 
     end
 
@@ -123,10 +123,10 @@ describe Mushy::Collection do
       event[:id] = SecureRandom.uuid
       event[key] = value
 
-      step.collection[event[:id]] = {}
-      step.collection[SecureRandom.uuid] = {}
+      flux.collection[event[:id]] = {}
+      flux.collection[SecureRandom.uuid] = {}
 
-      result = step.execute event
+      result = flux.execute event
 
       result[key].must_equal value
 
@@ -135,14 +135,14 @@ describe Mushy::Collection do
     it "should return the operation performed" do
 
       key = SecureRandom.uuid
-      step.config[:operation_performed] = key
+      flux.config[:operation_performed] = key
 
       event[:id] = SecureRandom.uuid
 
-      step.collection[event[:id]] = {}
-      step.collection[SecureRandom.uuid] = {}
+      flux.collection[event[:id]] = {}
+      flux.collection[SecureRandom.uuid] = {}
 
-      result = step.execute event
+      result = flux.execute event
 
       result[key].must_equal 'deleted'
 
@@ -153,16 +153,16 @@ describe Mushy::Collection do
   describe "all" do
 
     before do
-      step.config[:operation] = 'all'
+      flux.config[:operation] = 'all'
     end
 
     it "should return all of the items" do
 
-      step.collection['a'] = { a: 1 }
-      step.collection['b'] = { b: 2 }
-      step.collection['c'] = { c: 3 }
+      flux.collection['a'] = { a: 1 }
+      flux.collection['b'] = { b: 2 }
+      flux.collection['c'] = { c: 3 }
 
-      results = step.execute event
+      results = flux.execute event
 
       results.count.must_equal 3
       results[0][:a].must_equal 1
@@ -176,7 +176,7 @@ describe Mushy::Collection do
   describe "update" do
 
     before do
-      step.config[:operation] = 'update'
+      flux.config[:operation] = 'update'
     end
 
     it "should should not throw if the record does not exist" do
@@ -184,18 +184,18 @@ describe Mushy::Collection do
       event[:id] = SecureRandom.uuid
       event[:name] = SecureRandom.uuid
 
-      step.execute event
+      flux.execute event
 
     end
 
     it "should should report back the operation as not exists if the record does not exist" do
 
       key = SecureRandom.uuid
-      step.config[:operation_performed] = key
+      flux.config[:operation_performed] = key
 
       event[:id] = SecureRandom.uuid
 
-      result = step.execute event
+      result = flux.execute event
 
       result[key].must_equal 'not exist'
 

@@ -2,7 +2,7 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::Browser do
 
-  let(:step) { Mushy::Browser.new }
+  let(:flux) { Mushy::Browser.new }
 
   let(:event) do
     SymbolizedHash.new( {
@@ -16,11 +16,11 @@ describe Mushy::Browser do
   end
 
   before do
-    step.config = config
+    flux.config = config
   end
 
   it "should allow return information about the page" do
-    #result = step.execute event
+    #result = flux.execute event
 
     #puts result.inspect
   end
@@ -32,7 +32,7 @@ describe Mushy::Browser do
     end
 
     it "should allow return information about the page" do
-      #result = step.execute event
+      #result = flux.execute event
 
       #puts result[:headers].inspect
     end
@@ -58,19 +58,19 @@ describe Mushy::Browser do
     end
 
     before do
-      step.config = config
+      flux.config = config
     end
 
     it "should allow return information about the page" do
 
       return
 
-      result = step.execute event
+      result = flux.execute event
 
-      step.config[:url] = 'about:blank/civroa.aspx?which=16CV04462'
-      step.config[:execute] = nil
+      flux.config[:url] = 'about:blank/civroa.aspx?which=16CV04462'
+      flux.config[:execute] = nil
 
-      result = step.execute result
+      result = flux.execute result
 
       puts result[:url].inspect
 

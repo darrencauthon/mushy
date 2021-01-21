@@ -2,7 +2,7 @@ require 'nokogiri'
 
 module Mushy
   
-  class ParseHtml < Step
+  class ParseHtml < Flux
 
     def self.details
       {

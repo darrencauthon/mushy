@@ -3,7 +3,7 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::Filter do
 
-  let(:step) { Mushy::Filter.new }
+  let(:flux) { Mushy::Filter.new }
 
   let(:event) { {} }
 
@@ -15,18 +15,18 @@ describe Mushy::Filter do
       key, value = SecureRandom.uuid, SecureRandom.uuid
       event[key] = value
 
-      result = step.execute event
+      result = flux.execute event
       result[key].must_equal value
     end
 
     it "should not let strings serve as config" do
-      step.config[:equal] = ""
-      step.config[:notequal] = ""
+      flux.config[:equal] = ""
+      flux.config[:notequal] = ""
 
       key, value = SecureRandom.uuid, SecureRandom.uuid
       event[key] = value
 
-      result = step.execute event
+      result = flux.execute event
       result[key].must_equal value
     end
 
@@ -35,8 +35,8 @@ describe Mushy::Filter do
   describe "matching with values" do
 
     before do
-      step.config[:equal] = {}
-      step.config[:notequal] = {}
+      flux.config[:equal] = {}
+      flux.config[:notequal] = {}
     end
 
     describe "equal" do
@@ -45,11 +45,11 @@ describe Mushy::Filter do
 
         key, value = SecureRandom.uuid, SecureRandom.uuid
 
-        step.config[:equal][key] = value
+        flux.config[:equal][key] = value
 
         event[key] = value
 
-        result = step.execute event
+        result = flux.execute event
 
         result[key].must_equal value
 
@@ -59,45 +59,45 @@ describe Mushy::Filter do
 
         key = SecureRandom.uuid
 
-        step.config[:equal][key] = SecureRandom.uuid
+        flux.config[:equal][key] = SecureRandom.uuid
 
         event[key] = SecureRandom.uuid
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 0
 
       end
 
       it "should match numbers and numeric strings in a loosey-goosey way" do
-        step.config[:equal][:number] = "01"
+        flux.config[:equal][:number] = "01"
         event[:number] = "001"
 
-        result = step.execute event
+        result = flux.execute event
         result[:number].must_equal "001"
       end
 
       it "another loosey-goosey number match" do
-        step.config[:equal][:number] = "1"
+        flux.config[:equal][:number] = "1"
         event[:number] = 1
 
-        result = step.execute event
+        result = flux.execute event
         result[:number].must_equal 1
       end
 
       it "should trim the strings before matching" do
-        step.config[:equal][:number] = "  a   "
+        flux.config[:equal][:number] = "  a   "
         event[:number] = "a"
 
-        result = step.execute event
+        result = flux.execute event
         result[:number].must_equal "a"
       end
 
       it "should be case-insensitive" do
-        step.config[:equal][:number] = "A"
+        flux.config[:equal][:number] = "A"
         event[:number] = "a"
   
-        result = step.execute event
+        result = flux.execute event
         result[:number].must_equal "a"
       end
 
@@ -109,11 +109,11 @@ describe Mushy::Filter do
 
         key, value = SecureRandom.uuid, SecureRandom.uuid
 
-        step.config[:notequal][key] = value
+        flux.config[:notequal][key] = value
 
         event[key] = value
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 0
 
@@ -123,11 +123,11 @@ describe Mushy::Filter do
 
         key, value = SecureRandom.uuid, SecureRandom.uuid
 
-        step.config[:notequal][key] = SecureRandom.uuid
+        flux.config[:notequal][key] = SecureRandom.uuid
 
         event[key] = value
 
-        result = step.execute event
+        result = flux.execute event
 
         result[key].must_equal value
 

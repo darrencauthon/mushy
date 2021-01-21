@@ -1,6 +1,6 @@
 module Mushy
   
-  class Bash < Step
+  class Bash < Flux
 
     def self.details
       {

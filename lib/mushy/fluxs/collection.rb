@@ -1,6 +1,6 @@
 module Mushy
 
-  class Collection < Step
+  class Collection < Flux
 
     attr_accessor :collection
 

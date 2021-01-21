@@ -2,7 +2,7 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::ParseHtml do
 
-  let(:step) { Mushy::ParseHtml.new }
+  let(:flux) { Mushy::ParseHtml.new }
 
   let(:event) do
     SymbolizedHash.new( {
@@ -28,11 +28,11 @@ DOC
   end
 
   before do
-    step.config = config
+    flux.config = config
   end
 
   it "should allow css parsing" do
-    result = step.execute event
+    result = flux.execute event
 
     result.count.must_equal 2
 

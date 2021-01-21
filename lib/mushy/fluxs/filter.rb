@@ -1,6 +1,6 @@
 module Mushy
   
-  class Filter < Step
+  class Filter < Flux
 
     def process event, config
 

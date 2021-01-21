@@ -2,7 +2,7 @@ require 'faraday'
 
 module Mushy
   
-  class Get < Step
+  class Get < Flux
 
     def process event, config
 

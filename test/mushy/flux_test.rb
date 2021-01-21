@@ -1,6 +1,6 @@
 require_relative '../test_helper.rb'
 
-class MushyStepTestClass < Mushy::Step
+class MushyFluxTestClass < Mushy::Flux
 
   attr_accessor :return_this
 
@@ -10,50 +10,50 @@ class MushyStepTestClass < Mushy::Step
 
 end
 
-describe Mushy::Step do
+describe Mushy::Flux do
 
-  let(:step) { Mushy::Step.new }
+  let(:flux) { Mushy::Flux.new }
   let(:event) { {} }
 
   describe "the basics" do
 
     it "should have a config block" do
-      step.config.is_a?(SymbolizedHash).must_equal true
+      flux.config.is_a?(SymbolizedHash).must_equal true
     end
 
-    it "should have parent steps" do
-      step.parent_steps.count.must_equal 0
+    it "should have parent fluxs" do
+      flux.parent_fluxs.count.must_equal 0
     end
 
     it "should have an empty subscribed to" do
-      step.subscribed_to.count.must_equal 0
+      flux.subscribed_to.count.must_equal 0
     end
 
     it "should have a unique id" do
-      step.id.nil?.must_equal false
+      flux.id.nil?.must_equal false
     end
 
     describe "handling processed results" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       it "should return an empty set when nil is returned" do
-        step.return_this = nil
-        result = step.execute(event)
+        flux.return_this = nil
+        result = flux.execute(event)
         result.empty?.must_equal true
         result.is_a?(Array).must_equal true
       end
 
       it "should return a single hash when a single hash is returned" do
-        step.return_this = {}
-        result = step.execute(event)
+        flux.return_this = {}
+        result = flux.execute(event)
         result.empty?.must_equal true
         result.is_a?(Hash).must_equal true
       end
 
       it "should return an array when an array is returned" do
-        step.return_this = [{}, {}]
-        result = step.execute(event)
+        flux.return_this = [{}, {}]
+        result = flux.execute(event)
         result.empty?.must_equal false
         result.count.must_equal 2
       end
@@ -62,15 +62,15 @@ describe Mushy::Step do
 
     describe "grouping the results" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       it "should group on the provided key" do
 
-        step.return_this = [ { a: 'b', y: 1 }, { a: 'b', y: 2 }, { a: 'c', y: 3 } ]
+        flux.return_this = [ { a: 'b', y: 1 }, { a: 'b', y: 2 }, { a: 'c', y: 3 } ]
 
-        step.config[:group] = 'a|hey'
+        flux.config[:group] = 'a|hey'
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 2
         result[0][:hey].count.must_equal 2
@@ -85,11 +85,11 @@ describe Mushy::Step do
     describe "splitting the results" do
 
       it "should convert one property with many records into many events" do
-        step.config[:split] = 'hey'
+        flux.config[:split] = 'hey'
 
         event[:hey] = [ { a: 'b' }, { c: 'd' } ]
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 2
         result[0][:a].must_equal 'b'
@@ -97,14 +97,14 @@ describe Mushy::Step do
       end
 
       it "should allow splitting when multiple events are returned" do
-        step.config[:split] = 'you'
+        flux.config[:split] = 'you'
 
         events = [
           { you: [ { a: 'b' }, { c: 'd' } ] },
           { you: [ { e: 'f' }, { g: 'h' } ] },
         ]
 
-        result = step.execute events
+        result = flux.execute events
 
         result.count.must_equal 4
         result[0][:a].must_equal 'b'
@@ -118,13 +118,13 @@ describe Mushy::Step do
     describe "joining the results" do
 
       it "should join multiple results from an agent into a single" do
-        step.config[:join] = 'hey'
+        flux.config[:join] = 'hey'
 
         events = [ { a: 'b' }, { c: 'd' } ]
 
         # Normally, execute will never get multiple events.
         # I am doing this to quickly replicate multiple events being returned.
-        result = step.execute events
+        result = flux.execute events
 
         result.count.must_equal 1
         result[:hey][0][:a].must_equal 'b'
@@ -135,13 +135,13 @@ describe Mushy::Step do
 
     describe "standardizing the results" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       it "should return a single hash when a single hash is returned" do
         value = SecureRandom.uuid
-        step.return_this = { "key" => value }
+        flux.return_this = { "key" => value }
 
-        result = step.execute(event)
+        result = flux.execute(event)
 
         result["key"].must_equal value
         result[:key].must_equal value
@@ -151,21 +151,21 @@ describe Mushy::Step do
 
     describe "setting config" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       before do
-        step.config[:model] = SymbolizedHash.new
+        flux.config[:model] = SymbolizedHash.new
 
-        step.return_this = event
+        flux.return_this = event
       end
 
       it "should allow hardcoded results" do
         key = SecureRandom.uuid
         value = SecureRandom.uuid
 
-        step.config[:model][key] = value
+        flux.config[:model][key] = value
 
-        result = step.execute(event)
+        result = flux.execute(event)
 
         result[key].must_equal value
       end
@@ -174,11 +174,11 @@ describe Mushy::Step do
         key = SecureRandom.uuid
         value = SecureRandom.uuid
 
-        step.config[:model]['test mashing'] = "{{#{key}}}"
+        flux.config[:model]['test mashing'] = "{{#{key}}}"
 
         event[key] = value
 
-        result = step.execute(event)
+        result = flux.execute(event)
 
         result['test mashing'].must_equal value
       end
@@ -187,46 +187,46 @@ describe Mushy::Step do
 
     describe "merging the results" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       it "should join multiple results from an agent into a single" do
 
-        step.config[:merge] = '*'
+        flux.config[:merge] = '*'
 
-        step.return_this = {}
+        flux.return_this = {}
 
         event[:a] = 'b'
 
-        result = step.execute event
+        result = flux.execute event
 
         result[:a].must_equal 'b'
 
       end
 
       it "should only merge what is asked" do
-        step.config[:merge] = 'c'
+        flux.config[:merge] = 'c'
 
-        step.return_this = {}
+        flux.return_this = {}
 
         event[:a] = 'b'
         event[:c] = 'd'
 
-        result = step.execute event
+        result = flux.execute event
 
         result[:a].must_be_nil
         result[:c].must_equal 'd'
       end
 
       it "should allow conditional merging with a comma-delimited string" do
-        step.config[:merge] = 'c, e'
+        flux.config[:merge] = 'c, e'
 
-        step.return_this = {}
+        flux.return_this = {}
 
         event[:a] = 'b'
         event[:c] = 'd'
         event[:e] = 'f'
 
-        result = step.execute event
+        result = flux.execute event
 
         result[:a].must_be_nil
         result[:c].must_equal 'd'
@@ -234,30 +234,30 @@ describe Mushy::Step do
       end
 
       it "should allow conditional merging with an array" do
-        step.config[:merge] = ['c', 'e']
+        flux.config[:merge] = ['c', 'e']
 
-        step.return_this = {}
+        flux.return_this = {}
 
         event[:a] = 'b'
         event[:c] = 'd'
         event[:e] = 'f'
 
-        result = step.execute event
+        result = flux.execute event
 
         result[:a].must_be_nil
         result[:c].must_equal 'd'
         result[:e].must_equal 'f'
       end
 
-      it "should always give precedence to the data returned from the step" do
+      it "should always give precedence to the data returned from the flux" do
 
-        step.config[:merge] = '*'
+        flux.config[:merge] = '*'
 
-        step.return_this = { a: 'c' }
+        flux.return_this = { a: 'c' }
 
         event[:a] = 'b'
 
-        result = step.execute event
+        result = flux.execute event
 
         result[:a].must_equal 'c'
 
@@ -267,25 +267,25 @@ describe Mushy::Step do
 
     describe "shaping the results" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       describe "swapping join and merge" do
 
         before do
-          step.config[:join] = 'records'
-          step.config[:merge] = '*'
+          flux.config[:join] = 'records'
+          flux.config[:merge] = '*'
 
           event[:original] = 'yes'
 
-          step.return_this = [ { a: 1 }, { a: 2 } ]
+          flux.return_this = [ { a: 1 }, { a: 2 } ]
         end
 
         describe "joining before merging" do
 
           it "should allow me to join before merging" do
-            step.config[:shaping] = [:join, :merge]
+            flux.config[:shaping] = [:join, :merge]
 
-            result = step.execute event
+            result = flux.execute event
 
             result[:records].count.must_equal 2
             result[:original].must_equal 'yes'
@@ -294,9 +294,9 @@ describe Mushy::Step do
           end
 
           it "should allow the shaping to be an array of strings" do
-            step.config[:shaping] = ['join', 'merge']
+            flux.config[:shaping] = ['join', 'merge']
 
-            result = step.execute event
+            result = flux.execute event
 
             result[:records].count.must_equal 2
             result[:original].must_equal 'yes'
@@ -305,9 +305,9 @@ describe Mushy::Step do
           end
 
           it "should allow the shaping to be a comma-delimited list of strings" do
-            step.config[:shaping] = 'join,merge'
+            flux.config[:shaping] = 'join,merge'
 
-            result = step.execute event
+            result = flux.execute event
 
             result[:records].count.must_equal 2
             result[:original].must_equal 'yes'
@@ -318,9 +318,9 @@ describe Mushy::Step do
         end
 
         it "should allow me to merge before joining" do
-          step.config[:shaping] = [:merge, :join]
+          flux.config[:shaping] = [:merge, :join]
 
-          result = step.execute event
+          result = flux.execute event
 
           result[:records].count.must_equal 2
           result[:original].must_be_nil
@@ -333,19 +333,19 @@ describe Mushy::Step do
     end
 
     describe "sorting the results" do
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       before do
       end
 
       it "should only sort numeric values" do
-        step.config[:sort] = 'a'
+        flux.config[:sort] = 'a'
 
-        step.return_this = [1, 2, 3, 4, 5]
+        flux.return_this = [1, 2, 3, 4, 5]
                              .map { |x| { a: x } }
                              .reverse
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 5
         result[0][:a].must_equal 1
@@ -356,13 +356,13 @@ describe Mushy::Step do
       end
 
       it "should sort string values that are numeric" do
-        step.config[:sort] = 'a'
+        flux.config[:sort] = 'a'
 
-        step.return_this = [1, 2, 3, 4, 5]
+        flux.return_this = [1, 2, 3, 4, 5]
                              .map { |x| { a: x.to_s } }
                              .reverse
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 5
         result[0][:a].must_equal '1'
@@ -373,13 +373,13 @@ describe Mushy::Step do
       end
 
       it "should sort string values that are NOT numeric" do
-        step.config[:sort] = 'a'
+        flux.config[:sort] = 'a'
 
-        step.return_this = ['xe', 'xd', 'xc', 'xb', 'xa']
+        flux.return_this = ['xe', 'xd', 'xc', 'xb', 'xa']
                              .map { |x| { a: x.to_s } }
                              .reverse
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 5
         result[0][:a].must_equal 'xa'
@@ -392,24 +392,24 @@ describe Mushy::Step do
 
     describe "limiting the results" do
 
-      let(:step) { MushyStepTestClass.new }
+      let(:flux) { MushyFluxTestClass.new }
 
       before do
-        step.return_this = [1, 2, 3, 4, 5].map { |x| { a: x } }
+        flux.return_this = [1, 2, 3, 4, 5].map { |x| { a: x } }
       end
 
       it "should only return the number of results expected" do
-        step.config[:limit] = 2
+        flux.config[:limit] = 2
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 2
       end
 
       it "should allow the limit to be a string" do
-        step.config[:limit] = '2'
+        flux.config[:limit] = '2'
 
-        result = step.execute event
+        result = flux.execute event
 
         result.count.must_equal 2
       end

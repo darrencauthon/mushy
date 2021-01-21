@@ -2,7 +2,7 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::ReadCsv do
 
-  let(:step) { Mushy::ReadCsv.new }
+  let(:flux) { Mushy::ReadCsv.new }
 
   let(:event) { {} }
 
@@ -16,7 +16,7 @@ describe Mushy::ReadCsv do
     event[key] = %{a,b,c
 d,e,f}
 
-    result = step.process event, config
+    result = flux.process event, config
 
     puts result.inspect
   end
@@ -30,7 +30,7 @@ d,e,f}
     event[key] = %{a,b,c
 d,e,f}
 
-    result = step.process event, config
+    result = flux.process event, config
 
     puts result.inspect
   end
@@ -38,9 +38,9 @@ d,e,f}
   it "should allow a model to convert header-less data to something better" do
     key = SecureRandom.uuid
 
-    step.config[:key] = key
+    flux.config[:key] = key
 
-    step.config[:model] = {
+    flux.config[:model] = {
       first: '{{a}}',
       second: '{{b}}',
       third: '{{c}}',
@@ -49,7 +49,7 @@ d,e,f}
     event[key] = %{a,b,c
 d,e,f}
 
-    result = step.execute event
+    result = flux.execute event
 
     puts result.inspect
   end
