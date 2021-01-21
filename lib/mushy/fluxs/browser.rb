@@ -51,10 +51,6 @@ module Mushy
                      description: 'Headers for the web request. These can be received from a previous browser event with {{headers}}, or can be typed manually.',
                      type:        'keyvalue',
                      value:       {},
-                     editors: [
-                                 { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
-                                 { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
-                              ],
                    },
           carry_headers_from: {
                      description: 'Carry the headers from this path in the event.',

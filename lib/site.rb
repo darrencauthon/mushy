@@ -17,6 +17,17 @@ get '/fluxs' do
                    details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.' }
                    details[:config][:join] = { type: 'text', description: 'Join all of the events from this flux into one event, under this name.' }
                    details[:config][:sort] = { type: 'text', description: 'Sort by this key.' }
+
+                   details[:config]
+                          .select { |_, v| v[:type] == 'keyvalue' }
+                          .select { |_, v| v[:editors].nil? }
+                          .each   do |_, v|
+                                    v[:editors] = [
+                                                    { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
+                                                    { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                                                  ]
+                                  end
+
                    details
                  end
   }.to_json

@@ -18,10 +18,6 @@ module Mushy
                      description: 'The form of the event that is meant to be pulled from this event.',
                      type: 'keyvalue',
                      value: { url: 'a|@href' },
-                     editors: [
-                                 { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
-                                 { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
-                              ],
                    }
         },
       }
