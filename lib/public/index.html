@@ -60,6 +60,10 @@
            props: ['label', 'value', 'options', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" :id="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
+       boolean: {
+           props: ['label', 'value', 'options', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" :id="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
+       },
        table: {
            props: ['value', 'description'],
            template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="v in value"><td v-for="(d, i) in v">{{d}}</td></tr></table>'
