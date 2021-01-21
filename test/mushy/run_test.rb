@@ -5,13 +5,13 @@ describe Mushy::Runner do
   describe "a more concrete example" do
 
     let(:runner)   { Mushy::Runner.new }
-    let(:workflow) { Mushy::Workflow.new }
+    let(:flow) { Mushy::Flow.new }
 
     it "should work with one flux" do
       starting_flux = Mushy::Flux.new
       starting_flux.id = 'small flux'
-      workflow.fluxs = [starting_flux]
-      runner.start({}, starting_flux, workflow)
+      flow.fluxs = [starting_flux]
+      runner.start({}, starting_flux, flow)
     end
 
     it "should work with two fluxs" do
@@ -22,9 +22,9 @@ describe Mushy::Runner do
       second_flux.parent_flux << starting_flux
       second_flux.id = 'second flux'
 
-      workflow.fluxs = [starting_flux, second_flux]
+      flow.fluxs = [starting_flux, second_flux]
 
-      runner.start({}, starting_flux, workflow)
+      runner.start({}, starting_flux, flow)
     end
 
     it "should work with two children" do
@@ -38,9 +38,9 @@ describe Mushy::Runner do
       second_child.parent_fluxs << starting_flux
       second_child.id = 'second child'
 
-      workflow.fluxs = [starting_flux, first_child, second_child]
+      flow.fluxs = [starting_flux, first_child, second_child]
 
-      runner.start({}, starting_flux, workflow)
+      runner.start({}, starting_flux, flow)
     end
 
     it "should allow a chain from A to B to C" do
@@ -55,9 +55,9 @@ describe Mushy::Runner do
       c.parent_fluxs << b
       c.id = 'C'
 
-      workflow.fluxs = [a, b, c]
+      flow.fluxs = [a, b, c]
 
-      runner.start({}, a, workflow)
+      runner.start({}, a, flow)
     end
 
     it "should allow a chain from A to B to C to D" do
@@ -76,9 +76,9 @@ describe Mushy::Runner do
       d.parent_fluxs << c
       d.id = 'D'
 
-      workflow.fluxs = [a, b, c, d]
+      flow.fluxs = [a, b, c, d]
 
-      runner.start({}, a, workflow)
+      runner.start({}, a, flow)
     end
 
   end

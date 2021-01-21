@@ -31,7 +31,7 @@ post '/run' do
 
   config = SymbolizedHash.new data[:config]
 
-  flux = Mushy::Workflow.build_flux( { type: data[:setup][:flux], config: config } )
+  flux = Mushy::Flow.build_flux( { type: data[:setup][:flux], config: config } )
 
   result = flux.execute event
 
