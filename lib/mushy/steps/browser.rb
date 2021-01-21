@@ -68,17 +68,15 @@ module Mushy
 
     def process event, config
 
-      headers = (event[config[:carry_headers_from].to_sym])
       cookies = (event[config[:carry_cookies_from].to_sym])
-
-      config[:cookies] = [] unless config[:cookies].is_a?(Array)
       cookies = [] unless cookies.is_a?(Array)
-
-      config[:headers] = {} unless config[:headers].is_a?(Hash)
-      headers = {} unless headers.is_a?(Hash)
-
-      config[:headers].each { |k, v| headers[k] = v }
+      config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:cookies].each { |x| cookies << x }
+
+      headers = (event[config[:carry_headers_from].to_sym])
+      headers = {} unless headers.is_a?(Hash)
+      config[:headers] = {} unless config[:headers].is_a?(Hash)
+      config[:headers].each { |k, v| headers[k] = v }
 
       browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
 
