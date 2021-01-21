@@ -50,7 +50,7 @@
        },
        json: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><pre><code>{{value}}</code></pre><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description'],
