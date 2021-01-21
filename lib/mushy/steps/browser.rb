@@ -32,8 +32,17 @@ module Mushy
                    },
           headers: {
                      description: 'Headers for the web request. These can be received from a previous browser event with {{headers}}, or can be typed manually.',
-                     type:        'textarea',
-                     value:       '{{headers}}',
+                     type:        'keyvalue',
+                     value:       {},
+                     editors: [
+                                 { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
+                                 { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                              ],
+                   },
+          carry_headers_for: {
+                     description: 'Carry the headers at this path from the event.',
+                     type:        'text',
+                     value:       'headers',
                    },
         },
       }
@@ -41,11 +50,13 @@ module Mushy
 
     def process event, config
 
+      headers = (event[config[:carry_headers_for].to_sym])
+
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
+      headers = {} unless headers.is_a?(Hash)
 
-      cookies = config[:cookies]
-      headers = config[:headers]
+      config[:headers].each { |k, v| headers[k] = v }
 
       browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
 
