@@ -83,8 +83,8 @@
                                                 }
                };
            },
-           props: ['value', 'editors', 'description'],
-           template: '<table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table>'
+           props: ['value', 'editors', 'label', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click="addRecord(editors, value)">[Add]</a></td></tr></table></div>'
        },
        keyvalue: {
            data: function() {
