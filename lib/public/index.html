@@ -56,13 +56,13 @@
        jsonview: {
            data: function() {
                return {
+                   toggleTheView: function(view) { return view == 'beautiful' ? 'thin' : 'beautiful'; },
                    copy: function(view, json) { console.log(view); return navigator.clipboard.writeText((view == 'beautiful' ? JSON.stringify(json, null, "  ") : JSON.stringify(json))); },
-                   showThin: function(json) { return JSON.stringify(json); },
-                   showBeautiful: function(json) { return JSON.stringify(json, null, "  "); }
+                   show: function(view, json) { return view == 'beautiful' ? JSON.stringify(json, null, "  ") : JSON.stringify(json); },
                };
            },
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="view=(view == \'beautiful\' ? \'thin\' : \'beautiful\')">{{(view == \'beautiful\' ? \'>\' : \'^\')}}</a><a href="#" v-on:click.prevent.stop="copy(view, value)">copy</a><pre v-if="view!=\'beautiful\'"><code>{{showThin(value)}}</code></pre><pre v-if="view==\'beautiful\'"><code>{{showBeautiful(value)}}</code></pre></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="view=toggleTheView(view)">{{(view == \'beautiful\' ? \'>\' : \'^\')}}</a><a href="#" v-on:click.prevent.stop="copy(view, value)">copy</a><pre><code>{{show(view, value)}}</code></pre></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description'],
