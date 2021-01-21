@@ -39,7 +39,7 @@ module Mushy
                                  { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
                               ],
                    },
-          carry_headers_for: {
+          carry_headers_from: {
                      description: 'Carry the headers at this path from the event.',
                      type:        'text',
                      value:       'headers',
@@ -50,7 +50,7 @@ module Mushy
 
     def process event, config
 
-      headers = (event[config[:carry_headers_for].to_sym])
+      headers = (event[config[:carry_headers_from].to_sym])
 
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
