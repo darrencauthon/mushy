@@ -68,21 +68,11 @@ module Mushy
 
     def process event, config
 
-      cookies = (event[config[:carry_cookies_from].to_sym])
-      cookies = [] unless cookies.is_a?(Array)
-      config[:cookies] = [] unless config[:cookies].is_a?(Array)
-      config[:cookies].each { |x| cookies << x }
-
-      headers = (event[config[:carry_headers_from].to_sym])
-      headers = {} unless headers.is_a?(Hash)
-      config[:headers] = {} unless config[:headers].is_a?(Hash)
-      config[:headers].each { |k, v| headers[k] = v }
-
       browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
 
-      cookies.each { |c| browser.cookies.set(c) }
+      get_the_cookies_from(event, config).each { |c| browser.cookies.set(c) }
 
-      browser.headers.add headers
+      browser.headers.add get_the_headers_from(event, config)
 
       browser.goto config[:url]
 
@@ -98,6 +88,22 @@ module Mushy
       browser.quit
 
       result
+    end
+
+    def get_the_cookies_from event, config
+      cookies = (event[config[:carry_cookies_from].to_sym])
+      cookies = [] unless cookies.is_a?(Array)
+      config[:cookies] = [] unless config[:cookies].is_a?(Array)
+      config[:cookies].each { |x| cookies << x }
+      cookies
+    end
+
+    def get_the_headers_from event, config
+      headers = (event[config[:carry_headers_from].to_sym])
+      headers = {} unless headers.is_a?(Hash)
+      config[:headers] = {} unless config[:headers].is_a?(Hash)
+      config[:headers].each { |k, v| headers[k] = v }
+      headers
     end
 
   end
