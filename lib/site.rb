@@ -17,6 +17,7 @@ get '/fluxs' do
                    details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.' }
                    details[:config][:join] = { type: 'text', description: 'Join all of the events from this flux into one event, under this name.' }
                    details[:config][:sort] = { type: 'text', description: 'Sort by this key.' }
+                   details[:config][:model] = { type: 'keyvalue', description: 'Reshape the outgoing events.', value: {} }
 
                    details[:config]
                           .select { |_, v| v[:type] == 'keyvalue' }
