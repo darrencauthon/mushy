@@ -53,6 +53,16 @@
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><pre><code>{{value}}</code></pre><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
        },
+       jsonview: {
+           data: function() {
+               return {
+                   showThin: function(json) { return JSON.stringify(json); },
+                   showBeautiful: function(json) { return JSON.stringify(json, null, "  "); }
+               };
+           },
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="view=(view == \'beautiful\' ? \'thin\' : \'beautiful\')">{{(view == \'beautiful\' ? \'>\' : \'^\')}}</a><pre v-if="view!=\'beautiful\'"><code>{{showThin(value)}}</code></pre><pre v-if="view==\'beautiful\'"><code>{{showBeautiful(value)}}</code></pre></div>'
+       },
        radio: {
            props: ['label', 'value', 'options', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><div v-for="option in options"><input type="radio" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
@@ -202,7 +212,7 @@
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
                                        .then(function(r){
                                            for (var key in r.data.result)
-                                               app.results.push({darren: { type:'json', value: JSON.stringify(r.data.result[key]) }});
+                                               app.results.push({darren: { type:'jsonview', value: r.data.result[key], view: 'thin' }});
                                         });
                                      } };
 
