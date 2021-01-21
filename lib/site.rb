@@ -11,6 +11,7 @@ get '/steps' do
   {
     steps: Mushy::Step.all.select { |x| x.respond_to? :details }.map do |step|
                    details = step.details
+                   details[:config][:group] = { type: 'text', description: 'Group events by a field, which is stored in a key. The format is group_by|group_key.' }
                    details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.' }
                    details[:config][:join] = { type: 'text', description: 'Join all of the events from this step into one event, under this name.' }
                    details
