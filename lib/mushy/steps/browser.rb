@@ -16,9 +16,8 @@ module Mushy
                },
           headless: {
                       description: 'Run this browser headless.',
-                      type:        'select',
+                      type:        'boolean',
                       value:       'true',
-                      options:     ['true', 'false'],
                     },
           execute: {
                      description: 'Javascript to run after the page is loaded.',
