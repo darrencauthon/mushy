@@ -104,6 +104,7 @@ module Mushy
     end
 
     def model_these_results results, event, by
+      return results unless by.any?
       results.map { |x| masher.mash by, x }
     end
 
