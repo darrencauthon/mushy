@@ -6,6 +6,11 @@
     </head>
     <body>
         <div id="app">
+            <table>
+                <tr v-for="flux in flow.fluxs">
+                    <td>{{flux.name}}</td>
+                </tr>
+            </table>
             <mip-heavy :data="setup"></mip-heavy>
             <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
             <div v-if="results.loading">Loading...</div>
@@ -205,10 +210,13 @@
 
              var setup = {
                    event: { type: 'json', value: '{}' },
+                   id: { type: 'text', value: '' },
+                   name: { type: 'text', value: '' },
                    flux: { type: 'select', value: data.data.fluxs[0].name, options: data.data.fluxs.map(function(x){ return x.name })},
              };
 
              for (var key in configs)
+             {
                  configs[key].go = { type: 'button', click: function(c) {
                                       app.results = [];
                                       Vue.set(app.results, 'loading', true);
@@ -220,9 +228,25 @@
                                         });
                                      } };
 
+                 configs[key].save = { type: 'button', click: function(config) {
+                     var setup = thingToData(app.setup);
+                                       var flux = {
+                                           id: setup.id,
+                                           name: setup.name,
+                                           config: config,
+                                       };
+                     app.flow.fluxs.push(flux);
+                     console.log(flux);
+                                     }
+                 };
+             }
+
              app = new Vue({
                  el: '#app',
                  data: {
+                     flow: {
+                         fluxs: [],
+                     },
                      configs: configs,
                      setup: setup,
                      results: [],
