@@ -8,7 +8,8 @@
         <div id="app">
             <mip-heavy :data="setup"></mip-heavy>
             <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
-            <div>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
+            <div v-if="results.loading">Loading...</div>
+            <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
             <mip-heavy v-for="data in results" :data="data"></mip-heavy>
         </div>
     </body>
@@ -210,8 +211,10 @@
              for (var key in configs)
                  configs[key].go = { type: 'button', click: function(c) {
                                       app.results = [];
+                                      Vue.set(app.results, 'loading', true);
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
                                        .then(function(r){
+                                           Vue.set(app.results, 'loading', false);
                                            for (var key in r.data.result)
                                                app.results.push({darren: { type:'jsonview', value: r.data.result[key], view: 'thin' }});
                                         });
