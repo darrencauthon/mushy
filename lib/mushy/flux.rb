@@ -40,11 +40,13 @@ module Mushy
 
       event = incoming_event
 
-      events = [event] # map this to an incoming split
+      incoming_split = nil # masher.mash(config, event)[:incoming_split]
+
+      events = incoming_split ? split_these_results([incoming_event], incoming_event, incoming_split) : [event]
 
       results = events.map { |e| execute_single_event e, config }
 
-      events.count == 1 ? results.first : results.flatten
+      incoming_split ? results.flatten : results.first
     end
 
     def execute_single_event event, config
