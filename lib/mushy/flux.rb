@@ -59,6 +59,7 @@ module Mushy
 
       mashed_config = masher.mash config, event
 
+      the_original_join = mashed_config[:join]
       mashed_config[:join] = nil if mashed_config[:incoming_split]
 
       results = process event, mashed_config
@@ -68,7 +69,7 @@ module Mushy
       results = standardize_these results
       results = shape_these results, event, mashed_config
 
-      return results.first if config[:join]
+      return results.first if the_original_join
 
       return results if mashed_config[:outgoing_split]
       
