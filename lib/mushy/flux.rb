@@ -33,10 +33,12 @@ module Mushy
       self.config ||= SymbolizedHash.new
     end
 
-    def execute event
+    def execute incoming_event
       guard
 
-      event = SymbolizedHash.new(event) if event.is_a?(Hash)
+      incoming_event = SymbolizedHash.new(incoming_event) if incoming_event.is_a?(Hash)
+
+      event = incoming_event
 
       mashed_config = masher.mash config, event
 
