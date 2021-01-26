@@ -60,6 +60,24 @@ describe Mushy::Flux do
 
     end
 
+    describe "incoming split" do
+
+      let(:flux) { MushyFluxTestClass.new }
+
+      it "should split, then process each, then merge the results" do
+
+        event[:a] = [ { b: 'c' }, { b: 'd' } ]
+        flux.return_this = { z: 'y' }
+
+        flux.config[:incoming_split] = 'a'
+
+        result = flux.execute event
+
+        result.count.must_equal 2
+      end
+
+    end
+
     describe "grouping the results" do
 
       let(:flux) { MushyFluxTestClass.new }
