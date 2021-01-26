@@ -11,7 +11,8 @@ get '/fluxs' do
   {
     fluxs: Mushy::Flux.all.select { |x| x.respond_to? :details }.map do |flux|
                    details = flux.details
-                   details[:config][:split] = { type: 'text', description: 'Split one event into multiple events by this key.' }
+                   details[:config][:incoming_split] = { type: 'text', description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', value: {} }
+                   details[:config][:outgoing_split] = { type: 'text', description: 'Split an outgoing event into multiple events by this key.' }
                    details[:config][:merge] = { type: 'text', description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.' }
                    details[:config][:group] = { type: 'text', description: 'Group events by a field, which is stored in a key. The format is group_by|group_key.' }
                    details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.' }
