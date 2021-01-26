@@ -16,7 +16,9 @@ describe Mushy::WriteFile do
 
     event[:contents] = "testing"
 
-    flux.process event, config
+    result = flux.process event, config
+
+    result.nil?.must_equal false
 
   end
 
