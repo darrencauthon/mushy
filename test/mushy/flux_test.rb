@@ -100,10 +100,10 @@ describe Mushy::Flux do
 
     end
 
-    describe "splitting the results" do
+    describe "outgoing split the results" do
 
       it "should convert one property with many records into many events" do
-        flux.config[:split] = 'hey'
+        flux.config[:outgoing_split] = 'hey'
 
         event[:hey] = [ { a: 'b' }, { c: 'd' } ]
 
@@ -115,7 +115,7 @@ describe Mushy::Flux do
       end
 
       it "should allow splitting when multiple events are returned" do
-        flux.config[:split] = 'you'
+        flux.config[:outgoing_split] = 'you'
 
         events = [
           { you: [ { a: 'b' }, { c: 'd' } ] },

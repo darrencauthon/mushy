@@ -63,7 +63,7 @@ module Mushy
 
       return results.first if config[:join]
 
-      return results if config[:split]
+      return results if config[:outgoing_split]
       
       returned_one_result ? results.first : results
 
@@ -77,7 +77,7 @@ module Mushy
     end
 
     def shape_these results, event, config
-      supported_shaping = [:merge, :split, :group, :model, :join, :sort, :limit]
+      supported_shaping = [:merge, :outgoing_split, :group, :model, :join, :sort, :limit]
 
       shaping = supported_shaping
       if (config[:shaping])
@@ -109,7 +109,7 @@ module Mushy
       results.group_by { |x| x[group_by] }.map { |k, v| SymbolizedHash.new( { result_key => v } ) }
     end
 
-    def split_these_results results, event, by
+    def outgoing_split_these_results results, event, by
       results.map { |x| Masher.new.dig by, x }.flatten
     end
 
