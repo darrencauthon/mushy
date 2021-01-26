@@ -40,18 +40,26 @@ module Mushy
 
       event = incoming_event
 
-      incoming_split = masher.mash(config, event)[:incoming_split]
+      mashed_config = masher.mash config, event
+
+      incoming_split = mashed_config[:incoming_split]
 
       events = incoming_split ? incoming_event[incoming_split] : [event]
 
       results = events.map { |e| execute_single_event e, config }
 
-      incoming_split ? results.flatten : results.first
+      return results.first unless incoming_split
+
+      results = join_these_results(results, event, config[:join]) if config[:join]
+
+      results.flatten
     end
 
     def execute_single_event event, config
 
       mashed_config = masher.mash config, event
+
+      mashed_config[:join] = nil if mashed_config[:incoming_split]
 
       results = process event, mashed_config
 
@@ -59,11 +67,11 @@ module Mushy
 
       results = standardize_these results
 
-      results = shape_these results, event, config
+      results = shape_these results, event, mashed_config
 
       return results.first if config[:join]
 
-      return results if config[:outgoing_split]
+      return results if mashed_config[:outgoing_split]
       
       returned_one_result ? results.first : results
 
