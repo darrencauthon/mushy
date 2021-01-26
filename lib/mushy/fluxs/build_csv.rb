@@ -24,6 +24,11 @@ module Mushy
                      type:        'keyvalue',
                      value:       {},
                    },
+          header_row: {
+                        description: 'Include a header row?',
+                        type:        'boolean',
+                        value:       true,
+                      },
         },
       }
     end
@@ -33,10 +38,13 @@ module Mushy
 
       headers = config[:headers]
 
-      puts headers.inspect
-      puts records.inspect
       {
-        config[:output_path] => CSV.generate { |c| records.each { |x| c << headers.map { |h| x[h[0].to_sym] || x[h[0].to_s] } } }
+        config[:output_path] => CSV.generate do |c|
+          if config[:header_row].to_s == 'true'
+            c << headers.map { |h| h[1] }
+          end
+          records.each { |x| c << headers.map { |h| x[h[0].to_sym] || x[h[0].to_s] } }
+        end
       }
     end
 
