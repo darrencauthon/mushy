@@ -4,6 +4,26 @@ module Mushy
 
     attr_accessor :collection
 
+    def self.details
+      {
+        name: 'Collection',
+        description: 'Collects events.',
+        config: {
+          id: {
+                description: 'The path to the unique id in the body of the element.',
+                type: 'id',
+                value: { url: 'a|@href' },
+              },
+          operation: {
+                       description: 'Perform this operation.',
+                       type:        'select',
+                       options:     ['all', 'delete', 'upsert', 'update', 'insert'],
+                       value:       'upsert',
+                     },
+        },
+      }
+    end
+
     def initialize
       self.collection = {}
       super
