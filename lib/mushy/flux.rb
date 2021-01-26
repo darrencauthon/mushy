@@ -40,6 +40,11 @@ module Mushy
 
       event = incoming_event
 
+      do_this event, config
+    end
+
+    def do_this event, config
+
       mashed_config = masher.mash config, event
 
       results = process event, mashed_config
@@ -55,6 +60,7 @@ module Mushy
       return results if config[:split]
       
       returned_one_result ? results.first : results
+
     end
 
     def standardize_these results
