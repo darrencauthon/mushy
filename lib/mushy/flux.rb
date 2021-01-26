@@ -40,7 +40,7 @@ module Mushy
 
       event = incoming_event
 
-      do_this event, config
+      [event].map { |e| do_this e, config }.first
     end
 
     def do_this event, config
