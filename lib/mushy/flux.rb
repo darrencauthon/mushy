@@ -42,7 +42,9 @@ module Mushy
 
       events = [event]
 
-      events.map { |e| do_this e, config }.first
+      results = events.map { |e| do_this e, config }
+
+      events.count == 1 ? results.first : results.flatten
     end
 
     def do_this event, config
