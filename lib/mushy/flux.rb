@@ -66,7 +66,6 @@ module Mushy
       returned_one_result = results.is_a?(Hash)
 
       results = standardize_these results
-
       results = shape_these results, event, mashed_config
 
       return results.first if config[:join]
