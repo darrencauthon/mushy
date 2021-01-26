@@ -42,12 +42,12 @@ module Mushy
 
       events = [event]
 
-      results = events.map { |e| do_this e, config }
+      results = events.map { |e| execute_single_event e, config }
 
       events.count == 1 ? results.first : results.flatten
     end
 
-    def do_this event, config
+    def execute_single_event event, config
 
       mashed_config = masher.mash config, event
 
