@@ -12,6 +12,7 @@ describe Mushy::BuildCsv do
 
     config[:input_path] = 'data'
     config[:output_path] = 'the_output'
+    config[:headers] = { a: 'A', b: 'B' }
 
     event[:data] = [
       { a: '1', b: '2' },
