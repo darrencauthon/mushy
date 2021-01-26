@@ -19,7 +19,7 @@ describe Mushy::Runner do
       starting_flux.id = 'first flux'
 
       second_flux = Mushy::Flux.new
-      second_flux.parent_flux << starting_flux
+      second_flux.parent_fluxs << starting_flux
       second_flux.id = 'second flux'
 
       flow.fluxs = [starting_flux, second_flux]
