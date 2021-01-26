@@ -40,7 +40,7 @@ module Mushy
 
       event = incoming_event
 
-      events = [event]
+      events = [event] # map this to an incoming split
 
       results = events.map { |e| execute_single_event e, config }
 
