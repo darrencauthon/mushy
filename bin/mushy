@@ -1,3 +1,16 @@
 #!/usr/bin/env ruby
 
-puts 'mushy'
+require 'thor'
+require 'mushy'
+
+class RailsCLI < Thor
+
+  desc "run"
+  def run file
+    content = File.open(file).read
+    puts content
+  end
+
+end
+
+RailsCLI.start ARGV
