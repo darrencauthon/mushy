@@ -11,6 +11,22 @@ class RailsCLI < Thor
     puts content
   end
 
+  desc "build FILE", 'Build a flow.'
+  def build file
+
+    puts 'ok'
+
+  end
+
 end
 
-RailsCLI.start ARGV
+RailsCLI.start(ARGV)
+
+exit if ARGV[0] != 'build'
+
+require 'sinatra'
+enable :run
+
+get '/' do
+   File.read(File.join(File.dirname(__FILE__), 'public', 'index.html'))
+end
