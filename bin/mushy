@@ -14,15 +14,23 @@ class RailsCLI < Thor
   desc "build FILE", 'Build a flow.'
   def build file
 
-    puts 'ok'
+    RailsCLI.serve_the_builder
 
+  end
+
+  def self.serve_the_builder
+    @serve_the_builder = true
+  end
+
+  def self.serve_the_builder?
+    @serve_the_builder || false
   end
 
 end
 
 RailsCLI.start(ARGV)
 
-exit if ARGV[0] != 'build'
+exit unless RailsCLI.serve_the_builder?
 
 require 'sinatra'
 enable :run
