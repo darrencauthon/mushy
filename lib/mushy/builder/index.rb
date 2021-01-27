@@ -15,6 +15,8 @@ module Mushy
             <table>
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
+                    <td>{{flux.flux}}</td>
+                    <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
             <mip-heavy :data="setup"></mip-heavy>
@@ -253,6 +255,16 @@ module Mushy
                  data: {
                      flow: {
                          fluxs: [],
+                     },
+                     edit: function(x, y, z, abc) {
+                         var flux = x.flux;
+                         var applicable_config = x.configs[x.flux.flux];
+                         console.log(x);
+                         console.log(flux);
+                         console.log(applicable_config);
+                         for(var key in applicable_config)
+                             if (flux.config[key])
+                                Vue.set(applicable_config[key], 'value', flux.config[key]);
                      },
                      configs: configs,
                      setup: setup,
