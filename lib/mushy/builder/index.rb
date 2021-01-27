@@ -1,3 +1,9 @@
+module Mushy
+  module Builder
+    module Index
+      def self.file
+
+<<-ENDEND
 <html>
     <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
@@ -22,7 +28,7 @@
 
 <script type="text/javascript">
 
-   var fancyName = function(id) { return '(' + id + '.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\' \'))' };
+   var fancyName = function(id) { return '(' + id + '.split(/[ _]/).map(function(x){return x[0].toUpperCase() + x.substring(1)}).join(\\' \\'))' };
    var thingToData = function(thing) {
                          var record = {};
                          for (var key in thing)
@@ -37,27 +43,27 @@
    var components = {
        label: {
            props: ['label', 'description'],
-           template: '<label :for="id" v-if="label != \'\'">{{label || ' + fancyName('id') + '}} <i v-show="description">({{description}})</i></label>'
+           template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description">({{description}})</i></label>'
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
        integer:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value);" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
        email: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="email" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="email" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
        textarea: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></textarea></div>'
        },
        json: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><pre><code>{{value}}</code></pre><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\'update:value\', $event.target.value)" :disabled="disabled == \'true\'" :readonly="readonly == \'true\'"></textarea></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><pre><code>{{value}}</code></pre><textarea :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></textarea></div>'
        },
        jsonview: {
            data: function() {
@@ -68,19 +74,19 @@
                };
            },
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="view=toggle(view)">{{(view == \'beautiful\' ? \'>\' : \'^\')}}</a><a href="#" v-on:click.prevent.stop="copy(view, value)">copy</a><pre><code>{{show(view, value)}}</code></pre></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="view=toggle(view)">{{(view == \\'beautiful\\' ? \\'>\\' : \\'^\\')}}</a><a href="#" v-on:click.prevent.stop="copy(view, value)">copy</a><pre><code>{{show(view, value)}}</code></pre></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><div v-for="option in options"><input type="radio" :name="id" v-bind:value="option" v-on:input="$emit(\'update:value\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><div v-for="option in options"><input type="radio" :name="id" v-bind:value="option" v-on:input="$emit(\\'update:value\\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
        },
        select: {
            props: ['label', 'value', 'options', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
        boolean: {
            props: ['label', 'value', 'options', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\'update:value\', $event.target.value)"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
        table: {
            props: ['value', 'description'],
@@ -149,7 +155,7 @@
 
    var thingTemplate = '<div>';
    for (var property in components)
-       thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \'' + property + '\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
+       thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
 
    Vue.component('mip-thing', {
@@ -254,3 +260,9 @@
             });
     });
 </script>
+ENDEND
+
+      end
+    end
+  end
+end

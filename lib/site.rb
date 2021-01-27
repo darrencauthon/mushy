@@ -3,7 +3,7 @@ require 'sinatra'
 require_relative 'mushy'
 
 get '/' do
-  File.read(File.join(File.dirname(__FILE__), 'public', 'index.html'))
+  Mushy::Builder::Index.file
 end
 
 get '/fluxs' do
