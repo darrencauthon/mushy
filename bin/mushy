@@ -14,23 +14,23 @@ class RailsCLI < Thor
   desc "build FILE", 'Build a flow.'
   def build file
 
-    RailsCLI.serve_the_builder
+    RailsCLI.set_special 'build'
 
   end
 
-  def self.serve_the_builder
-    @serve_the_builder = true
+  def self.set_special special
+    @special = special
   end
 
-  def self.serve_the_builder?
-    @serve_the_builder || false
+  def self.get_special
+    @special
   end
 
 end
 
 RailsCLI.start(ARGV)
 
-exit unless RailsCLI.serve_the_builder?
+exit unless RailsCLI.get_special
 
 require 'sinatra'
 enable :run
