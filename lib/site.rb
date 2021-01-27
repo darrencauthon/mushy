@@ -38,17 +38,7 @@ end
 post '/run' do
   content_type :json
 
-  data = SymbolizedHash.new JSON.parse(request.body.read)
-
-  event = SymbolizedHash.new JSON.parse(data[:setup][:event].to_json)
-
-  config = SymbolizedHash.new data[:config]
-
-  flux = Mushy::Flow.build_flux( { type: data[:setup][:flux], config: config } )
-
-  result = flux.execute event
-
-  result = [result].flatten
+  result = Mushy::Builder::Api.run request.body.read
 
   { result: result }.to_json
 end
