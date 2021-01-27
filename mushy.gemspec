@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version        = '0.0.1'
   s.date           = '2020-11-23'
   s.summary        = 'Process streams of work using common modules.'
-  s.description    = 'Process streams of work using common modules.'
+  s.description    = 'This tool assists in the creation and processing of workflows.'
   s.authors        = ['Darren Cauthon']
   s.email          = 'darren@cauthon.com'
   s.files          = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
