@@ -5,8 +5,8 @@ require 'mushy'
 
 class RailsCLI < Thor
 
-  desc "run"
-  def run file
+  desc "start FILE", "Run this workflow file."
+  def start file
     content = File.open(file).read
     puts content
   end
