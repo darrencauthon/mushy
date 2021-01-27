@@ -239,6 +239,7 @@ module Mushy
                                        var flux = {
                                            id: setup.id,
                                            name: setup.name,
+                                           flux: setup.flux,
                                            config: config,
                                        };
                      app.flow.fluxs.push(flux);
