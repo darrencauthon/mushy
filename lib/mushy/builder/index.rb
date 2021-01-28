@@ -218,6 +218,7 @@ module Mushy
          .then(function(flowdata){
 
              fluxdata = fluxdata.data;
+             flowdata = flowdata.data;
 
              var configs = {};
              fluxdata.fluxs.map(function(x){
@@ -288,9 +289,7 @@ module Mushy
              app = new Vue({
                  el: '#app',
                  data: {
-                     flow: {
-                         fluxs: [],
-                     },
+                     flow: flowdata,
                      startNew: function(x) {
                          flux = {
                              id: 'hey',
