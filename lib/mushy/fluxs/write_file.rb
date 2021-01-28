@@ -10,17 +10,17 @@ module Mushy
           name: {
                   description: 'The name of the file.',
                   type:        'text',
-                  value:       'records',
+                  value:       'file.csv',
                 },
           directory: {
                   description: 'The directory in which to write the file. Leave blank for the current directory.',
                   type:        'text',
-                  value:       'records',
+                  value:       '',
                 },
           path: {
-                  description: 'The path to the data to write.',
+                  description: 'The path to the data in the event to write.',
                   type:        'text',
-                  value:       'records',
+                  value:       '',
                 },
         },
       }
