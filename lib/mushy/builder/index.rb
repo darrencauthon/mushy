@@ -19,6 +19,7 @@ module Mushy
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
+            <a href="#" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
             <div v-if="setup.id.value">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
@@ -218,11 +219,16 @@ module Mushy
                  configs[x.name] = x.config;
              });
 
+             var options = [''];
+             fluxTypes = data.data.fluxs.map(function(x){ return x.name });
+             for(var type in fluxTypes)
+                options.push(fluxTypes[type]);
+
              var setup = {
                    event: { type: 'json', value: '{}' },
                    id: { type: 'text', value: '' },
                    name: { type: 'text', value: '' },
-                   flux: { type: 'select', value: data.data.fluxs[0].name, options: data.data.fluxs.map(function(x){ return x.name })},
+                   flux: { type: 'select', value: data.data.fluxs[0].name, options: options},
              };
 
              for (var key in configs)
@@ -271,7 +277,15 @@ module Mushy
                      flow: {
                          fluxs: [],
                      },
-                     edit: function(x, y, z, abc) {
+                     startNew: function(x) {
+                         flux = {
+                             id: 'hey',
+                             name: 'you',
+                             config: {}
+                         };
+                         loadThisFlux(flux, x.setup, x.configs);
+                     },
+                     edit: function(x) {
                          var flux = x.flux;
 
                          loadThisFlux(x.flux, x.setup, x.configs);
