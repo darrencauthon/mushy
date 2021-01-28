@@ -21,6 +21,11 @@ get '/vue.js' do
   Mushy::Builder::Vue.file
 end
 
+get '/flow' do
+  content_type :json
+  Mushy::Builder::Api.get_flow.to_json
+end
+
 get '/fluxs' do
   content_type :json
   Mushy::Builder::Api.get_fluxs.to_json

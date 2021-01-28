@@ -19,6 +19,12 @@ module Mushy
         [result].flatten
       end
 
+      def self.get_flow
+        {
+          fluxs: []
+        }
+      end
+
       def self.get_fluxs
         {
           fluxs: Mushy::Flux.all.select { |x| x.respond_to? :details }.map do |flux|

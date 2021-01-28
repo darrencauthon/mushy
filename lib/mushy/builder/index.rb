@@ -214,6 +214,9 @@ module Mushy
     axios.get('/fluxs')
          .then(function(fluxdata){
 
+    axios.get('/flow')
+         .then(function(flowdata){
+
              fluxdata = fluxdata.data;
 
              var configs = {};
@@ -306,6 +309,7 @@ module Mushy
                      results: [],
                  }
             });
+    });
     });
 </script>
 ENDEND
