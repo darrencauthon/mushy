@@ -19,11 +19,13 @@ module Mushy
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
-            <mip-heavy :data="setup"></mip-heavy>
-            <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
-            <div v-if="results.loading">Loading...</div>
-            <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
-            <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+            <div v-if="setup.id.value">
+                <mip-heavy :data="setup"></mip-heavy>
+                <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
+                <div v-if="results.loading">Loading...</div>
+                <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
+                <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+            </div>
         </div>
     </body>
 </html>
