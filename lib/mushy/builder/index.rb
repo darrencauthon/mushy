@@ -259,6 +259,8 @@ module Mushy
                  for(var key in applicable_config)
                      if (flux.config[key])
                          Vue.set(applicable_config[key], 'value', flux.config[key]);
+                     else
+                         Vue.set(applicable_config[key], 'value', applicable_config[key].default);
              };
 
              app = new Vue({
