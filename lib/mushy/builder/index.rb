@@ -6,9 +6,9 @@ module Mushy
 <<-ENDEND
 <html>
     <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/dark.css">
+        <script src="/vue.js"></script>
+        <script src="/axios.js"></script>
     </head>
     <body>
         <div id="app">

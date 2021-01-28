@@ -6,6 +6,21 @@ get '/' do
   Mushy::Builder::Index.file
 end
 
+get '/dark.css' do
+  content_type :css
+  Mushy::Builder::Dark.file
+end
+
+get '/axios.js' do
+  content_type :js
+  Mushy::Builder::Axios.file
+end
+
+get '/vue.js' do
+  content_type :js
+  Mushy::Builder::Vue.file
+end
+
 get '/fluxs' do
   content_type :json
   Mushy::Builder::Api.get_fluxs.to_json
