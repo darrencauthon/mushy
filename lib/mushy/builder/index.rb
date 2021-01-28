@@ -212,15 +212,15 @@ module Mushy
     var app = null;
 
     axios.get('/fluxs')
-         .then(function(data){
+         .then(function(fluxdata){
 
              var configs = {};
-             data.data.fluxs.map(function(x){
+             fluxdata.data.fluxs.map(function(x){
                  configs[x.name] = x.config;
              });
 
              var options = [''];
-             fluxTypes = data.data.fluxs.map(function(x){ return x.name });
+             fluxTypes = fluxdata.data.fluxs.map(function(x){ return x.name });
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
 
@@ -228,7 +228,7 @@ module Mushy
                    event: { type: 'json', value: '{}' },
                    id: { type: 'text', value: '' },
                    name: { type: 'text', value: '' },
-                   flux: { type: 'select', value: data.data.fluxs[0].name, options: options},
+                   flux: { type: 'select', value: fluxdata.data.fluxs[0].name, options: options},
              };
 
              for (var key in configs)
