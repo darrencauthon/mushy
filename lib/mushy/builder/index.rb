@@ -19,7 +19,7 @@ module Mushy
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
-            <a href="#" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
+            <a href="#" v-if="setup.id.value == ''" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
             <div v-if="setup.id.value">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
