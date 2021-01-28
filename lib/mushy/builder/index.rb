@@ -253,6 +253,7 @@ module Mushy
                                            config: config,
                                        };
                      app.flow.fluxs.push(flux);
+                     app.setup.id.value = '';
                                      }
                  };
              }
