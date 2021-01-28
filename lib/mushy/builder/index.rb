@@ -265,6 +265,9 @@ module Mushy
                          for(var key in applicable_config)
                              if (flux.config[key])
                                 Vue.set(applicable_config[key], 'value', flux.config[key]);
+                         Vue.set(x.setup.id, 'value', flux.id);
+                         Vue.set(x.setup.name, 'value', flux.name);
+                         Vue.set(x.setup.flux, 'value', flux.flux);
                      },
                      configs: configs,
                      setup: setup,
