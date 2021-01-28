@@ -19,15 +19,15 @@ module Mushy
         [result].flatten
       end
 
-      def self.save data
+      def self.save file, data
 
         data = SymbolizedHash.new JSON.parse(data)
-        Mushy::WriteFile.new.process( {}, { name: 'hey.json', data: data.to_json })
+        Mushy::WriteFile.new.process( {}, { name: "#{file}.json", data: data.to_json })
 
       end
 
-      def self.get_flow
-        JSON.parse File.open('hey.json').read
+      def self.get_flow file
+        JSON.parse File.open("#{file}.json").read
       end
 
       def self.get_fluxs

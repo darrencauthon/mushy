@@ -2,6 +2,8 @@ require 'sinatra'
 
 require_relative 'mushy'
 
+the_file = 'hey'
+
 get '/' do
   Mushy::Builder::Index.file
 end
@@ -23,7 +25,7 @@ end
 
 get '/flow' do
   content_type :json
-  Mushy::Builder::Api.get_flow.to_json
+  Mushy::Builder::Api.get_flow(the_file).to_json
 end
 
 get '/fluxs' do
@@ -42,7 +44,7 @@ end
 post '/save' do
   content_type :json
 
-  result = Mushy::Builder::Api.save request.body.read
+  result = Mushy::Builder::Api.save the_file, request.body.read
 
   { result: result }.to_json
 end
