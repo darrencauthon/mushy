@@ -252,7 +252,15 @@ module Mushy
                                            flux: setup.flux,
                                            config: config,
                                        };
-                     app.flow.fluxs.push(flux);
+                     var index = -1;
+                     for(var i = 0; i < app.flow.fluxs.length; i++)
+                        if (app.flow.fluxs[i].id == flux.id)
+                            index = i;
+                     if (index < 0)
+                         app.flow.fluxs.push(flux);
+                     else
+                         app.flow.fluxs[index] = flux;
+
                      app.setup.id.value = '';
                                      }
                  };
