@@ -17,19 +17,18 @@ module Mushy
                   type:        'text',
                   value:       '',
                 },
-          path: {
-                  description: 'The path to the data in the event to write.',
+          data: {
+                  description: 'The text to write. You can use Liquid templating here to pull data from the event, or write hardcoded data.',
                   type:        'text',
-                  value:       '',
+                  value:       '{{data}}',
                 },
         },
       }
     end
 
     def process event, config
-      data = event[config[:path].to_sym] || event[config[:path].to_s]
 
-      File.open(config[:name], 'w') { |f| f.write data }
+      File.open(config[:name], 'w') { |f| f.write config[:data] }
 
       {}
     end
