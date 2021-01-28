@@ -31,6 +31,8 @@ module Mushy
       def self.get_flow file
         file = "#{file}.json" unless file.downcase.end_with?('.json')
         JSON.parse File.open(file).read
+      rescue
+        Mushy::Flow.new
       end
 
       def self.get_fluxs
