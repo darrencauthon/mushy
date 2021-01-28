@@ -71,7 +71,7 @@ module Mushy
            data: function() {
                return {
                    toggle: function(view) { return view == 'beautiful' ? 'thin' : 'beautiful'; },
-                   copy: function(view, json) { console.log(view); return navigator.clipboard.writeText((view == 'beautiful' ? JSON.stringify(json, null, "  ") : JSON.stringify(json))); },
+                   copy: function(view, json) { return navigator.clipboard.writeText((view == 'beautiful' ? JSON.stringify(json, null, "  ") : JSON.stringify(json))); },
                    show: function(view, json) { return view == 'beautiful' ? JSON.stringify(json, null, "  ") : JSON.stringify(json); },
                };
            },
@@ -245,14 +245,12 @@ module Mushy
                                            config: config,
                                        };
                      app.flow.fluxs.push(flux);
-                     console.log(flux);
                                      }
                  };
              }
 
              var loadThisFlux = function(flux, setup, config)
              {
-                 console.log([flux, setup, config]);
                  Vue.set(setup.id, 'value', flux.id);
                  Vue.set(setup.name, 'value', flux.name);
                  Vue.set(setup.flux, 'value', flux.flux);
