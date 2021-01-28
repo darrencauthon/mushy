@@ -27,9 +27,7 @@ module Mushy
       end
 
       def self.get_flow
-        {
-          fluxs: []
-        }
+        JSON.parse File.open('hey.json').read
       end
 
       def self.get_fluxs
