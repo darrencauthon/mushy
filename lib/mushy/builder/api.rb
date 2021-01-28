@@ -22,6 +22,7 @@ module Mushy
       def self.save data
 
         data = SymbolizedHash.new JSON.parse(data)
+        Mushy::WriteFile.new.process( {}, { name: 'hey.json', data: data.to_json })
 
       end
 
