@@ -258,16 +258,15 @@ module Mushy
                      },
                      edit: function(x, y, z, abc) {
                          var flux = x.flux;
-                         var applicable_config = x.configs[x.flux.flux];
-                         console.log(x);
-                         console.log(flux);
-                         console.log(applicable_config);
-                         for(var key in applicable_config)
-                             if (flux.config[key])
-                                Vue.set(applicable_config[key], 'value', flux.config[key]);
+
                          Vue.set(x.setup.id, 'value', flux.id);
                          Vue.set(x.setup.name, 'value', flux.name);
                          Vue.set(x.setup.flux, 'value', flux.flux);
+
+                         var applicable_config = x.configs[x.flux.flux];
+                         for(var key in applicable_config)
+                             if (flux.config[key])
+                                Vue.set(applicable_config[key], 'value', flux.config[key]);
                      },
                      configs: configs,
                      setup: setup,
