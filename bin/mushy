@@ -14,12 +14,12 @@ class RailsCLI < Thor
   desc "build FILE", 'Build a flow.'
   def build file
 
-    RailsCLI.set_special 'build'
+    RailsCLI.set_special( { method: 'build', file: file } )
 
   end
 
-  def self.set_special special
-    @special = special
+  def self.set_special data
+    @special = data
   end
 
   def self.get_special
@@ -35,7 +35,7 @@ exit unless RailsCLI.get_special
 require 'sinatra'
 enable :run
 
-the_file = RailsCLI.get_special
+the_file = RailsCLI.get_special[:file]
 
 get '/' do
   Mushy::Builder::Index.file
