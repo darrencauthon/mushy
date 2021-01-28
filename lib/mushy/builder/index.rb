@@ -20,6 +20,7 @@ module Mushy
                 </tr>
             </table>
             <a href="#" v-if="setup.id.value == ''" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
+            <a href="#" v-if="setup.id.value == ''" v-on:click.prevent.stop="saveFlow(flow)">[Save]</a>
             <div v-if="setup.id.value">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
@@ -302,6 +303,14 @@ module Mushy
                          var flux = x.flux;
 
                          loadThisFlux(x.flux, x.setup, x.configs);
+                     },
+                     saveFlow: function(flow)
+                     {
+                         console.log(flow);
+                         axios.post('/save', flow)
+                            .then(function(result){
+                                console.log(result);
+                            });
                      },
                      configs: configs,
                      setup: setup,

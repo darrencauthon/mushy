@@ -38,3 +38,11 @@ post '/run' do
 
   { result: result }.to_json
 end
+
+post '/save' do
+  content_type :json
+
+  result = request.body.read
+
+  { result: result }.to_json
+end
