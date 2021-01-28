@@ -19,6 +19,12 @@ module Mushy
         [result].flatten
       end
 
+      def self.save data
+
+        data = SymbolizedHash.new JSON.parse(data)
+
+      end
+
       def self.get_flow
         {
           fluxs: []

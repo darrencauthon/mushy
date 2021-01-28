@@ -42,7 +42,7 @@ end
 post '/save' do
   content_type :json
 
-  result = request.body.read
+  result = Mushy::Builder::Api.save request.body.read
 
   { result: result }.to_json
 end
