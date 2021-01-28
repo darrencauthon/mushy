@@ -250,6 +250,19 @@ module Mushy
                  };
              }
 
+             var loadThisFlux = function(flux, setup, config)
+             {
+                 console.log([flux, setup, config]);
+                 Vue.set(setup.id, 'value', flux.id);
+                 Vue.set(setup.name, 'value', flux.name);
+                 Vue.set(setup.flux, 'value', flux.flux);
+
+                 var applicable_config = configs[flux.flux];
+                 for(var key in applicable_config)
+                     if (flux.config[key])
+                         Vue.set(applicable_config[key], 'value', flux.config[key]);
+             };
+
              app = new Vue({
                  el: '#app',
                  data: {
@@ -259,14 +272,7 @@ module Mushy
                      edit: function(x, y, z, abc) {
                          var flux = x.flux;
 
-                         Vue.set(x.setup.id, 'value', flux.id);
-                         Vue.set(x.setup.name, 'value', flux.name);
-                         Vue.set(x.setup.flux, 'value', flux.flux);
-
-                         var applicable_config = x.configs[x.flux.flux];
-                         for(var key in applicable_config)
-                             if (flux.config[key])
-                                Vue.set(applicable_config[key], 'value', flux.config[key]);
+                         loadThisFlux(x.flux, x.setup, x.configs);
                      },
                      configs: configs,
                      setup: setup,
