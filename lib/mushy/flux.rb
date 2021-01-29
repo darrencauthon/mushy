@@ -51,7 +51,7 @@ module Mushy
 
       return results.first unless incoming_split
 
-      results = join_these_results(results, event, config[:join]) if config[:join]
+      results = join_these_results([results].flatten, event, config[:join]) if config[:join]
 
       results.flatten
     end
