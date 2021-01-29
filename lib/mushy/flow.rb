@@ -26,9 +26,11 @@ module Mushy
 
     def self.parse data
       data = JSON.parse data
-      flow = new
 
       data_fluxs = data['fluxs'] || []
+      data_fluxs.select { |x| x['parent'] }.map { |r| r["parent_fluxs"] = [r["parent"]] }
+
+      flow = new
 
       flow.fluxs = data_fluxs.map { |s| build_flux s }
 

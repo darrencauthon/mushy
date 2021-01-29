@@ -59,6 +59,32 @@ DOC
           fluxs[1].parent_fluxs[0].must_be_same_as fluxs[0]
         end
 
+        describe "parent fluxes with just one parent" do
+
+          describe "fluxs" do
+
+            let(:data) do
+<<DOC
+{
+    "fluxs": [
+        { "id": "abcd", "config": { "a": "b"} },
+        { "id": "efgh", "config": { "c": "d" }, "parent": "abcd", "type": "Get" }
+    ]
+}
+DOC
+            end
+
+            it "should load the parent fluxs" do
+              fluxs = Mushy::Flow.parse(data).fluxs
+              fluxs[0].parent_fluxs.count.must_equal 0
+              fluxs[1].parent_fluxs.count.must_equal 1
+              fluxs[1].parent_fluxs[0].must_be_same_as fluxs[0]
+            end
+
+          end
+
+        end
+
       end
 
       describe "missing flux data" do
