@@ -258,6 +258,7 @@ module Mushy
                                            id: setup.id,
                                            name: setup.name,
                                            flux: setup.flux,
+                                           parent: setup.parent,
                                            config: config,
                                        };
                      var index = -1;
@@ -279,6 +280,7 @@ module Mushy
                  Vue.set(setup.id, 'value', flux.id);
                  Vue.set(setup.name, 'value', flux.name);
                  Vue.set(setup.flux, 'value', flux.flux);
+                 Vue.set(setup.parent, 'value', flux.parent);
 
                  var applicable_config = configs[flux.flux];
                  for(var key in applicable_config)
