@@ -67,7 +67,7 @@ module Mushy
       returned_one_result = results.is_a?(Hash)
 
       results = standardize_these results
-      results = shape_these results, event, mashed_config
+      results = shape_these results, event, config
 
       return results.first if the_original_join
 
