@@ -40,9 +40,7 @@ module Mushy
 
       event = incoming_event
 
-      mashed_config = masher.mash config, event
-
-      incoming_split = mashed_config[:incoming_split]
+      incoming_split = masher.mash(config, event)[:incoming_split]
 
       events = incoming_split ? incoming_event[incoming_split] : [event]
 
