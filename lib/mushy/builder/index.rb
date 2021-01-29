@@ -236,6 +236,7 @@ module Mushy
                    id: { type: 'text', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
+                   parent: { type: 'select', value: '', options: flowdata.fluxs.map(function(x) { return x.id; }) },
              };
 
              for (var key in configs)
@@ -285,6 +286,11 @@ module Mushy
                          Vue.set(applicable_config[key], 'value', flux.config[key]);
                      else
                          Vue.set(applicable_config[key], 'value', applicable_config[key].default);
+
+
+                 options = flowdata.fluxs.map(function(x) { return x.id; }).filter(function(x){ return x != flux.id });
+                 options.unshift('');
+                 setup.parent.options = options;
              };
 
              app = new Vue({
