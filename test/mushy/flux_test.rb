@@ -76,6 +76,21 @@ describe Mushy::Flux do
         result.count.must_equal 2
       end
 
+      it "allow a join after the incoming split" do
+
+        event[:a] = [ { b: 'c' }, { b: 'd' } ]
+        flux.return_this = { z: 'y' }
+
+        flux.config[:incoming_split] = 'a'
+        flux.config[:join] = 'heyyou'
+
+        result = flux.execute event
+
+        result.count.must_equal 1
+        result[0]['heyyou'].count.must_equal 2
+        result[0]['heyyou'][0][:z].must_equal 'y'
+      end
+
     end
 
     describe "grouping the results" do
