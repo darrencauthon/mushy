@@ -19,9 +19,9 @@ module Mushy
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
-            <a href="#" v-if="setup.id.value == ''" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
-            <a href="#" v-if="setup.id.value == ''" v-on:click.prevent.stop="saveFlow(flow)">[Save]</a>
-            <div v-if="setup.id.value">
+            <a href="#" v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
+            <a href="#" v-if="setup.showFlux == false" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">[Save]</a>
+            <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
                 <div v-if="results.loading">Loading...</div>
@@ -232,6 +232,7 @@ module Mushy
                 options.push(fluxTypes[type]);
 
              var setup = {
+                   showFlux: false,
                    event: { type: 'json', value: '{}' },
                    id: { type: 'text', value: '' },
                    name: { type: 'text', value: '' },
@@ -293,6 +294,8 @@ module Mushy
                  options = flowdata.fluxs.map(function(x) { return x.id; }).filter(function(x){ return x != flux.id });
                  options.unshift('');
                  setup.parent.options = options;
+
+                 Vue.set(setup, 'show', true);
              };
 
              app = new Vue({
@@ -312,12 +315,15 @@ module Mushy
 
                          loadThisFlux(x.flux, x.setup, x.configs);
                      },
-                     saveFlow: function(flow)
+                     saveFlow: function(input)
                      {
+                         var setup = input.setup;
+                         var flow = input.flow;
                          console.log(flow);
                          axios.post('/save', flow)
                             .then(function(result){
                                 console.log(result);
+                                Vue.set(setup, 'show', false);
                             });
                      },
                      configs: configs,
