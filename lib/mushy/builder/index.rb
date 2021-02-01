@@ -90,6 +90,10 @@ module Mushy
            props: ['label', 'value', 'options', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
        },
+       selectrecord: {
+           props: ['label', 'value', 'options', 'description'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div>'
+       },
        boolean: {
            props: ['label', 'value', 'options', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><select :name="id" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
@@ -237,7 +241,7 @@ module Mushy
                    id: { type: 'text', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parent: { type: 'select', value: '', options: flowdata.fluxs.map(function(x) { return x.id; }) },
+                   parent: { type: 'selectrecord', value: '', options: flowdata.fluxs },
              };
 
              for (var key in configs)
@@ -291,8 +295,8 @@ module Mushy
                          Vue.set(applicable_config[key], 'value', applicable_config[key].default);
 
 
-                 options = flowdata.fluxs.map(function(x) { return x.id; }).filter(function(x){ return x != flux.id });
-                 options.unshift('');
+                 options = flowdata.fluxs.filter(function(x){ return x.id != flux.id });
+                 options.unshift( { id: '', name: '' } );
                  setup.parent.options = options;
 
                  Vue.set(setup, 'showFlux', true);
@@ -325,10 +329,8 @@ module Mushy
                      {
                          var setup = input.setup;
                          var flow = input.flow;
-                         console.log(flow);
                          axios.post('/save', flow)
                             .then(function(result){
-                                console.log(result);
                                 Vue.set(setup, 'show', false);
                             });
                      },
