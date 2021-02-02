@@ -60,7 +60,7 @@ module Mushy
           wait_before_closing: {
                                  description: 'Wait this many seconds before closing the browser.',
                                  type:        'integer',
-                                 value:       'cookies',
+                                 value:       '',
                                },
         },
       }
