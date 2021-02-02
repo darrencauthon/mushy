@@ -57,6 +57,11 @@ module Mushy
                      type:        'text',
                      value:       'headers',
                    },
+          wait_before_closing: {
+                                 description: 'Wait this many seconds before closing the browser.',
+                                 type:        'integer',
+                                 value:       'cookies',
+                               },
         },
       }
     end
@@ -79,6 +84,8 @@ module Mushy
         headers: browser.headers.get,
         body: browser.body
       }
+
+      sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing]
 
       browser.quit
 
