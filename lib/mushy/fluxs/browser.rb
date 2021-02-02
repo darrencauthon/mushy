@@ -85,7 +85,7 @@ module Mushy
         body: browser.body
       }
 
-      sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing]
+      sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing] && config[:wait_before_closing].to_i > 0
 
       browser.quit
 
