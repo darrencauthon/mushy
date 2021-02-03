@@ -15,12 +15,12 @@ module Mushy
             <table v-if="setup.showFlux == false">
                 <tr>
                     <th>Name</th>
-                    <th>Type</th>
+                    <th>Parent</th>
                     <th>Actions</th>
                 </tr>
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
-                    <td>{{flux.flux}}</td>
+                    <td>{{flux.parent}}</td>
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
