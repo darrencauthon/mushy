@@ -20,7 +20,7 @@ module Mushy
                 </tr>
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
-                    <td>{{flux.parent}}</td>
+                    <td>{{flux_name_for(flux.parent, flow.fluxs)}}</td>
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
@@ -353,6 +353,13 @@ module Mushy
                      },
                      configs: configs,
                      setup: setup,
+                     flux_name_for: function(id, fluxes) {
+                         var flux = fluxes.filter(function(x){ return x.id == id })[0];
+                         console.log(id);
+                         console.log(fluxes);
+                         console.log(flux);
+                         return flux != undefined ? flux.name : '';
+                     },
                      results: [],
                  }
             });
