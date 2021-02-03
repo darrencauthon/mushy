@@ -198,32 +198,6 @@ module Mushy
         template: '<div><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
     });
 
-    var sample = {
-                     email: { type: 'email', value: 'darren@cauthon.com' },
-                     first_name: { type: 'text', value: 'Darren' },
-                     description: { type: 'textarea', value: 'more data' },
-                     size: { type: 'select', value: 'medium', options: ['small', 'medium', 'large']},
-                     heynow: { type: 'keyvalue',
-                             value: {
-                                 first_name: 'John',
-                                 last_name: 'Doe',
-                             },
-                             editors: [
-                                         { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
-                                         { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
-                                      ] },
-                     past: { type: 'editgrid',
-                             value: [
-                                 { name: 'Godzilla', quantity: 1 },
-                                 { name: 'Mothra', quantity: 2 },
-                             ],
-                             editors: [
-                                         { id: 'new_name', target: 'name', field: { type: 'text', value: '', default: '' } },
-                                         { id: 'new_quantity', target: 'quantity', field: { type: 'select', value: '1', options: [1, 2, 3], default: 1 } }
-                                      ] },
-                     super_action: { type: 'button', click: function(x) { console.log(x) } },
-                 };
-
     var app = null;
 
     axios.get('/fluxs')
