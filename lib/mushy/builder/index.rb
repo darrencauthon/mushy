@@ -331,7 +331,7 @@ module Mushy
                          var flow = input.flow;
                          axios.post('/save', flow)
                             .then(function(result){
-                                Vue.set(setup, 'show', false);
+                                Vue.set(setup, 'showFlux', false);
                             });
                      },
                      configs: configs,
