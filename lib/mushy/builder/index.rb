@@ -135,8 +135,8 @@ module Mushy
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><table><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><a href="#" v-on:click.prevent.stop="removeRecord(value, k)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click.prevent.stop="addRecord(editors, value)" v-show="editors[0].field.value">[Add]</a></td></tr></table></div>'
        },
        button: {
-           props: ['click', 'description'],
-           template: '<button v-on:click.prevent.stop="click(pull(this))">{{id}}</button>'
+           props: ['click', 'description', 'name'],
+           template: '<button v-on:click.prevent.stop="click(pull(this))">{{name || id}}</button>'
        }
    };
 
@@ -246,7 +246,7 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].go = { type: 'button', click: function(c) {
+                 configs[key].go = { type: 'button', name: 'Go', click: function(c) {
                                       app.results = [];
                                       Vue.set(app.results, 'loading', true);
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
@@ -257,7 +257,7 @@ module Mushy
                                         });
                                      } };
 
-                 configs[key].save = { type: 'button', click: function(config) {
+                 configs[key].save = { type: 'button', name: 'Save', click: function(config) {
                      var setup = thingToData(app.setup);
                                        var flux = {
                                            id: setup.id,
