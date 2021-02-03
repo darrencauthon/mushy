@@ -246,7 +246,7 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].go = { type: 'button', name: 'Go', click: function(c) {
+                 configs[key].go = { type: 'button', name: 'Run This Flux', click: function(c) {
                                       app.results = [];
                                       Vue.set(app.results, 'loading', true);
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
