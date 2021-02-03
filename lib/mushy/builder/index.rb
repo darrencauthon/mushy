@@ -282,8 +282,12 @@ module Mushy
                  };
              }
 
-             var loadThisFlux = function(flux, setup, config)
+             var loadThisFlux = function(args)
              {
+                 var flux = args.flux;
+                 var setup = args.setup;
+                 var config = args.config;
+
                  Vue.set(setup.id, 'value', flux.id);
                  Vue.set(setup.name, 'value', flux.name);
                  Vue.set(setup.flux, 'value', flux.flux);
@@ -320,12 +324,12 @@ module Mushy
                              name: 'you',
                              config: {}
                          };
-                         loadThisFlux(flux, x.setup, x.configs);
+                         loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
                      },
                      edit: function(x) {
                          var flux = x.flux;
 
-                         loadThisFlux(x.flux, x.setup, x.configs);
+                         loadThisFlux({ flux: x.flux, setup: x.setup, configs: x.configs });
                      },
                      saveFlow: function(input)
                      {
