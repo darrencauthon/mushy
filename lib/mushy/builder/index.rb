@@ -229,21 +229,6 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
-
-                 configs[key].go = { type: 'button', name: 'Run This Flux', click: function(c) {
-                                      app.results = [];
-                                      Vue.set(app.results, 'loading', true);
-                                      var the_setup = thingToData(app.setup);
-                                      the_setup.event = c.test_event;
-                                      axios.post('/run', { config: c, setup: the_setup })
-                                       .then(function(r){
-                                           Vue.set(app.results, 'loading', false);
-                                           for (var key in r.data.result)
-                                               app.results.push({darren: { type:'jsonview', value: r.data.result[key], view: 'thin' }});
-                                        });
-                                     } };
-
                  configs[key].save = { type: 'button', name: 'Save This Flux', click: function(config) {
                      var setup = thingToData(app.setup);
                                        var flux = {
@@ -267,6 +252,21 @@ module Mushy
                      Vue.set(app.setup, 'showFlux', false);
                                      }
                  };
+
+                 configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
+
+                 configs[key].run_test = { type: 'button', name: 'Run This Flux', click: function(c) {
+                                      app.results = [];
+                                      Vue.set(app.results, 'loading', true);
+                                      var the_setup = thingToData(app.setup);
+                                      the_setup.event = c.test_event;
+                                      axios.post('/run', { config: c, setup: the_setup })
+                                       .then(function(r){
+                                           Vue.set(app.results, 'loading', false);
+                                           for (var key in r.data.result)
+                                               app.results.push({darren: { type:'jsonview', value: r.data.result[key], view: 'thin' }});
+                                        });
+                                     } };
              }
 
              var loadThisFlux = function(args)
