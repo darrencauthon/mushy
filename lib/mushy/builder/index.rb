@@ -255,7 +255,7 @@ module Mushy
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
 
-                 configs[key].run_test = { type: 'button', name: 'Run This Flux', click: function(c) {
+                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', click: function(c) {
                                       app.results = [];
                                       Vue.set(app.results, 'loading', true);
                                       var the_setup = thingToData(app.setup);
