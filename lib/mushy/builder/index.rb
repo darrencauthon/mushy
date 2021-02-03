@@ -19,8 +19,8 @@ module Mushy
                     <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
                 </tr>
             </table>
-            <a href="#" v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[New]</a>
-            <a href="#" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">[Save]</a>
+            <a href="#" v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[Start A New Flux]</a>
+            <a href="#" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">[Save This Flow]</a>
             <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
