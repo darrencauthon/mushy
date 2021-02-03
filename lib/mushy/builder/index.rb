@@ -276,6 +276,8 @@ module Mushy
                          app.flow.fluxs[index] = flux;
 
                      app.setup.id.value = '';
+
+                     Vue.set(app.setup, 'showFlux', false);
                                      }
                  };
              }
