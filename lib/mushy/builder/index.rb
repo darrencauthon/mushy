@@ -26,6 +26,7 @@ module Mushy
             </table>
             <a href="#" v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">[Start A New Flux]</a>
             <a href="#" v-if="setup.showFlux == false" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">[Save This Flow]</a>
+            <button v-if="setup.showFlux" v-on:click.prevent.stop="setup.showFlux = false">&lt; Go Back To List</button>
             <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
@@ -286,11 +287,6 @@ module Mushy
 
                      app.setup.id.value = '';
 
-                     Vue.set(app.setup, 'showFlux', false);
-                                     }
-                 };
-
-                 configs[key].close = { type: 'button', name: 'Close This Flux Without Saving', click: function(config) {
                      Vue.set(app.setup, 'showFlux', false);
                                      }
                  };
