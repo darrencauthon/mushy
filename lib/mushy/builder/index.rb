@@ -13,6 +13,11 @@ module Mushy
     <body>
         <div id="app">
             <table v-if="setup.showFlux == false">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
                     <td>{{flux.flux}}</td>
