@@ -336,7 +336,7 @@ module Mushy
                      startNew: function(x) {
                          flux = {
                              id: uuidv4(),
-                             name: 'you',
+                             name: '',
                              config: {}
                          };
                          loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
