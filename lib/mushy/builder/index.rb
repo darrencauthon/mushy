@@ -280,6 +280,11 @@ module Mushy
                      Vue.set(app.setup, 'showFlux', false);
                                      }
                  };
+
+                 configs[key].close = { type: 'button', name: 'Close This Flux Without Saving', click: function(config) {
+                     Vue.set(app.setup, 'showFlux', false);
+                                     }
+                 };
              }
 
              var loadThisFlux = function(args)
