@@ -221,7 +221,6 @@ module Mushy
 
              var setup = {
                    showFlux: false,
-                   event: { type: 'json', value: '{}' },
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
@@ -234,10 +233,10 @@ module Mushy
 
                  configs[key].go = { type: 'button', name: 'Run This Flux', click: function(c) {
                                       app.results = [];
-                                      setup.event.value = JSON.stringify(c.test_event);
-                                      delete c.test_event;
                                       Vue.set(app.results, 'loading', true);
-                                      axios.post('/run', { config: c, setup: thingToData(app.setup) })
+                                      var the_setup = thingToData(app.setup);
+                                      the_setup.event = c.test_event;
+                                      axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
                                            Vue.set(app.results, 'loading', false);
                                            for (var key in r.data.result)
