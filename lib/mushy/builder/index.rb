@@ -60,6 +60,10 @@ module Mushy
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
+       hide:  {
+           props: ['label', 'description'],
+           template: '<mip-label :id="id" :label="label" :description="description" v-if="false"></mip-label>'
+       },
        integer:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
@@ -243,7 +247,7 @@ module Mushy
              var setup = {
                    showFlux: false,
                    event: { type: 'json', value: '{}' },
-                   id: { type: 'text', value: '' },
+                   id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
                    parent: { type: 'selectrecord', value: '', options: flowdata.fluxs },
