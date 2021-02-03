@@ -306,6 +306,7 @@ module Mushy
                  setup.parent.options = options;
 
                  Vue.set(setup, 'showFlux', true);
+                 app.results = [];
              };
 
              function uuidv4() {
