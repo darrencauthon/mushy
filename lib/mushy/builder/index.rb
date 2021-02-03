@@ -230,8 +230,12 @@ module Mushy
 
              for (var key in configs)
              {
+                 configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
+
                  configs[key].go = { type: 'button', name: 'Run This Flux', click: function(c) {
                                       app.results = [];
+                                      setup.event.value = JSON.stringify(c.test_event);
+                                      delete c.test_event;
                                       Vue.set(app.results, 'loading', true);
                                       axios.post('/run', { config: c, setup: thingToData(app.setup) })
                                        .then(function(r){
