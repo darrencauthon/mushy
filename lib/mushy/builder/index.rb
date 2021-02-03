@@ -355,9 +355,6 @@ module Mushy
                      setup: setup,
                      flux_name_for: function(id, fluxes) {
                          var flux = fluxes.filter(function(x){ return x.id == id })[0];
-                         console.log(id);
-                         console.log(fluxes);
-                         console.log(flux);
                          return flux != undefined ? flux.name : '';
                      },
                      results: [],
