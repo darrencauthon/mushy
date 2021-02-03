@@ -257,7 +257,7 @@ module Mushy
                                         });
                                      } };
 
-                 configs[key].save = { type: 'button', name: 'Save', click: function(config) {
+                 configs[key].save = { type: 'button', name: 'Save This Flux', click: function(config) {
                      var setup = thingToData(app.setup);
                                        var flux = {
                                            id: setup.id,
