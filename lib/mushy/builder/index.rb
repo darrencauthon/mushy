@@ -182,7 +182,7 @@ module Mushy
                       }
                       return {
                           console: console,
-                          pull: function(x) { return thingToData(foundIt.data); },
+                          pull: function(x) { var data = thingToData(foundIt.data); delete data.test_event; return data; },
                           thisComponent: function() { return foundIt.data; },
                       }
                   },
