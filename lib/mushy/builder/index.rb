@@ -15,7 +15,7 @@ module Mushy
             <table v-if="setup.showFlux == false">
                 <tr>
                     <th>Name</th>
-                    <th>Parent</th>
+                    <th>Receives Events From</th>
                     <th>Actions</th>
                 </tr>
                 <tr v-for="flux in flow.fluxs">
@@ -242,7 +242,7 @@ module Mushy
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parent: { type: 'selectrecord', value: '', options: flowdata.fluxs },
+                   parent: { type: 'selectrecord', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
              for (var key in configs)
