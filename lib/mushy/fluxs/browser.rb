@@ -17,11 +17,13 @@ module Mushy
           headless: {
                       description: 'Run this browser headless.',
                       type:        'boolean',
+                      shrink:      true,
                       value:       'true',
                     },
           execute: {
                      description: 'Javascript to run after the page is loaded.',
                      type:        'textarea',
+                     shrink:      true,
                      value:       '',
                    },
           cookies: {
@@ -46,21 +48,25 @@ module Mushy
           carry_cookies_from: {
                      description: 'Carry the cookies from this path in the event.',
                      type:        'text',
+                     shrink:      true,
                      value:       'cookies',
                    },
           headers: {
                      description: 'Headers for the web request. These can be received from a previous browser event with {{headers}}, or can be typed manually.',
                      type:        'keyvalue',
+                     shrink:      true,
                      value:       {},
                    },
           carry_headers_from: {
                      description: 'Carry the headers from this path in the event.',
                      type:        'text',
+                     shrink:      true,
                      value:       'headers',
                    },
           wait_before_closing: {
                                  description: 'Wait this many seconds before closing the browser.',
                                  type:        'integer',
+                                 shrink:      true,
                                  value:       '',
                                },
         },
