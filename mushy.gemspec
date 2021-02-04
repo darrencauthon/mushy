@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   s.license        = 'MIT'
 
   s.add_development_dependency 'minitest'
+  s.add_runtime_dependency 'sinatra'
+  s.add_runtime_dependency 'symbolized'
   s.add_runtime_dependency 'thor'
   s.add_runtime_dependency 'liquid'
   s.add_runtime_dependency 'ferrum'
