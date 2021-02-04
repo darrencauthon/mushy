@@ -262,7 +262,9 @@ module Mushy
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
 
-                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', click: function(c) {
+                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', click: function(c, hey) {
+                                      var previousName = hey.run_test.name;
+                                      Vue.set(hey.run_test, 'name', 'Loading');
                                       app.results = [];
                                       Vue.set(app.results, 'loading', true);
                                       var the_setup = thingToData(app.setup);
@@ -278,6 +280,10 @@ module Mushy
                                               app.results.push(result);
                                               index += 1;
                                            }
+                                        }).catch(function(r){
+                                            console.log(r);
+                                        }).then(function(){
+                                           Vue.set(hey.run_test, 'name', previousName);
                                         });
                                      } };
              }
