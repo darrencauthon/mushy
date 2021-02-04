@@ -310,7 +310,8 @@ module Mushy
                      else
                          Vue.set(applicable_config[key], 'value', applicable_config[key].default);
 
-                 Vue.set(applicable_config.test_event, 'value', '{}');
+                 if (applicable_config)
+                     Vue.set(applicable_config.test_event, 'value', '{}');
 
                  options = flowdata.fluxs.filter(function(x){ return x.id != flux.id });
                  options.unshift( { id: '', name: '' } );
