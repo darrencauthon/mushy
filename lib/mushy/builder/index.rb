@@ -263,11 +263,13 @@ module Mushy
                                       axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
                                            Vue.set(app.results, 'loading', false);
+                                           var index = 1;
                                            for (var key in r.data.result)
                                            {
                                               var result = {};
-                                              result['kaycie'] = { type: 'jsonview', value: r.data.result[key], view: 'thin' };
+                                              result['event_' + index] = { type: 'jsonview', value: r.data.result[key], view: 'thin' };
                                               app.results.push(result);
+                                              index += 1;
                                            }
                                         });
                                      } };
