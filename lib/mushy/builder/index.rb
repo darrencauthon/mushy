@@ -182,7 +182,7 @@ module Mushy
                       }
                       return {
                           console: console,
-                          pull: function(x) { var data = thingToData(foundIt.data); delete data.test_event; return data; },
+                          pull: function(x) { return thingToData(foundIt.data); },
                           thisComponent: function() { return foundIt.data; },
                       }
                   },
@@ -250,6 +250,7 @@ module Mushy
                  configs[key].save = { type: 'button', name: 'Save This Flux', click: function(config, hey) {
                      var nameOfTheSaveButton = hey.save.name;
                      Vue.set(hey.save, 'name', 'Saving');
+                     delete config.test_event;
                      var setup = thingToData(app.setup);
                                        var flux = {
                                            id: setup.id,
