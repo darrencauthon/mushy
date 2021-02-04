@@ -30,7 +30,7 @@ module Mushy
             <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
-                <div v-if="results.loading">Loading...</div>
+                <div v-if="results.errorMessage">{{results.errorMessage}}</div>
                 <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
                 <mip-heavy v-for="data in results" :data="data"></mip-heavy>
             </div>
@@ -90,7 +90,7 @@ module Mushy
                };
            },
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="view=toggle(view)">{{(view == \\'beautiful\\' ? \\'>\\' : \\'^\\')}}</a><a href="#" v-on:click.prevent.stop="copy(view, value)">copy</a><pre><code>{{show(view, value)}}</code></pre></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <pre><code>{{show(view, value)}}</code></pre><button v-on:click.prevent.stop="view=toggle(view)">{{(view == \\'beautiful\\' ? \\'View Smaller\\' : \\'View Pretty\\')}}</button><button v-on:click.prevent.stop="copy(view, value)">Copy</button></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
@@ -266,12 +266,11 @@ module Mushy
                                       var previousName = hey.run_test.name;
                                       Vue.set(hey.run_test, 'name', 'Loading');
                                       app.results = [];
-                                      Vue.set(app.results, 'loading', true);
+                                      Vue.set(app.results, 'errorMessage', '');
                                       var the_setup = thingToData(app.setup);
                                       the_setup.event = c.test_event;
                                       axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
-                                           Vue.set(app.results, 'loading', false);
                                            var index = 1;
                                            for (var key in r.data.result)
                                            {
@@ -282,6 +281,7 @@ module Mushy
                                            }
                                         }).catch(function(r){
                                             console.log(r);
+                                            Vue.set(app.results, 'errorMessage', 'This app failed while trying to execute your flux.');
                                         }).then(function(){
                                            Vue.set(hey.run_test, 'name', previousName);
                                         });
