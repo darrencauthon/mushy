@@ -54,8 +54,8 @@ module Mushy
                                 .select { |_, v| v[:editors].nil? }
                                 .each   do |_, v|
                                           v[:editors] = [
-                                                    { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
-                                                    { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                                                    { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '', touch: true } },
+                                                    { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '', touch: true  } }
                                                   ]
                                   end
 
