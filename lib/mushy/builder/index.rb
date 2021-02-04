@@ -55,7 +55,7 @@ module Mushy
    var components = {
        label: {
            props: ['label', 'description', 'hide'],
-           template: '<span><label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide">({{description}})</i></label></span>'
+           template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide">({{description}})</i></label>'
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
@@ -63,7 +63,7 @@ module Mushy
        },
        thintext:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'touch'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide="!touch"></mip-label><a href="#" v-on:click.prevent.stop="touch=true" v-show="!touch">[open]</a><input type="text" :name="id" v-if="value || touch" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide="!touch"></mip-label> <a href="#" v-on:click.prevent.stop="touch=true" v-show="!touch">[^]</a><input type="text" :name="id" v-if="value || touch" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
        hide:  {
            props: ['label', 'description'],
