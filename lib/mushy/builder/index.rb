@@ -133,7 +133,7 @@ module Mushy
        keyvalue: {
            data: function() {
                return {
-                   actionText: function(value, others) { found = false; for(var i in others){if (i == value) found = true;} return found ? 'Replace' : 'Add'; },
+                   actionText: function(value, others) { found = false; for(var i in others){ if (i == value) found = true; } return found ? 'Replace' : 'Add'; },
                    removeRecord: function(data, key) { Vue.delete(data, key) },
                    addRecord: function(editors, data) {
                                                    Vue.set(data, editors[0].field.value, editors[1].field.value)
