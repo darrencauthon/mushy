@@ -57,6 +57,10 @@ module Mushy
            props: ['label', 'description', 'hide_description'],
            template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
        },
+       h4: {
+           props: ['label', 'description', 'hide_description'],
+           template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
+       },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
            template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
@@ -90,7 +94,7 @@ module Mushy
                };
            },
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <pre><code>{{show(view, value)}}</code></pre><button :disabled="view==\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)">{{(view == \\'beautiful\\' ? \\'View Smaller\\' : \\'View Pretty\\')}}</button><button :disabled="view!=\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)">View Smaller</button><button v-on:click.prevent.stop="copy(view, value)">Copy</button></div>'
+           template: '<div><mip-h4 :id="id" :label="label" :description="description"></mip-h4> <pre><code>{{show(view, value)}}</code></pre><button :disabled="view==\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)">{{(view == \\'beautiful\\' ? \\'View Smaller\\' : \\'View Pretty\\')}}</button><button :disabled="view!=\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)">View Smaller</button><button v-on:click.prevent.stop="copy(view, value)">Copy</button></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
