@@ -21,7 +21,7 @@ module Mushy
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
                     <td>{{flux_name_for(flux.parent, flow.fluxs)}}</td>
-                    <td><a href="#" v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">[Edit]</a></td>
+                    <td><button v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">Edit</button></td>
                 </tr>
             </table>
             <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">Start a New Flux</button>
