@@ -279,7 +279,7 @@ module Mushy
                                            for (var key in r.data.result)
                                            {
                                               var result = {};
-                                              result['event_' + index] = { type: 'jsonview', value: r.data.result[key], view: 'thin' };
+                                              result['event_' + index] = { type: 'jsonview', label: 'Event ' + index + ' of ' + r.data.result.length, value: r.data.result[key], view: 'thin' };
                                               app.results.push(result);
                                               index += 1;
                                            }
