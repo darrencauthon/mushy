@@ -27,6 +27,7 @@ module Mushy
           cookies: {
                      description: 'Cookies for the web request. These can be received from a previous browser event with {{cookies}}, or can be typed manually.',
                      type:        'editgrid',
+                     shrink:      true,
                      value:       [],
                      editors: [
                                  { id: 'name', target: 'name', field: { type: 'text', value: '', default: '' } },

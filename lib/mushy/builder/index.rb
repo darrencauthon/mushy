@@ -128,7 +128,7 @@ module Mushy
                };
            },
            props: ['value', 'editors', 'label', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && value.length == 0">[^]</a><table><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click.prevent.stop="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click.prevent.stop="addRecord(editors, value)">[Add]</a></td></tr></table></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && value.length == 0">[^]</a><table v-if="value.length > 0 || !shrink"><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click.prevent.stop="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click.prevent.stop="addRecord(editors, value)">[Add]</a></td></tr></table></div>'
        },
        keyvalue: {
            data: function() {
