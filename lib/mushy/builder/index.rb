@@ -57,9 +57,21 @@ module Mushy
            props: ['label', 'description', 'hide_description'],
            template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
        },
+       h1: {
+           props: ['label', 'description', 'hide_description'],
+           template: '<h1 v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></h1>'
+       },
+       h2: {
+           props: ['label', 'description', 'hide_description'],
+           template: '<h2 v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></h2>'
+       },
+       h3: {
+           props: ['label', 'description', 'hide_description'],
+           template: '<h3 v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></h3>'
+       },
        h4: {
            props: ['label', 'description', 'hide_description'],
-           template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
+           template: '<h4 v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></h4>'
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
