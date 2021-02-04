@@ -58,8 +58,8 @@ module Mushy
            template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
        },
        text:  {
-           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'touch'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="!touch"></mip-label> <a href="#" v-on:click.prevent.stop="touch=true" v-show="!touch && !value">[^]</a><input type="text" :name="id" v-if="value || touch" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="!shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=true" v-show="!shrink && !value">[^]</a><input type="text" :name="id" v-if="value || shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
        hide:  {
            props: ['label', 'description'],

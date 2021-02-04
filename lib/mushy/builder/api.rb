@@ -40,7 +40,7 @@ module Mushy
         {
           fluxs: Mushy::Flux.all.select { |x| x.respond_to? :details }.map do |flux|
                          details = flux.details
-                         details[:config][:incoming_split] = { type: 'text', touch: false, description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
+                         details[:config][:incoming_split] = { type: 'text', description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
                          details[:config][:outgoing_split] = { type: 'text', description: 'Split an outgoing event into multiple events by this key.', default: '' }
                          details[:config][:merge] = { type: 'text', description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.', default: '' }
                          details[:config][:group] = { type: 'text', description: 'Group events by a field, which is stored in a key. The format is group_by|group_key.', default: '' }
@@ -54,8 +54,8 @@ module Mushy
                                 .select { |_, v| v[:editors].nil? }
                                 .each   do |_, v|
                                           v[:editors] = [
-                                                    { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '', touch: true } },
-                                                    { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '', touch: true  } }
+                                                    { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '', shrink: true } },
+                                                    { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '', shrink: true  } }
                                                   ]
                                   end
 
