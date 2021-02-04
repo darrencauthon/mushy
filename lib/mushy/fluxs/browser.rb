@@ -43,7 +43,6 @@ module Mushy
                                  { id: 'sameSite', target: 'sameSite', field: { type: 'text', value: 'None', default: 'None' } },
                                  { id: 'priority', target: 'priority', field: { type: 'text', value: 'Medium', default: 'Medium' } },
                               ],
-                     #{"name":"1P_JAR","value":"2021-01-21-13","domain":".google.com","path":"/","expires":1613828458.870408,"size":19,"httpOnly":false,"secure":true,"session":false,"sameSite":"None","priority":"Medium"
                    },
           carry_cookies_from: {
                      description: 'Carry the cookies from this path in the event.',
