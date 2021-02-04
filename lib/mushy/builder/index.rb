@@ -133,6 +133,7 @@ module Mushy
        keyvalue: {
            data: function() {
                return {
+                   actionText: function(value, others) { found = false; for(var i in others){if (i == value) found = true;} return found ? 'Replace' : 'Add'; },
                    removeRecord: function(data, key) { Vue.delete(data, key) },
                    addRecord: function(editors, data) {
                                                    Vue.set(data, editors[0].field.value, editors[1].field.value)
@@ -142,7 +143,7 @@ module Mushy
                };
            },
            props: ['value', 'label', 'editors', 'description'],
-           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><table><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><button v-on:click.prevent.stop="removeRecord(value, k)">Remove {{k}}</button></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><button v-on:click.prevent.stop="addRecord(editors, value)" v-show="editors[0].field.value">Add {{editors[0].field.value}}</button></td></tr></table></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><table><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><button v-on:click.prevent.stop="removeRecord(value, k)">Remove {{k}}</button></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><button v-on:click.prevent.stop="addRecord(editors, value)" v-show="editors[0].field.value">{{actionText(editors[0].field.value, value)}} {{editors[0].field.value}}</button></td></tr></table></div>'
        },
        button: {
            props: ['click', 'description', 'name'],
