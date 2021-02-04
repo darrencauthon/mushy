@@ -85,14 +85,14 @@ module Mushy
 
       browser.execute(config[:execute]) if config[:execute]
 
+      sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing] && config[:wait_before_closing].to_i > 0
+
       result = {
         url: browser.url,
         cookies: browser.cookies.all.map { |k, v| v.instance_variable_get('@attributes') },
         headers: browser.headers.get,
         body: browser.body
       }
-
-      sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing] && config[:wait_before_closing].to_i > 0
 
       browser.quit
 
