@@ -61,6 +61,10 @@ module Mushy
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description'],
            template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"></div>'
        },
+       thintext:  {
+           props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'touch'],
+           template: '<div><mip-label :id="id" :label="label" :description="description"></mip-label><input type="text" :name="id" v-if="value || touch" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'"><a href="#" v-on:click.prevent.stop="touch=true">[open]</a><a href="#" v-on:click.prevent.stop="touch=false">[close]</a></div>'
+       },
        hide:  {
            props: ['label', 'description'],
            template: '<mip-label :id="id" :label="label" :description="description" v-if="false"></mip-label>'
