@@ -264,7 +264,11 @@ module Mushy
                                        .then(function(r){
                                            Vue.set(app.results, 'loading', false);
                                            for (var key in r.data.result)
-                                               app.results.push({darren: { type:'jsonview', value: r.data.result[key], view: 'thin' }});
+                                           {
+                                              var result = {};
+                                              result['kaycie'] = { type: 'jsonview', value: r.data.result[key], view: 'thin' };
+                                              app.results.push(result);
+                                           }
                                         });
                                      } };
              }
