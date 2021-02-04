@@ -41,12 +41,12 @@ module Mushy
           fluxs: Mushy::Flux.all.select { |x| x.respond_to? :details }.map do |flux|
                          details = flux.details
                          details[:config][:incoming_split] = { type: 'thintext', touch: false, description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
-                         details[:config][:outgoing_split] = { type: 'text', description: 'Split an outgoing event into multiple events by this key.', default: '' }
-                         details[:config][:merge] = { type: 'text', description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.', default: '' }
-                         details[:config][:group] = { type: 'text', description: 'Group events by a field, which is stored in a key. The format is group_by|group_key.', default: '' }
+                         details[:config][:outgoing_split] = { type: 'thintext', description: 'Split an outgoing event into multiple events by this key.', default: '' }
+                         details[:config][:merge] = { type: 'thintext', description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.', default: '' }
+                         details[:config][:group] = { type: 'thintext', description: 'Group events by a field, which is stored in a key. The format is group_by|group_key.', default: '' }
                          details[:config][:limit] = { type: 'integer', description: 'Limit the number of events to this number.', default: '' }
-                         details[:config][:join] = { type: 'text', description: 'Join all of the events from this flux into one event, under this name.', default: '' }
-                         details[:config][:sort] = { type: 'text', description: 'Sort by this key.', default: '' }
+                         details[:config][:join] = { type: 'thintext', description: 'Join all of the events from this flux into one event, under this name.', default: '' }
+                         details[:config][:sort] = { type: 'thintext', description: 'Sort by this key.', default: '' }
                          details[:config][:model] = { type: 'keyvalue', description: 'Reshape the outgoing events.', value: {}, default: {} }
 
                          details[:config]
