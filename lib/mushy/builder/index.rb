@@ -21,7 +21,10 @@ module Mushy
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
                     <td>{{flux_name_for(flux.parent, flow.fluxs)}}</td>
-                    <td><button v-on:click.prevent.stop="edit({ flux: flux, setup: setup, configs: configs })">Edit</button></td>
+                    <td>
+                        <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">Edit</button>
+                        <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })">Delete</button>
+                    </td>
                 </tr>
             </table>
             <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">Start a New Flux</button>
@@ -352,10 +355,14 @@ module Mushy
                          };
                          loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
                      },
-                     edit: function(x) {
+                     editFlux: function(x) {
                          var flux = x.flux;
 
                          loadThisFlux({ flux: x.flux, setup: x.setup, configs: x.configs });
+                     },
+                     deleteFlux: function(x) {
+                         var set = x.flow.fluxs.filter( function(v){ return v.id != x.flux.id } );
+                         Vue.set(x.flow, 'fluxs', set);
                      },
                      saveFlow: function(input)
                      {
