@@ -147,7 +147,7 @@ module Mushy
        },
        button: {
            props: ['click', 'description', 'name'],
-           template: '<button v-on:click.prevent.stop="click(pull(this))">{{name || id}}</button>'
+           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())">{{name || id}}</button>'
        }
    };
 
@@ -167,6 +167,7 @@ module Mushy
                       return {
                           console: console,
                           pull: function(x) { return thingToData(foundIt.data); },
+                          thisComponent: function() { return foundIt.data; },
                       }
                   },
             props: props,
@@ -230,7 +231,9 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save This Flux', click: function(config) {
+                 configs[key].save = { type: 'button', name: 'Save This Flux', click: function(config, hey) {
+                     var nameOfTheSaveButton = hey.save.name;
+                     Vue.set(hey.save, 'name', 'Saving');
                      var setup = thingToData(app.setup);
                                        var flux = {
                                            id: setup.id,
@@ -248,9 +251,12 @@ module Mushy
                      else
                          app.flow.fluxs[index] = flux;
 
-                     app.setup.id.value = '';
+                     setTimeout(function(){
+                         Vue.set(hey.save, 'name', nameOfTheSaveButton);
+                         app.setup.id.value = '';
 
-                     Vue.set(app.setup, 'showFlux', false);
+                         Vue.set(app.setup, 'showFlux', false);
+                     }, 500);
                                      }
                  };
 
