@@ -89,6 +89,7 @@ module Mushy
       result = {
         url: browser.url,
         status: browser.network.status,
+        title: browser.frames[0].title,
         cookies: browser.cookies.all.map { |k, v| v.instance_variable_get('@attributes') },
         headers: browser.headers.get,
         body: browser.body
