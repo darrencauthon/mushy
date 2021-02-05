@@ -28,11 +28,13 @@ module Mushy
 
       end
 
-      def self.start flow, event
-        puts event.inspect
-        puts flow.inspect
-        flux = flow['fluxs'].select { |x| x[:type] == 'Cli' }.first
-        puts flux.inspect
+      def self.start file, event
+        file = "#{file}.json" unless file.downcase.end_with?('.json')
+        flow = File.open(file).read
+        flow = Mushy::Flow.parse flow
+        flux = flow.fluxs.select { |x| x.type == 'Cli' }.first
+
+        Mushy::Runner.new.start event, flux, flow
       end
 
       def self.get_flow file

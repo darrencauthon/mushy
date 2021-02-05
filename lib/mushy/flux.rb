@@ -3,6 +3,7 @@ module Mushy
   class Flux
 
     attr_accessor :id
+    attr_accessor :type
     attr_accessor :parent_fluxs
     attr_accessor :subscribed_to
     attr_accessor :config

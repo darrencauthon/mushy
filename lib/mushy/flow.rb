@@ -18,8 +18,10 @@ module Mushy
     end
 
     def self.build_flux record
-      flux = Object.const_get("Mushy::#{record[:type] || record['type'] || 'Flux'}").new
+      type = record[:type] || record['type'] || record[:flux] || record['flux'] || 'Flux'
+      flux = Object.const_get("Mushy::#{type}").new
       flux.id = record[:id] || record['id'] || flux.id
+      flux.type = type
       flux.config = SymbolizedHash.new(record[:config] || record['config'])
       flux
     end
