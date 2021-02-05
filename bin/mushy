@@ -5,14 +5,16 @@ require 'mushy'
 
 class MushyCLI < Thor
 
+  argument :file
+  argument :values, optional: true, type: :hash
+
   desc "start FILE", "Run this workflow file."
-  def start file
+  def start
     content = File.open(file).read
-    puts content
   end
 
   desc "build FILE", 'Build a flow.'
-  def build file
+  def build
 
     MushyCLI.set_special( { method: 'build', file: file } )
 
