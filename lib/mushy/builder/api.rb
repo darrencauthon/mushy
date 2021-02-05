@@ -31,6 +31,8 @@ module Mushy
       def self.start flow, event
         puts event.inspect
         puts flow.inspect
+        flux = flow['fluxs'].select { |x| x[:type] == 'Cli' }.first
+        puts flux.inspect
       end
 
       def self.get_flow file
