@@ -5,12 +5,13 @@ require 'mushy'
 
 class MushyCLI < Thor
 
-  argument :file, optional: false, type: :string
+  argument :file
   argument :values, optional: true, type: :hash
 
   desc "start FILE", "Run this workflow file."
   def start
-    content = File.open(file).read
+    flow = Mushy::Builder::Api.get_flow file
+    Mushy::Builder::Api.start flow, values
   end
 
   desc "build FILE", 'Build a flow.'

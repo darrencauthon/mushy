@@ -28,6 +28,11 @@ module Mushy
 
       end
 
+      def self.start flow, event
+        puts event.inspect
+        puts flow.inspect
+      end
+
       def self.get_flow file
         puts "trying to get: #{file}"
         file = "#{file}.json" unless file.downcase.end_with?('.json')
