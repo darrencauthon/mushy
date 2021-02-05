@@ -2,6 +2,27 @@ module Mushy
   
   class Filter < Flux
 
+    def self.details
+      {
+        name: 'Filter',
+        description: 'Filters events based on criteria.',
+        config: {
+          equal: {
+                 description: 'Provide key/value pairs that must match in the event.',
+                 label:       'Equal To',
+                 type:        'keyvalue',
+                 value:       {},
+               },
+          notequal: {
+                 description: 'Provide key/value pairs that must NOT match in the event.',
+                 label:       'Not Equal To',
+                 type:        'keyvalue',
+                 value:       {},
+               },
+        },
+      }
+    end
+
     def process event, config
 
       differences = [:equal, :notequal]
