@@ -5,7 +5,7 @@ require 'mushy'
 
 class MushyCLI < Thor
 
-  argument :file
+  argument :file, optional: false, type: :string
   argument :values, optional: true, type: :hash
 
   desc "start FILE", "Run this workflow file."
