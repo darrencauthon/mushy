@@ -20,6 +20,12 @@ module Mushy
                       shrink:      true,
                       value:       'true',
                     },
+          timeout: {
+                     description: 'The default timeout (in seconds) before closing the browser. Default is 5 seconds.',
+                     type:        'integer',
+                     shrink:      true,
+                     value:       '',
+                   },
           execute: {
                      description: 'Javascript to run after the page is loaded.',
                      type:        'textarea',
@@ -74,7 +80,11 @@ module Mushy
 
     def process event, config
 
-      browser = Ferrum::Browser.new(headless: (config[:headless].to_s != 'false'))
+      timeout = config[:timeout] ? config[:timeout].to_i : 5
+
+      browser = Ferrum::Browser.new(
+        headless: (config[:headless].to_s != 'false'),
+        timeout: timeout)
 
       get_the_cookies_from(event, config).each { |c| browser.cookies.set(c) }
 
