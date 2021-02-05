@@ -3,7 +3,7 @@
 require 'thor'
 require 'mushy'
 
-class RailsCLI < Thor
+class MushyCLI < Thor
 
   desc "start FILE", "Run this workflow file."
   def start file
@@ -14,7 +14,7 @@ class RailsCLI < Thor
   desc "build FILE", 'Build a flow.'
   def build file
 
-    RailsCLI.set_special( { method: 'build', file: file } )
+    MushyCLI.set_special( { method: 'build', file: file } )
 
   end
 
@@ -28,14 +28,14 @@ class RailsCLI < Thor
 
 end
 
-RailsCLI.start(ARGV)
+MushyCLI.start(ARGV)
 
-exit unless RailsCLI.get_special
+exit unless MushyCLI.get_special
 
 require 'sinatra'
 enable :run
 
-the_file = RailsCLI.get_special[:file]
+the_file = MushyCLI.get_special[:file]
 
 get '/' do
   Mushy::Builder::Index.file
