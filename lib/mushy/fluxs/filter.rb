@@ -9,12 +9,14 @@ module Mushy
         config: {
           equal: {
                  description: 'Provide key/value pairs that must match in the event.',
+                 shrink:      true,
                  label:       'Equal To',
                  type:        'keyvalue',
                  value:       {},
                },
           notequal: {
                  description: 'Provide key/value pairs that must NOT match in the event.',
+                 shrink:      true,
                  label:       'Not Equal To',
                  type:        'keyvalue',
                  value:       {},
