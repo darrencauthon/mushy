@@ -248,9 +248,7 @@ module Mushy
                    parent: { type: 'selectrecord', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
-             for (var key in configs)
-             {
-                 configs[key].save = { type: 'button', name: 'Save This Flux', click: function(config, hey) {
+             var saveFlux = function(config, hey) {
                      var nameOfTheSaveButton = hey.save.name;
                      Vue.set(hey.save, 'name', 'Saving');
                      delete config.test_event;
@@ -277,7 +275,11 @@ module Mushy
 
                          Vue.set(app.setup, 'showFlux', false);
                      }, 500);
-                                     }
+                                     };
+
+             for (var key in configs)
+             {
+                 configs[key].save = { type: 'button', name: 'Save This Flux', click: saveFlux
                  };
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
