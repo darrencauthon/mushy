@@ -280,8 +280,7 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save This Flux', click: saveFlux
-                 };
+                 configs[key].save = { type: 'button', name: 'Save This Flux', click: saveFlux };
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
 
