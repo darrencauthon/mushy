@@ -249,33 +249,34 @@ module Mushy
              };
 
              var saveFlux = function(config, hey) {
-                     var nameOfTheSaveButton = hey.save.name;
-                     Vue.set(hey.save, 'name', 'Saving');
-                     delete config.test_event;
-                     var setup = thingToData(app.setup);
-                                       var flux = {
-                                           id: setup.id,
-                                           name: setup.name,
-                                           flux: setup.flux,
-                                           parent: setup.parent,
-                                           config: config,
-                                       };
-                     var index = -1;
-                     for(var i = 0; i < app.flow.fluxs.length; i++)
-                        if (app.flow.fluxs[i].id == flux.id)
-                            index = i;
-                     if (index < 0)
-                         app.flow.fluxs.push(flux);
-                     else
-                         app.flow.fluxs[index] = flux;
+                 var nameOfTheSaveButton = hey.save.name;
+                 Vue.set(hey.save, 'name', 'Saving');
+                 delete config.test_event;
+                 var setup = thingToData(app.setup);
+                 var flux = {
+                                id: setup.id,
+                                name: setup.name,
+                                flux: setup.flux,
+                                parent: setup.parent,
+                                config: config,
+                 };
+                 var index = -1;
+                 for(var i = 0; i < app.flow.fluxs.length; i++)
+                     if (app.flow.fluxs[i].id == flux.id)
+                        index = i;
 
-                     setTimeout(function(){
-                         Vue.set(hey.save, 'name', nameOfTheSaveButton);
-                         app.setup.id.value = '';
+                 if (index < 0)
+                     app.flow.fluxs.push(flux);
+                 else
+                     app.flow.fluxs[index] = flux;
 
-                         Vue.set(app.setup, 'showFlux', false);
-                     }, 500);
-                                     };
+                 setTimeout(function(){
+                     Vue.set(hey.save, 'name', nameOfTheSaveButton);
+                     app.setup.id.value = '';
+
+                     Vue.set(app.setup, 'showFlux', false);
+                 }, 500);
+             };
 
              for (var key in configs)
              {
