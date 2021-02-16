@@ -43,10 +43,13 @@ module Mushy
         data = JSON.parse File.open(file).read
         data['fluxs']
           .reject { |x| x['parents'] }
-          .each   { |x| x['parents'] = [x['parent']].select { |x| x } }
+          .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
         data['fluxs']
           .select { |x| x['parent'] }
           .each   { |x| x.delete 'parent' }
+        data['fluxs']
+          .select { |x| x['parents'] }
+          .each   { |x| x['parents'] = x['parents'].select { |y| y } }
         data
       rescue
         { fluxs: [] }
