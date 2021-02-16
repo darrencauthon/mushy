@@ -391,9 +391,9 @@ module Mushy
                      },
                      configs: configs,
                      setup: setup,
-                     flux_name_for: function(id, fluxes) {
-                         var flux = fluxes.filter(function(x){ return x.id == id })[0];
-                         return flux != undefined ? flux.name : '';
+                     flux_name_for: function(ids, fluxes) {
+                         var fluxs = fluxes.filter(function(x){ return ids.includes(x.id) });
+                         return fluxs.map(function(x){ return x.name }).join(', ');
                      },
                      results: [],
                  }
