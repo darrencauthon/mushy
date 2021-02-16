@@ -127,7 +127,12 @@ module Mushy
            data: function() {
                return {
                    add: function(value, json) { console.log(value); console.log(json); },
-                   doit: function(value, json) { console.log(value); console.log(json); },
+                   doit: function(value, json) {
+                       console.log(value); console.log(json);
+                       if (json.includes(value) == false)
+                           json.push(value);
+                       return json;
+                    },
                };
            },
            props: ['label', 'value', 'options', 'description', 'shrink'],
