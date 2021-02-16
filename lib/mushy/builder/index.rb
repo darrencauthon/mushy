@@ -20,7 +20,7 @@ module Mushy
                 </tr>
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
-                    <td>{{flux_name_for(flux.parent, flow.fluxs)}}</td>
+                    <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
                     <td>
                         <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">Edit</button>
                         <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })">Delete</button>
@@ -249,7 +249,7 @@ module Mushy
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parent: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
+                   parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
              var saveFlux = function(config, hey) {
@@ -261,7 +261,7 @@ module Mushy
                                 id: setup.id,
                                 name: setup.name,
                                 flux: setup.flux,
-                                parent: setup.parent,
+                                parents: setup.parents,
                                 config: config,
                  };
                  var index = -1;
@@ -323,7 +323,7 @@ module Mushy
                  Vue.set(setup.id, 'value', flux.id);
                  Vue.set(setup.name, 'value', flux.name);
                  Vue.set(setup.flux, 'value', flux.flux);
-                 Vue.set(setup.parent, 'value', flux.parent);
+                 Vue.set(setup.parents, 'value', flux.parents);
 
                  var applicable_config = configs[flux.flux];
                  for(var key in applicable_config)
@@ -337,7 +337,7 @@ module Mushy
 
                  options = flowdata.fluxs.filter(function(x){ return x.id != flux.id });
                  options.unshift( { id: '', name: '' } );
-                 setup.parent.options = options;
+                 setup.parents.options = options;
 
                  Vue.set(setup, 'showFlux', true);
                  app.results = [];
