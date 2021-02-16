@@ -126,17 +126,18 @@ module Mushy
        selectmanyrecords: {
            data: function() {
                return {
+                   selectedValue: '',
                    add: function(value, json) { console.log(value); console.log(json); },
-                   doit: function(value, json) {
-                       console.log(value); console.log(json);
-                       if (json.includes(value) == false)
-                           json.push(value);
-                       return json;
+                   doit: function(value, set) {
+                       //console.log(value); console.log(set);
+                       if (set.includes(value) == false)
+                           set.push(value);
+                       return set;
                     },
                };
            },
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> {{value}} <a href="#" v-on:click.prevent.stop="add(value, options)">ADD</a> <select :name="id" v-if="value || !shrink" v-on:input="doit($event.target.value, value);$emit(\\'update:value\\', value /*$event.target.value*/)"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> {{value}} <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);">ADD</a> <select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div>'
        },
        boolean: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
