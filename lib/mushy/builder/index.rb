@@ -127,6 +127,11 @@ module Mushy
            data: function() {
                return {
                    selectedValue: '',
+                   remove: function(value, set) {
+                       if (set.includes(value))
+                           console.log(value);
+                       return set;
+                    },
                    doit: function(value, set) {
                        if (set.includes(value) == false)
                            set.push(value);
@@ -135,7 +140,7 @@ module Mushy
                };
            },
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} <a href="#" v-on:click.prevent.stop="remove(option.id, value);$emit(\\'update:value\\', value)">[X]</a> </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div>'
        },
        boolean: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
