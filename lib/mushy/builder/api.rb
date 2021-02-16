@@ -41,7 +41,12 @@ module Mushy
         puts "trying to get: #{file}"
         file = "#{file}.json" unless file.downcase.end_with?('.json')
         data = JSON.parse File.open(file).read
-        data['fluxs'].each { |x| x['parents'] = [x['parent']].select { |x| x }; x.delete 'parent' }
+        data['fluxs']
+          .reject { |x| x['parents'] }
+          .each do |x|
+            x['parents'] = [x['parent']].select { |x| x }
+            x.delete 'parent'
+          end
         data
       rescue
         { fluxs: [] }
