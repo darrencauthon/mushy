@@ -127,9 +127,7 @@ module Mushy
            data: function() {
                return {
                    selectedValue: '',
-                   add: function(value, json) { console.log(value); console.log(json); },
                    doit: function(value, set) {
-                       //console.log(value); console.log(set);
                        if (set.includes(value) == false)
                            set.push(value);
                        return set;
