@@ -128,8 +128,15 @@ module Mushy
                return {
                    selectedValue: '',
                    remove: function(value, set) {
-                       if (set.includes(value))
-                           console.log(value);
+                       if (set.includes(value) == false) return;
+                       for(var i = 0; i < set.length; i++)
+                       {
+                           if (set[i] === value)
+                           {
+                               set.splice(i, 1);
+                               i--;
+                           }
+                       }
                        return set;
                     },
                    doit: function(value, set) {
