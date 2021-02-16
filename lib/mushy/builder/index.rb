@@ -367,6 +367,7 @@ module Mushy
                          flux = {
                              id: uuidv4(),
                              name: '',
+                             parents: [],
                              config: {}
                          };
                          loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
