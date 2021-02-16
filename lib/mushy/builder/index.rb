@@ -123,6 +123,10 @@ module Mushy
            props: ['label', 'value', 'options', 'description', 'shrink'],
            template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div>'
        },
+       selectmanyrecords: {
+           props: ['label', 'value', 'options', 'description', 'shrink'],
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div>'
+       },
        boolean: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
            template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><select :name="id" v-if="(value != undefined && value != null && value != \\'\\') || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
@@ -245,7 +249,7 @@ module Mushy
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parent: { type: 'selectrecord', label: 'Receive Events From', value: '', options: flowdata.fluxs },
+                   parent: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
              var saveFlux = function(config, hey) {
