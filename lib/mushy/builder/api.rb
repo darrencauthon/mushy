@@ -40,7 +40,17 @@ module Mushy
       def self.get_flow file
         puts "trying to get: #{file}"
         file = "#{file}.json" unless file.downcase.end_with?('.json')
-        JSON.parse File.open(file).read
+        data = JSON.parse File.open(file).read
+        data['fluxs']
+          .reject { |x| x['parents'] }
+          .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
+        data['fluxs']
+          .select { |x| x['parent'] }
+          .each   { |x| x.delete 'parent' }
+        data['fluxs']
+          .select { |x| x['parents'] }
+          .each   { |x| x['parents'] = x['parents'].select { |y| y } }
+        data
       rescue
         { fluxs: [] }
       end

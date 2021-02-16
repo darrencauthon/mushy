@@ -20,7 +20,7 @@ module Mushy
                 </tr>
                 <tr v-for="flux in flow.fluxs">
                     <td>{{flux.name}}</td>
-                    <td>{{flux_name_for(flux.parent, flow.fluxs)}}</td>
+                    <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
                     <td>
                         <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">Edit</button>
                         <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })">Delete</button>
@@ -122,6 +122,32 @@ module Mushy
        selectrecord: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
            template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div>'
+       },
+       selectmanyrecords: {
+           data: function() {
+               return {
+                   selectedValue: '',
+                   remove: function(value, set) {
+                       if (set.includes(value) == false) return;
+                       for(var i = 0; i < set.length; i++)
+                       {
+                           if (set[i] === value)
+                           {
+                               set.splice(i, 1);
+                               i--;
+                           }
+                       }
+                       return set;
+                    },
+                   doit: function(value, set) {
+                       if (set.includes(value) == false)
+                           set.push(value);
+                       return set;
+                    },
+               };
+           },
+           props: ['label', 'value', 'options', 'description', 'shrink'],
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} <a href="#" v-on:click.prevent.stop="remove(option.id, value);$emit(\\'update:value\\', value)">[X]</a> </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div>'
        },
        boolean: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
@@ -245,7 +271,7 @@ module Mushy
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parent: { type: 'selectrecord', label: 'Receive Events From', value: '', options: flowdata.fluxs },
+                   parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
              var saveFlux = function(config, hey) {
@@ -257,7 +283,7 @@ module Mushy
                                 id: setup.id,
                                 name: setup.name,
                                 flux: setup.flux,
-                                parent: setup.parent,
+                                parents: setup.parents,
                                 config: config,
                  };
                  var index = -1;
@@ -319,7 +345,7 @@ module Mushy
                  Vue.set(setup.id, 'value', flux.id);
                  Vue.set(setup.name, 'value', flux.name);
                  Vue.set(setup.flux, 'value', flux.flux);
-                 Vue.set(setup.parent, 'value', flux.parent);
+                 Vue.set(setup.parents, 'value', flux.parents);
 
                  var applicable_config = configs[flux.flux];
                  for(var key in applicable_config)
@@ -333,7 +359,7 @@ module Mushy
 
                  options = flowdata.fluxs.filter(function(x){ return x.id != flux.id });
                  options.unshift( { id: '', name: '' } );
-                 setup.parent.options = options;
+                 setup.parents.options = options;
 
                  Vue.set(setup, 'showFlux', true);
                  app.results = [];
@@ -353,6 +379,7 @@ module Mushy
                          flux = {
                              id: uuidv4(),
                              name: '',
+                             parents: [],
                              config: {}
                          };
                          loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
@@ -377,9 +404,9 @@ module Mushy
                      },
                      configs: configs,
                      setup: setup,
-                     flux_name_for: function(id, fluxes) {
-                         var flux = fluxes.filter(function(x){ return x.id == id })[0];
-                         return flux != undefined ? flux.name : '';
+                     flux_name_for: function(ids, fluxes) {
+                         var fluxs = fluxes.filter(function(x){ return ids.includes(x.id) });
+                         return fluxs.map(function(x){ return x.name }).join(', ');
                      },
                      results: [],
                  }
