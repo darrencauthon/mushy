@@ -29,7 +29,7 @@ module Mushy
             </table>
             <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">Start a New Flux</button>
             <button v-if="setup.showFlux == false" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">Save This Flow</button>
-            <button v-if="setup.showFlux" v-on:click.prevent.stop="setup.showFlux = false">&lt; Go Back To List</button>
+            <button v-if="setup.showFlux" v-on:click.prevent.stop="setup.goBack(setup)">&lt; Go Back To List</button>
             <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
@@ -266,8 +266,14 @@ module Mushy
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
 
+             var goBack = function(setup) {
+                 setup.showFlux = false;
+                 console.log('k');
+             };
+
              var setup = {
                    showFlux: false,
+                   goBack: goBack,
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
