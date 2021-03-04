@@ -4,10 +4,30 @@ module Mushy
   
   class ReadCsv < Flux
 
-    def process event, config
-      data = event[config[:key]]
+    def self.details
+      {
+        name: 'ReadCsv',
+        description: 'Read CSV content into events.',
+        config: {
+          data: {
+                 description: 'The data to convert to a CSV.',
+                 type:        'text',
+                 value:       '{{data}}',
+               },
+          headers: {
+                     description: 'The CSV contains headers. Defaults to false.',
+                     type:        'boolean',
+                     shrink:      true,
+                     value:       '',
+                   },
+        },
+      }
+    end
 
-      headers = config[:headers].to_s.strip.downcase == 'true' ? true : false
+    def process event, config
+      data = config[:data]
+
+      headers = config[:headers].to_s.strip.downcase == 'true'
 
       rows = CSV.new data, headers: headers
 
