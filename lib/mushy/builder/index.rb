@@ -297,13 +297,9 @@ module Mushy
              };
 
              var saveFlux = function(config) {
-                 saveTheFlux({ app: app, config: config });
-                 saveTheFlow({ setup: app.setup, flow: app.flow });
-                 app.setup.showFlux = false;
              };
 
              var ignoreFlux = function(config) {
-                 app.setup.showFlux = false;
              };
 
              var setup = {
@@ -316,8 +312,16 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save Changes', click: saveFlux };
-                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', click: ignoreFlux };
+                 configs[key].save = { type: 'button', name: 'Save Changes', click: function(config) {
+                         saveTheFlux({ app: app, config: config });
+                         saveTheFlow({ setup: app.setup, flow: app.flow });
+                         app.setup.showFlux = false;
+                     }
+                 };
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', click: function() {
+                         app.setup.showFlux = false;
+                     }
+                 };
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
 
