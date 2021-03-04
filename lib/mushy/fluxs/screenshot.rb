@@ -10,8 +10,11 @@ module Mushy
     end
 
     def special_browser_action browser, result
-      browser.screenshot(path: 'picture.png')
-      result
+      path = 'picture.png'
+      browser.screenshot(path: path)
+      {
+        path: path
+      }
     end
 
   end
