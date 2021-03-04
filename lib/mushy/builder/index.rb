@@ -268,7 +268,6 @@ module Mushy
 
              var goBack = function(setup) {
                  setup.showFlux = false;
-                 console.log('k');
              };
 
              var setup = {
