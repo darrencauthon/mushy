@@ -266,19 +266,6 @@ module Mushy
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
 
-             var goBack = function(setup) {
-                 setup.showFlux = false;
-             };
-
-             var setup = {
-                   showFlux: false,
-                   goBack: goBack,
-                   id: { type: 'hide', value: '' },
-                   name: { type: 'text', value: '' },
-                   flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
-             };
-
              var theSaveFlux = function(params)
              {
                  var theApp = params.app;
@@ -311,6 +298,19 @@ module Mushy
 
              var saveFlux = function(config) {
                  theSaveFlux({ app: app, config: config });
+             };
+
+             var goBack = function(setup) {
+                 setup.showFlux = false;
+             };
+
+             var setup = {
+                   showFlux: false,
+                   goBack: goBack,
+                   id: { type: 'hide', value: '' },
+                   name: { type: 'text', value: '' },
+                   flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
+                   parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
              for (var key in configs)
