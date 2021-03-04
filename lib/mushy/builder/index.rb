@@ -279,8 +279,10 @@ module Mushy
                    parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
-             var theSaveFlux = function(theApp, config)
+             var theSaveFlux = function(params)
              {
+                 var theApp = params.app;
+                 var config = params.config;
                  delete config.test_event;
                  var setup = thingToData(theApp.setup);
                  var flux = {
@@ -308,7 +310,7 @@ module Mushy
              };
 
              var saveFlux = function(config) {
-                 theSaveFlux(app, config);
+                 theSaveFlux({ app: app, config: config });
              };
 
              for (var key in configs)
