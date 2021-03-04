@@ -27,7 +27,7 @@ module Mushy
       details
     end
 
-    def special_browser_action browser, result
+    def special_browser_action browser, result, config
 
       options = {
           path:    config[:path],
