@@ -30,14 +30,14 @@ module Mushy
       data = JSON.parse data
 
       data_fluxs = data['fluxs'] || []
-      data_fluxs.select { |x| x['parent'] }.map { |r| r["parent_fluxs"] = [r["parent"]] }
+      data_fluxs.select { |x| x['parent'] }.map { |r| r["parents"] = [r["parent"]] }
 
       flow = new
 
       flow.fluxs = data_fluxs.map { |s| build_flux s }
 
       fluxs_with_parent_ids = flow.fluxs.reduce({}) { |t, i| t[i.id] = []; t }
-      data_fluxs.map { |r| fluxs_with_parent_ids[r['id']] = r['parent_fluxs'] || [] }
+      data_fluxs.map { |r| fluxs_with_parent_ids[r['id']] = r['parents'] || [] }
 
       flow.fluxs.each do |flux|
         flux.parent_fluxs = flow.fluxs.select { |x| fluxs_with_parent_ids[flux.id].include?(x.id) }
