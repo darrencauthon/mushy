@@ -28,8 +28,6 @@ module Mushy
                 </tr>
             </table>
             <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">Start a New Flux</button>
-            <button v-if="setup.showFlux == false" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">Save This Flow</button>
-            <button v-if="setup.showFlux" v-on:click.prevent.stop="setup.showFlux = false">&lt; Go Back To List</button>
             <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
@@ -266,19 +264,12 @@ module Mushy
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
 
-             var setup = {
-                   showFlux: false,
-                   id: { type: 'hide', value: '' },
-                   name: { type: 'text', value: '' },
-                   flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
-                   parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
-             };
-
-             var saveFlux = function(config, hey) {
-                 var nameOfTheSaveButton = hey.save.name;
-                 Vue.set(hey.save, 'name', 'Saving');
+             var saveTheFlux = function(input)
+             {
+                 var theApp = input.app;
+                 var config = input.config;
                  delete config.test_event;
-                 var setup = thingToData(app.setup);
+                 var setup = thingToData(theApp.setup);
                  var flux = {
                                 id: setup.id,
                                 name: setup.name,
@@ -287,26 +278,50 @@ module Mushy
                                 config: config,
                  };
                  var index = -1;
-                 for(var i = 0; i < app.flow.fluxs.length; i++)
-                     if (app.flow.fluxs[i].id == flux.id)
+                 for(var i = 0; i < theApp.flow.fluxs.length; i++)
+                     if (theApp.flow.fluxs[i].id == flux.id)
                         index = i;
 
                  if (index < 0)
-                     app.flow.fluxs.push(flux);
+                     theApp.flow.fluxs.push(flux);
                  else
-                     app.flow.fluxs[index] = flux;
+                     theApp.flow.fluxs[index] = flux;
+             };
 
-                 setTimeout(function(){
-                     Vue.set(hey.save, 'name', nameOfTheSaveButton);
-                     app.setup.id.value = '';
+             var saveTheFlow = function(input)
+             {
+                 var setup = input.setup;
+                 var flow = input.flow;
+                 axios.post('/save', flow)
+                     .then(function(result){});
+             };
 
-                     Vue.set(app.setup, 'showFlux', false);
-                 }, 500);
+             var saveFlux = function(config) {
+             };
+
+             var ignoreFlux = function(config) {
+             };
+
+             var setup = {
+                   showFlux: false,
+                   id: { type: 'hide', value: '' },
+                   name: { type: 'text', value: '' },
+                   flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
+                   parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save This Flux', click: saveFlux };
+                 configs[key].save = { type: 'button', name: 'Save Changes', click: function(config) {
+                         saveTheFlux({ app: app, config: config });
+                         saveTheFlow({ setup: app.setup, flow: app.flow });
+                         app.setup.showFlux = false;
+                     }
+                 };
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', click: function() {
+                         app.setup.showFlux = false;
+                     }
+                 };
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
 
