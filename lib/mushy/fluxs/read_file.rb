@@ -30,6 +30,8 @@ module Mushy
     def process event, config
       file = config[:name]
 
+      file = File.join(config[:directory], file) if config[:directory].to_s != ''
+
       content = File.open(file).read
 
       {
