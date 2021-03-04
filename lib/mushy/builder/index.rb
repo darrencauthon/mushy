@@ -302,6 +302,10 @@ module Mushy
                  app.setup.showFlux = false;
              };
 
+             var ignoreFlux = function(config) {
+                 app.setup.showFlux = false;
+             };
+
              var setup = {
                    showFlux: false,
                    id: { type: 'hide', value: '' },
@@ -312,7 +316,8 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save This Flux', click: saveFlux };
+                 configs[key].save = { type: 'button', name: 'Save Changes', click: saveFlux };
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', click: ignoreFlux };
 
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
 
