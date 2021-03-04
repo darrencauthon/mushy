@@ -13,6 +13,13 @@ module Mushy
          value:       'picture.pdf',
       }
 
+      details[:config][:landscape] = {
+         description: 'Build the PDF in landscape. Defaults to false.',
+         type:        'boolean',
+         shrink:      true,
+         value:       '',
+      }
+
       details
     end
 
@@ -25,6 +32,8 @@ module Mushy
       options = {
           path: the_config[:path],
       }
+
+      options[:landscape] = true if the_config[:landscape].to_s == 'true'
 
       the_browser.pdf options
 
