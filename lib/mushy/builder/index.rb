@@ -279,11 +279,10 @@ module Mushy
                    parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
-             var saveFlux = function(config, hey) {
-                 var nameOfTheSaveButton = hey.save.name;
-                 Vue.set(hey.save, 'name', 'Saving');
+             var theSaveFlux = function(theApp, config)
+             {
                  delete config.test_event;
-                 var setup = thingToData(app.setup);
+                 var setup = thingToData(theApp.setup);
                  var flux = {
                                 id: setup.id,
                                 name: setup.name,
@@ -292,21 +291,24 @@ module Mushy
                                 config: config,
                  };
                  var index = -1;
-                 for(var i = 0; i < app.flow.fluxs.length; i++)
-                     if (app.flow.fluxs[i].id == flux.id)
+                 for(var i = 0; i < theApp.flow.fluxs.length; i++)
+                     if (theApp.flow.fluxs[i].id == flux.id)
                         index = i;
 
                  if (index < 0)
-                     app.flow.fluxs.push(flux);
+                     theApp.flow.fluxs.push(flux);
                  else
-                     app.flow.fluxs[index] = flux;
+                     theApp.flow.fluxs[index] = flux;
 
                  setTimeout(function(){
-                     Vue.set(hey.save, 'name', nameOfTheSaveButton);
-                     app.setup.id.value = '';
+                     theApp.setup.id.value = '';
 
-                     Vue.set(app.setup, 'showFlux', false);
+                     Vue.set(theApp.setup, 'showFlux', false);
                  }, 500);
+             };
+
+             var saveFlux = function(config) {
+                 theSaveFlux(app, config);
              };
 
              for (var key in configs)
