@@ -28,7 +28,6 @@ module Mushy
                 </tr>
             </table>
             <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })">Start a New Flux</button>
-            <button v-if="setup.showFlux == false" v-on:click.prevent.stop="saveFlow({ setup: setup, flow: flow })">Save This Flow</button>
             <div v-if="setup.showFlux">
                 <mip-heavy :data="setup"></mip-heavy>
                 <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
@@ -287,16 +286,19 @@ module Mushy
                      theApp.flow.fluxs.push(flux);
                  else
                      theApp.flow.fluxs[index] = flux;
+             };
 
-                 setTimeout(function(){
-                     theApp.setup.id.value = '';
-
-                     Vue.set(theApp.setup, 'showFlux', false);
-                 }, 500);
+             var theSaveFlow = function(input)
+             {
+                 var setup = input.setup;
+                 var flow = input.flow;
+                 axios.post('/save', flow)
+                     .then(function(result){});
              };
 
              var saveFlux = function(config) {
                  theSaveFlux({ app: app, config: config });
+                 theSaveFlow({ setup: app.setup, flow: app.flow });
                  app.setup.showFlux = false;
              };
 
