@@ -29,17 +29,17 @@ module Mushy
 
     def adjust input
 
-      browser = input[:browser]
-      result  = input[:result]
-      config  = input[:config]
+      the_browser = input[:browser]
+      the_result  = input[:result]
+      the_config  = input[:config]
 
       options = {
-          path:    config[:path],
-          full:    ['true', ''].include?(config[:full].to_s),
-          quality: (config[:quality].to_s == '' ? '100' : config[:quality]).to_i
+          path:    the_config[:path],
+          full:    ['true', ''].include?(the_config[:full].to_s),
+          quality: (the_config[:quality].to_s == '' ? '100' : the_config[:quality]).to_i
       }
 
-      browser.screenshot options
+      the_browser.screenshot options
 
       options
 

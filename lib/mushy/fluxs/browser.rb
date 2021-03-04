@@ -112,8 +112,8 @@ module Mushy
       result
     end
 
-    def adjust _
-      result
+    def adjust input
+      input[:result]
     end
 
     def get_the_cookies_from event, config
