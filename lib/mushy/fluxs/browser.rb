@@ -105,8 +105,14 @@ module Mushy
         body: browser.body
       }
 
+      result = special_browser_action browser, result
+
       browser.quit
 
+      result
+    end
+
+    def special_browser_action browser, result
       result
     end
 
