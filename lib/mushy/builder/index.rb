@@ -264,7 +264,7 @@ module Mushy
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
 
-             var theSaveFlux = function(params)
+             var saveTheFlux = function(params)
              {
                  var theApp = params.app;
                  var config = params.config;
@@ -288,7 +288,7 @@ module Mushy
                      theApp.flow.fluxs[index] = flux;
              };
 
-             var theSaveFlow = function(input)
+             var saveTheFlow = function(input)
              {
                  var setup = input.setup;
                  var flow = input.flow;
@@ -297,8 +297,8 @@ module Mushy
              };
 
              var saveFlux = function(config) {
-                 theSaveFlux({ app: app, config: config });
-                 theSaveFlow({ setup: app.setup, flow: app.flow });
+                 saveTheFlux({ app: app, config: config });
+                 saveTheFlow({ setup: app.setup, flow: app.flow });
                  app.setup.showFlux = false;
              };
 
