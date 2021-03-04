@@ -6,18 +6,39 @@ module Mushy
       details = Browser.details
       details['name'] = 'Screenshot'
       details['description'] = 'Take a screenshot of the browser.'
+
+      details[:config][:path] = {
+         description: 'The path of the file to save.',
+         type:        'text',
+         value:       'picture.jpg',
+      }
+      details[:config][:quality] = {
+         description: 'The quality of the image, a value beteen 0-100. Only applies to jpg.',
+         type:        'integer',
+         shrink:      true,
+         value:       '100',
+      }
+      details[:config][:full] = {
+         description: 'Take a screenshot of the entire page. If false, the screenshot is limited to the viewport.',
+         type:        'boolean',
+         shrink:      true,
+         value:       'true',
+      }
       details
     end
 
     def special_browser_action browser, result
-      path = 'picture.png'
+
       options = {
-          path: path,
-          full: true,
-          quality: 100
+          path:    config[:path],
+          full:    config[:full].to_s == 'true',
+          quality: config[:quality] ? config[:quality].to_i : 100
       }
+
       browser.screenshot options
+
       options
+
     end
 
   end
