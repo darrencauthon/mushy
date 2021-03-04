@@ -4,7 +4,7 @@ require 'mushy/version'
 
 Gem::Specification.new do |s|
   s.name           = 'mushy'
-  s.version        = '0.2.3'
+  s.version        = '0.2.4'
   s.date           = '2020-11-23'
   s.summary        = 'Process streams of work using common modules.'
   s.description    = 'This tool assists in the creation and processing of workflows.'
