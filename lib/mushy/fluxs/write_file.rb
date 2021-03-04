@@ -27,8 +27,11 @@ module Mushy
     end
 
     def process event, config
+      file = config[:name]
 
-      File.open(config[:name], 'w') { |f| f.write config[:data] }
+      file = File.join(config[:directory], file) if config[:directory].to_s != ''
+
+      File.open(file, 'w') { |f| f.write config[:data] }
 
       {}
     end
