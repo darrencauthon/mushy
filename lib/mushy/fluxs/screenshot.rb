@@ -27,7 +27,7 @@ module Mushy
       details
     end
 
-    def special_browser_action input
+    def adjust input
 
       browser = input[:browser]
       result  = input[:result]
