@@ -63,10 +63,10 @@ module Mushy
                      value:       {},
                    },
           carry_headers_from: {
-                     description: 'Carry the headers from this path in the event.',
+                     description: 'Carry the headers from this path in the event. Defaults to "headers".',
                      type:        'text',
                      shrink:      true,
-                     value:       'headers',
+                     value:       '',
                    },
           wait_before_closing: {
                                  description: 'Wait this many seconds before closing the browser.',
@@ -125,7 +125,8 @@ module Mushy
     end
 
     def get_the_headers_from event, config
-      headers = (event[config[:carry_headers_from].to_sym])
+      carry_headers_from = config[:carry_headers_from].to_s == '' ? 'headers' : config[:carry_headers_from]
+      headers = event[carry_headers_from.to_sym]
       headers = {} unless headers.is_a?(Hash)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
       config[:headers].each { |k, v| headers[k] = v }
