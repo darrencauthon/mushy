@@ -16,13 +16,13 @@ module Mushy
          description: 'The quality of the image, a value beteen 0-100. Only applies to jpg.',
          type:        'integer',
          shrink:      true,
-         value:       '100',
+         value:       '',
       }
       details[:config][:full] = {
          description: 'Take a screenshot of the entire page. If false, the screenshot is limited to the viewport.',
          type:        'boolean',
          shrink:      true,
-         value:       'true',
+         value:       '',
       }
       details
     end
@@ -31,8 +31,8 @@ module Mushy
 
       options = {
           path:    config[:path],
-          full:    config[:full].to_s == 'true',
-          quality: config[:quality] ? config[:quality].to_i : 100
+          full:    ['true', ''].include?(config[:full].to_s),
+          quality: (config[:quality].to_s == '' ? '100' : config[:quality]).to_i
       }
 
       browser.screenshot options
