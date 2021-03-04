@@ -264,10 +264,10 @@ module Mushy
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
 
-             var saveTheFlux = function(params)
+             var saveTheFlux = function(input)
              {
-                 var theApp = params.app;
-                 var config = params.config;
+                 var theApp = input.app;
+                 var config = input.config;
                  delete config.test_event;
                  var setup = thingToData(theApp.setup);
                  var flux = {
