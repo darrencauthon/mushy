@@ -51,10 +51,10 @@ module Mushy
                               ],
                    },
           carry_cookies_from: {
-                     description: 'Carry the cookies from this path in the event.',
+                     description: 'Carry the cookies from this path in the event. Defaults to "cookies".',
                      type:        'text',
                      shrink:      true,
-                     value:       'cookies',
+                     value:       '',
                    },
           headers: {
                      description: 'Headers for the web request. These can be received from a previous browser event with {{headers}}, or can be typed manually.',
@@ -63,10 +63,10 @@ module Mushy
                      value:       {},
                    },
           carry_headers_from: {
-                     description: 'Carry the headers from this path in the event.',
+                     description: 'Carry the headers from this path in the event. Defaults to "headers".',
                      type:        'text',
                      shrink:      true,
-                     value:       'headers',
+                     value:       '',
                    },
           wait_before_closing: {
                                  description: 'Wait this many seconds before closing the browser.',
@@ -117,7 +117,8 @@ module Mushy
     end
 
     def get_the_cookies_from event, config
-      cookies = (event[config[:carry_cookies_from].to_sym])
+      carry_cookies_from = config[:carry_cookies_from].to_s == '' ? 'cookies' : config[:carry_cookies_from]
+      cookies = event[carry_cookies_from.to_sym]
       cookies = [] unless cookies.is_a?(Array)
       config[:cookies] = [] unless config[:cookies].is_a?(Array)
       config[:cookies].each { |x| cookies << x }
@@ -125,7 +126,8 @@ module Mushy
     end
 
     def get_the_headers_from event, config
-      headers = (event[config[:carry_headers_from].to_sym])
+      carry_headers_from = config[:carry_headers_from].to_s == '' ? 'headers' : config[:carry_headers_from]
+      headers = event[carry_headers_from.to_sym]
       headers = {} unless headers.is_a?(Hash)
       config[:headers] = {} unless config[:headers].is_a?(Hash)
       config[:headers].each { |k, v| headers[k] = v }
