@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'ferrum'
   s.add_runtime_dependency 'nokogiri'
   s.add_runtime_dependency 'faraday'
+  s.add_runtime_dependency 'pony'
 end
