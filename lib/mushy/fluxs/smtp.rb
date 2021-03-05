@@ -71,7 +71,9 @@ module Mushy
     end
 
     def cleanup options
-      options
+      options.tap do |hash|
+        hash.delete_if { |_, v| v.to_s == '' }
+      end
     end
 
     def get_via_options_from config
