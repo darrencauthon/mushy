@@ -39,6 +39,11 @@ module Mushy
                   type:        'integer',
                   value:       '587',
                 },
+          domain: {
+                    description: 'The email domain.',
+                    type:        'text',
+                    value:       'gmail.com',
+                  },
           username: {
                       description: 'The username.',
                       type:        'text',
@@ -77,13 +82,13 @@ module Mushy
 
     def get_via_options_from config
       {
-        address:  config[:address],
-        port:     config[:port].to_s,
-        user_name: config[:username],
-        password: config[:password],
+        address:              config[:address],
+        port:                 config[:port].to_s,
+        user_name:            config[:username],
+        password:             config[:password],
+        domain:               config[:domain],
+        authentication:       :plain,
         enable_starttls_auto: true,
-        authentication: :plain,
-        domain: 'gmail.com',
       }
     end
 
