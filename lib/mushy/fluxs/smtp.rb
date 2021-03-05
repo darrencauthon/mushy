@@ -63,7 +63,6 @@ module Mushy
       }))
       result = Pony.mail options
       options.tap { |x| x.delete(:via_options) }
-      options
     end
 
     def adjust options
