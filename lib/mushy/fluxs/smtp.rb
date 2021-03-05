@@ -9,6 +9,12 @@ module Mushy
         name: 'Smtp',
         description: 'Send email through SMTP.',
         config: {
+          from: {
+                  description: 'From whom the email will be sent.',
+                  type:        'text',
+                  shrink:      true,
+                  value:       '',
+                },
           to: {
                 description: 'To whom the email should be sent.',
                 type:        'text',
@@ -60,6 +66,7 @@ module Mushy
 
     def process event, config
       options = adjust(cleanup({
+          from: config[:from],
           to: config[:to],
           subject: config[:subject],
           body: config[:body],
