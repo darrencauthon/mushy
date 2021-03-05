@@ -35,6 +35,12 @@ module Mushy
                   type:        'textarea',
                   value:       '',
                 },
+          attachment_file: {
+                             description: 'The full path of a file to attach.',
+                             type:        'text',
+                             shrink:      true,
+                             value:       '',
+                           },
           address: {
                      description: 'The address of the SMTP server.',
                      type:        'text',
@@ -73,6 +79,11 @@ module Mushy
           html_body: config[:html_body],
           via_options: get_via_options_from(config)
       }))
+
+      if (config[:attachment_file].to_s != '')
+        options[:attachments] = { config[:attachment_file].split("\/")[-1] => File.read(config[:attachment_file]) }
+      end
+
       result = Pony.mail options
       options.tap { |x| x.delete(:via_options) }
     end
