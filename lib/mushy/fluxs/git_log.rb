@@ -10,6 +10,7 @@ module Mushy
           directory: {
                        description: 'The working directory in which the command will be run.',
                        type:        'text',
+                       shrink:      true,
                        value:       '',
                      },
         },
@@ -19,6 +20,10 @@ module Mushy
     def process event, config
 
       config[:command] = 'git log'
+
+      if config[:directory].to_s != ''
+        config[:command] = "cd \"#{config[:directory]}\";#{config[:command]}"
+      end
 
       result = super event, config
 
