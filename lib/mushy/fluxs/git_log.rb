@@ -25,6 +25,18 @@ module Mushy
                    shrink:      true,
                    value:       '',
                  },
+          author: {
+                   description: 'Filter for commits by this author',
+                   type:        'text',
+                   shrink:      true,
+                   value:       '',
+                 },
+          committer: {
+                   description: 'Filter for commits by this committer',
+                   type:        'text',
+                   shrink:      true,
+                   value:       '',
+                 },
         },
       }
     end
@@ -43,6 +55,14 @@ module Mushy
 
       if config[:before].to_s != ''
         config[:command] = "#{config[:command]} --before=\"#{config[:before]}\""
+      end
+
+      if config[:author].to_s != ''
+        config[:command] = "#{config[:command]} --author=\"#{config[:author]}\""
+      end
+
+      if config[:committer].to_s != ''
+        config[:command] = "#{config[:command]} --committer=\"#{config[:committer]}\""
       end
 
       result = super event, config
