@@ -49,21 +49,9 @@ module Mushy
         config[:command] = "cd \"#{config[:directory]}\";#{config[:command]}"
       end
 
-      if config[:after].to_s != ''
-        config[:command] = "#{config[:command]} --after=\"#{config[:after]}\""
-      end
-
-      if config[:before].to_s != ''
-        config[:command] = "#{config[:command]} --before=\"#{config[:before]}\""
-      end
-
-      if config[:author].to_s != ''
-        config[:command] = "#{config[:command]} --author=\"#{config[:author]}\""
-      end
-
-      if config[:committer].to_s != ''
-        config[:command] = "#{config[:command]} --committer=\"#{config[:committer]}\""
-      end
+      [:after, :before, :author, :committer]
+        .select { |x| config[x].to_s != ''}
+        .each   { |k| config[:command] = "#{config[:command]} --#{k}=\"#{config[k]}\"" }
 
       result = super event, config
 
