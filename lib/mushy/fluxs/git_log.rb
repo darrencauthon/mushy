@@ -19,6 +19,12 @@ module Mushy
                    shrink:      true,
                    value:       '',
                  },
+          before: {
+                   description: 'Filter for commits before this',
+                   type:        'text',
+                   shrink:      true,
+                   value:       '',
+                 },
         },
       }
     end
@@ -33,6 +39,10 @@ module Mushy
 
       if config[:after].to_s != ''
         config[:command] = "#{config[:command]} --after=\"#{config[:after]}\""
+      end
+
+      if config[:before].to_s != ''
+        config[:command] = "#{config[:command]} --before=\"#{config[:before]}\""
       end
 
       result = super event, config
