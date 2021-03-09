@@ -13,6 +13,12 @@ module Mushy
                        shrink:      true,
                        value:       '',
                      },
+          after: {
+                   description: 'Filter for commits after this',
+                   type:        'text',
+                   shrink:      true,
+                   value:       '',
+                 },
         },
       }
     end
@@ -23,6 +29,10 @@ module Mushy
 
       if config[:directory].to_s != ''
         config[:command] = "cd \"#{config[:directory]}\";#{config[:command]}"
+      end
+
+      if config[:after].to_s != ''
+        config[:command] = "#{config[:command]} --after=\"#{config[:after]}\""
       end
 
       result = super event, config
