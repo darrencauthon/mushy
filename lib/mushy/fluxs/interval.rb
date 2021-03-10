@@ -5,7 +5,7 @@ module Mushy
   class ServiceFlux < Flux
   end
 
-  class Minutely < ServiceFlux
+  class Interval < ServiceFlux
 
     def self.setup
       {
