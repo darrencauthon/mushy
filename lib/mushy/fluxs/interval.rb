@@ -35,7 +35,8 @@ module Mushy
     end
 
     def loop &block
-      block.call
+      event = { time: time }
+      block.call event
       sleep time
     end
 
