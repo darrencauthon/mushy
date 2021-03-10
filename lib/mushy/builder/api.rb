@@ -44,7 +44,8 @@ module Mushy
               Mushy::Runner.new.start event, service_flux, flow
             end
           end.map { |x| ->() { loop &x } }
-             .map { |x| Daemons.call &x }
+             .map { |x| x.call }
+             #.map { |x| Daemons.call &x }
 
           exit
         end
