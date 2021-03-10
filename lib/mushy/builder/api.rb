@@ -42,8 +42,7 @@ module Mushy
              .map { |s| { flux: s, proc: ->() { Mushy::Runner.new.start event, s, flow } } }
              .map { |p| ->() { p[:flux].loop &p[:proc] } }
              .map { |x| ->() { loop &x } }
-             .map { |x| x.call }
-            #.map { |x| Daemons.call &x }
+             .map { |x| run_as_a_daemon &x }
 
           exit
         end
@@ -51,6 +50,11 @@ module Mushy
         cli_flux = flow.fluxs.select { |x| x.kind_of?(Mushy::Cli) }.first
 
         Mushy::Runner.new.start event, cli_flux, flow
+      end
+
+      def self.run_as_a_daemon &block
+        block.call
+        #Daemons.call &block
       end
 
       def self.get_flow file
