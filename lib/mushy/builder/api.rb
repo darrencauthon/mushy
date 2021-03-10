@@ -32,12 +32,17 @@ module Mushy
         file = "#{file}.json" unless file.downcase.end_with?('.json')
         flow = File.open(file).read
         flow = Mushy::Flow.parse flow
-        flux = flow.fluxs.select { |x| x.type == 'Cli' }.first
 
-        puts (flux.class == Mushy::Cli).inspect
+        service_fluxes = flow.fluxs.select { |x| x.kind_of?(Mushy::ServiceFlux) }
+
+        puts service_fluxes.inspect
+
+        cli_flux = flow.fluxs.select { |x| x.kind_of?(Mushy::Cli) }.first
+
+        puts cli_flux.kind_of?(Mushy::Cli).inspect
         throw 'hey'
 
-        Mushy::Runner.new.start event, flux, flow
+        Mushy::Runner.new.start event, cli_flux, flow
       end
 
       def self.get_flow file
