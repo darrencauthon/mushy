@@ -37,9 +37,14 @@ module Mushy
 
         service_fluxes = flow.fluxs.select { |x| x.respond_to? :loop }
 
+        pwd = Dir.pwd
+
         if service_fluxes.any?
           calls = service_fluxes
-             .map { |s| { flux: s, proc: ->(e) { Mushy::Runner.new.start e, s, flow } } }
+             .map { |s| { flux: s, proc: ->(e) do
+                                                 Dir.chdir pwd
+                                                 Mushy::Runner.new.start e, s, flow
+                                               end } }
              .map { |p| ->() { p[:flux].loop &p[:proc] } }
              .map { |x| ->() { loop &x } }
              .map { |x| run_as_a_daemon &x }
