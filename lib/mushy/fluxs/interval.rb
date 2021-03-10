@@ -34,7 +34,7 @@ module Mushy
       end
     end
 
-    def start &block
+    def loop &block
       block.call
       sleep time
     end

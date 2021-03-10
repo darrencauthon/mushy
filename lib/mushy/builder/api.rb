@@ -40,7 +40,7 @@ module Mushy
         if service_fluxes.any?
           calls = service_fluxes.map do |service_flux|
             ->() do
-              service_flux.start do
+              service_flux.loop do
                 Mushy::Runner.new.start event, service_flux, flow
               end
             end
