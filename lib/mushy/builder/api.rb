@@ -44,6 +44,8 @@ module Mushy
              .map { |x| ->() { loop &x } }
              .map { |x| run_as_a_daemon &x }
 
+          puts calls.inspect
+
           exit
         end
 
@@ -53,8 +55,8 @@ module Mushy
       end
 
       def self.run_as_a_daemon &block
-        block.call
-        #Daemons.call &block
+        #block.call
+        Daemons.call(&block).pid.pid
       end
 
       def self.get_flow file
