@@ -35,7 +35,7 @@ module Mushy
         flow = File.open(file).read
         flow = Mushy::Flow.parse flow
 
-        service_fluxes = flow.fluxs.select { |x| x.kind_of?(Mushy::ServiceFlux) }
+        service_fluxes = flow.fluxs.select { |x| x.respond_to? :loop }
 
         if service_fluxes.any?
           calls = service_fluxes

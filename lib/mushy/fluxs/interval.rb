@@ -2,10 +2,7 @@ require 'csv'
 
 module Mushy
 
-  class ServiceFlux < Flux
-  end
-
-  class Interval < ServiceFlux
+  class Interval < Flux
 
     def self.setup
       {
