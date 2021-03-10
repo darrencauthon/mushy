@@ -39,15 +39,11 @@ module Mushy
 
         if service_fluxes.any?
           calls = service_fluxes
-             .map do |service_flux|
-                    ->() do
-                           service_flux.loop do
-                             Mushy::Runner.new.start event, service_flux, flow
-                           end
-                         end
-                  end.map { |x| ->() { loop &x } }
-                     .map { |x| x.call }
-                     #.map { |x| Daemons.call &x }
+             .map { |s| { flux: s, proc: ->() { Mushy::Runner.new.start event, s, flow } } }
+             .map { |p| ->() { p[:flux].loop &p[:proc] } }
+             .map { |x| ->() { loop &x } }
+             .map { |x| x.call }
+            #.map { |x| Daemons.call &x }
 
           exit
         end
