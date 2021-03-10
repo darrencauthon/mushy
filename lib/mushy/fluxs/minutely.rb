@@ -5,7 +5,6 @@ module Mushy
   class ServiceFlux < Flux
 
     def start
-      process({}, config)
     end
 
   end

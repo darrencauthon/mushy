@@ -37,7 +37,11 @@ module Mushy
 
         puts service_fluxes.inspect
         if service_fluxes.any?
-          my_call = ->() { service_fluxes.first.start }
+          service_flux = service_fluxes.first
+          my_call = ->() do
+            service_flux.start
+            Mushy::Runner.new.start event, service_flux, flow
+          end
           loop &my_call
         end
 
