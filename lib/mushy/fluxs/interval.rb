@@ -19,7 +19,7 @@ module Mushy
 
     def self.details
       {
-        name: 'Minutely',
+        name: 'Interval',
         description: 'Fire an event every X minutes.',
         config: {},
       }.tap do |c|
@@ -49,7 +49,6 @@ module Mushy
     end
 
     def process event, config
-      puts time
       {
         time: time
       }
