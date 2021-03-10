@@ -1,3 +1,5 @@
+require 'daemons'
+
 module Mushy
 
   module Builder
@@ -35,20 +37,19 @@ module Mushy
 
         service_fluxes = flow.fluxs.select { |x| x.kind_of?(Mushy::ServiceFlux) }
 
-        puts service_fluxes.inspect
         if service_fluxes.any?
-          service_flux = service_fluxes.first
-          my_call = ->() do
-            service_flux.start
-            Mushy::Runner.new.start event, service_flux, flow
-          end
-          loop &my_call
+          calls = service_fluxes.map do |service_flux|
+            ->() do
+              service_flux.start
+              Mushy::Runner.new.start event, service_flux, flow
+            end
+          end.map { |x| ->() { loop &x } }
+             .map { |x| Daemons.call &x }
+
+          exit
         end
 
         cli_flux = flow.fluxs.select { |x| x.kind_of?(Mushy::Cli) }.first
-
-        puts cli_flux.kind_of?(Mushy::Cli).inspect
-        throw 'hey'
 
         Mushy::Runner.new.start event, cli_flux, flow
       end
