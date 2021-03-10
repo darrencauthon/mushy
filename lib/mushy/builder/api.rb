@@ -1,3 +1,5 @@
+require 'daemons'
+
 module Mushy
 
   module Builder
@@ -32,9 +34,34 @@ module Mushy
         file = "#{file}.json" unless file.downcase.end_with?('.json')
         flow = File.open(file).read
         flow = Mushy::Flow.parse flow
-        flux = flow.fluxs.select { |x| x.type == 'Cli' }.first
 
-        Mushy::Runner.new.start event, flux, flow
+        service_fluxes = flow.fluxs.select { |x| x.respond_to? :loop }
+
+        pwd = Dir.pwd
+
+        if service_fluxes.any?
+          calls = service_fluxes
+             .map { |s| { flux: s, proc: ->(e) do
+                                                 Dir.chdir pwd
+                                                 Mushy::Runner.new.start e, s, flow
+                                               end } }
+             .map { |p| ->() { p[:flux].loop &p[:proc] } }
+             .map { |x| ->() { loop &x } }
+             .map { |x| run_as_a_daemon &x }
+
+          puts calls.inspect
+
+          exit
+        end
+
+        cli_flux = flow.fluxs.select { |x| x.kind_of?(Mushy::Cli) }.first
+
+        Mushy::Runner.new.start event, cli_flux, flow
+      end
+
+      def self.run_as_a_daemon &block
+        #block.call
+        Daemons.call(&block).pid.pid
       end
 
       def self.get_flow file
