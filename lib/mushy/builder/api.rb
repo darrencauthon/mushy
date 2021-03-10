@@ -34,6 +34,9 @@ module Mushy
         flow = Mushy::Flow.parse flow
         flux = flow.fluxs.select { |x| x.type == 'Cli' }.first
 
+        puts (flux.class == Mushy::Cli).inspect
+        throw 'hey'
+
         Mushy::Runner.new.start event, flux, flow
       end
 
