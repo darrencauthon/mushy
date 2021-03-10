@@ -36,6 +36,10 @@ module Mushy
         service_fluxes = flow.fluxs.select { |x| x.kind_of?(Mushy::ServiceFlux) }
 
         puts service_fluxes.inspect
+        if service_fluxes.any?
+          my_call = ->() { service_fluxes.first.start }
+          loop &my_call
+        end
 
         cli_flux = flow.fluxs.select { |x| x.kind_of?(Mushy::Cli) }.first
 

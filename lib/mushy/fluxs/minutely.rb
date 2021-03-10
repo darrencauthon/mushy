@@ -4,7 +4,8 @@ module Mushy
 
   class ServiceFlux < Flux
 
-    def self.start
+    def start
+      process({}, config)
     end
 
   end
@@ -21,6 +22,14 @@ module Mushy
     end
 
     def process event, config
+      puts 'start'
+      seconds_in_a_minute = 60
+      puts config.inspect
+      puts config
+      sleep 5
+      puts 'stop'
+      {
+      }
     end
 
   end
