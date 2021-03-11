@@ -50,9 +50,7 @@ module Mushy
 
         result[:date_parts] = Mushy::Interval.time_from result[:date]
 
-        result.merge segments
-         .each_with_index
-         .reduce({}) { |t, i| t[i[1]] = i[0]; t }
+        result
       end
 
     end
