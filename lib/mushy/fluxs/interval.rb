@@ -48,6 +48,10 @@ module Mushy
 
     def process event, config
       now = Time.now
+      self.class.time_from now
+    end
+
+    def self.time_from now
       {
         year: nil,
         month: nil,
