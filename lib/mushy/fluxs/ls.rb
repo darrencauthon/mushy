@@ -25,12 +25,9 @@ module Mushy
         result = {}
         segments = x.split ' '
 
-        result[:inode] = segments.shift; x = segments.join ' '
-        result[:help] = segments.shift; x = segments.join ' '
-        result[:hard_links] = segments.shift; x = segments.join ' '
-        result[:owner] = segments.shift; x = segments.join ' '
-        result[:group] = segments.shift; x = segments.join ' '
-        result[:size] = segments.shift; x = segments.join ' '
+        [:inode, :help, :hard_links, :owner, :group, :size].each do |key|
+          result[key] = segments.shift; x = segments.join ' '
+        end
 
         result.tap do |r|
           r[:date] = []
