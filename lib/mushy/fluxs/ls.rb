@@ -50,6 +50,9 @@ module Mushy
 
         result[:date_parts] = Mushy::Interval.time_from result[:date]
 
+        result[:directory] = config[:directory] || Dir.pwd
+        result[:path] = File.join result[:directory], result[:name]
+
         result
       end
 
