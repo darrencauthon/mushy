@@ -32,19 +32,23 @@ module Mushy
         result[:group] = segments.shift; x = segments.join ' '
         result[:size] = segments.shift; x = segments.join ' '
 
-        result[:date] = []
-        3.times { result[:date] << segments.shift }
-        result[:date] = result[:date].join ' '
-        result[:date] = Time.parse result[:date]
+        result.tap do |r|
+          r[:date] = []
+          3.times { r[:date] << segments.shift }
+          r[:date] = r[:date].join ' '
+          r[:date] = Time.parse r[:date]
+        end
 
         result[:name] = segments.shift
 
-        help_segments = result[:help].split ''
-        result[:type] = help_segments[0]
-        result[:owner_permission] = [1, 2, 3].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
-        result[:group_permission] = [4, 5, 6].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
-        result[:other_permission] = [7, 8, 9].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
-        result.delete :help
+        result.tap do |r|
+          help_segments = r[:help].split ''
+          r[:type] = help_segments[0]
+          r[:owner_permission] = [1, 2, 3].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
+          r[:group_permission] = [4, 5, 6].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
+          r[:other_permission] = [7, 8, 9].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
+          r.delete :help
+        end
 
         [:hard_links, :size].each { |x| result[x] = result[x].to_i }
 
