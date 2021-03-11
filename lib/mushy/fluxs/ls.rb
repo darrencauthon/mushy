@@ -26,14 +26,27 @@ module Mushy
         segments = x.split ' '
 
         result[:inode] = segments.shift; x = segments.join ' '
-        result[:help]  = segments.shift; x = segments.join ' '
+        result[:help] = segments.shift; x = segments.join ' '
+        result[:hard_links] = segments.shift; x = segments.join ' '
+        result[:owner] = segments.shift; x = segments.join ' '
+        result[:group] = segments.shift; x = segments.join ' '
+        result[:size] = segments.shift; x = segments.join ' '
+
+        result[:date] = []
+        3.times { result[:date] << segments.shift }
+        result[:date] = result[:date].join ' '
+        result[:date] = Time.parse result[:date]
+
+        result[:name] = segments.shift
 
         help_segments = result[:help].split ''
         result[:type] = help_segments[0]
-        result[:owner] = [1, 2, 3].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
-        result[:group] = [4, 5, 6].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
-        result[:other] = [7, 8, 9].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
+        result[:owner_permission] = [1, 2, 3].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
+        result[:group_permission] = [4, 5, 6].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
+        result[:other_permission] = [7, 8, 9].map { |i| help_segments[i] }.reduce('') { |t, i| t + i }
         result.delete :help
+
+        [:hard_links, :size].each { |x| result[x] = result[x].to_i }
 
         result.merge segments
          .each_with_index
