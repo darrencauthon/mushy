@@ -90,7 +90,9 @@ module Mushy
 
       browser.headers.add get_the_headers_from(event, config)
 
+      the_start = Time.now
       browser.goto config[:url]
+      time = Time.now - the_start
 
       browser.execute(config[:execute]) if config[:execute]
 
@@ -102,6 +104,7 @@ module Mushy
         title: browser.frames[0].title,
         cookies: browser.cookies.all.map { |k, v| v.instance_variable_get('@attributes') },
         headers: browser.headers.get,
+        time: time,
         body: browser.body
       }
 
