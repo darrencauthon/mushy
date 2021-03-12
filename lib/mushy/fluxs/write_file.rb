@@ -32,10 +32,14 @@ module Mushy
         }
     end
 
-    def process event, config
+    def self.get_file_from config
       file = config[:name]
-
       file = File.join(config[:directory], file) if config[:directory].to_s != ''
+      file
+    end
+
+    def process event, config
+      file = self.class.get_file_from config
 
       File.open(file, 'w') { |f| f.write config[:data] }
 
