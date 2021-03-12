@@ -41,7 +41,7 @@ module Mushy
 
       the_browser.screenshot options
 
-      options
+      options.merge the_result
 
     end
 
