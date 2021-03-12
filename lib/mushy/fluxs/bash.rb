@@ -15,6 +15,7 @@ module Mushy
           directory: {
                        description: 'The working directory in which the command will be run.',
                        type:        'text',
+                       shrink:      true,
                        value:       '',
                      },
         },
