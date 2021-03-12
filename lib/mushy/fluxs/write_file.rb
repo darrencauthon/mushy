@@ -14,6 +14,7 @@ module Mushy
                 },
           directory: {
                   description: 'The directory in which to write the file. Leave blank for the current directory.',
+                  shrink:      true,
                   type:        'text',
                   value:       '',
                 },
