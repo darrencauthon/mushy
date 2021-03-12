@@ -18,7 +18,7 @@ module Mushy
                       description: 'Run this browser headless.',
                       type:        'boolean',
                       shrink:      true,
-                      value:       'true',
+                      value:       '',
                     },
           timeout: {
                      description: 'The default timeout (in seconds) before closing the browser. Default is 5 seconds.',
