@@ -10,7 +10,8 @@ class MushyCLI < Thor
 
   desc "start FILE", "Run this workflow file."
   def start
-    Mushy::Builder::Api.start file, values
+    v = values || {}
+    Mushy::Builder::Api.start file, v
   end
 
   desc "build FILE", 'Build a flow.'
