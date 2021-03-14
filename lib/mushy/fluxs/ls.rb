@@ -14,6 +14,12 @@ module Mushy
                                    shrink:      true,
                                    value:       '',
                                  }
+        c[:config][:path] = {
+                                description: 'Path, used to search for specific files.',
+                                type:        'text',
+                                shrink:      true,
+                                value:       '',
+                              }
       end
     end
 
@@ -21,14 +27,15 @@ module Mushy
 
       arguments = ['-A', '-l', '--full-time', '-i']
       arguments << '-R' if config[:recursive].to_s == 'true'
+      arguments << config[:path] if config[:path].to_s != ''
       config[:command] = "ls #{arguments.join(' ')}"
+      puts config[:command]
 
       result = super event, config
 
       return result unless result[:success]
 
       lines = result[:text].split("\n")
-      lines.shift
 
       origin = config[:directory] || Dir.pwd
       directory = origin
