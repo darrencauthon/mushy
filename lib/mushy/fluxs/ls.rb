@@ -28,7 +28,9 @@ module Mushy
 
       arguments << config[:path] if config[:path].to_s != ''
 
-      config[:command] = build_the_command_from arguments
+      command = build_the_command_from arguments
+
+      config[:command] = command
 
       result = super event, config
 
