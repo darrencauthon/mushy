@@ -52,6 +52,7 @@ module Mushy
 
       origin = config[:directory] || Dir.pwd
       directory = origin
+      directory = '||DIRECTORY||' if lines[0].start_with?('total ')
       lines.map do |x|
         segments = x.split ' '
         result = if segments.count > 5
@@ -71,7 +72,11 @@ module Mushy
                  else
                    nil
                  end
-      end.select { |x| x }
+      end.select { |x| x }.each do |x|
+        [:directory, :path].each do |key|
+          x[key].sub!('||DIRECTORY||', File.join(Dir.pwd, 'DARREN'))
+        end
+      end
     end
 
     def pull_file segments, directory
