@@ -28,10 +28,7 @@ module Mushy
 
       arguments << config[:path] if config[:path].to_s != ''
 
-      command = build_the_command_from arguments
-
-      config[:command] = command
-
+      config[:command] = build_the_command_from arguments
       result = super event, config
 
       turn_the_ls_output_to_events result, config
