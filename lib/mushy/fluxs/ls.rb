@@ -24,10 +24,22 @@ module Mushy
     end
 
     def process event, config
+
+      use_dir = false
+      if config[:path].to_s != ''
+        args = build_the_arguments_from config
+        args << '-d'
+        args << config[:path]
+        config[:command] = build_the_command_from args
+        hey = super event, config
+        hey = turn_the_ls_output_to_events hey, config
+        if hey.count == 1 && hey[0][:type] == 'd'
+          use_dir = true
+        end
+      end
+
       arguments = build_the_arguments_from config
-
       arguments << config[:path] if config[:path].to_s != ''
-
       config[:command] = build_the_command_from arguments
       result = super event, config
 
