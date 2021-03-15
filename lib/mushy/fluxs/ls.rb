@@ -119,7 +119,7 @@ module Mushy
 
       [:hard_links, :size].each { |x| result[x] = result[x].to_i }
 
-      result[:date_parts] = Mushy::DateParts.parse result[:date]
+      result[:date] = Mushy::DateParts.parse result[:date]
 
       result[:directory] = directory
       result[:path] = File.join result[:directory], result[:name]
