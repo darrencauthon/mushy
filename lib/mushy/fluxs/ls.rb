@@ -14,31 +14,61 @@ module Mushy
                                    shrink:      true,
                                    value:       '',
                                  }
+        c[:config][:path] = {
+                                description: 'Path, used to search for specific files.',
+                                type:        'text',
+                                shrink:      true,
+                                value:       '',
+                              }
       end
     end
 
     def process event, config
+      arguments = build_the_arguments_from config
 
-      arguments = ['-A', '-l', '--full-time', '-i']
-      arguments << '-R' if config[:recursive].to_s == 'true'
-      config[:command] = "ls #{arguments.join(' ')}"
-
+      config[:command] = build_the_command_from arguments
       result = super event, config
 
-      return result unless result[:success]
+      things = turn_the_ls_output_to_events result, config, event
+      things
+    end
+
+    def build_the_command_from arguments
+      "ls #{arguments.join(' ')}"
+    end
+
+    def build_the_arguments_from config
+      arguments = ['-A', '-l', '--full-time', '-i']
+      arguments << '-R' if config[:recursive].to_s == 'true'
+      arguments << '-d' if config[:directory_only].to_s == 'true'
+      arguments << config[:path] if config[:path].to_s != ''
+      arguments
+    end
+
+    def turn_the_ls_output_to_events result, config, event
 
       lines = result[:text].split("\n")
-      lines.shift
+
+      needs_special_work_for_path = config[:directory_only].to_s != 'true' &&
+                                    config[:path].to_s != '' &&
+                                    lines[0].start_with?('total ')
 
       origin = config[:directory] || Dir.pwd
-      directory = origin
-      lines.map do |x|
+      directory = needs_special_work_for_path ? '||DIRECTORY||' : origin
+
+      things = lines.map do |x|
         segments = x.split ' '
         result = if segments.count > 5
                    pull_file segments, directory
                  elsif segments.count == 1
                    dir_segments = segments[0].split("\/")
-                   dir_segments[0] = origin if dir_segments[0] == '.'
+
+                   if dir_segments[0] == '.'
+                     dir_segments[0] = origin
+                   else
+                     dir_segments.unshift origin
+                   end
+
                    dir_segments[-1] = dir_segments[-1].sub ':', ''
                    directory = dir_segments.join("\/")
                    nil
@@ -47,6 +77,19 @@ module Mushy
                  end
       end.select { |x| x }
 
+      if needs_special_work_for_path
+        config[:directory_only] = true
+        special_name = process(event, config)[0][:name]
+        things.each do |x|
+          [:directory, :path].each do |key|
+            if x[key].include?('||DIRECTORY||')
+              x[key].sub!('||DIRECTORY||', File.join(Dir.pwd, special_name))
+            end
+          end
+        end
+      end
+
+      things
     end
 
     def pull_file segments, directory
