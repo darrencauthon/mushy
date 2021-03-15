@@ -49,7 +49,7 @@ module Mushy
 
       lines = result[:text].split("\n")
 
-      needs_special_work_for_path = lines[0].start_with?('total ')
+      needs_special_work_for_path = config[:directory_only].to_s != 'true' && lines[0].start_with?('total ')
 
       origin = config[:directory] || Dir.pwd
       directory = needs_special_work_for_path ? '||DIRECTORY||' : origin
