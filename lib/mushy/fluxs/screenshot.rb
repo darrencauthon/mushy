@@ -41,7 +41,10 @@ module Mushy
 
       the_browser.screenshot options
 
-      options.merge the_result
+      the_result[:options] = options
+      the_result[:file] = Mushy::Ls.new.process({}, { path: file })[0]
+
+      the_result
 
     end
 
