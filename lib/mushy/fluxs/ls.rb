@@ -26,12 +26,13 @@ module Mushy
     def process event, config
       arguments = build_the_arguments_from config
 
+      arguments << '-d' if config[:directory_only].to_s == 'true'
       arguments << config[:path] if config[:path].to_s != ''
 
       config[:command] = build_the_command_from arguments
       result = super event, config
 
-      things = turn_the_ls_output_to_events result, config
+      things = turn_the_ls_output_to_events result, config, event
       things
     end
 
@@ -45,15 +46,20 @@ module Mushy
       arguments
     end
 
-    def turn_the_ls_output_to_events result, config
+    def turn_the_ls_output_to_events result, config, event
       #return result unless result[:success]
 
       lines = result[:text].split("\n")
 
       origin = config[:directory] || Dir.pwd
       directory = origin
-      directory = '||DIRECTORY||' if lines[0].start_with?('total ')
-      lines.map do |x|
+
+      needs_special_work_for_path = lines[0].start_with?('total ')
+      if needs_special_work_for_path
+        directory = '||DIRECTORY||'
+      end
+
+      things = lines.map do |x|
         segments = x.split ' '
         result = if segments.count > 5
                    pull_file segments, directory
@@ -72,11 +78,21 @@ module Mushy
                  else
                    nil
                  end
-      end.select { |x| x }.each do |x|
-        [:directory, :path].each do |key|
-          x[key].sub!('||DIRECTORY||', File.join(Dir.pwd, 'DARREN'))
+      end.select { |x| x }
+
+      if needs_special_work_for_path
+        config[:directory_only] = true
+        special_name = process(event, config)[0][:name]
+        things.each do |x|
+          [:directory, :path].each do |key|
+            if x[key].include?('||DIRECTORY||')
+              x[key].sub!('||DIRECTORY||', File.join(Dir.pwd, special_name))
+            end
+          end
         end
       end
+
+      things
     end
 
     def pull_file segments, directory
