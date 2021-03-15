@@ -24,17 +24,24 @@ module Mushy
     end
 
     def process event, config
+      arguments = build_the_arguments_from config
 
-      arguments = ['-A', '-l', '--full-time', '-i']
-      arguments << '-R' if config[:recursive].to_s == 'true'
-      arguments << config[:path] if config[:path].to_s != ''
-      command = "ls #{arguments.join(' ')}"
-      config[:command] = command
+      config[:command] = build_the_command_from arguments
 
       result = super event, config
 
       turn_the_ls_output_to_events result, config
+    end
 
+    def build_the_command_from arguments
+      "ls #{arguments.join(' ')}"
+    end
+
+    def build_the_arguments_from config
+      arguments = ['-A', '-l', '--full-time', '-i']
+      arguments << '-R' if config[:recursive].to_s == 'true'
+      arguments << config[:path] if config[:path].to_s != ''
+      arguments
     end
 
     def turn_the_ls_output_to_events result, config
