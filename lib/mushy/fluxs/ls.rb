@@ -32,7 +32,7 @@ module Mushy
 
       result = super event, config
 
-      return result unless result[:success]
+      #return result unless result[:success]
 
       lines = result[:text].split("\n")
 
