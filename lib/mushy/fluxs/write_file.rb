@@ -43,7 +43,9 @@ module Mushy
 
       File.open(file, 'w') { |f| f.write config[:data] }
 
-      {}
+      {
+        file: Mushy::Ls.new.process({}, { path: file })[0]
+      }
     end
 
   end
