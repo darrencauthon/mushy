@@ -28,7 +28,8 @@ module Mushy
       arguments = ['-A', '-l', '--full-time', '-i']
       arguments << '-R' if config[:recursive].to_s == 'true'
       arguments << config[:path] if config[:path].to_s != ''
-      config[:command] = "ls #{arguments.join(' ')}"
+      command = "ls #{arguments.join(' ')}"
+      config[:command] = command
 
       result = super event, config
 
