@@ -32,6 +32,11 @@ module Mushy
 
       result = super event, config
 
+      turn_the_ls_output_to_events result, config
+
+    end
+
+    def turn_the_ls_output_to_events result, config
       #return result unless result[:success]
 
       lines = result[:text].split("\n")
@@ -52,7 +57,6 @@ module Mushy
                    nil
                  end
       end.select { |x| x }
-
     end
 
     def pull_file segments, directory
