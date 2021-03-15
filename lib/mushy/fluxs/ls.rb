@@ -46,17 +46,13 @@ module Mushy
     end
 
     def turn_the_ls_output_to_events result, config, event
-      #return result unless result[:success]
 
       lines = result[:text].split("\n")
 
-      origin = config[:directory] || Dir.pwd
-      directory = origin
-
       needs_special_work_for_path = lines[0].start_with?('total ')
-      if needs_special_work_for_path
-        directory = '||DIRECTORY||'
-      end
+
+      origin = config[:directory] || Dir.pwd
+      directory = needs_special_work_for_path ? '||DIRECTORY||' : origin
 
       things = lines.map do |x|
         segments = x.split ' '
