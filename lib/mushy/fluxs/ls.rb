@@ -31,7 +31,8 @@ module Mushy
       config[:command] = build_the_command_from arguments
       result = super event, config
 
-      turn_the_ls_output_to_events result, config
+      things = turn_the_ls_output_to_events result, config
+      things
     end
 
     def build_the_command_from arguments
