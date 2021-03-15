@@ -58,7 +58,13 @@ module Mushy
                    pull_file segments, directory
                  elsif segments.count == 1
                    dir_segments = segments[0].split("\/")
-                   dir_segments[0] = origin if dir_segments[0] == '.'
+
+                   if dir_segments[0] == '.'
+                     dir_segments[0] = origin
+                   else
+                     dir_segments.unshift origin
+                   end
+
                    dir_segments[-1] = dir_segments[-1].sub ':', ''
                    directory = dir_segments.join("\/")
                    nil
