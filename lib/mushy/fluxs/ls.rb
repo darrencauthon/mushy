@@ -26,6 +26,8 @@ module Mushy
     def process event, config
       arguments = build_the_arguments_from config
 
+      arguments << config[:path] if config[:path].to_s != ''
+
       config[:command] = build_the_command_from arguments
 
       result = super event, config
@@ -40,7 +42,6 @@ module Mushy
     def build_the_arguments_from config
       arguments = ['-A', '-l', '--full-time', '-i']
       arguments << '-R' if config[:recursive].to_s == 'true'
-      arguments << config[:path] if config[:path].to_s != ''
       arguments
     end
 
