@@ -536,6 +536,30 @@ describe Mushy::Flux do
 
       end
 
+      describe "ignoring an error" do
+
+        before do
+          config[:error_strategy] = 'ignore'
+          flux.do_this = ->(x, y) { raise 'this should error' }
+        end
+
+        it "should eat the error when returning" do
+          exception_thrown = false
+          begin
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal false
+        end
+
+        it "should return nil when ignoring" do
+          result = flux.execute event
+          result.must_be_nil
+        end
+
+      end
+
     end
 
   end
