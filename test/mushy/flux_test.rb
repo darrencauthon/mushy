@@ -499,6 +499,16 @@ describe Mushy::Flux do
           exception_thrown.must_equal true
         end
 
+        it "should throw the same exception" do
+          exception = Exception.new 'hello'
+          flux.do_this = ->(x, y) { raise exception }
+          begin
+            flux.execute event
+          rescue Exception => ex
+            ex.must_be_same_as exception
+          end
+        end
+
         it "should throw the exception if the config is an empty string" do
           config[:error_strategy] = ''
           exception_thrown = false

@@ -78,7 +78,7 @@ module Mushy
       returned_one_result ? results.first : results
 
     rescue Exception => e
-      raise 'stop' if config[:error_strategy].to_s == ''
+      raise e if config[:error_strategy].to_s == ''
       return nil if config[:error_strategy] == 'ignore'
       { exception: e.message }
     end
