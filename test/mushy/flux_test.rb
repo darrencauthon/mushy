@@ -483,12 +483,26 @@ describe Mushy::Flux do
         flux.config = config
       end
 
-      describe "not setting the error config at all" do
+      describe "no error config" do
+
+        before do
+          flux.do_this = ->(x, y) { raise 'this should error' }
+        end
 
         it "should throw the exception by default" do
           exception_thrown = false
           begin
-            flux.do_this = ->(x, y) { raise 'this should error' }
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal true
+        end
+
+        it "should throw the exception if the config is an empty string" do
+          config[:error_strategy] = ''
+          exception_thrown = false
+          begin
             flux.execute event
           rescue
             exception_thrown = true
