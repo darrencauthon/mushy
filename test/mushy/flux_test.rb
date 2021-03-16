@@ -10,6 +10,16 @@ class MushyFluxTestClass < Mushy::Flux
 
 end
 
+class MushyFluxTestClassWithLambda < Mushy::Flux
+
+  attr_accessor :do_this
+
+  def process event, config
+    do_this.call event, config
+  end
+
+end
+
 describe Mushy::Flux do
 
   let(:flux) { Mushy::Flux.new }
@@ -460,6 +470,27 @@ describe Mushy::Flux do
         result = flux.execute event
 
         result.count.must_equal 2
+      end
+
+    end
+
+    describe "error handling" do
+      let(:flux)   { MushyFluxTestClassWithLambda.new }
+      let(:config) { SymbolizedHash.new }
+      let(:event)  { SymbolizedHash.new }
+
+      before do
+      end
+
+      it "should throw the exception by default" do
+        exception_thrown = false
+        begin
+          flux.do_this = ->(x, y) { raise 'this should error' }
+          flux.execute event
+        rescue
+          exception_thrown = true
+        end
+        exception_thrown.must_equal true
       end
 
     end
