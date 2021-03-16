@@ -79,6 +79,7 @@ module Mushy
 
     rescue Exception => e
       raise 'stop' unless config[:error_strategy]
+      { exception: e.message }
     end
 
     def standardize_these results

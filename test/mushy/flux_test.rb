@@ -511,6 +511,11 @@ describe Mushy::Flux do
           exception_thrown.must_equal false
         end
 
+        it "return a message with the exception detail" do
+          result = flux.execute event
+          result[:exception].must_equal 'this should error'
+        end
+
       end
 
     end
