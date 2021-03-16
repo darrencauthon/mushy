@@ -34,7 +34,7 @@ DOC
 {
     "fluxs": [
         { "id": "abcd", "config": { "a": "b"} },
-        { "id": "efgh", "config": { "c": "d" }, "parent_fluxs": ["abcd"], "type": "Get" }
+        { "id": "efgh", "config": { "c": "d" }, "parents": ["abcd"], "type": "Get" }
     ]
 }
 DOC
