@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'faraday'
   s.add_runtime_dependency 'pony'
   s.add_runtime_dependency 'daemons'
+  s.add_runtime_dependency 'imatcher'
 end
