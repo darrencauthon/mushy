@@ -565,7 +565,7 @@ describe Mushy::Flux do
 
         it "should return nil when ignoring" do
           result = flux.execute event
-          result.must_be_nil
+          result.count.must_equal 0
         end
 
       end

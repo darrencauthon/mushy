@@ -79,7 +79,7 @@ module Mushy
 
     rescue Exception => e
       raise e if config[:error_strategy].to_s == ''
-      return nil if config[:error_strategy] == 'ignore'
+      return [] if config[:error_strategy] == 'ignore'
       { exception: e.message }
     end
 
