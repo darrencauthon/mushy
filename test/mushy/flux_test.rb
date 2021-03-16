@@ -493,6 +493,25 @@ describe Mushy::Flux do
         exception_thrown.must_equal true
       end
 
+      describe "returning an error" do
+
+        before do
+          config[:error_strategy] = 'return'
+          flux.do_this = ->(x, y) { raise 'this should error' }
+        end
+
+        it "should eat the error when returning" do
+          exception_thrown = false
+          begin
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal false
+        end
+
+      end
+
     end
 
   end
