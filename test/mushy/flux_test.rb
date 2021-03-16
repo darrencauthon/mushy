@@ -483,15 +483,19 @@ describe Mushy::Flux do
         flux.config = config
       end
 
-      it "should throw the exception by default" do
-        exception_thrown = false
-        begin
-          flux.do_this = ->(x, y) { raise 'this should error' }
-          flux.execute event
-        rescue
-          exception_thrown = true
+      describe "not setting the error config at all" do
+
+        it "should throw the exception by default" do
+          exception_thrown = false
+          begin
+            flux.do_this = ->(x, y) { raise 'this should error' }
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal true
         end
-        exception_thrown.must_equal true
+
       end
 
       describe "returning an error" do
