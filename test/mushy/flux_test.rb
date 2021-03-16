@@ -480,6 +480,7 @@ describe Mushy::Flux do
       let(:event)  { SymbolizedHash.new }
 
       before do
+        flux.config = config
       end
 
       it "should throw the exception by default" do

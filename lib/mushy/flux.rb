@@ -77,6 +77,8 @@ module Mushy
       
       returned_one_result ? results.first : results
 
+    rescue Exception => e
+      raise 'stop' unless config[:error_strategy]
     end
 
     def standardize_these results
