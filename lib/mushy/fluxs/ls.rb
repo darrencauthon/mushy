@@ -41,7 +41,7 @@ module Mushy
       arguments = ['-A', '-l', '--full-time', '-i']
       arguments << '-R' if config[:recursive].to_s == 'true'
       arguments << '-d' if config[:directory_only].to_s == 'true'
-      arguments << config[:path] if config[:path].to_s != ''
+      arguments << "'#{config[:path]}'" if config[:path].to_s != ''
       arguments
     end
 
@@ -51,6 +51,7 @@ module Mushy
 
       needs_special_work_for_path = config[:directory_only].to_s != 'true' &&
                                     config[:path].to_s != '' &&
+                                    lines[0] &&
                                     lines[0].start_with?('total ')
 
       origin = config[:directory] || Dir.pwd
@@ -106,7 +107,7 @@ module Mushy
         r[:date] = Time.parse r[:date]
       end
 
-      result[:name] = segments.shift
+      result[:name] = segments.join ' '
 
       result.tap do |r|
         help_segments = r[:help].split ''
