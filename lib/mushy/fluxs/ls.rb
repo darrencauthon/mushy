@@ -122,7 +122,15 @@ module Mushy
       result[:date] = Mushy::DateParts.parse result[:date]
 
       result[:directory] = directory
-      result[:path] = File.join result[:directory], result[:name]
+
+      if result[:type] == 'd' && result[:directory] == result[:name]
+        result[:path] = result[:directory]
+        name_segments = result[:name].split "\/"
+        result[:name] = name_segments.pop
+        result[:directory] = name_segments.join "\/"
+      else
+        result[:path] = File.join result[:directory], result[:name]
+      end
 
       result
     end
