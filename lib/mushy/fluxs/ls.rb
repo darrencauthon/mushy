@@ -107,7 +107,7 @@ module Mushy
         r[:date] = Time.parse r[:date]
       end
 
-      result[:name] = segments.shift
+      result[:name] = segments.join ' '
 
       result.tap do |r|
         help_segments = r[:help].split ''
