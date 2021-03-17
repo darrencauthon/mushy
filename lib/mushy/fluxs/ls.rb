@@ -41,7 +41,7 @@ module Mushy
       arguments = ['-A', '-l', '--full-time', '-i']
       arguments << '-R' if config[:recursive].to_s == 'true'
       arguments << '-d' if config[:directory_only].to_s == 'true'
-      arguments << config[:path] if config[:path].to_s != ''
+      arguments << "'#{config[:path]}'" if config[:path].to_s != ''
       arguments
     end
 
