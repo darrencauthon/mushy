@@ -32,7 +32,7 @@ module Mushy
       the_result  = input[:result]
       the_config  = input[:config]
 
-      file = Mushy::WriteFile.get_file_from config
+      file = Mushy::WriteFile.get_file_from the_config
       options = {
           path:    file,
           full:    ['true', ''].include?(the_config[:full].to_s),
