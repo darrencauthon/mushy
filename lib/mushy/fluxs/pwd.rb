@@ -18,8 +18,10 @@ module Mushy
 
       return result unless result[:success]
 
+      pwd = result[:text].to_s.strip
+
       {
-        pwd: result[:text].to_s.strip
+        pwd: Mushy::Ls.new.process({}, { path: pwd, directory_only: true })[0]
       }
 
     end
