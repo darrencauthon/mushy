@@ -10,6 +10,16 @@ class MushyFluxTestClass < Mushy::Flux
 
 end
 
+class MushyFluxTestClassWithLambda < Mushy::Flux
+
+  attr_accessor :do_this
+
+  def process event, config
+    do_this.call event, config
+  end
+
+end
+
 describe Mushy::Flux do
 
   let(:flux) { Mushy::Flux.new }
@@ -460,6 +470,104 @@ describe Mushy::Flux do
         result = flux.execute event
 
         result.count.must_equal 2
+      end
+
+    end
+
+    describe "error handling" do
+      let(:flux)   { MushyFluxTestClassWithLambda.new }
+      let(:config) { SymbolizedHash.new }
+      let(:event)  { SymbolizedHash.new }
+
+      before do
+        flux.config = config
+      end
+
+      describe "no error config" do
+
+        before do
+          flux.do_this = ->(x, y) { raise 'this should error' }
+        end
+
+        it "should throw the exception by default" do
+          exception_thrown = false
+          begin
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal true
+        end
+
+        it "should throw the same exception" do
+          exception = Exception.new 'hello'
+          flux.do_this = ->(x, y) { raise exception }
+          begin
+            flux.execute event
+          rescue Exception => ex
+            ex.must_be_same_as exception
+          end
+        end
+
+        it "should throw the exception if the config is an empty string" do
+          config[:error_strategy] = ''
+          exception_thrown = false
+          begin
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal true
+        end
+
+      end
+
+      describe "returning an error" do
+
+        before do
+          config[:error_strategy] = 'return'
+          flux.do_this = ->(x, y) { raise 'this should error' }
+        end
+
+        it "should eat the error when returning" do
+          exception_thrown = false
+          begin
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal false
+        end
+
+        it "return a message with the exception detail" do
+          result = flux.execute event
+          result[:exception].must_equal 'this should error'
+        end
+
+      end
+
+      describe "ignoring an error" do
+
+        before do
+          config[:error_strategy] = 'ignore'
+          flux.do_this = ->(x, y) { raise 'this should error' }
+        end
+
+        it "should eat the error when returning" do
+          exception_thrown = false
+          begin
+            flux.execute event
+          rescue
+            exception_thrown = true
+          end
+          exception_thrown.must_equal false
+        end
+
+        it "should return nil when ignoring" do
+          result = flux.execute event
+          result.count.must_equal 0
+        end
+
       end
 
     end

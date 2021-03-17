@@ -77,6 +77,10 @@ module Mushy
       
       returned_one_result ? results.first : results
 
+    rescue Exception => e
+      raise e if config[:error_strategy].to_s == ''
+      return [] if config[:error_strategy] == 'ignore'
+      { exception: e.message }
     end
 
     def standardize_these results

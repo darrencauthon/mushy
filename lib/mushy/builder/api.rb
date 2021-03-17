@@ -95,6 +95,14 @@ module Mushy
                          details[:config][:sort] = { type: 'text', shrink: true, description: 'Sort by this key.', default: '' }
                          details[:config][:model] = { type: 'keyvalue', shrink: true, description: 'Reshape the outgoing events.', value: {}, default: {} }
 
+                         details[:config][:error_strategy] = {
+                           description: 'Error strategy. (return to return an event with "exception" returning the error, or ignore to ignore the exception)',
+                           type:        'select',
+                           options:     ['', 'return', 'ignore'],
+                           value:       '',
+                           shrink:      true,
+                         }
+
                          details[:config]
                                 .select { |_, v| v[:type] == 'keyvalue' }
                                 .select { |_, v| v[:editors].nil? }
