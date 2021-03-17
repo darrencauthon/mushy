@@ -91,7 +91,7 @@ module Mushy
     end
 
     def shape_these results, event, config
-      supported_shaping = [:merge, :outgoing_split, :group, :model, :join, :sort, :limit]
+      supported_shaping = [:merge, :outgoing_split, :group, :model, :ignore, :join, :sort, :limit]
 
       shaping = supported_shaping
       if (config[:shaping])
@@ -134,6 +134,13 @@ module Mushy
     def model_these_results results, event, by
       return results unless by.any?
       results.map { |x| masher.mash by, x }
+    end
+
+    def ignore_these_results results, event, by
+      return results if by.to_s == ''
+      ignore_fields = by.split ','
+      results.each { |r| ignore_fields.each { |f| r.delete f } }
+      results
     end
 
     def merge_these_results results, event, by

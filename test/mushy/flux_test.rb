@@ -572,6 +572,44 @@ describe Mushy::Flux do
 
     end
 
+    describe "ignoring" do
+      let(:flux)   { MushyFluxTestClassWithLambda.new }
+      let(:config) { SymbolizedHash.new }
+      let(:event)  { SymbolizedHash.new }
+
+      let(:flux_output) { {} }
+
+      before do
+        flux.config = config
+        flux.do_this = ->(x, y) { flux_output }
+      end
+
+      describe "ignoring a single property" do
+
+        it "should allow fields to be ignored" do
+          flux_output[:a] = 'b'
+          flux_output[:c] = 'd'
+          flux.config[:ignore] = 'a'
+
+          result = flux.execute event
+          result.keys.include?(:a).must_equal false
+          result[:c].must_equal 'd'
+        end
+
+        it "should allow multiple fields to be ignored" do
+          flux_output[:a] = 'b'
+          flux_output[:c] = 'd'
+          flux.config[:ignore] = 'a,c'
+
+          result = flux.execute event
+          result.keys.include?(:a).must_equal false
+          result.keys.include?(:c).must_equal false
+        end
+
+      end
+
+    end
+
   end
 
 end
