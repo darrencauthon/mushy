@@ -93,6 +93,7 @@ module Mushy
                          details[:config][:limit] = { type: 'integer', shrink: true, description: 'Limit the number of events to this number.', default: '' }
                          details[:config][:join] = { type: 'text', shrink: true, description: 'Join all of the events from this flux into one event, under this name.', default: '' }
                          details[:config][:sort] = { type: 'text', shrink: true, description: 'Sort by this key.', default: '' }
+                         details[:config][:ignore] = { type: 'text', shrink: true, description: 'Ignore these keys.', value: '', default: '' }
                          details[:config][:model] = { type: 'keyvalue', shrink: true, description: 'Reshape the outgoing events.', value: {}, default: {} }
 
                          details[:config][:error_strategy] = {
