@@ -32,7 +32,9 @@ module Mushy
       end
 
       listener.start
+
       sleep
+
     end
 
     def process event, config
