@@ -1,4 +1,4 @@
-require 'csv'
+require 'listen'
 
 module Mushy
 
@@ -19,13 +19,21 @@ module Mushy
     end
 
     def loop &block
-      event = {}
-      puts 'k'
-      block.call event
+      listener = Listen.to(Dir.pwd) do |modified, added, removed|
+        the_event = {
+                      modified: modified,
+                      added: added,
+                      removed: removed,
+                    }
+        block.call the_event
+      end
+
+      listener.start
+      sleep
     end
 
     def process event, config
-      nil
+      event
     end
 
   end
