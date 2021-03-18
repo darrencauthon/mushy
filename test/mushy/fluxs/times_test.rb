@@ -20,6 +20,12 @@ describe Mushy::Times do
     result.count.must_equal 1
   end
 
+  it "should return the event it was given" do
+    config[:times] = 3
+    result = flux.process event, config
+    result.count.must_equal 3
+  end
+
   it "should return the same event" do
     config[:times] = 1
     result = flux.process event, config
