@@ -32,4 +32,13 @@ describe Mushy::Times do
     result[0][the_key].must_be_same_as the_value
   end
 
+  it "should return an index on each" do
+    config[:times] = 4
+    result = flux.process event, config
+    result[0][:index].must_equal 0
+    result[1][:index].must_equal 1
+    result[2][:index].must_equal 2
+    result[3][:index].must_equal 3
+  end
+
 end
