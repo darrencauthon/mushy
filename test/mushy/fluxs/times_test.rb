@@ -41,4 +41,10 @@ describe Mushy::Times do
     result[3][:index].must_equal 3
   end
 
+  it "should work with string times" do
+    config[:times] = '4'
+    result = flux.process event, config
+    result.count.must_equal 4
+  end
+
 end
