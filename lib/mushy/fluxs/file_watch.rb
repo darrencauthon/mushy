@@ -19,7 +19,10 @@ module Mushy
     end
 
     def loop &block
-      listener = Listen.to(Dir.pwd) do |modified, added, removed|
+
+      directory = config[:directory].to_s != '' ? config[:directory] : Dir.pwd
+
+      listener = Listen.to(directory) do |modified, added, removed|
         the_event = {
                       modified: modified,
                       added: added,
