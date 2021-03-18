@@ -47,4 +47,21 @@ describe Mushy::Times do
     result.count.must_equal 4
   end
 
+  it "should return nothing if times is missing" do
+    result = flux.process event, config
+    result.count.must_equal 0
+  end
+
+  it "should return nothing if times is nil" do
+    config[:times] = nil
+    result = flux.process event, config
+    result.count.must_equal 0
+  end
+
+  it "should return nothing if times is empty" do
+    config[:times] = ''
+    result = flux.process event, config
+    result.count.must_equal 0
+  end
+
 end
