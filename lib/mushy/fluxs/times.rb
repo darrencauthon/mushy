@@ -17,7 +17,10 @@ module Mushy
     end
 
     def process event, config
-      config[:times].times.each_with_index.map { |x, i| event.dup.tap { |e| e[:index] = i } }
+      config[:times]
+        .times
+        .each_with_index
+        .map { |x, i| event.dup.tap { |e| e[:index] = i } }
     end
 
   end
