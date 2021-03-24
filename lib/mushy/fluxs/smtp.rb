@@ -23,7 +23,6 @@ module Mushy
     end
 
     def adjust options
-      options.tap { |x| x[:via] = 'smtp' }
     end
 
     def cleanup options
@@ -111,6 +110,10 @@ module Mushy
                     },
         },
       }
+    end
+
+    def adjust options
+      options.tap { |x| x[:via] = 'smtp' }
     end
 
   end
