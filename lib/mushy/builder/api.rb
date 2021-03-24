@@ -118,10 +118,11 @@ module Mushy
 
                          if flux.new.respond_to? :loop
                            details[:config][:run_strategy] = {
-                             description: 'Run this using this strategy.',
+                             description: 'Run this using this strategy. (select "daemon" if this should be run in the background)',
                              type:        'select',
-                             options:     ['', 'daemon'],
+                             options:     ['', 'inline', 'daemon'],
                              value:       '',
+                             shrink:      true,
                            }
                          end
 
