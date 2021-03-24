@@ -41,25 +41,24 @@ module Mushy
 
         if service_fluxes.any?
 
-          puts service_fluxes.inspect
-
           things = service_fluxes
              .map { |s| { flux: s, proc: ->(e) do
                                                  Dir.chdir pwd
                                                  Mushy::Runner.new.start e, s, flow
                                                end,
-                          run_strategy: s.config[:run_strategy],
+                          run_method: (s.config[:run_strategy] == 'daemon' ? :run_this_as_a_daemon : :run_this_inline),
                         }
-                  }
+                  }.group_by { |x| x[:run_method] }
 
-          puts things.inspect
-
-          calls = things
+          calls = (things[:run_this_as_a_daemon] || [])
              .map { |p| ->() { p[:flux].loop &p[:proc] } }
              .map { |x| ->() { loop &x } }
-             .map { |x| run_this_service &x }
+             .map { |x| run_this_as_a_daemon &x }
 
-          puts calls.inspect
+          (things[:run_this_inline] || [])
+             .map { |p| ->() { p[:flux].loop &p[:proc] } }
+             .map { |x| ->() { loop &x } }
+             .map { |x| run_this_inline &x }
 
           exit
         end
@@ -69,12 +68,11 @@ module Mushy
         Mushy::Runner.new.start event, cli_flux, flow
       end
 
-      def self.run_this_service &block
+      def self.run_this_inline &block
         block.call
       end
 
-      def self.run_as_a_daemon &block
-        #block.call
+      def self.run_this_as_a_daemon &block
         Daemons.call(&block).pid.pid
       end
 
