@@ -1,4 +1,5 @@
 require 'daemons'
+require 'json'
 
 module Mushy
 
@@ -26,7 +27,7 @@ module Mushy
         file = "#{file}.json" unless file.downcase.end_with?('.json')
 
         data = SymbolizedHash.new JSON.parse(data)
-        Mushy::WriteFile.new.process( {}, { name: file, data: data.to_json })
+        Mushy::WriteFile.new.process( {}, { name: file, data: JSON.pretty_generate(data) })
 
       end
 
