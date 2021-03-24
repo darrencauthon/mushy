@@ -40,6 +40,9 @@ module Mushy
         pwd = Dir.pwd
 
         if service_fluxes.any?
+
+          puts service_fluxes.inspect
+
           calls = service_fluxes
              .map { |s| { flux: s, proc: ->(e) do
                                                  Dir.chdir pwd
