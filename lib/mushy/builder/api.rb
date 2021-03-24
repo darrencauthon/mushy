@@ -115,7 +115,7 @@ module Mushy
                                   end
 
                          details
-                 end
+                 end.sort_by { |x| x[:name] }
         }
       end
 
