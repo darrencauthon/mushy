@@ -2,7 +2,7 @@ require 'sinatra'
 
 require_relative 'mushy'
 
-the_file = 'hey.json'
+the_file = 'hey.mushy'
 
 get '/' do
   Mushy::Builder::Index.file

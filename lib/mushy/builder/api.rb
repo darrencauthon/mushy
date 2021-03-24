@@ -23,7 +23,7 @@ module Mushy
 
       def self.save file, data
 
-        file = "#{file}.json" unless file.downcase.end_with?('.json')
+        file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
 
         data = SymbolizedHash.new JSON.parse(data)
         Mushy::WriteFile.new.process( {}, { name: file, data: JSON.pretty_generate(data) })
@@ -31,7 +31,7 @@ module Mushy
       end
 
       def self.start file, event
-        file = "#{file}.json" unless file.downcase.end_with?('.json')
+        file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         flow = File.open(file).read
         flow = Mushy::Flow.parse flow
 
@@ -78,7 +78,7 @@ module Mushy
 
       def self.get_flow file
         puts "trying to get: #{file}"
-        file = "#{file}.json" unless file.downcase.end_with?('.json')
+        file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         data = JSON.parse File.open(file).read
         data['fluxs']
           .reject { |x| x['parents'] }
