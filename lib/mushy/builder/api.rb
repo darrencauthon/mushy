@@ -43,11 +43,15 @@ module Mushy
 
           puts service_fluxes.inspect
 
-          calls = service_fluxes
+          things = service_fluxes
              .map { |s| { flux: s, proc: ->(e) do
                                                  Dir.chdir pwd
                                                  Mushy::Runner.new.start e, s, flow
                                                end } }
+
+          puts things.inspect
+
+          calls = things
              .map { |p| ->() { p[:flux].loop &p[:proc] } }
              .map { |x| ->() { loop &x } }
              .map { |x| run_this_service &x }
