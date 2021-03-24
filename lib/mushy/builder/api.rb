@@ -47,7 +47,10 @@ module Mushy
              .map { |s| { flux: s, proc: ->(e) do
                                                  Dir.chdir pwd
                                                  Mushy::Runner.new.start e, s, flow
-                                               end } }
+                                               end,
+                          run_strategy: s.config[:run_strategy],
+                        }
+                  }
 
           puts things.inspect
 
@@ -114,6 +117,15 @@ module Mushy
                            value:       '',
                            shrink:      true,
                          }
+
+                         if flux.new.respond_to? :loop
+                           details[:config][:run_strategy] = {
+                             description: 'Run this using this strategy.',
+                             type:        'select',
+                             options:     ['', 'daemon'],
+                             value:       '',
+                           }
+                         end
 
                          details[:config]
                                 .select { |_, v| v[:type] == 'keyvalue' }
