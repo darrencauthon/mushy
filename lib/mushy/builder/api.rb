@@ -40,16 +40,25 @@ module Mushy
         pwd = Dir.pwd
 
         if service_fluxes.any?
-          calls = service_fluxes
+
+          things = service_fluxes
              .map { |s| { flux: s, proc: ->(e) do
                                                  Dir.chdir pwd
                                                  Mushy::Runner.new.start e, s, flow
-                                               end } }
+                                               end,
+                          run_method: (s.config[:run_strategy] == 'daemon' ? :run_this_as_a_daemon : :run_this_inline),
+                        }
+                  }.group_by { |x| x[:run_method] }
+
+          calls = (things[:run_this_as_a_daemon] || [])
              .map { |p| ->() { p[:flux].loop &p[:proc] } }
              .map { |x| ->() { loop &x } }
-             .map { |x| run_as_a_daemon &x }
+             .map { |x| run_this_as_a_daemon &x }
 
-          puts calls.inspect
+          (things[:run_this_inline] || [])
+             .map { |p| ->() { p[:flux].loop &p[:proc] } }
+             .map { |x| ->() { loop &x } }
+             .map { |x| run_this_inline &x }
 
           exit
         end
@@ -59,8 +68,11 @@ module Mushy
         Mushy::Runner.new.start event, cli_flux, flow
       end
 
-      def self.run_as_a_daemon &block
-        #block.call
+      def self.run_this_inline &block
+        block.call
+      end
+
+      def self.run_this_as_a_daemon &block
         Daemons.call(&block).pid.pid
       end
 
@@ -103,6 +115,16 @@ module Mushy
                            value:       '',
                            shrink:      true,
                          }
+
+                         if flux.new.respond_to? :loop
+                           details[:config][:run_strategy] = {
+                             description: 'Run this using this strategy. (select "daemon" if this should be run in the background)',
+                             type:        'select',
+                             options:     ['', 'inline', 'daemon'],
+                             value:       '',
+                             shrink:      true,
+                           }
+                         end
 
                          details[:config]
                                 .select { |_, v| v[:type] == 'keyvalue' }
