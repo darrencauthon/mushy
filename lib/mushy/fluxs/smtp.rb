@@ -1,8 +1,51 @@
 require 'pony'
 
 module Mushy
+
+  class EmailBase < Flux
+
+    def process event, config
+      options = adjust(cleanup({
+          from: config[:from],
+          to: config[:to],
+          subject: config[:subject],
+          body: config[:body],
+          html_body: config[:html_body],
+          via_options: get_via_options_from(config)
+      }))
+
+      if (config[:attachment_file].to_s != '')
+        options[:attachments] = { config[:attachment_file].split("\/")[-1] => File.read(config[:attachment_file]) }
+      end
+
+      result = Pony.mail options
+      options.tap { |x| x.delete(:via_options) }
+    end
+
+    def adjust options
+      options.tap { |x| x[:via] = 'smtp' }
+    end
+
+    def cleanup options
+      options.tap do |hash|
+        hash.delete_if { |_, v| v.to_s == '' }
+      end
+    end
+
+    def get_via_options_from config
+      {
+        address:              config[:address],
+        port:                 config[:port].to_s,
+        user_name:            config[:username],
+        password:             config[:password],
+        domain:               config[:domain],
+        authentication:       :plain,
+        enable_starttls_auto: true,
+      }
+    end
+  end
   
-  class Smtp < Flux
+  class Smtp < EmailBase
 
     def self.details
       {
@@ -67,46 +110,6 @@ module Mushy
                       value:       '',
                     },
         },
-      }
-    end
-
-    def process event, config
-      options = adjust(cleanup({
-          from: config[:from],
-          to: config[:to],
-          subject: config[:subject],
-          body: config[:body],
-          html_body: config[:html_body],
-          via_options: get_via_options_from(config)
-      }))
-
-      if (config[:attachment_file].to_s != '')
-        options[:attachments] = { config[:attachment_file].split("\/")[-1] => File.read(config[:attachment_file]) }
-      end
-
-      result = Pony.mail options
-      options.tap { |x| x.delete(:via_options) }
-    end
-
-    def adjust options
-      options.tap { |x| x[:via] = 'smtp' }
-    end
-
-    def cleanup options
-      options.tap do |hash|
-        hash.delete_if { |_, v| v.to_s == '' }
-      end
-    end
-
-    def get_via_options_from config
-      {
-        address:              config[:address],
-        port:                 config[:port].to_s,
-        user_name:            config[:username],
-        password:             config[:password],
-        domain:               config[:domain],
-        authentication:       :plain,
-        enable_starttls_auto: true,
       }
     end
 
