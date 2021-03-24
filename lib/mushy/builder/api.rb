@@ -1,5 +1,4 @@
 require 'daemons'
-require 'json'
 
 module Mushy
 
