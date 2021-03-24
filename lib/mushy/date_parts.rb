@@ -22,6 +22,8 @@ module Mushy
         method = i[1] || i[0]
         t[i[0]] = now.send method
         t
+      end.tap do |hash|
+        hash[:seconds_ago] = Time.now - now
       end
     end
 
