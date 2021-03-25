@@ -45,7 +45,15 @@ module Mushy
       segments = key.split '.'
 
       segments.each do |segment|
-        data = data.is_a?(Hash) ? (data[segment] || data[segment.to_sym]) : (data ? data.send(segment.to_sym) : nil)
+        if segment.include?('[') && segment.include?(']')
+          the_splits = segment.split('[')
+          segment = the_splits[0]
+          index = the_splits[1].sub(']', '')
+          data = data.is_a?(Hash) ? (data[segment] || data[segment.to_sym]) : (data ? data.send(segment.to_sym) : nil)
+          data = data[index.to_i]
+        else
+          data = data.is_a?(Hash) ? (data[segment] || data[segment.to_sym]) : (data ? data.send(segment.to_sym) : nil)
+        end
       end
 
       data
