@@ -4,8 +4,8 @@ module Mushy
 
     def self.details
       details = Browser.details
-      details['name'] = 'Pdf'
-      details['description'] = 'Turn a URL into a PDF.'
+      details[:name] = 'Pdf'
+      details[:description] = 'Turn a URL into a PDF.'
 
       details[:config][:path] = {
          description: 'The path of the PDF file to save.',
