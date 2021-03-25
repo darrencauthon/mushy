@@ -95,6 +95,18 @@ describe Mushy::Masher do
       result.must_equal value
     end
 
+    it "should allow indexed retrieval" do
+      value1 = SecureRandom.uuid
+      value2 = SecureRandom.uuid
+      data = { one: [ { name: value1 }, { name: value2 } ] }
+
+      result = masher.dig 'one[0].name', data
+      result.must_be_same_as value1
+
+      result = masher.dig 'one[1].name', data
+      result.must_be_same_as value2
+    end
+
   end
 
 end
