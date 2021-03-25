@@ -37,7 +37,10 @@ module Mushy
 
       the_browser.pdf options
 
-      options
+      {
+        options: options,
+        file: Mushy::Ls.new.process({}, { path: options[:path] })[0]
+      }
 
     end
 
