@@ -28,7 +28,8 @@ module Mushy
     end
 
     def run_event_with_flux event, flux, flow
-      [flux.execute(event.data)]
+      data = event.data
+      [flux.execute(data)]
         .flatten
         .reject { |x| x.nil? }
         .map { |x| x.is_a?(Hash) ? build_event(x, event.flow_id, event.run_id, flux.id) : x }
