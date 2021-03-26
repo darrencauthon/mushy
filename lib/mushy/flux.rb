@@ -39,20 +39,18 @@ module Mushy
 
       incoming_event = SymbolizedHash.new(incoming_event) if incoming_event.is_a?(Hash)
 
-      event = incoming_event
-
-      incoming_split = masher.mash(config, event)[:incoming_split]
+      incoming_split = masher.mash(config, incoming_event)[:incoming_split]
       config_considering_an_imcoming_split = config
                                                .reject { |x, _| incoming_split && x.to_s == 'join' }
                                                .reduce({}) { |t, i| t[i[0]] = i[1]; t }
 
-      events = incoming_split ? incoming_event[incoming_split] : [event]
+      events = incoming_split ? incoming_event[incoming_split] : [incoming_event]
 
       results = events.map { |e| execute_single_event e, config_considering_an_imcoming_split }
 
       return results.first unless incoming_split
 
-      results = join_these_results([results].flatten, event, config[:join]) if config[:join]
+      results = join_these_results([results].flatten, incoming_event, config[:join]) if config[:join]
 
       results.flatten
     end
