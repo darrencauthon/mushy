@@ -9,6 +9,12 @@ module Mushy
         name: 'GlobalVariables',
         description: 'Add global variables.',
         config: {
+          values: {
+                    description: 'Provide key/value pairs that will be set as global variables.',
+                    label:       'Variables',
+                    type:        'keyvalue',
+                    value:       {},
+                  },
         },
       }
     end
@@ -23,7 +29,8 @@ module Mushy
     end
 
     def process event, config
-      state.merge! event
+      values = config[:values] || SymbolizedHash.new
+      state.merge! values
       event
     end
 
