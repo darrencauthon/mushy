@@ -19,8 +19,6 @@ module Mushy
     end
 
     def adjust_data data
-      puts 'ADJUSTING DATA'
-      puts data.inspect
       state.merge data
     end
 
