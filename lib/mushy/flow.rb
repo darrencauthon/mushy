@@ -18,7 +18,9 @@ module Mushy
     end
 
     def adjust_data data
-      data
+      fluxs
+        .select { |x| x.respond_to? :adjust_data }
+        .reduce(data) { |t, i| i.adjust_data t }
     end
 
     def self.build_flux record
