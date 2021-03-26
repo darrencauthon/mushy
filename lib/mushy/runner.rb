@@ -29,6 +29,7 @@ module Mushy
 
     def run_event_with_flux event, flux, flow
       data = event.data
+      data = flow.adjust_data data
       [flux.execute(data)]
         .flatten
         .reject { |x| x.nil? }

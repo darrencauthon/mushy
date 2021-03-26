@@ -17,6 +17,10 @@ module Mushy
         .flatten
     end
 
+    def adjust_data data
+      data
+    end
+
     def self.build_flux record
       type = record[:type] || record['type'] || record[:flux] || record['flux'] || 'Flux'
       flux = Object.const_get("Mushy::#{type}").new
