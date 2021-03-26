@@ -12,7 +12,7 @@ module Mushy
       run = find_run flux, flow
       starting_event = build_event event_data, flow.id, run.id, flux.id
 
-      events = run_event_with_flux starting_event, flux
+      events = run_event_with_flux starting_event, flux, flow
 
       while events.any?
         events = events.map { |e| runner.run_event_in_flow e, flow }.flatten
@@ -23,12 +23,14 @@ module Mushy
 
     def run_event_in_flow event, flow
       flow.fluxs_for(event)
-        .map { |s| runner.run_event_with_flux event, s }
+        .map { |s| runner.run_event_with_flux event, s, flow }
         .flatten
     end
 
-    def run_event_with_flux event, flux
-      [flux.execute(event.data)]
+    def run_event_with_flux event, flux, flow
+      data = event.data
+      data = flow.adjust_data data
+      [flux.execute(data)]
         .flatten
         .reject { |x| x.nil? }
         .map { |x| x.is_a?(Hash) ? build_event(x, event.flow_id, event.run_id, flux.id) : x }
