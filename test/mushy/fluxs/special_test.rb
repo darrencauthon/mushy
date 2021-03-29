@@ -179,7 +179,9 @@ describe Mushy::Special do
 
     it "should return nothing if the collection is not initialized" do
 
-      flux.collection[SecureRandom.uuid] = SymbolizedHash.new
+      new_name = SecureRandom.uuid
+      flux.collection[new_name] = SymbolizedHash.new
+      flux.config[:collection_name] = new_name
 
       results = flux.execute event
 
