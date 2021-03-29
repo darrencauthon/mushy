@@ -29,7 +29,14 @@ module Mushy
       flux.id = record[:id] || record['id'] || flux.id
       flux.type = type
       flux.config = SymbolizedHash.new(record[:config] || record['config'])
+      flux.flow = Mushy::Flow.new
       flux
+    end
+
+    def build_flux record
+      Mushy::Flow.build_flux(record).tap do |flux|
+        flux.flow = self
+      end
     end
 
     def self.parse data
@@ -40,7 +47,7 @@ module Mushy
 
       flow = new
 
-      flow.fluxs = data_fluxs.map { |s| build_flux s }
+      flow.fluxs = data_fluxs.map { |s| flow.build_flux s }
 
       fluxs_with_parent_ids = flow.fluxs.reduce({}) { |t, i| t[i.id] = []; t }
       data_fluxs.map { |r| fluxs_with_parent_ids[r['id']] = r['parents'] || [] }
