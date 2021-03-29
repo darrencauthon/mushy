@@ -191,34 +191,34 @@ describe Mushy::Special do
 
   end
 
-  #describe "update" do
+  describe "update" do
 
-    #before do
-      #flux.config[:operation] = 'update'
-    #end
+    before do
+      flux.config[:operation] = 'update'
+    end
 
-    #it "should should not throw if the record does not exist" do
+    it "should should not throw if the record does not exist" do
 
-      #event[:id] = SecureRandom.uuid
-      #event[:name] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
 
-      #flux.execute event
+      flux.execute event
 
-    #end
+    end
 
-    #it "should should report back the operation as not exists if the record does not exist" do
+    it "should should report back the operation as not exists if the record does not exist" do
 
-      #key = SecureRandom.uuid
-      #flux.config[:operation_performed] = key
+      key = SecureRandom.uuid
+      flux.config[:operation_performed] = key
 
-      #event[:id] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
 
-      #result = flux.execute event
+      result = flux.execute event
 
-      #result[key].must_equal 'not exist'
+      result[key].must_equal 'not exist'
 
-    #end
+    end
 
-  #end
+  end
 
 end
