@@ -42,11 +42,11 @@ module Mushy
       the_collection ? the_collection.values : []
     end
 
-    #def delete event, config
-      #self.collection.delete get_the_id(event, config)
+    def delete event, config
+      self.collection[config[:collection_name]].delete get_the_id(event, config)
       #event[config[:operation_performed]] = 'deleted' if config[:operation_performed]
       #event
-    #end
+    end
 
     #def upsert event, config
       #if self.collection[get_the_id(event, config)]

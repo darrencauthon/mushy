@@ -11,6 +11,7 @@ describe Mushy::Special do
   before do
     flux.config[:id] = 'id'
     flux.config[:collection_name] = 'test'
+    flux.collection[collection_name] = SymbolizedHash.new
   end
 
   #describe "upsert" do
@@ -100,24 +101,24 @@ describe Mushy::Special do
 
   #end
 
-  #describe "delete" do
+  describe "delete" do
 
-    #before do
-      #flux.config[:operation] = 'delete'
-    #end
+    before do
+      flux.config[:operation] = 'delete'
+    end
 
-    #it "should delete by the id" do
+    it "should delete by the id" do
 
-      #event[:id] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
 
-      #flux.collection[event[:id]] = {}
-      #flux.collection[SecureRandom.uuid] = {}
+      flux.collection[collection_name][event[:id]] = {}
+      flux.collection[collection_name][SecureRandom.uuid] = {}
 
-      #flux.execute event
+      flux.execute event
 
-      #flux.collection.count.must_equal 1
+      flux.collection[collection_name].count.must_equal 1
 
-    #end
+    end
 
     #it "should return the event passed to it" do
 
@@ -151,7 +152,7 @@ describe Mushy::Special do
 
     #end
 
-  #end
+  end
 
   describe "all" do
 
@@ -160,8 +161,6 @@ describe Mushy::Special do
     end
 
     it "should return all of the items" do
-
-      flux.collection[collection_name] = SymbolizedHash.new
 
       flux.collection[collection_name]['a'] = { a: 1 }
       flux.collection[collection_name]['b'] = { b: 2 }
