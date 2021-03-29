@@ -45,7 +45,7 @@ module Mushy
     def delete event, config
       self.collection[config[:collection_name]].delete get_the_id(event, config)
       #event[config[:operation_performed]] = 'deleted' if config[:operation_performed]
-      #event
+      event
     end
 
     #def upsert event, config

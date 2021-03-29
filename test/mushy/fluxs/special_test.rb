@@ -122,21 +122,21 @@ describe Mushy::Special do
 
     end
 
-    #it "should return the event passed to it" do
+    it "should return the event passed to it" do
 
-      #key, value = SecureRandom.uuid, SecureRandom.uuid
+      key, value = SecureRandom.uuid, SecureRandom.uuid
 
-      #event[:id] = SecureRandom.uuid
-      #event[key] = value
+      event[:id] = SecureRandom.uuid
+      event[key] = value
 
-      #flux.collection[event[:id]] = {}
-      #flux.collection[SecureRandom.uuid] = {}
+      the_collection[event[:id]] = {}
+      the_collection[SecureRandom.uuid] = {}
 
-      #result = flux.execute event
+      result = flux.execute event
 
-      #result[key].must_equal value
+      result[key].must_equal value
 
-    #end
+    end
 
     #it "should return the operation performed" do
 
