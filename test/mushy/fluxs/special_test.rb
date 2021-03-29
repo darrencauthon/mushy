@@ -16,22 +16,22 @@ describe Mushy::Special do
     flux.collection[collection_name] = SymbolizedHash.new
   end
 
-  #describe "upsert" do
+  describe "upsert" do
 
-    #before do
-      #flux.config[:operation] = 'upsert'
-    #end
+    before do
+      flux.config[:operation] = 'upsert'
+    end
 
-    #it "should insert the record" do
+    it "should insert the record" do
 
-      #event[:id] = SecureRandom.uuid
-      #event[:name] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
 
-      #result = flux.execute event
+      result = flux.execute event
 
-      #flux.collection[event[:id]][:name].must_equal event[:name]
+      the_collection[event[:id]][:name].must_equal event[:name]
 
-    #end
+    end
 
     #it "should return the event passed to it" do
 
@@ -101,7 +101,7 @@ describe Mushy::Special do
 
     #end
 
-  #end
+  end
 
   describe "delete" do
 
