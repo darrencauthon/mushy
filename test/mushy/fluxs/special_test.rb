@@ -6,8 +6,11 @@ describe Mushy::Special do
 
   let(:event) { {} }
 
+  let(:collection_name) { 'test' }
+
   before do
     flux.config[:id] = 'id'
+    flux.config[:collection_name] = 'test'
   end
 
   #describe "upsert" do
@@ -150,28 +153,30 @@ describe Mushy::Special do
 
   #end
 
-  #describe "all" do
+  describe "all" do
 
-    #before do
-      #flux.config[:operation] = 'all'
-    #end
+    before do
+      flux.config[:operation] = 'all'
+    end
 
-    #it "should return all of the items" do
+    it "should return all of the items" do
 
-      #flux.collection['a'] = { a: 1 }
-      #flux.collection['b'] = { b: 2 }
-      #flux.collection['c'] = { c: 3 }
+      flux.collection[collection_name] = SymbolizedHash.new
 
-      #results = flux.execute event
+      flux.collection[collection_name]['a'] = { a: 1 }
+      flux.collection[collection_name]['b'] = { b: 2 }
+      flux.collection[collection_name]['c'] = { c: 3 }
 
-      #results.count.must_equal 3
-      #results[0][:a].must_equal 1
-      #results[1][:b].must_equal 2
-      #results[2][:c].must_equal 3
+      results = flux.execute event
 
-    #end
+      results.count.must_equal 3
+      results[0][:a].must_equal 1
+      results[1][:b].must_equal 2
+      results[2][:c].must_equal 3
 
-  #end
+    end
+
+  end
 
   #describe "update" do
 

@@ -37,9 +37,9 @@ module Mushy
       event[config[:id]]
     end
 
-    #def all event, config
-      #self.collection.values
-    #end
+    def all event, config
+      self.collection[config[:collection_name]].values
+    end
 
     #def delete event, config
       #self.collection.delete get_the_id(event, config)
