@@ -24,7 +24,7 @@ module Mushy
       self.state = SymbolizedHash.new
     end
 
-    def adjust_data data
+    def adjust_data data, _
       state.merge data
     end
 
