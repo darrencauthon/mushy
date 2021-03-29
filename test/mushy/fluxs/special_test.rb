@@ -8,6 +8,8 @@ describe Mushy::Special do
 
   let(:collection_name) { 'test' }
 
+  let(:the_collection) { flux.collection[collection_name] }
+
   before do
     flux.config[:id] = 'id'
     flux.config[:collection_name] = 'test'
@@ -111,12 +113,12 @@ describe Mushy::Special do
 
       event[:id] = SecureRandom.uuid
 
-      flux.collection[collection_name][event[:id]] = {}
-      flux.collection[collection_name][SecureRandom.uuid] = {}
+      the_collection[event[:id]] = {}
+      the_collection[SecureRandom.uuid] = {}
 
       flux.execute event
 
-      flux.collection[collection_name].count.must_equal 1
+      the_collection.count.must_equal 1
 
     end
 
@@ -162,9 +164,9 @@ describe Mushy::Special do
 
     it "should return all of the items" do
 
-      flux.collection[collection_name]['a'] = { a: 1 }
-      flux.collection[collection_name]['b'] = { b: 2 }
-      flux.collection[collection_name]['c'] = { c: 3 }
+      the_collection['a'] = { a: 1 }
+      the_collection['b'] = { b: 2 }
+      the_collection['c'] = { c: 3 }
 
       results = flux.execute event
 
