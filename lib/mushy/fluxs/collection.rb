@@ -14,6 +14,11 @@ module Mushy
                 type: 'id',
                 value: { url: 'a|@href' },
               },
+          collection_name: {
+                             description: 'The name of the collection to interact with.',
+                             type:        'text',
+                             value:       'records',
+                           },
           operation: {
                        description: 'Perform this operation.',
                        type:        'select',
