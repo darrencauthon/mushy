@@ -138,21 +138,21 @@ describe Mushy::Special do
 
     end
 
-    #it "should return the operation performed" do
+    it "should return the operation performed" do
 
-      #key = SecureRandom.uuid
-      #flux.config[:operation_performed] = key
+      key = SecureRandom.uuid
+      flux.config[:operation_performed] = key
 
-      #event[:id] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
 
-      #flux.collection[event[:id]] = {}
-      #flux.collection[SecureRandom.uuid] = {}
+      the_collection[event[:id]] = {}
+      the_collection[SecureRandom.uuid] = {}
 
-      #result = flux.execute event
+      result = flux.execute event
 
-      #result[key].must_equal 'deleted'
+      result[key].must_equal 'deleted'
 
-    #end
+    end
 
   end
 
