@@ -43,18 +43,17 @@ module Mushy
     end
 
     def all event, config
-      the_collection = self.collection[config[:collection_name]]
-      the_collection ? the_collection.values : []
+      the_collection(config).values
     end
 
     def delete event, config
-      self.collection[config[:collection_name]].delete get_the_id(event, config)
+      the_collection(config).delete get_the_id(event, config)
       event[config[:operation_performed]] = 'deleted' if config[:operation_performed]
       event
     end
 
     def upsert event, config
-      if self.collection[config[:collection_name]][get_the_id(event, config)]
+      if the_collection(config)[get_the_id(event, config)]
         update event, config
       else
         insert event, config
@@ -62,16 +61,22 @@ module Mushy
     end
 
     def update event, config
-      item = self.collection[config[:collection_name]][get_the_id(event, config)]
+      item = the_collection(config)[get_the_id(event, config)]
       event.each { |k, v| item[k] = v } if item
       event[config[:operation_performed]] = (item ? 'updated' : 'not exist') if config[:operation_performed]
       event
     end
 
     def insert event, config
-      self.collection[config[:collection_name]][get_the_id(event, config)] = event
+      the_collection(config)[get_the_id(event, config)] = event
       event[config[:operation_performed]] = 'inserted' if config[:operation_performed]
       event
+    end
+
+    def the_collection config
+      found_collection = self.collection[config[:collection_name]]
+      self.collection[config[:collection_name]] = {} unless found_collection
+      found_collection || SymbolizedHash.new
     end
 
   end
