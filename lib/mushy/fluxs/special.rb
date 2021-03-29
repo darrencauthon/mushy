@@ -38,7 +38,8 @@ module Mushy
     end
 
     def all event, config
-      self.collection[config[:collection_name]].values
+      the_collection = self.collection[config[:collection_name]]
+      the_collection ? the_collection.values : []
     end
 
     #def delete event, config

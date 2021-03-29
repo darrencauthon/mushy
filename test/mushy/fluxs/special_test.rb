@@ -176,6 +176,16 @@ describe Mushy::Special do
 
     end
 
+    it "should return nothing if the collection is not initialized" do
+
+      flux.collection[SecureRandom.uuid] = SymbolizedHash.new
+
+      results = flux.execute event
+
+      results.count.must_equal 0
+
+    end
+
   end
 
   #describe "update" do
