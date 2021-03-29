@@ -33,73 +33,73 @@ describe Mushy::Special do
 
     end
 
-    #it "should return the event passed to it" do
+    it "should return the event passed to it" do
 
-      #key, value = SecureRandom.uuid, SecureRandom.uuid
+      key, value = SecureRandom.uuid, SecureRandom.uuid
 
-      #event[:id] = SecureRandom.uuid
-      #event[:name] = SecureRandom.uuid
-      #event[key] = value
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
+      event[key] = value
 
-      #result = flux.execute event
+      result = flux.execute event
 
-      #result[key].must_equal value
+      result[key].must_equal value
 
-    #end
+    end
 
-    #it "should allow multiple inserts" do
+    it "should allow multiple inserts" do
 
-      #event[:id] = SecureRandom.uuid
-      #event[:name] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
 
-      #event1 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
-      #event2 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
-      #flux.execute event1
-      #flux.execute event2
+      event1 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
+      event2 = { id: SecureRandom.uuid, name: SecureRandom.uuid }
+      flux.execute event1
+      flux.execute event2
 
-      #flux.collection.count.must_equal 2
-      #flux.collection[event1[:id]][:name].must_equal event1[:name]
-      #flux.collection[event2[:id]][:name].must_equal event2[:name]
+      the_collection.count.must_equal 2
+      the_collection[event1[:id]][:name].must_equal event1[:name]
+      the_collection[event2[:id]][:name].must_equal event2[:name]
 
-    #end
+    end
 
-    #it "should merge when ids match" do
+    it "should merge when ids match" do
 
-      #event[:id] = SecureRandom.uuid
-      #event[:name] = SecureRandom.uuid
+      event[:id] = SecureRandom.uuid
+      event[:name] = SecureRandom.uuid
 
-      #event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
-      #event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
-      #flux.execute event1
-      #flux.execute event2
+      event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
+      event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
+      flux.execute event1
+      flux.execute event2
 
-      #flux.collection.count.must_equal 1
-      #flux.collection[event1[:id]][:first_name].must_equal event1[:first_name]
-      #flux.collection[event1[:id]][:last_name].must_equal event2[:last_name]
-      #flux.collection[event1[:id]][:middle].must_equal 'B'
+      the_collection.count.must_equal 1
+      the_collection[event1[:id]][:first_name].must_equal event1[:first_name]
+      the_collection[event1[:id]][:last_name].must_equal event2[:last_name]
+      the_collection[event1[:id]][:middle].must_equal 'B'
 
-    #end
+    end
 
-    #describe "returning the result of the operation" do
+    describe "returning the result of the operation" do
 
-      #it "should return the result of the operation using the provided key" do
-        #key = SecureRandom.uuid
-        #flux.config[:operation_performed] = key
+      it "should return the result of the operation using the provided key" do
+        key = SecureRandom.uuid
+        flux.config[:operation_performed] = key
 
-        #event[:id] = SecureRandom.uuid
-        #event[:name] = SecureRandom.uuid
+        event[:id] = SecureRandom.uuid
+        event[:name] = SecureRandom.uuid
 
-        #event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
-        #event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
-        #result1 = flux.execute event1
-        #result2 = flux.execute event2
+        event1 = { id: SecureRandom.uuid, first_name: SecureRandom.uuid, middle: 'A' }
+        event2 = { id: event1[:id],       last_name: SecureRandom.uuid,  middle: 'B' }
+        result1 = flux.execute event1
+        result2 = flux.execute event2
 
-        #result1[key].must_equal "inserted"
-        #result2[key].must_equal "updated"
+        result1[key].must_equal "inserted"
+        result2[key].must_equal "updated"
 
-      #end
+      end
 
-    #end
+    end
 
   end
 
