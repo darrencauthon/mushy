@@ -8,6 +8,7 @@ module Mushy
     attr_accessor :subscribed_to
     attr_accessor :config
     attr_accessor :masher
+    attr_accessor :flow
 
     def initialize
       guard

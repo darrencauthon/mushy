@@ -2,12 +2,22 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::Collection do
 
-  let(:flux) { Mushy::Collection.new }
+  let(:flux) do
+    Mushy::Collection.new.tap do |flux|
+      flux.flow = Mushy::Flow.new
+      Mushy::Collection.guard_the_flow flux.flow
+    end
+  end
 
   let(:event) { {} }
 
+  let(:collection_name) { 'test' }
+
+  let(:the_collection) { flux.get_the_collection collection_name }
+
   before do
-    flux.config[:id] = 'id'
+    flux.config[:id] = '{{id}}'
+    flux.config[:collection_name] = 'test'
   end
 
   describe "upsert" do
@@ -23,7 +33,7 @@ describe Mushy::Collection do
 
       result = flux.execute event
 
-      flux.collection[event[:id]][:name].must_equal event[:name]
+      the_collection[event[:id]][:name].must_equal event[:name]
 
     end
 
@@ -51,9 +61,9 @@ describe Mushy::Collection do
       flux.execute event1
       flux.execute event2
 
-      flux.collection.count.must_equal 2
-      flux.collection[event1[:id]][:name].must_equal event1[:name]
-      flux.collection[event2[:id]][:name].must_equal event2[:name]
+      the_collection.count.must_equal 2
+      the_collection[event1[:id]][:name].must_equal event1[:name]
+      the_collection[event2[:id]][:name].must_equal event2[:name]
 
     end
 
@@ -67,10 +77,10 @@ describe Mushy::Collection do
       flux.execute event1
       flux.execute event2
 
-      flux.collection.count.must_equal 1
-      flux.collection[event1[:id]][:first_name].must_equal event1[:first_name]
-      flux.collection[event1[:id]][:last_name].must_equal event2[:last_name]
-      flux.collection[event1[:id]][:middle].must_equal 'B'
+      the_collection.count.must_equal 1
+      the_collection[event1[:id]][:first_name].must_equal event1[:first_name]
+      the_collection[event1[:id]][:last_name].must_equal event2[:last_name]
+      the_collection[event1[:id]][:middle].must_equal 'B'
 
     end
 
@@ -107,12 +117,12 @@ describe Mushy::Collection do
 
       event[:id] = SecureRandom.uuid
 
-      flux.collection[event[:id]] = {}
-      flux.collection[SecureRandom.uuid] = {}
+      the_collection[event[:id]] = {}
+      the_collection[SecureRandom.uuid] = {}
 
       flux.execute event
 
-      flux.collection.count.must_equal 1
+      the_collection.count.must_equal 1
 
     end
 
@@ -123,8 +133,8 @@ describe Mushy::Collection do
       event[:id] = SecureRandom.uuid
       event[key] = value
 
-      flux.collection[event[:id]] = {}
-      flux.collection[SecureRandom.uuid] = {}
+      the_collection[event[:id]] = {}
+      the_collection[SecureRandom.uuid] = {}
 
       result = flux.execute event
 
@@ -139,8 +149,8 @@ describe Mushy::Collection do
 
       event[:id] = SecureRandom.uuid
 
-      flux.collection[event[:id]] = {}
-      flux.collection[SecureRandom.uuid] = {}
+      the_collection[event[:id]] = {}
+      the_collection[SecureRandom.uuid] = {}
 
       result = flux.execute event
 
@@ -158,9 +168,9 @@ describe Mushy::Collection do
 
     it "should return all of the items" do
 
-      flux.collection['a'] = { a: 1 }
-      flux.collection['b'] = { b: 2 }
-      flux.collection['c'] = { c: 3 }
+      the_collection['a'] = { a: 1 }
+      the_collection['b'] = { b: 2 }
+      the_collection['c'] = { c: 3 }
 
       results = flux.execute event
 
@@ -168,6 +178,17 @@ describe Mushy::Collection do
       results[0][:a].must_equal 1
       results[1][:b].must_equal 2
       results[2][:c].must_equal 3
+
+    end
+
+    it "should return nothing if the collection is not initialized" do
+
+      new_name = SecureRandom.uuid
+      flux.config[:collection_name] = new_name
+
+      results = flux.execute event
+
+      results.count.must_equal 0
 
     end
 
