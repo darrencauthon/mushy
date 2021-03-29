@@ -9,8 +9,8 @@ module Mushy
         config: {
           id: {
                 description: 'The path to the unique id in the body of the element.',
-                type: 'id',
-                value: { url: 'a|@href' },
+                type: 'text',
+                value: '{{id}}',
               },
           collection_name: {
                              description: 'The name of the collection to interact with.',
@@ -32,7 +32,7 @@ module Mushy
     end
 
     def get_the_id event, config
-      event[config[:id]]
+      config[:id]
     end
 
     def all event, config

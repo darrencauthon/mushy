@@ -16,9 +16,8 @@ describe Mushy::Collection do
   let(:the_collection) { flux.get_the_collection collection_name }
 
   before do
-    flux.config[:id] = 'id'
+    flux.config[:id] = '{{id}}'
     flux.config[:collection_name] = 'test'
-    #flux.flow.collection_data[collection_name] = SymbolizedHash.new
   end
 
   describe "upsert" do
