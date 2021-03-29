@@ -2,8 +2,6 @@ module Mushy
 
   class Collection < Flux
 
-    attr_accessor :collection
-
     def self.details
       {
         name: 'Collection',
@@ -27,11 +25,6 @@ module Mushy
                      },
         },
       }
-    end
-
-    def initialize
-      self.collection = {}
-      super
     end
 
     def process event, config
@@ -74,9 +67,23 @@ module Mushy
     end
 
     def the_collection config
-      found_collection = self.collection[config[:collection_name]]
-      self.collection[config[:collection_name]] = {} unless found_collection
-      found_collection || SymbolizedHash.new
+      Mushy::Collection.guard_the_flow self.flow
+      the_collection_name = config[:collection_name]
+
+      get_the_collection the_collection_name
+    end
+
+    def get_the_collection name
+      found_collection = self.flow.collection_data[name]
+      return found_collection if found_collection
+      self.flow.collection_data[name] = SymbolizedHash.new
+    end
+
+    def self.guard_the_flow flow
+      return if flow.respond_to?(:collection_data)
+
+      flow.instance_eval { class << self; self end }.send(:attr_accessor, :collection_data)
+      flow.collection_data = {}
     end
 
   end

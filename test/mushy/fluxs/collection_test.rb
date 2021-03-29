@@ -2,18 +2,23 @@ require_relative '../../test_helper.rb'
 
 describe Mushy::Collection do
 
-  let(:flux) { Mushy::Collection.new }
+  let(:flux) do
+    Mushy::Collection.new.tap do |flux|
+      flux.flow = Mushy::Flow.new
+      Mushy::Collection.guard_the_flow flux.flow
+    end
+  end
 
   let(:event) { {} }
 
   let(:collection_name) { 'test' }
 
-  let(:the_collection) { flux.collection[collection_name] }
+  let(:the_collection) { flux.get_the_collection collection_name }
 
   before do
     flux.config[:id] = 'id'
     flux.config[:collection_name] = 'test'
-    flux.collection[collection_name] = SymbolizedHash.new
+    #flux.flow.collection_data[collection_name] = SymbolizedHash.new
   end
 
   describe "upsert" do
@@ -180,7 +185,6 @@ describe Mushy::Collection do
     it "should return nothing if the collection is not initialized" do
 
       new_name = SecureRandom.uuid
-      flux.collection[new_name] = SymbolizedHash.new
       flux.config[:collection_name] = new_name
 
       results = flux.execute event
