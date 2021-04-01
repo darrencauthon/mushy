@@ -34,7 +34,7 @@ print(value)
 PYTHON
     end
 
-    def adjust data
+    def adjust data, event, config
       limit = 8
       data[:all].each_with_index.map do |item, index|
         {
@@ -44,7 +44,7 @@ PYTHON
           g: item[1],
           b: item[2],
         }
-      end
+      end.select { |hey| config[:x].to_s == '' || (hey[:x].to_s == config[:x].to_s && hey[:y].to_s == config[:y].to_s ) }
     end
 
   end
