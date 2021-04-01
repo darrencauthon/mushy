@@ -40,15 +40,14 @@ module Mushy
 
     def process event, config
 
-      measurements_to_apply = self.class.measurements
-                                  .select { |x| config[x] == 'true' }
-                                  .reduce({}) { |t, i| t[i] = "get_#{i}"; t}
-
-      call = measurements_to_apply.map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
-                                  .join(',')
+      call = self.class.measurements
+                 .select { |x| config[x] == 'true' }
+                 .reduce({}) { |t, i| t[i] = "get_#{i}"; t}
+                 .map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
+                 .join(',')
       call = "{#{call}}"
 
-      commands = [
+      lines = [
                    'from sense_hat import SenseHat',
                    'import json',
                    'sense = SenseHat()',
@@ -56,11 +55,10 @@ module Mushy
                    'print(value)',
                  ]
 
-      command = commands.map { |x| x.gsub('"', '\"')}.join(';')
+      program = lines.map { |x| x.gsub('"', '\"')}.join(';')
+      program = "python -c \"#{program}\""
 
-      command = "python -c \"#{command}\""
-
-      config[:command] = command
+      config[:command] = program
 
       result = super event, config
 
