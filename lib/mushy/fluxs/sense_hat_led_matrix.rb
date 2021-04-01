@@ -17,14 +17,20 @@ module Mushy
                             type:        'text',
                             value:       'text',
                          }
+          config[:clear] = {
+                             description: 'The RGB color to apply to the entire grid.',
+                             type:        'text',
+                             value:       'text',
+                           }
         end
       }
     end
 
     def python_program event, config
 
-      rgb = rgb_from config
+      rgb = rgb_from config[:rgb]
       coordinates = coordinates_from config
+      clear = rgb_from config[:clear]
 
       set_pixels = if rgb && coordinates
                      "sense.set_pixel(#{coordinates[:x]}, #{coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
@@ -33,6 +39,11 @@ module Mushy
                    else
                      ''
                    end
+      clear_pixels = if clear
+                       "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
+                     else
+                       ''
+                     end
       get_pixels = if coordinates
                      "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
                    else
@@ -43,6 +54,7 @@ from sense_hat import SenseHat
 import json
 sense = SenseHat()
 #{set_pixels}
+#{clear_pixels}
 value = json.dumps({"all": #{get_pixels}})
 print(value)
 PYTHON
@@ -74,7 +86,7 @@ PYTHON
     end
 
     def rgb_from config
-      color_split = config[:rgb].to_s.split ','
+      color_split = config.to_s.split ','
       return nil unless color_split.count == 3
       return [:r, :g, :b].each_with_index
                           .reduce({}) { |t, i| t[i[0]] = color_split[i[1]].to_s.to_i ; t}
