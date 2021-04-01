@@ -48,12 +48,12 @@ module Mushy
       call = "{#{call}}"
 
       lines = [
-                   'from sense_hat import SenseHat',
-                   'import json',
-                   'sense = SenseHat()',
-                   "value = json.dumps(#{call})",
-                   'print(value)',
-                 ]
+                'from sense_hat import SenseHat',
+                'import json',
+                'sense = SenseHat()',
+                "value = json.dumps(#{call})",
+                'print(value)',
+              ]
 
       program = lines.map { |x| x.gsub('"', '\"')}.join(';')
       program = "python -c \"#{program}\""
