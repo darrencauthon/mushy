@@ -21,11 +21,19 @@ module Mushy
     end
 
     def process event, config
+
+      measurements = {
+        pressure: "get_pressure",
+      }
+      call = measurements.map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
+                         .join(',')
+      call = "{#{call}}"
+
       commands = [
                    'from sense_hat import SenseHat',
                    'import json',
                    'sense = SenseHat()',
-                   'value = json.dumps({"pressure": sense.get_pressure()})',
+                   "value = json.dumps(#{call})",
                    'print(value)',
                  ]
 
