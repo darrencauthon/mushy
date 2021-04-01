@@ -7,13 +7,6 @@ module Mushy
         name: 'SenseHatLedMatrix',
         description: 'Interface with the LED Matrix.',
         config: Mushy::SimplePythonProgram.default_config.tap do |config|
-          [:x, :y, :r, :g, :b].each do |key|
-            config[key] = {
-                            description: "The #{key} value.",
-                            type:        'text',
-                            value:       "{{#{key}}}",
-                          }
-          end
           config[:coordinates] = {
                                    description: 'The XY coordinates as a comma-delimited list. Leave blank to retrieve all color and apply color changes to all.',
                                    type:        'text',
@@ -82,23 +75,16 @@ PYTHON
 
     def rgb_from config
       color_split = config[:rgb].to_s.split ','
-      if color_split.count == 3
-        return [:r, :g, :b].each_with_index
-                           .reduce({}) { |t, i| t[i[0]] = color_split[i[1]].to_s.to_i ; t}
-      end
-      colors = [:r, :g, :b].reduce({}) { |t, i| t[i] = config[i].to_s; t }
-      return nil unless colors.select { |x| x[1] != '' }.any?
-      colors.reduce({}) { |t, i| t[i[0]] = i[1].to_i; t }
+      return nil unless color_split.count == 3
+      return [:r, :g, :b].each_with_index
+                          .reduce({}) { |t, i| t[i[0]] = color_split[i[1]].to_s.to_i ; t}
     end
 
     def coordinates_from config
       coordinate_split = config[:coordinates].to_s.split ','
-      if coordinate_split.count == 2
-        return [:x, :y].each_with_index
-                       .reduce({}) { |t, i| t[i[0]] = coordinate_split[i[1]].to_s.to_i ; t}
-      end
-      return nil unless config[:x].to_s != '' && config[:y].to_s != ''
-      [:x, :y].reduce({}) { |t, i| t[i] = config[i].to_s.to_i; t }
+      return nil unless coordinate_split.count == 2
+      return [:x, :y].each_with_index
+                      .reduce({}) { |t, i| t[i[0]] = coordinate_split[i[1]].to_s.to_i ; t}
     end
 
   end
