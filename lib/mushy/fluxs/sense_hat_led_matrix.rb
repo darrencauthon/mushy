@@ -14,6 +14,11 @@ module Mushy
                             value:       "{{#{key}}}",
                           }
           end
+          config[:coordinates] = {
+                                   description: 'The XY coordinates as a comma-delimited list. Leave blank to retrieve all color and apply color changes to all.',
+                                   type:        'text',
+                                   value:       'text',
+                                 }
           config[:rgb] = {
                             description: 'The RGB value as a comma-delimited list. Leave blank to not set a color.',
                             type:        'text',
@@ -87,6 +92,11 @@ PYTHON
     end
 
     def coordinates_from config
+      coordinate_split = config[:coordinates].to_s.split ','
+      if coordinate_split.count == 2
+        return [:x, :y].each_with_index
+                       .reduce({}) { |t, i| t[i[0]] = coordinate_split[i[1]].to_s.to_i ; t}
+      end
       return nil unless config[:x].to_s != '' && config[:y].to_s != ''
       [:x, :y].reduce({}) { |t, i| t[i] = config[i].to_s.to_i; t }
     end
