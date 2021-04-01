@@ -51,7 +51,7 @@ PYTHON
           g: item[1],
           b: item[2],
         }
-      end.select { |hey| coordinates.nil? || (hey[:x].to_s == coordinates[:x].to_s && hey[:y].to_s == coordinates[:y].to_s ) }
+      end.select { |i| coordinates.nil? || (i[:x].to_s == coordinates[:x].to_s && i[:y].to_s == coordinates[:y].to_s ) }
     end
 
     def rgb_from config
