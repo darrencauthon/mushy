@@ -14,6 +14,11 @@ module Mushy
                             value:       "{{#{key}}}",
                           }
           end
+          config[:rgb] = {
+                            description: 'The RGB value as a comma-delimited list. Leave blank to not set a color.',
+                            type:        'text',
+                            value:       'text',
+                         }
         end
       }
     end
@@ -71,6 +76,11 @@ PYTHON
     end
 
     def rgb_from config
+      color_split = config[:rgb].to_s.split ','
+      if color_split.count == 3
+        return [:r, :g, :b].each_with_index
+                           .reduce({}) { |t, i| t[i[0]] = color_split[i[1]].to_s.to_i ; t}
+      end
       colors = [:r, :g, :b].reduce({}) { |t, i| t[i] = config[i].to_s; t }
       return nil unless colors.select { |x| x[1] != '' }.any?
       colors.reduce({}) { |t, i| t[i[0]] = i[1].to_i; t }
