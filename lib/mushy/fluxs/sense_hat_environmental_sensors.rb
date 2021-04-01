@@ -38,8 +38,7 @@ module Mushy
       [:humidity, :temperature, :pressure]
     end
 
-    def process event, config
-
+    def a_simple_python_program_for event, config
       values = self.class.measurements
                    .select { |x| config[x] == 'true' }
                    .reduce({}) { |t, i| t[i] = "get_#{i}"; t}
@@ -53,11 +52,15 @@ sense = SenseHat()
 value = json.dumps({#{values}})
 print(value)
 PYTHON
+    end
 
-      lines = program.split('\n')
-                     .map { |x| x.rstrip }
-                     .select { |x| x && x != '' }
-                     .map { |x| x.gsub('"', '\"') }
+    def process event, config
+
+      lines = a_simple_python_program_for(event, config)
+                .split('\n')
+                .map { |x| x.rstrip }
+                .select { |x| x && x != '' }
+                .map { |x| x.gsub('"', '\"') }
 
       config[:command] = "python -c \"#{lines.join(';')}\""
 
