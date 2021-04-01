@@ -1,11 +1,11 @@
 module Mushy
 
-  class SenseHatSensors < Bash
+  class SenseHatEnvironmentalSensors < Bash
 
     def self.details
       details = Browser.details
-      details['name'] = 'SenseHatSensors'
-      details['description'] = 'Pull values from a Sense HAT sensor.'
+      details['name'] = 'SenseHatEnvironmentalSensors'
+      details['description'] = 'Pull values from the Sense HAT environmental sensors.'
 
       details[:config][:quality] = {
          description: 'Something',
