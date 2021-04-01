@@ -40,18 +40,17 @@ module Mushy
 
     def process event, config
 
-      call = self.class.measurements
-                 .select { |x| config[x] == 'true' }
-                 .reduce({}) { |t, i| t[i] = "get_#{i}"; t}
-                 .map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
-                 .join(',')
-      call = "{#{call}}"
+      values = self.class.measurements
+                   .select { |x| config[x] == 'true' }
+                   .reduce({}) { |t, i| t[i] = "get_#{i}"; t}
+                   .map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
+                   .join(',')
 
       program = <<PYTHON
 from sense_hat import SenseHat
 import json
 sense = SenseHat()
-value = json.dumps(#{call})
+value = json.dumps({#{values}})
 print(value)
 PYTHON
 
