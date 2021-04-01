@@ -3,17 +3,21 @@ module Mushy
   class SenseHatEnvironmentalSensors < Bash
 
     def self.details
-      details = Browser.details
-      details['name'] = 'SenseHatEnvironmentalSensors'
-      details['description'] = 'Pull values from the Sense HAT environmental sensors.'
-
-      details[:config][:quality] = {
-         description: 'Something',
-         type:        'text',
-         shrink:      true,
-         value:       '',
-      }
-      details
+      {
+        name: 'SenseHatEnvironmentalSensors',
+        description: 'Pull values from the Sense HAT environmental sensors.',
+        config: Mushy::Bash.details[:config].tap do |config|
+          config.delete :command
+          config.delete :directory
+        end,
+      }.tap do |c|
+        #c[:config][:recursive] = {
+                                   #description: 'Pull files recursively.',
+                                   #type:        'boolean',
+                                   #shrink:      true,
+                                   #value:       '',
+                                 #}
+      end
     end
 
     def process event, config
