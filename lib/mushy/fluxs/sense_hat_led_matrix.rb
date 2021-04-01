@@ -34,8 +34,6 @@ module Mushy
 
       set_pixels = if rgb && coordinates
                      "sense.set_pixel(#{coordinates[:x]}, #{coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
-                   elsif rgb
-                     "sense.clear(#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]})"
                    else
                      ''
                    end
