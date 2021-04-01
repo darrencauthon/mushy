@@ -23,7 +23,7 @@ module Mushy
 
       return nil unless result[:success]
 
-      adjust JSON.parse(result[:text])
+      adjust SymbolizedHash.new(JSON.parse(result[:text]))
 
     end
 

@@ -21,7 +21,7 @@ PYTHON
     end
 
     def adjust data
-      {}
+      { hey: data[:all][0] }
     end
 
   end
