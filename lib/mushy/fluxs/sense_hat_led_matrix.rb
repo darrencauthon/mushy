@@ -36,7 +36,6 @@ PYTHON
 
     def adjust data
       limit = 8
-      puts 'adjusted!!'
       data[:all].each_with_index.map do |item, index|
         {
           x: index % limit,
