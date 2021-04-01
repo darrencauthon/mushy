@@ -11,25 +11,34 @@ module Mushy
           config.delete :directory
         end,
       }.tap do |c|
-        #c[:config][:recursive] = {
-                                   #description: 'Pull files recursively.',
-                                   #type:        'boolean',
-                                   #shrink:      true,
-                                   #value:       '',
-                                 #}
+        default_measurements = [:humidity, :temperature, :pressure]
+        measurements.each do |measurement|
+          c[:config][measurement] = {
+                                      description: "Pull #{measurement}.",
+                                      type:        'boolean',
+                                      shrink:      true,
+                                      value:       default_measurements.include?(measurement) ? 'true' : '',
+                                    }
+        end
       end
+    end
+
+    def self.measurements
+      [
+        :humidity,
+        :temperature,
+        :temperature_from_humidity,
+        :temperature_from_pressure,
+        :pressure,
+      ]
     end
 
     def process event, config
 
-      measurements = [:humidity,
-                      :temperature,
-                      :temperature_from_humidity,
-                      :temperature_from_pressure,
-                      :pressure].reduce({}) { |t, i| t[i] = "get_#{i}"; t}
+      measurements_to_apply = self.class.measurements.reduce({}) { |t, i| t[i] = "get_#{i}"; t}
 
-      call = measurements.map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
-                         .join(',')
+      call = measurements_to_apply.map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
+                                  .join(',')
       call = "{#{call}}"
 
       commands = [
