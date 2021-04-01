@@ -22,9 +22,12 @@ module Mushy
 
     def process event, config
 
-      measurements = {
-        pressure: "get_pressure",
-      }
+      measurements = [:humidity,
+                      :temperature,
+                      :temperature_from_humidity,
+                      :temperature_from_pressure,
+                      :pressure].reduce({}) { |t, i| t[i] = "get_#{i}"; t}
+
       call = measurements.map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
                          .join(',')
       call = "{#{call}}"
