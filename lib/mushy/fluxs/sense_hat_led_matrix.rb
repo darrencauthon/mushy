@@ -6,18 +6,33 @@ module Mushy
       {
         name: 'SenseHatLedMatrix',
         description: 'Interface with the LED Matrix.',
-        config: Mushy::SimplePythonProgram.default_config,
+        config: Mushy::SimplePythonProgram.default_config.tap do |config|
+          [:x, :y, :r, :g, :b].each do |key|
+            config[key] = {
+                            description: "The #{key} value.",
+                            type:        'text',
+                            value:       "{{#{key}}}",
+                          }
+          end
+        end
       }
     end
 
     def python_program event, config
-      <<PYTHON
+      set_pixels = if config[:x] && config[:y]
+                     "sense.set_pixel(#{config[:x]}, #{config[:y]}, [#{config[:r]}, #{config[:g]}, #{config[:b]}])"
+                   else
+                     ""
+                   end
+      command = <<PYTHON
 from sense_hat import SenseHat
 import json
 sense = SenseHat()
+#{set_pixels}
 value = json.dumps({"all": sense.get_pixels()})
 print(value)
 PYTHON
+      command
     end
 
     def adjust data
