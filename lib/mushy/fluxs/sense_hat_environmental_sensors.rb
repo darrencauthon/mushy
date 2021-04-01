@@ -11,14 +11,15 @@ module Mushy
           config.delete :directory
         end,
       }.tap do |c|
-        default_measurements = [:humidity, :temperature, :pressure]
-        measurements.each do |measurement|
-          c[:config][measurement] = {
-                                      description: "Pull #{measurement}.",
-                                      type:        'boolean',
-                                      shrink:      true,
-                                      value:       default_measurements.include?(measurement) ? 'true' : '',
-                                    }
+        measurements
+          .sort_by { |x| default_measurements.include?(x) ? 0 : 1 }
+          .each do |measurement|
+            c[:config][measurement] = {
+                                        description: "Pull #{measurement}.",
+                                        type:        'boolean',
+                                        shrink:      true,
+                                        value:       default_measurements.include?(measurement) ? 'true' : '',
+                                      }
         end
       end
     end
@@ -31,6 +32,10 @@ module Mushy
         :temperature_from_pressure,
         :pressure,
       ]
+    end
+
+    def self.default_measurements
+      [:humidity, :temperature, :pressure]
     end
 
     def process event, config
