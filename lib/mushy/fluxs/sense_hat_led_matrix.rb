@@ -30,7 +30,7 @@ module Mushy
                    else
                      ''
                    end
-      program = <<PYTHON
+      <<PYTHON
 from sense_hat import SenseHat
 import json
 sense = SenseHat()
@@ -38,8 +38,6 @@ sense = SenseHat()
 value = json.dumps({"all": sense.get_pixels()})
 print(value)
 PYTHON
-      puts program.inspect
-      program
     end
 
     def adjust data, event, config
