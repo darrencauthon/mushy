@@ -21,7 +21,16 @@ PYTHON
     end
 
     def adjust data
-      { hey: data[:all][0] }
+      limit = 8
+      data[:all].each_with_index.map do |item, index|
+        {
+          x: index % limit,
+          y: index / limit,
+          r: item[0],
+          g: item[1],
+          b: item[2],
+        }
+      end
     end
 
   end
