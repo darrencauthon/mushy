@@ -47,18 +47,20 @@ module Mushy
                  .join(',')
       call = "{#{call}}"
 
-      lines = [
-                'from sense_hat import SenseHat',
-                'import json',
-                'sense = SenseHat()',
-                "value = json.dumps(#{call})",
-                'print(value)',
-              ]
+      program = <<PYTHON
+from sense_hat import SenseHat
+import json
+sense = SenseHat()
+value = json.dumps(#{call})
+print(value)
+PYTHON
 
-      program = lines.map { |x| x.gsub('"', '\"')}.join(';')
-      program = "python -c \"#{program}\""
+      lines = program.split('\n')
+                     .map { |x| x.rstrip }
+                     .select { |x| x && x != '' }
+                     .map { |x| x.gsub('"', '\"') }
 
-      config[:command] = program
+      config[:command] = "python -c \"#{lines.join(';')}\""
 
       result = super event, config
 
