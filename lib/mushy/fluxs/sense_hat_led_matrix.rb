@@ -30,20 +30,29 @@ module Mushy
                    else
                      ''
                    end
+      get_pixels = if coordinates
+                     "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
+                   else
+                     'sense.get_pixels()'
+                   end
       <<PYTHON
 from sense_hat import SenseHat
 import json
 sense = SenseHat()
 #{set_pixels}
-value = json.dumps({"all": sense.get_pixels()})
+value = json.dumps({"all": #{get_pixels}})
 print(value)
 PYTHON
     end
 
     def adjust data, event, config
       limit = 8
+
       coordinates = coordinates_from config
-      results = data[:all].each_with_index.map do |item, index|
+
+      records = coordinates ? [data[:all]] : data[:all]
+
+      results = records.each_with_index.map do |item, index|
         {
           x: index % limit,
           y: index / limit,
@@ -54,8 +63,8 @@ PYTHON
       end
 
       if coordinates
-        results = results.select { |i| i[:x].to_s == coordinates[:x].to_s &&
-                                       i[:y].to_s == coordinates[:y].to_s }
+        results[0][:x] = coordinates[:x]
+        results[0][:y] = coordinates[:y]
       end
 
       results
