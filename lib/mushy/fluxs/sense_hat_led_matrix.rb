@@ -20,6 +20,10 @@ print(value)
 PYTHON
     end
 
+    def adjust data
+      {}
+    end
+
   end
 
 end

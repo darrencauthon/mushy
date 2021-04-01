@@ -23,8 +23,12 @@ module Mushy
 
       return nil unless result[:success]
 
-      JSON.parse result[:text]
+      adjust JSON.parse(result[:text])
 
+    end
+
+    def adjust data
+      data
     end
 
   end
