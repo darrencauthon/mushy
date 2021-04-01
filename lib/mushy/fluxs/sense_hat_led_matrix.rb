@@ -19,22 +19,12 @@ module Mushy
     end
 
     def python_program event, config
-      colors = [:r, :g, :b]
-                 .reduce({}) { |t, i| t[i] = config[i].to_s; t }
-      rgb = if colors.select { |x| x[1] != '' }.any?
-              colors.reduce({}) { |t, i| t[i[0]] = i[1].to_i; t }
-            else
-              nil
-            end
-      
-      coordinates = if config[:x].to_s != '' && config[:y].to_s != ''
-                      [:x, :y].reduce({}) { |t, i| t[i] = config[i].to_s.to_i; t }
-                    else
-                      nil
-                    end
+
+      rgb = rgb_from config
+      coordinates = coordinates_from config
 
       set_pixels = if rgb && coordinates
-                     "sense.set_pixel(#{config[:x]}, #{config[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+                     "sense.set_pixel(#{coordinates[:x]}, #{coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
                    elsif rgb
                      "sense.clear(#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]})"
                    else
@@ -48,6 +38,7 @@ sense = SenseHat()
 value = json.dumps({"all": sense.get_pixels()})
 print(value)
 PYTHON
+      puts program.inspect
       program
     end
 
@@ -62,6 +53,17 @@ PYTHON
           b: item[2],
         }
       end.select { |hey| config[:x].to_s == '' || (hey[:x].to_s == config[:x].to_s && hey[:y].to_s == config[:y].to_s ) }
+    end
+
+    def rgb_from config
+      colors = [:r, :g, :b].reduce({}) { |t, i| t[i] = config[i].to_s; t }
+      return nil unless colors.select { |x| x[1] != '' }.any?
+      colors.reduce({}) { |t, i| t[i[0]] = i[1].to_i; t }
+    end
+
+    def coordinates_from config
+      return nil unless config[:x].to_s != '' && config[:y].to_s != ''
+      [:x, :y].reduce({}) { |t, i| t[i] = config[i].to_s.to_i; t }
     end
 
   end
