@@ -19,7 +19,7 @@ module Mushy
     end
 
     def python_program event, config
-      set_pixels = if config[:x] && config[:y]
+      set_pixels = if config[:x].to_s != '' && config[:y].to_s != ''
                      "sense.set_pixel(#{config[:x]}, #{config[:y]}, [#{config[:r]}, #{config[:g]}, #{config[:b]}])"
                    else
                      ""
