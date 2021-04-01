@@ -43,7 +43,7 @@ PYTHON
     def adjust data, event, config
       limit = 8
       coordinates = coordinates_from config
-      data[:all].each_with_index.map do |item, index|
+      results = data[:all].each_with_index.map do |item, index|
         {
           x: index % limit,
           y: index / limit,
@@ -51,7 +51,14 @@ PYTHON
           g: item[1],
           b: item[2],
         }
-      end.select { |i| coordinates.nil? || (i[:x].to_s == coordinates[:x].to_s && i[:y].to_s == coordinates[:y].to_s ) }
+      end
+
+      if coordinates
+        results = results.select { |i| i[:x].to_s == coordinates[:x].to_s &&
+                                       i[:y].to_s == coordinates[:y].to_s }
+      end
+
+      results
     end
 
     def rgb_from config
