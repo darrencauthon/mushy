@@ -19,12 +19,28 @@ module Mushy
     end
 
     def python_program event, config
-      set_pixels = if config[:r].to_s != '' && config[:g].to_s != '' && config[:b].to_s != ''
-                     "sense.set_pixel(#{config[:x]}, #{config[:y]}, [#{config[:r]}, #{config[:g]}, #{config[:b]}])"
+      colors = [:r, :g, :b]
+                 .reduce({}) { |t, i| t[i] = config[i].to_s; t }
+      rgb = if colors.select { |x| x[1] != '' }.any?
+              colors.reduce({}) { |t, i| t[i[0]] = i[1].to_i; t }
+            else
+              nil
+            end
+      
+      coordinates = if config[:x].to_s != '' && config[:y].to_s != ''
+                      [:x, :y].reduce({}) { |t, i| t[i] = config[i].to_s.to_i; t }
+                    else
+                      nil
+                    end
+
+      set_pixels = if rgb && coordinates
+                     "sense.set_pixel(#{config[:x]}, #{config[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+                   elsif rgb
+                     "sense.clear(#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]})"
                    else
-                     ""
+                     ''
                    end
-      <<PYTHON
+      program = <<PYTHON
 from sense_hat import SenseHat
 import json
 sense = SenseHat()
@@ -32,6 +48,7 @@ sense = SenseHat()
 value = json.dumps({"all": sense.get_pixels()})
 print(value)
 PYTHON
+      program
     end
 
     def adjust data, event, config
