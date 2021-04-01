@@ -33,6 +33,10 @@ module Mushy
 
       result = super event, config
 
+      return nil unless result[:success]
+
+      JSON.parse result[:text]
+
     end
 
   end
