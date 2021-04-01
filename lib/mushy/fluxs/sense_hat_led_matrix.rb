@@ -24,7 +24,7 @@ module Mushy
                    else
                      ""
                    end
-      command = <<PYTHON
+      <<PYTHON
 from sense_hat import SenseHat
 import json
 sense = SenseHat()
@@ -32,11 +32,11 @@ sense = SenseHat()
 value = json.dumps({"all": sense.get_pixels()})
 print(value)
 PYTHON
-      command
     end
 
     def adjust data
       limit = 8
+      puts 'adjusted!!'
       data[:all].each_with_index.map do |item, index|
         {
           x: index % limit,
