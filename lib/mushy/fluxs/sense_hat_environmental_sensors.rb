@@ -40,7 +40,9 @@ module Mushy
 
     def process event, config
 
-      measurements_to_apply = self.class.measurements.reduce({}) { |t, i| t[i] = "get_#{i}"; t}
+      measurements_to_apply = self.class.measurements
+                                  .select { |x| config[x] == 'true' }
+                                  .reduce({}) { |t, i| t[i] = "get_#{i}"; t}
 
       call = measurements_to_apply.map { |m| "\"#{m[0]}\": sense.#{m[1]}()" }
                                   .join(',')
