@@ -32,7 +32,7 @@ module Mushy
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
-      coordinates = coordinates_from config
+      coordinates = coordinates_from config[:coordinates]
       clear = rgb_from config[:clear]
 
       set_pixels = if rgb && coordinates
@@ -64,7 +64,7 @@ PYTHON
     def adjust data, event, config
       limit = 8
 
-      coordinates = coordinates_from config
+      coordinates = coordinates_from config[:coordinates]
 
       records = coordinates ? [data[:all]] : data[:all]
 
@@ -94,7 +94,7 @@ PYTHON
     end
 
     def coordinates_from config
-      coordinate_split = config[:coordinates].to_s.split ','
+      coordinate_split = config.to_s.split ','
       return nil unless coordinate_split.count == 2
       return [:x, :y].each_with_index
                       .reduce({}) { |t, i| t[i[0]] = coordinate_split[i[1]].to_s.to_i ; t}
