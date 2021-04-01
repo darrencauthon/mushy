@@ -10,17 +10,20 @@ module Mushy
           config[:coordinates] = {
                                    description: 'The XY coordinates as a comma-delimited list. Leave blank to retrieve all color and apply color changes to all.',
                                    type:        'text',
-                                   value:       'text',
+                                   shrink:      true,
+                                   value:       '',
                                  }
           config[:rgb] = {
                             description: 'The RGB value as a comma-delimited list. Leave blank to not set a color.',
                             type:        'text',
-                            value:       'text',
+                            shrink:      true,
+                            value:       '',
                          }
           config[:clear] = {
                              description: 'The RGB color to apply to the entire grid.',
                              type:        'text',
-                             value:       'text',
+                             shrink:      true,
+                             value:       '',
                            }
         end
       }
