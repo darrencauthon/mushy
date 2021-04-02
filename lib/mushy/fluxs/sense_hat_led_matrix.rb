@@ -13,6 +13,12 @@ module Mushy
                                   shrink:      true,
                                   value:       'all',
                                 }
+          config[:set_pixel] = {
+                                 description: 'Set a single pixel to the RGB color.',
+                                 type:        'text',
+                                 shrink:      true,
+                                 value:       '',
+                               }
           config[:rgb] = {
                             description: 'The RGB value as a comma-delimited list. Leave blank to not set a color.',
                             type:        'text',
@@ -33,10 +39,11 @@ module Mushy
 
       rgb = rgb_from config[:rgb]
       coordinates = coordinates_from config[:get_pixels]
+      set_pixel_coordinates = coordinates_from config[:set_pixel]
       clear = rgb_from config[:clear]
 
-      set_pixels_code = if rgb && coordinates
-                          "sense.set_pixel(#{coordinates[:x]}, #{coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+      set_pixels_code = if rgb && set_pixel_coordinates
+                          "sense.set_pixel(#{set_pixel_coordinates[:x]}, #{set_pixel_coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
                         else
                           ''
                         end
