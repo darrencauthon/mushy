@@ -38,7 +38,7 @@ module Mushy
                              value:       '',
                            }
           config[:show_letter] = {
-                                   description: 'Show a single letter on the grid.',
+                                   description: 'Show a single letter on the grid. Uses Rgb and Background Color.',
                                    type:        'text',
                                    shrink:      true,
                                    value:       '',
