@@ -31,6 +31,12 @@ module Mushy
                              shrink:      true,
                              value:       '',
                            }
+          config[:show_letter] = {
+                                   description: 'Show a single letter on the grid.',
+                                   type:        'text',
+                                   shrink:      true,
+                                   value:       '',
+                                 }
         end
       }
     end
@@ -59,6 +65,15 @@ module Mushy
                         else
                           '[]'
                         end
+      show_letters_code = if config[:show_letter].to_s != ''
+                            if rgb
+                              "sense.show_letter(\"#{config[:show_letter]}\", [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+                            else
+                              "sense.show_letter(\"#{config[:show_letter]}\")"
+                            end
+                          else
+                            ''
+                          end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -66,6 +81,7 @@ import json
 sense = SenseHat()
 #{set_pixels_code}
 #{clear_pixels_code}
+#{show_letters_code}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
