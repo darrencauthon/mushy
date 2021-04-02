@@ -8,10 +8,10 @@ module Mushy
         description: 'Interface with the LED Matrix.',
         config: Mushy::SimplePythonProgram.default_config.tap do |config|
           config[:get_pixels] = {
-                                  description: 'The XY coordinates as a comma-delimited list. Leave blank to retrieve all color and apply color changes to all.',
+                                  description: 'Specify the pixels you want returned as events. Use "all" to return all 64, 3,3 to return x:3 y:3, or "none" to return none.',
                                   type:        'text',
                                   shrink:      true,
-                                  value:       '',
+                                  value:       'all',
                                 }
           config[:rgb] = {
                             description: 'The RGB value as a comma-delimited list. Leave blank to not set a color.',
@@ -47,8 +47,10 @@ module Mushy
                           end
       get_pixels_code = if coordinates
                           "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
-                        else
+                        elsif config[:get_pixels].to_s.downcase == 'all'
                           'sense.get_pixels()'
+                        else
+                          '[]'
                         end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
