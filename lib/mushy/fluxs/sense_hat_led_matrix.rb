@@ -35,11 +35,11 @@ module Mushy
       coordinates = coordinates_from config[:coordinates]
       clear = rgb_from config[:clear]
 
-      set_pixels = if rgb && coordinates
-                     "sense.set_pixel(#{coordinates[:x]}, #{coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
-                   else
-                     ''
-                   end
+      set_pixels_code = if rgb && coordinates
+                          "sense.set_pixel(#{coordinates[:x]}, #{coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+                        else
+                          ''
+                        end
       clear_pixels_code = if clear
                             "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
                           else
@@ -55,7 +55,7 @@ module Mushy
 from #{hat} import SenseHat
 import json
 sense = SenseHat()
-#{set_pixels}
+#{set_pixels_code}
 #{clear_pixels_code}
 value = json.dumps({"all": #{get_pixels}})
 print(value)
