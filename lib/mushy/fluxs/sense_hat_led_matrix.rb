@@ -50,7 +50,7 @@ module Mushy
                    else
                      'sense.get_pixels()'
                    end
-      hat = false ? 'sense_hat' : 'sense_emu'
+      hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
 import json
