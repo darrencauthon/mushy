@@ -25,6 +25,12 @@ module Mushy
                             shrink:      true,
                             value:       '',
                          }
+          config[:background_color] = {
+                                        description: 'The RGB of the background, which is used in some API calls.',
+                                        type:        'text',
+                                        shrink:      true,
+                                        value:       '',
+                                      }
           config[:clear] = {
                              description: 'The RGB color to apply to the entire grid.',
                              type:        'text',
@@ -44,6 +50,7 @@ module Mushy
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
+      background_color = rgb_from config[:background_color]
       get_pixel_coordinates = coordinates_from config[:get_pixels]
       set_pixel_coordinates = coordinates_from config[:set_pixel]
       clear = rgb_from config[:clear]
@@ -66,11 +73,10 @@ module Mushy
                           '[]'
                         end
       show_letters_code = if config[:show_letter].to_s != ''
-                            if rgb
-                              "sense.show_letter(\"#{config[:show_letter]}\", [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
-                            else
-                              "sense.show_letter(\"#{config[:show_letter]}\")"
-                            end
+                            args = ["\"#{config[:show_letter]}\""]
+                            args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
+                            args << "back_colour=[#{background_color[:r]}, #{background_color[:g]}, #{background_color[:b]}]" if background_color
+                            "sense.show_letter(#{args.join(',')})"
                           else
                             ''
                           end
