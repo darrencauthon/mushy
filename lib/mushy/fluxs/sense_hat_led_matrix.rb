@@ -43,6 +43,12 @@ module Mushy
                                    shrink:      true,
                                    value:       '',
                                  }
+          config[:show_message] = {
+                                    description: 'Scroll a message across the grid. Uses Rgb and Background Color.',
+                                    type:        'text',
+                                    shrink:      true,
+                                    value:       '',
+                                  }
         end
       }
     end
@@ -80,6 +86,14 @@ module Mushy
                           else
                             ''
                           end
+      show_message_code = if config[:show_message].to_s != ''
+                            args = ["\"#{config[:show_message]}\""]
+                            args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
+                            args << "back_colour=[#{background_color[:r]}, #{background_color[:g]}, #{background_color[:b]}]" if background_color
+                            "sense.show_message(#{args.join(',')})"
+                          else
+                            ''
+                          end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -88,6 +102,7 @@ sense = SenseHat()
 #{set_pixels_code}
 #{clear_pixels_code}
 #{show_letters_code}
+#{show_message_code}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
