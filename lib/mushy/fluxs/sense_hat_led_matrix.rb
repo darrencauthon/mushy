@@ -40,11 +40,11 @@ module Mushy
                    else
                      ''
                    end
-      clear_pixels = if clear
-                       "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
-                     else
-                       ''
-                     end
+      clear_pixels_code = if clear
+                            "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
+                          else
+                            ''
+                          end
       get_pixels = if coordinates
                      "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
                    else
@@ -56,7 +56,7 @@ from #{hat} import SenseHat
 import json
 sense = SenseHat()
 #{set_pixels}
-#{clear_pixels}
+#{clear_pixels_code}
 value = json.dumps({"all": #{get_pixels}})
 print(value)
 PYTHON
