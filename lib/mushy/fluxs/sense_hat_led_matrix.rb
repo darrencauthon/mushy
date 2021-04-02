@@ -38,7 +38,7 @@ module Mushy
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
-      coordinates = coordinates_from config[:get_pixels]
+      get_pixel_coordinates = coordinates_from config[:get_pixels]
       set_pixel_coordinates = coordinates_from config[:set_pixel]
       clear = rgb_from config[:clear]
 
@@ -52,8 +52,8 @@ module Mushy
                           else
                             ''
                           end
-      get_pixels_code = if coordinates
-                          "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
+      get_pixels_code = if get_pixel_coordinates
+                          "sense.get_pixel(#{get_pixel_coordinates[:x]}, #{get_pixel_coordinates[:y]})"
                         elsif config[:get_pixels].to_s.downcase == 'all'
                           'sense.get_pixels()'
                         else
