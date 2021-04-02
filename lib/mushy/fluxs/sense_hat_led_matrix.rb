@@ -45,11 +45,11 @@ module Mushy
                           else
                             ''
                           end
-      get_pixels = if coordinates
-                     "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
-                   else
-                     'sense.get_pixels()'
-                   end
+      get_pixels_code = if coordinates
+                          "sense.get_pixel(#{coordinates[:x]}, #{coordinates[:y]})"
+                        else
+                          'sense.get_pixels()'
+                        end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -57,7 +57,7 @@ import json
 sense = SenseHat()
 #{set_pixels_code}
 #{clear_pixels_code}
-value = json.dumps({"all": #{get_pixels}})
+value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
     end
