@@ -115,6 +115,7 @@ module Mushy
                           end
       load_images_code = if config[:load_image].to_s != ''
                            args = ["\"#{config[:load_image]}\""]
+                           args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
                            "sense.load_image(#{args.join(',')})"
                          else
                            ''
