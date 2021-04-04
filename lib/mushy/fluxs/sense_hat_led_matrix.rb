@@ -55,6 +55,13 @@ module Mushy
                                   shrink:      true,
                                   value:       '',
                                 }
+          config[:set_rotation] = {
+                                  description: 'Rotate the image by these degrees.',
+                                  type:        'select',
+                                  options:     ['', '0', '90', '180', '270'],
+                                  shrink:      true,
+                                  value:       '',
+                                }
         end
       }
     end
@@ -106,6 +113,12 @@ module Mushy
                          else
                            ''
                          end
+      set_rotation_code = if config[:set_rotation].to_s != ''
+                            args = ["#{config[:set_rotation]}"]
+                            "sense.set_rotation(#{args.join(',')})"
+                          else
+                            ''
+                          end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -116,6 +129,7 @@ sense = SenseHat()
 #{show_letters_code}
 #{show_message_code}
 #{load_images_code}
+#{set_rotation_code}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
