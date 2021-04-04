@@ -74,6 +74,18 @@ module Mushy
                               shrink:      true,
                               value:       '',
                             }
+          config[:flip_h] = {
+                              description: 'Flips the image horizontally.',
+                              type:        'boolean',
+                              shrink:      true,
+                              value:       '',
+                            }
+          config[:flip_v] = {
+                              description: 'Flips the image vertically.',
+                              type:        'boolean',
+                              shrink:      true,
+                              value:       '',
+                            }
         end
       }
     end
@@ -138,6 +150,20 @@ module Mushy
                        else
                          ''
                        end
+      flip_h_code = if config[:flip_h].to_s == 'true'
+                      args = []
+                      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
+                      "sense.flip_h(#{args.join(',')})"
+                    else
+                      ''
+                    end
+      flip_v_code = if config[:flip_v].to_s == 'true'
+                      args = []
+                      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
+                      "sense.flip_v(#{args.join(',')})"
+                    else
+                      ''
+                    end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -150,6 +176,8 @@ sense = SenseHat()
 #{load_images_code}
 #{set_rotation_code}
 #{low_light_code}
+#{flip_h_code}
+#{flip_v_code}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
