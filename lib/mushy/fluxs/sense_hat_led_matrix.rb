@@ -68,6 +68,12 @@ module Mushy
                               shrink:      true,
                               value:       '',
                             }
+          config[:low_light] = {
+                              description: 'Use the low light to turn down the brightness.',
+                              type:        'boolean',
+                              shrink:      true,
+                              value:       '',
+                            }
         end
       }
     end
@@ -127,6 +133,11 @@ module Mushy
                           else
                             ''
                           end
+      low_light_code = if config[:low_light].to_s != ''
+                         "sense.low_light = #{config[:low_light].capitalize}"
+                       else
+                         ''
+                       end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -138,6 +149,7 @@ sense = SenseHat()
 #{show_message_code}
 #{load_images_code}
 #{set_rotation_code}
+#{low_light_code}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
