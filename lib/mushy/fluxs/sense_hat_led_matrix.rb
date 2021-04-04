@@ -56,12 +56,12 @@ module Mushy
                                   value:       '',
                                 }
           config[:set_rotation] = {
-                                  description: 'Rotate the image by these degrees.',
-                                  type:        'select',
-                                  options:     ['', '0', '90', '180', '270'],
-                                  shrink:      true,
-                                  value:       '',
-                                }
+                                    description: 'Rotate the image by these degrees.',
+                                    type:        'select',
+                                    options:     ['', '0', '90', '180', '270'],
+                                    shrink:      true,
+                                    value:       '',
+                                  }
           config[:redraw] = {
                               description: 'Redraw.',
                               type:        'boolean',
