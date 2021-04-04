@@ -49,6 +49,12 @@ module Mushy
                                     shrink:      true,
                                     value:       '',
                                   }
+          config[:load_image] = {
+                                  description: 'Load a 8x8 image.',
+                                  type:        'text',
+                                  shrink:      true,
+                                  value:       '',
+                                }
         end
       }
     end
@@ -94,6 +100,12 @@ module Mushy
                           else
                             ''
                           end
+      load_images_code = if config[:load_image].to_s != ''
+                           args = ["\"#{config[:load_image]}\""]
+                           "sense.load_image(#{args.join(',')})"
+                         else
+                           ''
+                         end
       hat = true ? 'sense_hat' : 'sense_emu'
       <<PYTHON
 from #{hat} import SenseHat
@@ -103,6 +115,7 @@ sense = SenseHat()
 #{clear_pixels_code}
 #{show_letters_code}
 #{show_message_code}
+#{load_images_code}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
