@@ -62,6 +62,12 @@ module Mushy
                                   shrink:      true,
                                   value:       '',
                                 }
+          config[:redraw] = {
+                              description: 'Redraw.',
+                              type:        'boolean',
+                              shrink:      true,
+                              value:       '',
+                            }
         end
       }
     end
@@ -115,6 +121,7 @@ module Mushy
                          end
       set_rotation_code = if config[:set_rotation].to_s != ''
                             args = ["#{config[:set_rotation]}"]
+                            args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
                             "sense.set_rotation(#{args.join(',')})"
                           else
                             ''
