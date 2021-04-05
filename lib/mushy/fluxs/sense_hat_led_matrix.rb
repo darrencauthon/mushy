@@ -164,11 +164,7 @@ module Mushy
 
     def python_program event, config
 
-      rgb = rgb_from config[:rgb]
-      background_color = rgb_from config[:background_color]
       get_pixel_coordinates = coordinates_from config[:get_pixels]
-      set_pixel_coordinates = coordinates_from config[:set_pixel]
-      clear = rgb_from config[:clear]
 
       get_pixels_code = if get_pixel_coordinates
                           "sense.get_pixel(#{get_pixel_coordinates[:x]}, #{get_pixel_coordinates[:y]})"
