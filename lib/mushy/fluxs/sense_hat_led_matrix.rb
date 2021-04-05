@@ -19,6 +19,12 @@ module Mushy
                                  shrink:      true,
                                  value:       '',
                                }
+          config[:set_pixels] = {
+                                  description: 'An array of multiple pixels to set. The records must have coordinates and rgb values, just like what comes out of the get pixels call.',
+                                  type:        'text',
+                                  shrink:      true,
+                                  value:       '',
+                                }
           config[:rgb] = {
                             description: 'The RGB value as a comma-delimited list. Leave blank to not set a color.',
                             type:        'text',
@@ -100,6 +106,7 @@ module Mushy
     def python_program event, config
 
       commands = [
+        :set_pixel_code_from,
         :set_pixels_code_from,
         :clear_pixels_code_from,
         :show_letters_code_from,
@@ -169,12 +176,30 @@ PYTHON
                       .reduce({}) { |t, i| t[i[0]] = coordinate_split[i[1]].to_s.to_i ; t}
     end
 
-    def set_pixels_code_from event, config
+    def set_pixel_code_from event, config
       rgb = rgb_from config[:rgb]
       set_pixel_coordinates = coordinates_from config[:set_pixel]
       return '' unless rgb
       return '' unless set_pixel_coordinates
-      "sense.set_pixel(#{set_pixel_coordinates[:x]}, #{set_pixel_coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+
+      turn_these_to_pixels([ {
+                               coordinate: "#{set_pixel_coordinates[:x]},#{set_pixel_coordinates[:y]}",
+                               rgb: "#{rgb[:r]},#{rgb[:g]},#{rgb[:b]}",
+                             } ])
+    end
+
+    def set_pixels_code_from event, config
+      return '' unless config[:set_pixels]
+      turn_these_to_pixels config[:set_pixels]
+    end
+
+    def turn_these_to_pixels values
+      options = [:coordinate, :rgb]
+      values.map do |pixel|
+        options.reduce({}) { |t, i| t[i] = pixel[i].split(',') ; t}
+      end.map do |pixel|
+        "sense.set_pixel(#{pixel[:coordinate][0]}, #{pixel[:coordinate][1]}, [#{pixel[:rgb][0]}, #{pixel[:rgb][1]}, #{pixel[:rgb][2]}])"
+      end.join("\n")
     end
 
     def clear_pixels_code_from event, config
