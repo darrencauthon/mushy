@@ -104,16 +104,18 @@ module Mushy
       hat = true ? 'sense_hat' : 'sense_emu'
 
       commands = [
-        set_pixels_code_from(event, config),
-        clear_pixels_code_from(event, config),
-        show_letters_code_from(event, config),
-        show_message_code_from(event, config),
-        load_images_code_from(event, config),
-        set_rotation_code_from(event, config),
-        low_light_code_from(event, config),
-        flip_h_code_from(event, config),
-        flip_v_code_from(event, config),
-      ].select { |x| x.to_s != '' }.join("\n")
+        :set_pixels_code_from,
+        :clear_pixels_code_from,
+        :show_letters_code_from,
+        :show_message_code_from,
+        :load_images_code_from,
+        :set_rotation_code_from,
+        :low_light_code_from,
+        :flip_h_code_from,
+        :flip_v_code_from,
+      ].map { |x| self.send x, event, config }
+       .select { |x| x.to_s != '' }
+       .join("\n")
 
       <<PYTHON
 from #{hat} import SenseHat
