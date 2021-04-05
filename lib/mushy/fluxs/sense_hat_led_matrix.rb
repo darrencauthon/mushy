@@ -86,13 +86,18 @@ module Mushy
                               shrink:      true,
                               value:       '',
                             }
+          config[:target] = {
+                              description: 'The target of these commands. "hat" is a SenseHAT plugged into your Raspberry Pi, and "emu" is the SenseHAT emulator. Defaults to "hat".',
+                              type:        'select',
+                              options:     ['', 'hat' , 'emu'],
+                              shrink:      true,
+                              value:       '',
+                            }
         end
       }
     end
 
     def python_program event, config
-
-      hat = true ? 'sense_hat' : 'sense_emu'
 
       commands = [
         :set_pixels_code_from,
@@ -107,6 +112,8 @@ module Mushy
       ].map { |x| self.send x, event, config }
        .select { |x| x.to_s != '' }
        .join("\n")
+
+      hat = config[:target] == 'emu' ? 'sense_emu' : 'sense_hat'
 
       <<PYTHON
 from #{hat} import SenseHat
