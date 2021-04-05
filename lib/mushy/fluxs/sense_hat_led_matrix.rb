@@ -194,11 +194,9 @@ PYTHON
     end
 
     def turn_these_to_pixels values
+      options = [:coordinate, :rgb]
       values.map do |pixel|
-        {
-          coordinate: pixel[:coordinate].split(','),
-          rgb: pixel[:rgb].split(','),
-        }
+        options.reduce({}) { |t, i| t[i] = pixel[i].split(',') ; t}
       end.map do |pixel|
         "sense.set_pixel(#{pixel[:coordinate][0]}, #{pixel[:coordinate][1]}, [#{pixel[:rgb][0]}, #{pixel[:rgb][1]}, #{pixel[:rgb][2]}])"
       end.join("\n")
