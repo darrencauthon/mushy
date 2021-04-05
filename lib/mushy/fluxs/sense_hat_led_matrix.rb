@@ -92,15 +92,6 @@ module Mushy
 
     def python_program event, config
 
-      get_pixel_coordinates = coordinates_from config[:get_pixels]
-
-      get_pixels_code = if get_pixel_coordinates
-                          "sense.get_pixel(#{get_pixel_coordinates[:x]}, #{get_pixel_coordinates[:y]})"
-                        elsif config[:get_pixels].to_s.downcase == 'all'
-                          'sense.get_pixels()'
-                        else
-                          '[]'
-                        end
       hat = true ? 'sense_hat' : 'sense_emu'
 
       commands = [
@@ -122,7 +113,7 @@ from #{hat} import SenseHat
 import json
 sense = SenseHat()
 #{commands}
-value = json.dumps({"all": #{get_pixels_code}})
+value = json.dumps({"all": #{get_pixels_code_from(event, config)}})
 print(value)
 PYTHON
     end
@@ -243,6 +234,17 @@ PYTHON
       "sense.flip_v(#{args.join(',')})"
     end
 
+    def get_pixels_code_from event, config
+      get_pixel_coordinates = coordinates_from config[:get_pixels]
+
+      if get_pixel_coordinates
+        "sense.get_pixel(#{get_pixel_coordinates[:x]}, #{get_pixel_coordinates[:y]})"
+      elsif config[:get_pixels].to_s.downcase == 'all'
+        'sense.get_pixels()'
+      else
+        '[]'
+      end
+    end
 
   end
 
