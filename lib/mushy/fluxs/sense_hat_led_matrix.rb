@@ -116,6 +116,18 @@ module Mushy
       "sense.show_letter(#{args.join(',')})"
     end
 
+    def show_message_code_from event, config
+      return '' if config[:show_message].to_s == ''
+
+      rgb = rgb_from config[:rgb]
+      background_color = rgb_from config[:background_color]
+
+      args = ["\"#{config[:show_message]}\""]
+      args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
+      args << "back_colour=[#{background_color[:r]}, #{background_color[:g]}, #{background_color[:b]}]" if background_color
+      "sense.show_message(#{args.join(',')})"
+    end
+
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
@@ -131,14 +143,6 @@ module Mushy
                         else
                           '[]'
                         end
-      show_message_code = if config[:show_message].to_s != ''
-                            args = ["\"#{config[:show_message]}\""]
-                            args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
-                            args << "back_colour=[#{background_color[:r]}, #{background_color[:g]}, #{background_color[:b]}]" if background_color
-                            "sense.show_message(#{args.join(',')})"
-                          else
-                            ''
-                          end
       load_images_code = if config[:load_image].to_s != ''
                            args = ["\"#{config[:load_image]}\""]
                            args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
@@ -178,7 +182,7 @@ module Mushy
         set_pixels_code_from(event, config),
         clear_pixels_code_from(event, config),
         show_letters_code_from(event, config),
-        show_message_code,
+        show_message_code_from(event, config),
         load_images_code,
         set_rotation_code,
         low_light_code,
