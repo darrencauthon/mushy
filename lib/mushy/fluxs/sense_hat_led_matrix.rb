@@ -90,6 +90,13 @@ module Mushy
       }
     end
 
+    def set_pixels_code_from event, config
+      rgb = rgb_from config[:rgb]
+      set_pixel_coordinates = coordinates_from config[:set_pixel]
+      return '' unless rgb || set_pixel_coordinates
+      "sense.set_pixel(#{set_pixel_coordinates[:x]}, #{set_pixel_coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
+    end
+
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
@@ -98,11 +105,6 @@ module Mushy
       set_pixel_coordinates = coordinates_from config[:set_pixel]
       clear = rgb_from config[:clear]
 
-      set_pixels_code = if rgb && set_pixel_coordinates
-                          "sense.set_pixel(#{set_pixel_coordinates[:x]}, #{set_pixel_coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
-                        else
-                          ''
-                        end
       clear_pixels_code = if clear
                             "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
                           else
@@ -167,7 +169,7 @@ module Mushy
       hat = true ? 'sense_hat' : 'sense_emu'
 
       commands = [
-        set_pixels_code,
+        set_pixels_code_from(event, config),
         clear_pixels_code,
         show_letters_code,
         show_message_code,
