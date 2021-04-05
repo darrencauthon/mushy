@@ -93,7 +93,8 @@ module Mushy
     def set_pixels_code_from event, config
       rgb = rgb_from config[:rgb]
       set_pixel_coordinates = coordinates_from config[:set_pixel]
-      return '' unless rgb || set_pixel_coordinates
+      return '' unless rgb
+      return '' unless set_pixel_coordinates
       "sense.set_pixel(#{set_pixel_coordinates[:x]}, #{set_pixel_coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
     end
 
@@ -101,6 +102,18 @@ module Mushy
       clear = rgb_from config[:clear]
       return '' unless clear
       "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
+    end
+
+    def show_letters_code_from event, config
+      return '' if config[:show_letter].to_s == ''
+
+      rgb = rgb_from config[:rgb]
+      background_color = rgb_from config[:background_color]
+
+      args = ["\"#{config[:show_letter]}\""]
+      args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
+      args << "back_colour=[#{background_color[:r]}, #{background_color[:g]}, #{background_color[:b]}]" if background_color
+      "sense.show_letter(#{args.join(',')})"
     end
 
     def python_program event, config
@@ -118,14 +131,6 @@ module Mushy
                         else
                           '[]'
                         end
-      show_letters_code = if config[:show_letter].to_s != ''
-                            args = ["\"#{config[:show_letter]}\""]
-                            args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
-                            args << "back_colour=[#{background_color[:r]}, #{background_color[:g]}, #{background_color[:b]}]" if background_color
-                            "sense.show_letter(#{args.join(',')})"
-                          else
-                            ''
-                          end
       show_message_code = if config[:show_message].to_s != ''
                             args = ["\"#{config[:show_message]}\""]
                             args << "text_colour=[#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}]" if rgb
@@ -172,7 +177,7 @@ module Mushy
       commands = [
         set_pixels_code_from(event, config),
         clear_pixels_code_from(event, config),
-        show_letters_code,
+        show_letters_code_from(event, config),
         show_message_code,
         load_images_code,
         set_rotation_code,
