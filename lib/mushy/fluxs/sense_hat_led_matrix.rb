@@ -148,6 +148,20 @@ module Mushy
       "sense.low_light = #{config[:low_light].capitalize}"
     end
 
+    def flip_h_code_from event, config
+      return '' unless config[:flip_h].to_s == 'true'
+      args = []
+      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
+      "sense.flip_h(#{args.join(',')})"
+    end
+
+    def flip_v_code_from event, config
+      return '' unless config[:flip_v].to_s == 'true'
+      args = []
+      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
+      "sense.flip_v(#{args.join(',')})"
+    end
+
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
@@ -163,20 +177,6 @@ module Mushy
                         else
                           '[]'
                         end
-      flip_h_code = if config[:flip_h].to_s == 'true'
-                      args = []
-                      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
-                      "sense.flip_h(#{args.join(',')})"
-                    else
-                      ''
-                    end
-      flip_v_code = if config[:flip_v].to_s == 'true'
-                      args = []
-                      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
-                      "sense.flip_v(#{args.join(',')})"
-                    else
-                      ''
-                    end
       hat = true ? 'sense_hat' : 'sense_emu'
 
       commands = [
@@ -187,8 +187,8 @@ module Mushy
         load_images_code_from(event, config),
         set_rotation_code_from(event, config),
         low_light_code_from(event, config),
-        flip_h_code,
-        flip_v_code,
+        flip_h_code_from(event, config),
+        flip_v_code_from(event, config),
       ].select { |x| x.to_s != '' }.join("\n")
 
       <<PYTHON
