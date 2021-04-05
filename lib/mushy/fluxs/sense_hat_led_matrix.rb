@@ -136,6 +136,13 @@ module Mushy
       "sense.load_image(#{args.join(',')})"
     end
 
+    def set_rotation_code_from event, config
+      return if config[:set_rotation].to_s == ''
+      args = ["#{config[:set_rotation]}"]
+      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
+      "sense.set_rotation(#{args.join(',')})"
+    end
+
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
@@ -151,13 +158,6 @@ module Mushy
                         else
                           '[]'
                         end
-      set_rotation_code = if config[:set_rotation].to_s != ''
-                            args = ["#{config[:set_rotation]}"]
-                            args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
-                            "sense.set_rotation(#{args.join(',')})"
-                          else
-                            ''
-                          end
       low_light_code = if config[:low_light].to_s != ''
                          "sense.low_light = #{config[:low_light].capitalize}"
                        else
@@ -185,7 +185,7 @@ module Mushy
         show_letters_code_from(event, config),
         show_message_code_from(event, config),
         load_images_code_from(event, config),
-        set_rotation_code,
+        set_rotation_code_from(event, config),
         low_light_code,
         flip_h_code,
         flip_v_code,
