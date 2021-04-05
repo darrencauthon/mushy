@@ -174,9 +174,13 @@ PYTHON
       set_pixel_coordinates = coordinates_from config[:set_pixel]
       return '' unless rgb
       return '' unless set_pixel_coordinates
-      coordinates = [set_pixel_coordinates[:x], set_pixel_coordinates[:y]]
-      colors      = [rgb[:r], rgb[:g], rgb[:b]]
-      "sense.set_pixel(#{coordinates[0]}, #{coordinates[1]}, [#{colors[0]}, #{colors[1]}, #{colors[2]}])"
+      pixels = [ {
+                   coordinates: [set_pixel_coordinates[:x], set_pixel_coordinates[:y]],
+                   rgb: [rgb[:r], rgb[:g], rgb[:b]],
+                 } ]
+      pixels.map do |pixel|
+        "sense.set_pixel(#{pixel[:coordinates][0]}, #{pixel[:coordinates][1]}, [#{pixel[:rgb][0]}, #{pixel[:rgb][1]}, #{pixel[:rgb][2]}])"
+      end.join("\n")
     end
 
     def clear_pixels_code_from event, config
