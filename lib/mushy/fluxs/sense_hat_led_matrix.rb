@@ -205,6 +205,11 @@ PYTHON
         results[0][:y] = coordinates[:y]
       end
 
+      results.each do |record|
+        record[:coordinate] = "#{record[:x]},#{record[:y]}"
+        record[:rgb] = "#{record[:r]},#{record[:g]},#{record[:b]}"
+      end
+
       results
     end
 
