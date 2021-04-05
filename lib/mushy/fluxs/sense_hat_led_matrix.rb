@@ -165,19 +165,24 @@ module Mushy
                       ''
                     end
       hat = true ? 'sense_hat' : 'sense_emu'
+
+      commands = [
+        set_pixels_code,
+        clear_pixels_code,
+        show_letters_code,
+        show_message_code,
+        load_images_code,
+        set_rotation_code,
+        low_light_code,
+        flip_h_code,
+        flip_v_code,
+      ].select { |x| x.to_s != '' }.join("\n")
+
       <<PYTHON
 from #{hat} import SenseHat
 import json
 sense = SenseHat()
-#{set_pixels_code}
-#{clear_pixels_code}
-#{show_letters_code}
-#{show_message_code}
-#{load_images_code}
-#{set_rotation_code}
-#{low_light_code}
-#{flip_h_code}
-#{flip_v_code}
+#{commands}
 value = json.dumps({"all": #{get_pixels_code}})
 print(value)
 PYTHON
