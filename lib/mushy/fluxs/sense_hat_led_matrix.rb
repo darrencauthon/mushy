@@ -128,6 +128,14 @@ module Mushy
       "sense.show_message(#{args.join(',')})"
     end
 
+    def load_images_code_from event, config
+      return '' if config[:load_image].to_s == ''
+
+      args = ["\"#{config[:load_image]}\""]
+      args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
+      "sense.load_image(#{args.join(',')})"
+    end
+
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
@@ -143,13 +151,6 @@ module Mushy
                         else
                           '[]'
                         end
-      load_images_code = if config[:load_image].to_s != ''
-                           args = ["\"#{config[:load_image]}\""]
-                           args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
-                           "sense.load_image(#{args.join(',')})"
-                         else
-                           ''
-                         end
       set_rotation_code = if config[:set_rotation].to_s != ''
                             args = ["#{config[:set_rotation]}"]
                             args << config[:redraw].to_s.capitalize if config[:redraw].to_s != ''
@@ -183,7 +184,7 @@ module Mushy
         clear_pixels_code_from(event, config),
         show_letters_code_from(event, config),
         show_message_code_from(event, config),
-        load_images_code,
+        load_images_code_from(event, config),
         set_rotation_code,
         low_light_code,
         flip_h_code,
