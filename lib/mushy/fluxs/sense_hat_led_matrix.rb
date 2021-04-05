@@ -97,6 +97,12 @@ module Mushy
       "sense.set_pixel(#{set_pixel_coordinates[:x]}, #{set_pixel_coordinates[:y]}, [#{rgb[:r]}, #{rgb[:g]}, #{rgb[:b]}])"
     end
 
+    def clear_pixels_code_from event, config
+      clear = rgb_from config[:clear]
+      return '' unless clear
+      "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
+    end
+
     def python_program event, config
 
       rgb = rgb_from config[:rgb]
@@ -105,11 +111,6 @@ module Mushy
       set_pixel_coordinates = coordinates_from config[:set_pixel]
       clear = rgb_from config[:clear]
 
-      clear_pixels_code = if clear
-                            "sense.clear(#{clear[:r]}, #{clear[:g]}, #{clear[:b]})"
-                          else
-                            ''
-                          end
       get_pixels_code = if get_pixel_coordinates
                           "sense.get_pixel(#{get_pixel_coordinates[:x]}, #{get_pixel_coordinates[:y]})"
                         elsif config[:get_pixels].to_s.downcase == 'all'
@@ -170,7 +171,7 @@ module Mushy
 
       commands = [
         set_pixels_code_from(event, config),
-        clear_pixels_code,
+        clear_pixels_code_from(event, config),
         show_letters_code,
         show_message_code,
         load_images_code,
