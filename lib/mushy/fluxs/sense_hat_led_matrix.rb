@@ -197,7 +197,8 @@ PYTHON
       values.map do |pixel|
         {
           coordinate: pixel[:coordinate].split(','),
-          rgb: pixel[:rgb].split(',') }
+          rgb: pixel[:rgb].split(','),
+        }
       end.map do |pixel|
         "sense.set_pixel(#{pixel[:coordinate][0]}, #{pixel[:coordinate][1]}, [#{pixel[:rgb][0]}, #{pixel[:rgb][1]}, #{pixel[:rgb][2]}])"
       end.join("\n")
