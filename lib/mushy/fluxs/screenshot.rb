@@ -4,8 +4,8 @@ module Mushy
 
     def self.details
       details = Browser.details
-      details['name'] = 'Screenshot'
-      details['description'] = 'Take a screenshot of the browser.'
+      details[:name] = 'Screenshot'
+      details[:description] = 'Take a screenshot of the browser.'
 
       details[:config].merge!(Mushy::WriteFile.file_saving_config.tap do |x|
         x[x.keys.first][:value] = 'file.jpg'
