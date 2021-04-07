@@ -19,7 +19,7 @@ module Mushy
     end
 
     def process event, config
-      return nil unless config[:json]
+      return nil unless config[:json].to_s != ''
       JSON.parse config[:json]
     end
 

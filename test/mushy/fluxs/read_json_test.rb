@@ -23,13 +23,15 @@ describe Mushy::ReadJson do
   end
 
   it "nil should be returned as nil" do
-
     config[:json] = nil
-
     result = flux.process event, config
-
     result.must_be_nil
+  end
 
+  it "empty should be returned as nil" do
+    config[:json] = ''
+    result = flux.process event, config
+    result.must_be_nil
   end
 
 end
