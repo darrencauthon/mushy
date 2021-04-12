@@ -6,7 +6,7 @@ module Mushy
 <<-ENDEND
 <html>
     <head>
-        <link rel="stylesheet" href="/dark.css">
+        <link rel="stylesheet" href="/bulma.css">
         <script src="/vue.js"></script>
         <script src="/axios.js"></script>
     </head>
