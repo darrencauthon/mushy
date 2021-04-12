@@ -14,7 +14,7 @@ module Mushy
     </head>
     <body>
         <div id="app" class="container">
-            <table v-if="setup.showFlux == false">
+            <table v-if="setup.showFlux == false" class="table">
                 <tr>
                     <th>Name</th>
                     <th>Receives Events From</th>
