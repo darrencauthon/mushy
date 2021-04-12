@@ -24,8 +24,8 @@ module Mushy
                     <td>{{flux.name}}</td>
                     <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
                     <td>
-                        <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">Edit</button>
-                        <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })">Delete</button>
+                        <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })" class="button">Edit</button>
+                        <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })" class="button">Delete</button>
                     </td>
                 </tr>
             </table>
