@@ -117,11 +117,11 @@ module Mushy
        },
        select: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div></div>'
        },
        selectrecord: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div></div>'
        },
        selectmanyrecords: {
            data: function() {
@@ -147,7 +147,7 @@ module Mushy
                };
            },
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} <a href="#" v-on:click.prevent.stop="remove(option.id, value);$emit(\\'update:value\\', value)">[X]</a> </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} <a href="#" v-on:click.prevent.stop="remove(option.id, value);$emit(\\'update:value\\', value)">[X]</a> </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <div class="control"><select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;" class="select"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div></div>'
        },
        boolean: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
