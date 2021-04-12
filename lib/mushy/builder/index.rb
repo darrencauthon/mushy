@@ -58,7 +58,7 @@ module Mushy
    var components = {
        label: {
            props: ['label', 'description', 'hide_description'],
-           template: '<label :for="id" v-if="label != \\'\\'">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
+           template: '<label :for="id" v-if="label != \\'\\'" class="label">{{label || ' + fancyName('id') + '}} <i v-show="description && !hide_description">({{description}})</i></label>'
        },
        h1: {
            props: ['label', 'description', 'hide_description'],
