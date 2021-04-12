@@ -4,14 +4,16 @@ module Mushy
       def self.file
 
 <<-ENDEND
+<!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/bulma.css">
         <script src="/vue.js"></script>
         <script src="/axios.js"></script>
     </head>
     <body>
-        <div id="app">
+        <div id="app" class="container">
             <table v-if="setup.showFlux == false">
                 <tr>
                     <th>Name</th>
