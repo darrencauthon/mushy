@@ -220,7 +220,7 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<div>';
+   var thingTemplate = '<div class="column is-full">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
@@ -242,7 +242,7 @@ module Mushy
                   }
         },
         props: ['data'],
-        template: '<div><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
+        template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
     });
 
     var app = null;
