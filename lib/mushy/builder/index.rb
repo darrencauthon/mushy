@@ -191,8 +191,16 @@ module Mushy
            template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink">[^]</a><table v-if="JSON.stringify(value) != \\'{}\\' || !shrink" class="table"><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><button v-on:click.prevent.stop="removeRecord(value, k)" class="button">Remove {{k}}</button></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><button v-on:click.prevent.stop="addRecord(editors, value)" v-show="editors[0].field.value" class="button">{{actionText(editors[0].field.value, value)}} {{editors[0].field.value}}</button></td></tr></table></div>'
        },
        button: {
+           data: function() {
+               return {
+                   buttonStyles: function(x) {
+                       console.log(x);
+                       return { "is-primary": true };
+                   }
+               };
+           },
            props: ['click', 'description', 'name', 'color'],
-           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())" class="button" v-bind:class="{ \\\'is-primary\\\': color == \\\'is-primary\\\' }">{{name || id}}</button>'
+           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())" class="button" v-bind:class="buttonStyles(this)">{{name || id}}</button>'
        }
    };
 
