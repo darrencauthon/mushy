@@ -109,7 +109,7 @@ module Mushy
                };
            },
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
-           template: '<div><mip-h4 :id="id" :label="label" :description="description"></mip-h4> <pre><code>{{show(view, value)}}</code></pre><button :disabled="view==\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button">View Pretty</button><button :disabled="view!=\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button">View Smaller</button><button v-on:click.prevent.stop="copy(view, value)" class="button">Copy</button></div>'
+           template: '<div><mip-h4 :id="id" :label="label" :description="description"></mip-h4> <pre><code>{{show(view, value)}}</code></pre><button :disabled="view==\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button ml-3 is-success">View Pretty</button><button :disabled="view!=\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button ml-3 is-success">View Smaller</button><button v-on:click.prevent.stop="copy(view, value)" class="button ml-3 is-primary">Copy</button></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
