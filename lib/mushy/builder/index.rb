@@ -210,8 +210,9 @@ module Mushy
    {
        var props = JSON.parse(JSON.stringify(components[property].props));
        props.push('id');
+       var theComponent = components[property].data ?? {};
        Vue.component('mip-' + property, {
-            data: components[property].data ?? function () {
+            data: function () {
                       var foundIt = this.$parent;
                       var counter = 0;
                       while (foundIt.$parent.constructor.name == "VueComponent" && counter < 10)
@@ -219,11 +220,15 @@ module Mushy
                         foundIt = foundIt.$parent;
                         counter += 1;
                       }
-                      return {
+                      var dataToReturn = {
                           console: console,
                           pull: function(x) { return thingToData(foundIt.data); },
                           thisComponent: function() { return foundIt.data; },
-                      }
+                      };
+                      var thethe = theComponent();
+                      for(var p in thethe)
+                          dataToReturn[p] = thethe[p];
+                      return dataToReturn;
                   },
             props: props,
             template: components[property].template
