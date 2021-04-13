@@ -330,7 +330,7 @@ module Mushy
                          app.setup.showFlux = false;
                      }
                  };
-                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', foghat: 'free', color: 'is-primary', click: function() {
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', foghat: 'free', color: 'is-warning', click: function() {
                          app.setup.showFlux = false;
                      }
                  };
