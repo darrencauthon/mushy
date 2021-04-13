@@ -220,7 +220,7 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<div v-bind:class="{ \\\'ml-3\\\': data.size==\\\'free\\\', \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\' && data.size!=\\\'free\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
+   var thingTemplate = '<div v-bind:class="{ \\\'ml-3\\\': data.foghat==\\\'free\\\', \\\'column\\\': data.foghat!=\\\'free\\\', \\\'is-full\\\': data.foghat!=\\\'half\\\' && data.foghat!=\\\'free\\\', \\\'is-half\\\': data.foghat==\\\'half\\\' }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
@@ -231,7 +231,7 @@ module Mushy
                       console: console,
                   }
         },
-        props: ['data', 'value', 'id', 'model', 'size'],
+        props: ['data', 'value', 'id', 'model', 'foghat'],
         template: thingTemplate
     });
 
@@ -314,13 +314,13 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save Changes', size: 'free', click: function(config) {
+                 configs[key].save = { type: 'button', name: 'Save Changes', foghat: 'free', click: function(config) {
                          saveTheFlux({ app: app, config: config });
                          saveTheFlow({ setup: app.setup, flow: app.flow });
                          app.setup.showFlux = false;
                      }
                  };
-                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', size: 'free', click: function() {
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', foghat: 'free', click: function() {
                          app.setup.showFlux = false;
                      }
                  };
