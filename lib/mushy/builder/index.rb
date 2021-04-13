@@ -220,10 +220,10 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<span v-bind:class="{ \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
+   var thingTemplate = '<div class="control" v-bind:class="{ \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\' && data.size!=\\\'free\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
-   thingTemplate = thingTemplate + '</span>';
+   thingTemplate = thingTemplate + '</div>';
 
    Vue.component('mip-thing', {
         data: function () {
