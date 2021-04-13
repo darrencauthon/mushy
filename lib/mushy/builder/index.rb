@@ -210,7 +210,7 @@ module Mushy
    {
        var props = JSON.parse(JSON.stringify(components[property].props));
        props.push('id');
-       var theData = components[property].data ?? function() { return {}; };
+       const theData = components[property].data ?? function() { return {}; };
        Vue.component('mip-' + property, {
             data: function () {
                       var foundIt = this.$parent;
