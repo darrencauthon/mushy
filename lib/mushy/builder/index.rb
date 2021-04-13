@@ -220,10 +220,10 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<div class="column" v-bind:class="{ \\\'is-full\\\': true }">';
+   var thingTemplate = '<span class="column" v-bind:class="{ \\\'is-full\\\': true }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
-   thingTemplate = thingTemplate + '</div>';
+   thingTemplate = thingTemplate + '</span>';
 
    Vue.component('mip-thing', {
         data: function () {
