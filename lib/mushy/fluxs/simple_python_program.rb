@@ -9,6 +9,10 @@ module Mushy
       end
     end
 
+    def self.details
+      nil
+    end
+
     def process event, config
 
       lines = python_program(event, config)
