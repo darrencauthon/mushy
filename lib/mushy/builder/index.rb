@@ -192,7 +192,7 @@ module Mushy
        },
        button: {
            props: ['click', 'description', 'name'],
-           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())" class="button">{{name || id}}</button>'
+           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())" class="mr-3 button">{{name || id}}</button>'
        }
    };
 
@@ -220,7 +220,7 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<div class="control" v-bind:class="{ \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\' && data.size!=\\\'free\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
+   var thingTemplate = '<div v-bind:class="{ \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\' && data.size!=\\\'free\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
