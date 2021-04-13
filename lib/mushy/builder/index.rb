@@ -220,7 +220,7 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<span class="column" v-bind:class="{ \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
+   var thingTemplate = '<span v-bind:class="{ \\\'column\\\': data.size!=\\\'free\\\', \\\'is-full\\\': data.size!=\\\'half\\\', \\\'is-half\\\': data.size==\\\'half\\\' }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</span>';
@@ -231,7 +231,7 @@ module Mushy
                       console: console,
                   }
         },
-        props: ['data', 'value', 'id', 'model'],
+        props: ['data', 'value', 'id', 'model', 'size'],
         template: thingTemplate
     });
 
@@ -314,13 +314,13 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save Changes', click: function(config) {
+                 configs[key].save = { type: 'button', name: 'Save Changes', size: 'free', click: function(config) {
                          saveTheFlux({ app: app, config: config });
                          saveTheFlow({ setup: app.setup, flow: app.flow });
                          app.setup.showFlux = false;
                      }
                  };
-                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', click: function() {
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', size: 'free', click: function() {
                          app.setup.showFlux = false;
                      }
                  };
