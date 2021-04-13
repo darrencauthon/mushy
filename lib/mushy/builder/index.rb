@@ -194,8 +194,10 @@ module Mushy
            data: function() {
                return {
                    buttonStyles: function(x) {
-                       console.log(x);
-                       return { "is-primary": true };
+                        var colors = {};
+                        if (x.color && x.color != '')
+                            colors[x.color] = true;
+                        return colors;
                    }
                };
            },
