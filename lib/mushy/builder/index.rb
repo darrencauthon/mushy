@@ -22,10 +22,10 @@ module Mushy
                     General
                 </p>
                 <ul class="menu-list">
-                    <li><a>Fluxs</a></li>
+                    <li><a v-on:click.prevent.stop="setup.showFlux = false;">Fluxs</a></li>
                     <li>
                         <ul>
-                            <li v-for="flux in flow.fluxs"><a>{{flux.name}}</a></li>
+                            <li v-for="flux in flow.fluxs"><a v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">{{flux.name}}</a></li>
                         </ul>
                     </li>
                 </ul>
