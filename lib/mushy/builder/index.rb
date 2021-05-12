@@ -22,13 +22,8 @@ module Mushy
                     General
                 </p>
                 <ul class="menu-list">
-                    <li><a>Dashboard</a></li>
-                    <li><a>Customers</a></li>
-                </ul>
-                <ul class="menu-list">
-                    <li><a>Team Settings</a></li>
+                    <li><a>Fluxs</a></li>
                     <li>
-                        <a class="is-active">Manage Your Team</a>
                         <ul>
                             <li v-for="flux in flow.fluxs"><a>{{flux.name}}</a></li>
                         </ul>
