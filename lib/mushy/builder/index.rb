@@ -13,7 +13,33 @@ module Mushy
         <script src="/axios.js"></script>
     </head>
     <body>
-        <div id="app" class="container">
+    <div id="app">
+
+    <div class="columns">
+        <div class="column is-one-fifth">
+            <aside class="menu">
+                <p class="menu-label">
+                    General
+                </p>
+                <ul class="menu-list">
+                    <li><a>Dashboard</a></li>
+                    <li><a>Customers</a></li>
+                </ul>
+                <ul class="menu-list">
+                    <li><a>Team Settings</a></li>
+                    <li>
+                        <a class="is-active">Manage Your Team</a>
+                        <ul>
+                            <li v-for="flux in flow.fluxs"><a>{{flux.name}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+        </div>
+        <div class="column">
+
+        <div class="container">
                 <table v-if="setup.showFlux == false" class="table is-fullwidth">
                 <tr>
                     <th>Name</th>
@@ -38,6 +64,8 @@ module Mushy
                 <mip-heavy v-for="data in results" :data="data"></mip-heavy>
             </div>
         </div>
+        </div>
+    </div>
     </body>
 </html>
 
