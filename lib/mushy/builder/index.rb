@@ -15,50 +15,50 @@ module Mushy
     <body>
     <div id="app">
 
-    <div class="columns">
-        <div class="column is-one-fifth">
-            <aside class="menu">
-                <p class="menu-label">
-                    General
-                </p>
-                <ul class="menu-list">
-                    <li><a v-on:click.prevent.stop="setup.showFlux = false;">Fluxs</a></li>
-                    <li>
-                        <ul>
-                            <li v-for="flux in flow.fluxs"><a v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">{{flux.name}}</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
-
-        </div>
-        <div class="column">
-
-        <div class="container">
-                <table v-if="setup.showFlux == false" class="table is-fullwidth">
-                <tr>
-                    <th>Name</th>
-                    <th>Receives Events From</th>
-                    <th>Actions</th>
-                </tr>
-                <tr v-for="flux in flow.fluxs">
-                    <td>{{flux.name}}</td>
-                    <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
-                    <td>
-                        <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })" class="button is-primary">Edit</button>
-                        <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })" class="button is-danger">Delete</button>
-                    </td>
-                </tr>
-            </table>
-            <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
-            <div v-if="setup.showFlux">
-                <mip-heavy :data="setup"></mip-heavy>
-                <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
-                <div v-if="results.errorMessage">{{results.errorMessage}}</div>
-                <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
-                <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+        <div class="columns">
+            <div class="column is-one-fifth">
+                <aside class="menu">
+                    <p class="menu-label">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li><a v-on:click.prevent.stop="setup.showFlux = false;">Fluxs</a></li>
+                        <li>
+                            <ul>
+                                <li v-for="flux in flow.fluxs"><a v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">{{flux.name}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
             </div>
-        </div>
+            <div class="column">
+
+                <div class="container">
+                    <table v-if="setup.showFlux == false" class="table is-fullwidth">
+                        <tr>
+                            <th>Name</th>
+                            <th>Receives Events From</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="flux in flow.fluxs">
+                            <td>{{flux.name}}</td>
+                            <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
+                            <td>
+                                <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })" class="button is-primary">Edit</button>
+                                <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })" class="button is-danger">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
+                    <div v-if="setup.showFlux">
+                        <mip-heavy :data="setup"></mip-heavy>
+                        <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
+                        <div v-if="results.errorMessage">{{results.errorMessage}}</div>
+                        <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
+                        <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     </body>
