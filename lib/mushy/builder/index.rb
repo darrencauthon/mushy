@@ -53,9 +53,24 @@ module Mushy
                     <div v-if="setup.showFlux">
                         <mip-heavy :data="setup"></mip-heavy>
                         <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
-                        <div v-if="results.errorMessage">{{results.errorMessage}}</div>
-                        <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
-                        <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+
+                        <div v-bind:class="setup.testResultModal">
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Modal title</p>
+                                    <button class="delete" aria-label="close" v-on:click.prevent.stop="setup.testResultModal['is-active'] = false"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <div v-if="results.errorMessage">{{results.errorMessage}}</div>
+                                    <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
+                                    <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <button class="button is-success">GO</button>
+                                </footer>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -344,6 +359,10 @@ module Mushy
 
              var setup = {
                    showFlux: false,
+                   testResultModal: {
+                       "modal": true,
+                       "is-active": false,
+                   },
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
@@ -374,6 +393,7 @@ module Mushy
                                       the_setup.event = c.test_event;
                                       axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
+                                           app.setup.testResultModal["is-active"] = true;
                                            var index = 1;
                                            for (var key in r.data.result)
                                            {
