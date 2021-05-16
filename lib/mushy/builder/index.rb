@@ -31,10 +31,10 @@ module Mushy
                     </ul>
                 </aside>
             </div>
-            <div class="column">
+            <div class="column" v-if="setup.showFlux == false">
 
                 <div class="container">
-                    <table v-if="setup.showFlux == false" class="table is-fullwidth">
+                    <table class="table is-fullwidth">
                         <tr>
                             <th>Name</th>
                             <th>Receives Events From</th>
@@ -49,10 +49,12 @@ module Mushy
                             </td>
                         </tr>
                     </table>
+                    <button v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
                 </div>
+            </div>
+            <div class="column" v-if="setup.showFlux">
                 <div class="container">
-                    <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
-                    <div v-if="setup.showFlux">
+                    <div>
                         <mip-heavy :data="setup"></mip-heavy>
                         <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
 
