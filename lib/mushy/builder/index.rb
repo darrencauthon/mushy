@@ -52,7 +52,7 @@ module Mushy
                     <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
                     <div v-if="setup.showFlux">
                         <mip-heavy :data="setup"></mip-heavy>
-                        <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
+                        <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
 
                         <div v-bind:class="setup.testResultModal">
                             <div class="modal-background"></div>
@@ -298,6 +298,26 @@ module Mushy
         template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
     });
 
+   Vue.component('mip-mediumgreen', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['data', 'medium'],
+        template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id" v-if="d.medium == medium"></mip-thing></div>',
+    });
+
+   Vue.component('mip-mediumred', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['data', 'medium'],
+        template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id" v-if="d.medium != medium"></mip-thing></div>',
+    });
+
     var app = null;
 
     axios.get('/fluxs')
@@ -382,7 +402,7 @@ module Mushy
                      }
                  };
 
-                 configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
+                 configs[key].test_event = { type: 'json', value: '{}', default: '{}', medium: 'hey' };
 
                  configs[key].run_test = { type: 'button', name: 'Test Run This Flux', click: function(c, hey) {
                                       var previousName = hey.run_test.name;
