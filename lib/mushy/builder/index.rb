@@ -49,6 +49,8 @@ module Mushy
                             </td>
                         </tr>
                     </table>
+                </div>
+                <div class="container">
                     <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
                     <div v-if="setup.showFlux">
                         <mip-heavy :data="setup"></mip-heavy>
