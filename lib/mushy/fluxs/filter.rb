@@ -21,13 +21,20 @@ module Mushy
                  type:        'keyvalue',
                  value:       {},
                },
+          contains: {
+                 description: 'Provide key/value pairs that must be contained.',
+                 shrink:      true,
+                 label:       'Contains',
+                 type:        'keyvalue',
+                 value:       {},
+               },
         },
       }
     end
 
     def process event, config
 
-      differences = [:equal, :notequal]
+      differences = [:equal, :notequal, :contains]
         .select { |x| config[x].is_a? Hash }
         .map { |x| config[x].map { |k, v| { m: x, k: k, v1: v } } }
         .flatten
@@ -49,6 +56,10 @@ module Mushy
 
     def notequal a, b
       equal(a, b) == false
+    end
+
+    def contains a, b
+      true
     end
 
     def numeric? value
