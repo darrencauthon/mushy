@@ -182,6 +182,20 @@ describe Mushy::Filter do
 
       end
 
+      it "should treat numbers as strings" do
+
+        key, value = SecureRandom.uuid, 112221
+
+        flux.config[:contains][key] = "2"
+
+        event[key] = value
+
+        result = flux.execute event
+
+        result[key].must_equal value
+
+      end
+
     end
 
   end
