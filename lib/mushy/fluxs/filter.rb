@@ -59,7 +59,7 @@ module Mushy
     end
 
     def contains a, b
-      true
+      b.include? a
     end
 
     def numeric? value

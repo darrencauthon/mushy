@@ -153,6 +153,21 @@ describe Mushy::Filter do
 
       end
 
+      it "should NOT return the value if the string is NOT contained" do
+
+        key, value = SecureRandom.uuid, SecureRandom.uuid
+
+        flux.config[:contains][key] = value
+
+        value_not_containing_our_target = SecureRandom.uuid
+        event[key] = value_not_containing_our_target
+
+        result = flux.execute event
+
+        result.count.must_equal 0
+
+      end
+
     end
 
   end
