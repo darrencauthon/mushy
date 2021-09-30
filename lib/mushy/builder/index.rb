@@ -13,31 +13,76 @@ module Mushy
         <script src="/axios.js"></script>
     </head>
     <body>
-        <div id="app" class="container">
-            <table v-if="setup.showFlux == false" class="table">
-                <tr>
-                    <th>Name</th>
-                    <th>Receives Events From</th>
-                    <th>Actions</th>
-                </tr>
-                <tr v-for="flux in flow.fluxs">
-                    <td>{{flux.name}}</td>
-                    <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
-                    <td>
-                        <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })" class="button">Edit</button>
-                        <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })" class="button">Delete</button>
-                    </td>
-                </tr>
-            </table>
-            <button v-if="setup.showFlux == false" v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button">Add a New Flux To This Flow</button>
-            <div v-if="setup.showFlux">
-                <mip-heavy :data="setup"></mip-heavy>
-                <mip-heavy v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data"></mip-heavy>
-                <div v-if="results.errorMessage">{{results.errorMessage}}</div>
-                <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
-                <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+    <div id="app">
+
+        <div class="columns">
+            <div class="column is-one-fifth">
+                <aside class="menu">
+                    <p class="menu-label">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li><a v-on:click.prevent.stop="setup.showFlux = false;">Fluxs</a></li>
+                        <li>
+                            <ul>
+                                <li v-for="flux in flow.fluxs"><a v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })">{{flux.name}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            <div class="column" v-if="setup.showFlux == false">
+
+                <div class="container">
+                    <table class="table is-fullwidth">
+                        <tr>
+                            <th>Name</th>
+                            <th>Receives Events From</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="flux in flow.fluxs">
+                            <td>{{flux.name}}</td>
+                            <td>{{flux_name_for(flux.parents, flow.fluxs)}}</td>
+                            <td>
+                                <button v-on:click.prevent.stop="editFlux({ flux: flux, setup: setup, configs: configs })" class="button is-primary">Edit</button>
+                                <button v-on:click.prevent.stop="deleteFlux({ flux: flux, flow: flow })" class="button is-danger">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <button v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
+                </div>
+            </div>
+            <div class="column" v-if="setup.showFlux">
+                <div class="columns">
+                    <div class="column is-half">
+                        <mip-heavy :data="setup"></mip-heavy>
+                        <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
+                    </div>
+                    <div class="column is-half">
+                        <mip-mediumgreen v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
+
+                        <div v-bind:class="setup.testResultModal">
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Modal title</p>
+                                    <button class="delete" aria-label="close" v-on:click.prevent.stop="setup.testResultModal['is-active'] = false"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <div v-if="results.errorMessage">{{results.errorMessage}}</div>
+                                    <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
+                                    <mip-heavy v-for="data in results" :data="data"></mip-heavy>
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <button class="button is-success">GO</button>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
     </body>
 </html>
 
@@ -78,7 +123,7 @@ module Mushy
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
        },
        hide:  {
            props: ['label', 'description'],
@@ -86,19 +131,19 @@ module Mushy
        },
        integer:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
        },
        email: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="email" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="email" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
        },
        textarea: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><textarea :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="textarea"></textarea></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><textarea :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="textarea"></textarea></div></div>'
        },
        json: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><textarea :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="textarea"></textarea></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><textarea :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="textarea"></textarea></div>'
        },
        jsonview: {
            data: function() {
@@ -109,19 +154,19 @@ module Mushy
                };
            },
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'view'],
-           template: '<div><mip-h4 :id="id" :label="label" :description="description"></mip-h4> <pre><code>{{show(view, value)}}</code></pre><button :disabled="view==\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button">View Pretty</button><button :disabled="view!=\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button">View Smaller</button><button v-on:click.prevent.stop="copy(view, value)" class="button">Copy</button></div>'
+           template: '<div><mip-h4 :id="id" :label="label" :description="description"></mip-h4> <pre><code>{{show(view, value)}}</code></pre><button :disabled="view==\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button ml-3 is-success">View Pretty</button><button :disabled="view!=\\'beautiful\\'" v-on:click.prevent.stop="view=toggle(view)" class="button ml-3 is-success">View Smaller</button><button v-on:click.prevent.stop="copy(view, value)" class="button ml-3 is-primary">Copy</button></div>'
        },
        radio: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div v-for="option in options"><input type="radio" :name="id" v-bind:value="option" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div v-for="option in options"><input type="radio" :name="id" v-bind:value="option" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" :checked="value == option"> <label for="option">{{option}}</label></div></div>'
        },
        select: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in options" v-bind:value="option" :selected="value == option">{{option}}</option></select></div></div>'
        },
        selectrecord: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="value || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in options" v-bind:value="option.id" :selected="value == option.id">{{option.name}}</option></select></div></div>'
        },
        selectmanyrecords: {
            data: function() {
@@ -147,11 +192,11 @@ module Mushy
                };
            },
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} <a href="#" v-on:click.prevent.stop="remove(option.id, value);$emit(\\'update:value\\', value)">[X]</a> </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <div class="control"><select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;" class="select"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a> <span v-for="option in options" v-if="value && value.includes(option.id)">{{option.name}} <a href="#" v-on:click.prevent.stop="remove(option.id, value);$emit(\\'update:value\\', value)">[X]</a> </span> <a href="#" v-on:click.prevent.stop="doit(selectedValue, value);$emit(\\'update:value\\', value)">ADD</a> <div class="control"><select :name="id" v-if="value || !shrink" v-on:input="selectedValue=$event.target.value;" class="select"><option v-for="option in options" v-bind:value="option.id">{{option.name}}</option></select></div></div>'
        },
        boolean: {
            props: ['label', 'value', 'options', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="(value != undefined && value != null && value != \\'\\') || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><select :name="id" v-if="(value != undefined && value != null && value != \\'\\') || !shrink" v-on:input="$emit(\\'update:value\\', $event.target.value)" class="select"><option v-for="option in [true, false]" v-bind:value="option" :selected="value == option">{{option}}</option></select></div></div>'
        },
        table: {
            props: ['value', 'description'],
@@ -173,7 +218,7 @@ module Mushy
                };
            },
            props: ['value', 'editors', 'label', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && value.length == 0">[^]</a><table v-if="value.length > 0 || !shrink" class="table"><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click.prevent.stop="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click.prevent.stop="addRecord(editors, value)">[Add]</a></td></tr></table></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && value.length == 0">[^]</a><table v-if="value.length > 0 || !shrink" class="table"><tr><th v-for="(d, i) in value[0]">{{' + fancyName('i') + '}}</th></tr><tr v-for="(v, z) in value"><td v-for="(d, i) in v">{{d}}</td><td><a href="#" v-on:click.prevent.stop="removeRecord(v, value, z)">[x]</a></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><a href="#" v-on:click.prevent.stop="addRecord(editors, value)">[Add]</a></td></tr></table></div>'
        },
        keyvalue: {
            data: function() {
@@ -188,11 +233,21 @@ module Mushy
                };
            },
            props: ['value', 'label', 'editors', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink">[^]</a><table v-if="JSON.stringify(value) != \\'{}\\' || !shrink" class="table"><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><button v-on:click.prevent.stop="removeRecord(value, k)" class="button">Remove {{k}}</button></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><button v-on:click.prevent.stop="addRecord(editors, value)" v-show="editors[0].field.value" class="button">{{actionText(editors[0].field.value, value)}} {{editors[0].field.value}}</button></td></tr></table></div>'
+           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink">[^]</a><table v-if="JSON.stringify(value) != \\'{}\\' || !shrink" class="table"><tr v-for="(v, k) in value"><td>{{k}}</td><td>{{v}}</td><td><button v-on:click.prevent.stop="removeRecord(value, k)" class="button">Remove {{k}}</button></td></tr><tr><td v-for="editor in editors"><mip-thing :data="editor.field" :id="editor.id"></mip-thing></td><td><button v-on:click.prevent.stop="addRecord(editors, value)" v-show="editors[0].field.value" class="button">{{actionText(editors[0].field.value, value)}} {{editors[0].field.value}}</button></td></tr></table></div>'
        },
        button: {
-           props: ['click', 'description', 'name'],
-           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())" class="button">{{name || id}}</button>'
+           data: function() {
+               return {
+                   buttonStyles: function(x) {
+                        var colors = {};
+                        if (x.color && x.color != '')
+                            colors[x.color] = true;
+                        return colors;
+                   }
+               };
+           },
+           props: ['click', 'description', 'name', 'color'],
+           template: '<button v-on:click.prevent.stop="click(pull(this), thisComponent())" class="button" v-bind:class="buttonStyles(this)">{{name || id}}</button>'
        }
    };
 
@@ -200,8 +255,9 @@ module Mushy
    {
        var props = JSON.parse(JSON.stringify(components[property].props));
        props.push('id');
+       const theData = components[property].data ?? function() { return {}; };
        Vue.component('mip-' + property, {
-            data: components[property].data ?? function () {
+            data: function () {
                       var foundIt = this.$parent;
                       var counter = 0;
                       while (foundIt.$parent.constructor.name == "VueComponent" && counter < 10)
@@ -209,18 +265,22 @@ module Mushy
                         foundIt = foundIt.$parent;
                         counter += 1;
                       }
-                      return {
+                      var dataToReturn = {
                           console: console,
                           pull: function(x) { return thingToData(foundIt.data); },
                           thisComponent: function() { return foundIt.data; },
-                      }
+                      };
+                      var data = theData();
+                      for(var p in data)
+                          dataToReturn[p] = data[p];
+                      return dataToReturn;
                   },
             props: props,
             template: components[property].template
        });
    }
 
-   var thingTemplate = '<div>';
+   var thingTemplate = '<div v-bind:class="{ \\\'ml-3\\\': data.foghat==\\\'free\\\', \\\'column\\\': data.foghat!=\\\'free\\\', \\\'is-full\\\': data.foghat!=\\\'half\\\' && data.foghat!=\\\'free\\\', \\\'is-half\\\': data.foghat==\\\'half\\\' }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
@@ -231,7 +291,7 @@ module Mushy
                       console: console,
                   }
         },
-        props: ['data', 'value', 'id', 'model'],
+        props: ['data', 'value', 'id', 'model', 'foghat'],
         template: thingTemplate
     });
 
@@ -242,7 +302,27 @@ module Mushy
                   }
         },
         props: ['data'],
-        template: '<div><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
+        template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id"></mip-thing></div>',
+    });
+
+   Vue.component('mip-mediumgreen', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['data', 'medium'],
+        template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id" v-if="d.medium == medium"></mip-thing></div>',
+    });
+
+   Vue.component('mip-mediumred', {
+        data: function () {
+                  return {
+                      console: console,
+                  }
+        },
+        props: ['data', 'medium'],
+        template: '<div class="columns is-multiline"><mip-thing v-for="(d, id) in data" :data="d" :id="id" v-if="d.medium != medium"></mip-thing></div>',
     });
 
     var app = null;
@@ -306,6 +386,10 @@ module Mushy
 
              var setup = {
                    showFlux: false,
+                   testResultModal: {
+                       "modal": true,
+                       "is-active": false,
+                   },
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
@@ -314,18 +398,18 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save Changes', click: function(config) {
+                 configs[key].save = { type: 'button', name: 'Save Changes', foghat: 'free', color: 'is-primary', click: function(config) {
                          saveTheFlux({ app: app, config: config });
                          saveTheFlow({ setup: app.setup, flow: app.flow });
                          app.setup.showFlux = false;
                      }
                  };
-                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', click: function() {
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', foghat: 'free', color: 'is-warning', click: function() {
                          app.setup.showFlux = false;
                      }
                  };
 
-                 configs[key].test_event = { type: 'json', value: '{}', default: '{}' };
+                 configs[key].test_event = { type: 'json', value: '{}', default: '{}', medium: 'hey' };
 
                  configs[key].run_test = { type: 'button', name: 'Test Run This Flux', click: function(c, hey) {
                                       var previousName = hey.run_test.name;
@@ -336,6 +420,7 @@ module Mushy
                                       the_setup.event = c.test_event;
                                       axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
+                                           app.setup.testResultModal["is-active"] = true;
                                            var index = 1;
                                            for (var key in r.data.result)
                                            {
