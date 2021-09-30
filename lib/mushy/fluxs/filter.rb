@@ -60,7 +60,7 @@ module Mushy
 
     def contains a, b
       return false unless b
-      b.to_s.include? a
+      b.to_s.downcase.include? a.downcase
     end
 
     def numeric? value

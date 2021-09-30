@@ -196,6 +196,21 @@ describe Mushy::Filter do
 
       end
 
+      it "should return the value if the string is contained with case insensitivity" do
+
+        key, value = SecureRandom.uuid, "ABCDEFG"
+
+        flux.config[:contains][key] = value
+
+        value_containing_our_target = "#{SecureRandom.uuid}#{value.downcase}#{SecureRandom.uuid}"
+        event[key] = value_containing_our_target
+
+        result = flux.execute event
+
+        result[key].must_equal value_containing_our_target
+
+      end
+
     end
 
   end
