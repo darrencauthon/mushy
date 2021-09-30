@@ -44,6 +44,11 @@ get '/' do
   Mushy::Builder::Index.file
 end
 
+get '/bulma.css' do
+  content_type :css
+  Mushy::Builder::Bulma.file
+end
+
 get '/dark.css' do
   content_type :css
   Mushy::Builder::Dark.file
