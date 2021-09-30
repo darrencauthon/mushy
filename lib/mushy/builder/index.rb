@@ -74,7 +74,7 @@ module Mushy
                                     <mip-heavy v-for="data in results" :data="data"></mip-heavy>
                                 </section>
                                 <footer class="modal-card-foot">
-                                    <button class="button is-success">GO</button>
+                                    <button class="button is-primary" v-on:click.prevent.stop="setup.testResultModal['is-active'] = false">Done</button>
                                 </footer>
                             </div>
                         </div>
