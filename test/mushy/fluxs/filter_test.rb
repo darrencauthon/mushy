@@ -168,6 +168,20 @@ describe Mushy::Filter do
 
       end
 
+      it "should NOT return the value if the value is nil" do
+
+        key, value = SecureRandom.uuid, SecureRandom.uuid
+
+        flux.config[:contains][key] = value
+
+        event[key] = nil
+
+        result = flux.execute event
+
+        result.count.must_equal 0
+
+      end
+
     end
 
   end

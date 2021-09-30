@@ -59,6 +59,7 @@ module Mushy
     end
 
     def contains a, b
+      return false unless b
       b.include? a
     end
 
