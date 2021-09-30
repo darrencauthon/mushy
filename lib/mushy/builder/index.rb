@@ -401,7 +401,7 @@ module Mushy
              {
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}', medium: 'hey' };
 
-                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', medium: 'hey', color: 'is-primary', click: function(c, hey) {
+                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', medium: 'hey', color: 'is-link', click: function(c, hey) {
                                       var previousName = hey.run_test.name;
                                       Vue.set(hey.run_test, 'name', 'Loading');
                                       app.results = [];
