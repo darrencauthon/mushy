@@ -56,10 +56,10 @@ module Mushy
                 <div class="columns">
                     <div class="column is-half">
                         <mip-heavy :data="setup"></mip-heavy>
-                        <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
+                        <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-mediumred>
                     </div>
                     <div class="column is-half">
-                        <mip-mediumgreen v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
+                        <mip-mediumgreen v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-mediumgreen>
 
                         <div v-bind:class="setup.testResultModal">
                             <div class="modal-background"></div>
