@@ -101,7 +101,7 @@ module Mushy
 
         fluxs = fluxs.sort_by { |x| x['parents'].count }
 
-        new_fluxs = fluxs
+        new_fluxs = [fluxs.first]
 
         new_fluxs
       end
