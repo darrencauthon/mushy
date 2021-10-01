@@ -49,7 +49,7 @@ module Mushy
     def equal a, b
       [a, b]
         .map { |x| numeric?(x) ? x.to_f : x }
-        .map { |x| x.to_s.strip.downcase }
+        .map { |x| nice_string x }
         .group_by { |x| x }
         .count == 1
     end
@@ -60,11 +60,15 @@ module Mushy
 
     def contains a, b
       return false unless b
-      b.to_s.downcase.include? a.downcase
+      nice_string(b).include? a.downcase
     end
 
     def numeric? value
       Float(value) != nil rescue false
+    end
+
+    def nice_string value
+      value.to_s.strip.downcase
     end
 
   end
