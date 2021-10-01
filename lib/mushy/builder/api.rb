@@ -81,23 +81,24 @@ module Mushy
         file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         data = JSON.parse File.open(file).read
 
-        fluxs = data['fluxs']
-
-        data['fluxs']
-          .reject { |x| x['parents'] }
-          .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
-        data['fluxs']
-          .select { |x| x['parent'] }
-          .each   { |x| x.delete 'parent' }
-        data['fluxs']
-          .select { |x| x['parents'] }
-          .each   { |x| x['parents'] = x['parents'].select { |y| y } }
-
-        data['fluxs'] = fluxs
+        data['fluxs'] = organize_these data['fluxs']
 
         data
       rescue
         { fluxs: [] }
+      end
+
+      def self.organize_these fluxs
+        fluxs
+          .reject { |x| x['parents'] }
+          .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
+        fluxs
+          .select { |x| x['parent'] }
+          .each   { |x| x.delete 'parent' }
+        fluxs
+          .select { |x| x['parents'] }
+          .each   { |x| x['parents'] = x['parents'].select { |y| y } }
+        fluxs
       end
 
       def self.get_fluxs
