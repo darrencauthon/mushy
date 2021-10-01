@@ -81,14 +81,15 @@ module Mushy
         file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         data = JSON.parse File.open(file).read
 
-        data['fluxs'] = organize_these data['fluxs']
+        data['fluxs'] = standardize_these data['fluxs']
+        data['fluxs'] = organize_as_a_flattened_tree_based_on_parents data['fluxs']
 
         data
       rescue
         { fluxs: [] }
       end
 
-      def self.organize_these fluxs
+      def self.standardize_these fluxs
         fluxs
           .reject { |x| x['parents'] }
           .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
@@ -99,6 +100,10 @@ module Mushy
           .select { |x| x['parents'] }
           .each   { |x| x['parents'] = x['parents'].select { |y| y } }
 
+        fluxs
+      end
+
+      def self.organize_as_a_flattened_tree_based_on_parents fluxs
         fluxs = fluxs.sort_by { |x| x['parents'].count }
 
         new_fluxs = [fluxs.first]
