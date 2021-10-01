@@ -80,6 +80,9 @@ module Mushy
         puts "trying to get: #{file}"
         file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         data = JSON.parse File.open(file).read
+
+        fluxs = data['fluxs']
+
         data['fluxs']
           .reject { |x| x['parents'] }
           .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
@@ -89,6 +92,9 @@ module Mushy
         data['fluxs']
           .select { |x| x['parents'] }
           .each   { |x| x['parents'] = x['parents'].select { |y| y } }
+
+        data['fluxs'] = fluxs
+
         data
       rescue
         { fluxs: [] }
