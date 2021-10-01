@@ -99,7 +99,9 @@ module Mushy
           .select { |x| x['parents'] }
           .each   { |x| x['parents'] = x['parents'].select { |y| y } }
 
-        new_fluxs = fluxs.sort_by { |x| x['parents'].count }
+        fluxs = fluxs.sort_by { |x| x['parents'].count }
+
+        new_fluxs = fluxs
 
         new_fluxs
       end
