@@ -103,6 +103,20 @@ module Mushy
 
         new_fluxs = [fluxs.first]
 
+        loop do
+
+          next_fluxs = fluxs.select { |x| x['parents'].include? new_fluxs[-1]['id'] }
+
+          unless next_fluxs.any?
+            next_fluxs = [fluxs.reject { |x| new_fluxs.map { |y| y['id'] }.include?(x['id']) }[0]].select { |x| x }
+          end
+
+          new_fluxs = [new_fluxs, next_fluxs].flatten
+
+          break unless next_fluxs.any?
+
+        end
+
         new_fluxs
       end
 
