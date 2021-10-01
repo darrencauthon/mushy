@@ -56,25 +56,26 @@ module Mushy
                 <div class="columns">
                     <div class="column is-half">
                         <mip-heavy :data="setup"></mip-heavy>
-                        <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
+                        <mip-mediumred v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-mediumred>
                     </div>
                     <div class="column is-half">
-                        <mip-mediumgreen v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-medium>
+                        <mip-mediumgreen v-for="(data, id) in configs" v-show="setup.flux.value === id" :data="data" medium="hey"></mip-mediumgreen>
 
                         <div v-bind:class="setup.testResultModal">
                             <div class="modal-background"></div>
                             <div class="modal-card">
                                 <header class="modal-card-head">
-                                    <p class="modal-card-title">Modal title</p>
+                                    <p class="modal-card-title">Test Results</p>
+                                    <div v-if="results.errorMessage"></div>
+                                    <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
                                     <button class="delete" aria-label="close" v-on:click.prevent.stop="setup.testResultModal['is-active'] = false"></button>
                                 </header>
                                 <section class="modal-card-body">
                                     <div v-if="results.errorMessage">{{results.errorMessage}}</div>
-                                    <div v-else>{{results.length}} result{{results.length == 1 ? "" : "s"}}</div>
                                     <mip-heavy v-for="data in results" :data="data"></mip-heavy>
                                 </section>
                                 <footer class="modal-card-foot">
-                                    <button class="button is-success">GO</button>
+                                    <button class="button is-primary" v-on:click.prevent.stop="setup.testResultModal['is-active'] = false">Done</button>
                                 </footer>
                             </div>
                         </div>
@@ -398,20 +399,9 @@ module Mushy
 
              for (var key in configs)
              {
-                 configs[key].save = { type: 'button', name: 'Save Changes', foghat: 'free', color: 'is-primary', click: function(config) {
-                         saveTheFlux({ app: app, config: config });
-                         saveTheFlow({ setup: app.setup, flow: app.flow });
-                         app.setup.showFlux = false;
-                     }
-                 };
-                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', foghat: 'free', color: 'is-warning', click: function() {
-                         app.setup.showFlux = false;
-                     }
-                 };
-
                  configs[key].test_event = { type: 'json', value: '{}', default: '{}', medium: 'hey' };
 
-                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', click: function(c, hey) {
+                 configs[key].run_test = { type: 'button', name: 'Test Run This Flux', medium: 'hey', color: 'is-link', click: function(c, hey) {
                                       var previousName = hey.run_test.name;
                                       Vue.set(hey.run_test, 'name', 'Loading');
                                       app.results = [];
@@ -420,7 +410,7 @@ module Mushy
                                       the_setup.event = c.test_event;
                                       axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
-                                           app.setup.testResultModal["is-active"] = true;
+                                           Vue.set(app.setup.testResultModal, 'is-active', true);
                                            var index = 1;
                                            for (var key in r.data.result)
                                            {
@@ -436,6 +426,18 @@ module Mushy
                                            Vue.set(hey.run_test, 'name', previousName);
                                         });
                                      } };
+
+                 configs[key].save = { type: 'button', name: 'Save Changes', foghat: 'free', medium: 'hey', color: 'is-primary', click: function(config) {
+                         saveTheFlux({ app: app, config: config });
+                         saveTheFlow({ setup: app.setup, flow: app.flow });
+                         app.setup.showFlux = false;
+                     }
+                 };
+                 configs[key].cancel = { type: 'button', name: 'Ignore Changes', foghat: 'free', medium: 'hey', color: 'is-warning', click: function() {
+                         app.setup.showFlux = false;
+                     }
+                 };
+
              }
 
              var loadThisFlux = function(args)

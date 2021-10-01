@@ -21,13 +21,27 @@ module Mushy
                  type:        'keyvalue',
                  value:       {},
                },
+          contains: {
+                 description: 'Provide key/value pairs that must be contained.',
+                 shrink:      true,
+                 label:       'Contains',
+                 type:        'keyvalue',
+                 value:       {},
+               },
+          notcontains: {
+                 description: 'Provide key/value pairs that must NOT be contained.',
+                 shrink:      true,
+                 label:       'Not Contains',
+                 type:        'keyvalue',
+                 value:       {},
+               },
         },
       }
     end
 
     def process event, config
 
-      differences = [:equal, :notequal]
+      differences = [:equal, :notequal, :contains, :notcontains]
         .select { |x| config[x].is_a? Hash }
         .map { |x| config[x].map { |k, v| { m: x, k: k, v1: v } } }
         .flatten
@@ -42,7 +56,7 @@ module Mushy
     def equal a, b
       [a, b]
         .map { |x| numeric?(x) ? x.to_f : x }
-        .map { |x| x.to_s.strip.downcase }
+        .map { |x| nice_string x }
         .group_by { |x| x }
         .count == 1
     end
@@ -51,8 +65,21 @@ module Mushy
       equal(a, b) == false
     end
 
+    def contains a, b
+      return false unless b
+      nice_string(b).include? a.downcase
+    end
+
+    def notcontains a, b
+      contains(a, b) == false
+    end
+
     def numeric? value
       Float(value) != nil rescue false
+    end
+
+    def nice_string value
+      value.to_s.strip.downcase
     end
 
   end
