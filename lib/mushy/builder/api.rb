@@ -80,18 +80,49 @@ module Mushy
         puts "trying to get: #{file}"
         file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         data = JSON.parse File.open(file).read
-        data['fluxs']
-          .reject { |x| x['parents'] }
-          .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
-        data['fluxs']
-          .select { |x| x['parent'] }
-          .each   { |x| x.delete 'parent' }
-        data['fluxs']
-          .select { |x| x['parents'] }
-          .each   { |x| x['parents'] = x['parents'].select { |y| y } }
+
+        data['fluxs'] = standardize_these data['fluxs']
+        data['fluxs'] = organize_as_a_flattened_tree_based_on_parents data['fluxs']
+
         data
       rescue
         { fluxs: [] }
+      end
+
+      def self.standardize_these fluxs
+        fluxs
+          .reject { |x| x['parents'] }
+          .each   { |x| x['parents'] = [x['parent']].select { |y| y } }
+        fluxs
+          .select { |x| x['parent'] }
+          .each   { |x| x.delete 'parent' }
+        fluxs
+          .select { |x| x['parents'] }
+          .each   { |x| x['parents'] = x['parents'].select { |y| y } }
+
+        fluxs
+      end
+
+      def self.organize_as_a_flattened_tree_based_on_parents fluxs
+        fluxs = fluxs.sort_by { |x| x['parents'].count }
+
+        new_fluxs = [fluxs.first]
+
+        loop do
+
+          next_fluxs = fluxs.select { |x| x['parents'].include? new_fluxs[-1]['id'] }
+
+          unless next_fluxs.any?
+            next_fluxs = [fluxs.reject { |x| new_fluxs.map { |y| y['id'] }.include?(x['id']) }[0]].select { |x| x }
+          end
+
+          new_fluxs = [new_fluxs, next_fluxs].flatten
+
+          break unless next_fluxs.any?
+
+        end
+
+        new_fluxs
       end
 
       def self.get_fluxs
