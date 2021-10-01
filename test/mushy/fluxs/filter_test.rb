@@ -38,6 +38,7 @@ describe Mushy::Filter do
       flux.config[:equal] = {}
       flux.config[:notequal] = {}
       flux.config[:contains] = {}
+      flux.config[:notcontains] = {}
     end
 
     describe "equal" do
@@ -208,6 +209,40 @@ describe Mushy::Filter do
         result = flux.execute event
 
         result[key].must_equal value_containing_our_target
+
+      end
+
+    end
+
+    describe "not contains" do
+
+      it "should NOT return the value if the string is contained" do
+
+        key, value = SecureRandom.uuid, SecureRandom.uuid
+
+        flux.config[:notcontains][key] = value
+
+        value_containing_our_target = "#{SecureRandom.uuid}#{value}#{SecureRandom.uuid}"
+        event[key] = value_containing_our_target
+
+        result = flux.execute event
+
+        result.count.must_equal 0
+
+      end
+
+      it "should return the value if the string is NOT contained" do
+
+        key, value = SecureRandom.uuid, SecureRandom.uuid
+
+        flux.config[:notcontains][key] = value
+
+        value_not_containing_our_target = SecureRandom.uuid
+        event[key] = value_not_containing_our_target
+
+        result = flux.execute event
+
+        result[key].must_equal value_not_containing_our_target
 
       end
 

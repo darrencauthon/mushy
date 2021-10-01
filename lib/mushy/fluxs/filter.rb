@@ -28,13 +28,20 @@ module Mushy
                  type:        'keyvalue',
                  value:       {},
                },
+          notcontains: {
+                 description: 'Provide key/value pairs that must NOT be contained.',
+                 shrink:      true,
+                 label:       'Not Contains',
+                 type:        'keyvalue',
+                 value:       {},
+               },
         },
       }
     end
 
     def process event, config
 
-      differences = [:equal, :notequal, :contains]
+      differences = [:equal, :notequal, :contains, :notcontains]
         .select { |x| config[x].is_a? Hash }
         .map { |x| config[x].map { |k, v| { m: x, k: k, v1: v } } }
         .flatten
@@ -61,6 +68,10 @@ module Mushy
     def contains a, b
       return false unless b
       nice_string(b).include? a.downcase
+    end
+
+    def notcontains a, b
+      contains(a, b) == false
     end
 
     def numeric? value
