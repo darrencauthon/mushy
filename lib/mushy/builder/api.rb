@@ -98,7 +98,10 @@ module Mushy
         fluxs
           .select { |x| x['parents'] }
           .each   { |x| x['parents'] = x['parents'].select { |y| y } }
-        fluxs
+
+        new_fluxs = fluxs
+
+        new_fluxs
       end
 
       def self.get_fluxs
