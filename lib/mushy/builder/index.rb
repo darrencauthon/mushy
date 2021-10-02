@@ -418,7 +418,7 @@ module Mushy
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
                    open_flux: { type: 'button', name: 'Select a Flux', foghat: 'free', medium: 'hey', color: 'is-primary',
                                 click: function() {
-                                           console.log('hit');
+                                           Vue.set(app.setup.fluxTypeSelect, 'is-active', true);
                                        }
                    },
                    parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
