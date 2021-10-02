@@ -53,7 +53,21 @@ module Mushy
                 </div>
             </div>
 
-            <div v-for="(fluxType, id) in fluxTypes" medium="hey">{{fluxType.name}}</div>
+            <div v-bind:class="setup.fluxTypeSelect">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Flux Types</p>
+                        <button class="delete" aria-label="close" v-on:click.prevent.stop="setup.fluxTypeSelect['is-active'] = false"></button>
+                    </header>
+                    <section class="modal-card-body">
+                        <div v-for="(fluxType, id) in fluxTypes">{{fluxType.name}}</div>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button is-primary" v-on:click.prevent.stop="setup.fluxTypeSelect['is-active'] = false">Done</button>
+                    </footer>
+                </div>
+            </div>
 
             <div class="column" v-if="setup.showFlux">
                 <div class="columns">
@@ -395,9 +409,18 @@ module Mushy
                        "modal": true,
                        "is-active": false,
                    },
+                   fluxTypeSelect: {
+                       "modal": true,
+                       "is-active": false,
+                   },
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
+                   open_flux: { type: 'button', name: 'Select a Flux', foghat: 'free', medium: 'hey', color: 'is-primary',
+                                click: function() {
+                                           console.log('hit');
+                                       }
+                   },
                    parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
