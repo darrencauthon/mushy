@@ -52,6 +52,9 @@ module Mushy
                     <button v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
                 </div>
             </div>
+
+            <div v-for="(fluxType, id) in fluxTypes" medium="hey">{{fluxType.name}}</div>
+
             <div class="column" v-if="setup.showFlux">
                 <div class="columns">
                     <div class="column is-half">
@@ -343,6 +346,7 @@ module Mushy
              });
 
              var options = [''];
+             fluxTypesWithDetails = fluxdata.fluxs;
              fluxTypes = fluxdata.fluxs.map(function(x){ return x.name });
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
@@ -507,6 +511,7 @@ module Mushy
                             });
                      },
                      configs: configs,
+                     fluxTypes: fluxTypesWithDetails,
                      setup: setup,
                      flux_name_for: function(ids, fluxes) {
                          var fluxs = fluxes.filter(function(x){ return ids.includes(x.id) });
