@@ -61,10 +61,13 @@ module Mushy
                         <button class="delete" aria-label="close" v-on:click.prevent.stop="setup.fluxTypeSelect['is-active'] = false"></button>
                     </header>
                     <section class="modal-card-body">
-                        <div v-for="(fluxType, id) in fluxTypes">
-                          <a href="#" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
-                            {{fluxType.name}}
-                          <a>
+                        <div class="content">
+                            <div v-for="(fluxType, id) in fluxTypes">
+                                <h2>{{fluxType.name}}</h2>
+                                <button class="button is-primary" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
+                                  Select {{fluxType.name}}
+                                </button>
+                            </div>
                         </div>
                     </section>
                     <footer class="modal-card-foot">
