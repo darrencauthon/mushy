@@ -19,7 +19,7 @@ module Mushy
                         value:       '',
                       },
                 }
-        }
+      }
 
         documentation = {
           "Basic Usage" => "
