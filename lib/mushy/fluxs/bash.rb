@@ -26,10 +26,10 @@ module Mushy
         description: 'Run a bash command.',
         config: config,
         documentation: {
-          "Basic Usage" => '
+          "Basic Usage" => "
 The Bash flux will run a bash command and return the results.
 
-' + table_content + '
+" + table_content + '
 
 <pre><code>
 {
