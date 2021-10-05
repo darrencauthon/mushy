@@ -9,9 +9,6 @@ module Mushy
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/bulma.css">
-        <link rel="stylesheet"
-              href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
         <script src="/vue.js"></script>
         <script src="/axios.js"></script>
     </head>
@@ -548,7 +545,6 @@ module Mushy
                              config: {}
                          };
                          loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
-                         hljs.highlightAll();
                      },
                      editFlux: function(x) {
                          var flux = x.flux;
