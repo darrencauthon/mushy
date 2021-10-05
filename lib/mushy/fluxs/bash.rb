@@ -3,27 +3,35 @@ module Mushy
   class Bash < Flux
 
     def self.details
+      config = {
+        command: {
+                    description: 'The command to run in bash.',
+                    type:        'text',
+                    value:       '{{command}}',
+                  },
+        directory: {
+                      description: 'The working directory in which the command will be run.',
+                      type:        'text',
+                      shrink:      true,
+                      value:       '',
+                    },
+      }
+      table_content = "<table>" + config.reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
+
+      config.each do |k, v|
+      end
+
       {
         name: 'Bash',
         description: 'Run a bash command.',
-        config: {
-          command: {
-                     description: 'The command to run in bash.',
-                     type:        'text',
-                     value:       '{{command}}',
-                   },
-          directory: {
-                       description: 'The working directory in which the command will be run.',
-                       type:        'text',
-                       shrink:      true,
-                       value:       '',
-                     },
-        },
+        config: config,
         documentation: {
-          basic_usage: '
+          "Basic Usage" => '
 The Bash flux will run a bash command and return the results.
 
-<pre><code class="language-json">
+' + table_content + '
+
+<pre><code>
 {
   "text": "bin\nblue_heart.png\nthe_output.txt\n",
   "success": true,
