@@ -67,15 +67,17 @@ module Mushy
                         <div class="content">
                             <div v-for="(fluxType, id) in fluxTypes">
                                 <h2>{{fluxType.name}}</h2>
-                                <div class="tabs">
-                                    <ul>
-                                        <li v-for="(a, b) in fluxType.documentation">{{b}}</li>
-                                    </ul>
-                                </div>
-                                <div v-for="(a, b) in fluxType.documentation" v-html="a"></div>
                                 <button class="button is-primary" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
                                   Select {{fluxType.name}}
                                 </button>
+                                <div>
+                                  <div class="tabs">
+                                    <ul>
+                                        <li v-for="(a, b) in fluxType.documentation">{{b}}</li>
+                                    </ul>
+                                  </div>
+                                  <div v-for="(a, b) in fluxType.documentation" v-html="a"></div>
+                                </div>
                             </div>
                         </div>
                     </section>
