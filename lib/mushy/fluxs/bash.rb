@@ -20,7 +20,7 @@ module Mushy
                      },
         },
         examples: {
-          "Sample Call" => {
+          "Successful Call" => {
                              description: 'This will run the ls command and return the full bash result.',
                              input: {
                                       command: "ls",
@@ -29,6 +29,15 @@ module Mushy
                                        "text": "bin\nblue_heart.png\nthe_output.txt\n",
                                        "success": true,
                                        "exit_code": 0
+                                     }
+                           },
+          "Failed Call" => {
+                             description: 'This is an example of what happens when the command fails.',
+                             input: { command: 'rm file_that_does_not_exist.txt' },
+                             result: {
+                                       "text": "",
+                                       "success": false,
+                                       "exit_code": 256
                                      }
                            },
           }
