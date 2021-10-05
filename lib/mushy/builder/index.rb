@@ -70,9 +70,13 @@ module Mushy
                                 <button class="button is-primary" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
                                   Select {{fluxType.name}}
                                 </button>
-                                <button class="button" v-on:click.prevent.stop="fluxType.showDetails = true">
-                                  Show {{fluxType.name}}
+                                <button class="button" v-on:click.prevent.stop="fluxType.showDetails = true" v-if="fluxType['showDetails'] == false">
+                                  Open {{fluxType.name}}
                                 </button>
+                                <button class="button" v-on:click.prevent.stop="fluxType.showDetails = false" v-if="fluxType['showDetails']">
+                                  Close {{fluxType.name}}
+                                </button>
+
                                 <div v-if="fluxType['showDetails']">
                                   <div class="tabs">
                                     <ul>
