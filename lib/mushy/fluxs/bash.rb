@@ -4,28 +4,26 @@ module Mushy
 
     def self.details
       config = {
-        command: {
-                    description: 'The command to run in bash.',
-                    type:        'text',
-                    value:       '{{command}}',
-                  },
-        directory: {
-                      description: 'The working directory in which the command will be run.',
-                      type:        'text',
-                      shrink:      true,
-                      value:       '',
-                    },
-      }
-      table_content = '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config.reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
-
-      config.each do |k, v|
-      end
-
-      {
         name: 'Bash',
         description: 'Run a bash command.',
-        config: config,
-        documentation: {
+        config: {
+          command: {
+                      description: 'The command to run in bash.',
+                      type:        'text',
+                      value:       '{{command}}',
+                    },
+          directory: {
+                        description: 'The working directory in which the command will be run.',
+                        type:        'text',
+                        shrink:      true,
+                        value:       '',
+                      },
+                }
+        }
+
+        table_content = '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
+
+        documentation = {
           "Basic Usage" => "
 The Bash flux will run a bash command and return the results.
 
@@ -39,8 +37,10 @@ The Bash flux will run a bash command and return the results.
 }
 </code></pre>
           ',
-                       }
-      }
+                        }
+
+        config[:documentation] = documentation
+        config
     end
 
     def process event, config
