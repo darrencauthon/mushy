@@ -70,7 +70,10 @@ module Mushy
                                 <button class="button is-primary" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
                                   Select {{fluxType.name}}
                                 </button>
-                                <div>
+                                <button class="button" v-on:click.prevent.stop="fluxType.showDetails = true">
+                                  Examine {{fluxType.name}}
+                                </button>
+                                <div v-if="fluxType['showDetails'] == true">
                                   <div class="tabs">
                                     <ul>
                                         <li v-for="(a, b) in fluxType.documentation">{{b}}</li>
@@ -371,6 +374,8 @@ module Mushy
 
              fluxdata = fluxdata.data;
              flowdata = flowdata.data;
+
+             fluxdata.fluxs.map(function(x) { x['showDetails'] = false; } );
 
              var configs = {};
              fluxdata.fluxs.map(function(x){
