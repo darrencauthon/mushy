@@ -9,6 +9,9 @@ module Mushy
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/bulma.css">
+        <link rel="stylesheet"
+              href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
         <script src="/vue.js"></script>
         <script src="/axios.js"></script>
     </head>
@@ -64,6 +67,12 @@ module Mushy
                         <div class="content">
                             <div v-for="(fluxType, id) in fluxTypes">
                                 <h2>{{fluxType.name}}</h2>
+                                <div class="tabs">
+                                    <ul>
+                                        <li v-for="(a, b) in fluxType.documentation">{{b}}</li>
+                                    </ul>
+                                </div>
+                                <div v-for="(a, b) in fluxType.documentation" v-html="a"></div>
                                 <button class="button is-primary" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
                                   Select {{fluxType.name}}
                                 </button>
@@ -521,6 +530,7 @@ module Mushy
                              config: {}
                          };
                          loadThisFlux({ flux: flux, setup: x.setup, configs: x.configs });
+                         hljs.highlightAll();
                      },
                      editFlux: function(x) {
                          var flux = x.flux;
