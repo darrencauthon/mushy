@@ -385,7 +385,7 @@ module Mushy
 
              fluxdata.fluxs.map(function(x) {
                  x['showDetails'] = false;
-                 x['detailsTab'] = 'Basic Usage';
+                 x['detailsTab'] = Object.getOwnPropertyNames(x.documentation)[0];
              } );
 
              var configs = {};
