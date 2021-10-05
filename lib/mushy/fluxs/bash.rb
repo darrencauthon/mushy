@@ -16,7 +16,7 @@ module Mushy
                       value:       '',
                     },
       }
-      table_content = "<table>" + config.reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
+      table_content = '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config.reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
 
       config.each do |k, v|
       end
