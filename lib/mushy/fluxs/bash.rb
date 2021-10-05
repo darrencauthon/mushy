@@ -3,7 +3,7 @@ module Mushy
   class Bash < Flux
 
     def self.details
-      config = {
+      {
         name: 'Bash',
         description: 'Run a bash command.',
         config: {
@@ -32,9 +32,7 @@ module Mushy
                                      }
                            },
           }
-      }
-      config[:documentation] = build_documentation_from config
-      config
+      }.tap { |c| c[:documentation] = build_documentation_from c }
     end
 
     def self.build_documentation_from config
