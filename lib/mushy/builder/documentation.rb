@@ -6,8 +6,8 @@ module Mushy
         basic_usage = "#{config[:description]}"
         if config[:config]&.any?
           rows = config[:config]
-                   .map { |x| [x[0], x[1][:description]] }
-                   .reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1]}</td></tr>" }
+                   .map { |x| [x[0], x[1][:description], (x[1][:shrink] ? '(optional) ' : '')] }
+                   .reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[2]}#{i[1]}</td></tr>" }
           basic_usage += '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + rows + "</table>"
         end
 
