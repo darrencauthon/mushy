@@ -32,24 +32,7 @@ module Mushy
                                      }
                            },
           }
-      }.tap { |c| c[:documentation] = build_documentation_from c }
-    end
-
-    def self.build_documentation_from config
-      documentation = {
-          "Basic Usage" => "
-#{config[:description]}
-
-" + '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
-                      }
-
-      if config[:examples]
-        config[:examples].each do |item|
-          documentation[item[0]] = "<pre><code>#{JSON.pretty_generate(item[1][:result])}</code></pre>"
-        end
-      end
-
-      documentation
+      }
     end
 
     def process event, config

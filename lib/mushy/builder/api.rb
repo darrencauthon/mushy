@@ -129,6 +129,9 @@ module Mushy
         {
           fluxs: Mushy::Flux.all.select { |x| x.respond_to? :details }.select { |x| x.details }.map do |flux|
                          details = flux.details
+
+                         details[:documentation] = build_documentation_from details
+
                          details[:config][:incoming_split] = { type: 'text', shrink: true, description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
                          details[:config][:outgoing_split] = { type: 'text', shrink: true, description: 'Split an outgoing event into multiple events by this key.', default: '' }
                          details[:config][:merge] = { type: 'text', shrink: true, description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.', default: '' }
@@ -170,6 +173,21 @@ module Mushy
                          details
                  end.sort_by { |x| x[:name] }
         }
+      end
+
+      def self.build_documentation_from config
+        {
+          "Basic Usage" => "
+#{config[:description]}
+
+" + '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
+        }.tap do |documentation|
+          if config[:examples]
+            config[:examples].each do |item|
+              documentation[item[0]] = "<pre><code>#{JSON.pretty_generate(item[1][:result])}</code></pre>"
+            end
+          end
+        end
       end
 
     end
