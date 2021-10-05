@@ -129,6 +129,9 @@ module Mushy
         {
           fluxs: Mushy::Flux.all.select { |x| x.respond_to? :details }.select { |x| x.details }.map do |flux|
                          details = flux.details
+
+                         details[:documentation] = Documentation.build_from details
+
                          details[:config][:incoming_split] = { type: 'text', shrink: true, description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
                          details[:config][:outgoing_split] = { type: 'text', shrink: true, description: 'Split an outgoing event into multiple events by this key.', default: '' }
                          details[:config][:merge] = { type: 'text', shrink: true, description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.', default: '' }

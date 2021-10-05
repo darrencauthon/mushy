@@ -52,6 +52,49 @@ module Mushy
                     <button v-on:click.prevent.stop="startNew({ setup: setup, configs: configs })" class="button is-link">Add a New Flux To This Flow</button>
                 </div>
             </div>
+
+            <div v-bind:class="setup.fluxTypeSelect">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Flux Types</p>
+                        <button class="delete" aria-label="close" v-on:click.prevent.stop="setup.fluxTypeSelect['is-active'] = false"></button>
+                    </header>
+                    <section class="modal-card-body">
+                        <div class="content">
+                            <div v-for="(fluxType, id) in fluxTypes">
+                                <div class="level">
+                                  <div class="level-left"><h2>{{fluxType.name}}</h2></div>
+                                  <div class="level-right">
+                                    <button class="button is-primary level-item" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
+                                      Select
+                                    </button>
+                                    <button class="button level-item" v-on:click.prevent.stop="fluxType.showDetails = true" v-if="fluxType['showDetails'] == false">
+                                      Open
+                                    </button>
+                                    <button class="button level-item" v-on:click.prevent.stop="fluxType.showDetails = false" v-if="fluxType['showDetails']">
+                                      Close
+                                    </button>
+                                  </div>
+                                </div>
+
+                                <div v-if="fluxType['showDetails']">
+                                  <div class="tabs">
+                                    <ul>
+                                        <li v-for="(a, b) in fluxType.documentation"><a v-on:click.prevent.stop="fluxType.detailsTab = b">{{b}}</a></li>
+                                    </ul>
+                                  </div>
+                                  <div v-for="(a, b) in fluxType.documentation" v-if="fluxType['detailsTab'] == b" v-html="a"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button is-primary" v-on:click.prevent.stop="setup.fluxTypeSelect['is-active'] = false">Done</button>
+                    </footer>
+                </div>
+            </div>
+
             <div class="column" v-if="setup.showFlux">
                 <div class="columns">
                     <div class="column is-half">
@@ -337,12 +380,18 @@ module Mushy
              fluxdata = fluxdata.data;
              flowdata = flowdata.data;
 
+             fluxdata.fluxs.map(function(x) {
+                 x['showDetails'] = false;
+                 x['detailsTab'] = Object.getOwnPropertyNames(x.documentation)[0];
+             } );
+
              var configs = {};
              fluxdata.fluxs.map(function(x){
                  configs[x.name] = x.config;
              });
 
              var options = [''];
+             fluxTypesWithDetails = fluxdata.fluxs;
              fluxTypes = fluxdata.fluxs.map(function(x){ return x.name });
              for(var type in fluxTypes)
                 options.push(fluxTypes[type]);
@@ -391,9 +440,18 @@ module Mushy
                        "modal": true,
                        "is-active": false,
                    },
+                   fluxTypeSelect: {
+                       "modal": true,
+                       "is-active": false,
+                   },
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
                    flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
+                   open_flux: { type: 'button', name: 'Select a Flux', foghat: 'free', medium: 'hey', color: 'is-primary',
+                                click: function() {
+                                           Vue.set(app.setup.fluxTypeSelect, 'is-active', true);
+                                       }
+                   },
                    parents: { type: 'selectmanyrecords', label: 'Receive Events From', value: '', options: flowdata.fluxs },
              };
 
@@ -507,6 +565,7 @@ module Mushy
                             });
                      },
                      configs: configs,
+                     fluxTypes: fluxTypesWithDetails,
                      setup: setup,
                      flux_name_for: function(ids, fluxes) {
                          var fluxs = fluxes.filter(function(x){ return ids.includes(x.id) });
