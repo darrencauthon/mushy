@@ -21,6 +21,7 @@ module Mushy
                 },
         examples: {
           "Sample Call" => {
+                             description: 'This will run the ls command and return the full bash result.',
                              input: {
                                       command: "ls",
                                     },
@@ -32,22 +33,25 @@ module Mushy
                            },
           }
       }
+      config[:documentation] = build_documentation_from config
+      config
+    end
 
+    def self.build_documentation_from config
       documentation = {
           "Basic Usage" => "
 #{config[:description]}
 
-" + '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>" + '
+" + '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
+                      }
 
-<pre><code>' + 
-config[:examples].reduce("") { |t, i| "#{t}#{JSON.pretty_generate(i[1][:result])}" } +
-'
-</code></pre>
-          ',
-                        }
+      if config[:examples]
+        config[:examples].each do |item|
+          documentation[item[0]] = "<pre><code>#{JSON.pretty_generate(item[1][:result])}</code></pre>"
+        end
+      end
 
-        config[:documentation] = documentation
-        config
+      documentation
     end
 
     def process event, config
