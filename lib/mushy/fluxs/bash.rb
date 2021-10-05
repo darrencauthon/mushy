@@ -21,13 +21,11 @@ module Mushy
                 }
         }
 
-        table_content = '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>"
-
         documentation = {
           "Basic Usage" => "
-The Bash flux will run a bash command and return the results.
+#{config[:description]}
 
-" + table_content + '
+" + '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>" + '
 
 <pre><code>
 {
