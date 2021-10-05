@@ -84,10 +84,10 @@ module Mushy
                                 <div v-if="fluxType['showDetails']">
                                   <div class="tabs">
                                     <ul>
-                                        <li v-for="(a, b) in fluxType.documentation">{{b}}</li>
+                                        <li v-for="(a, b) in fluxType.documentation"><a v-on:click.prevent.stop="fluxType.detailsTab = b">{{b}}</a></li>
                                     </ul>
                                   </div>
-                                  <div v-for="(a, b) in fluxType.documentation" v-html="a"></div>
+                                  <div v-for="(a, b) in fluxType.documentation" v-if="fluxType['detailsTab'] == b" v-html="a"></div>
                                 </div>
                             </div>
                         </div>
@@ -383,7 +383,10 @@ module Mushy
              fluxdata = fluxdata.data;
              flowdata = flowdata.data;
 
-             fluxdata.fluxs.map(function(x) { x['showDetails'] = false; } );
+             fluxdata.fluxs.map(function(x) {
+                 x['showDetails'] = false;
+                 x['detailsTab'] = 'Basic Usage';
+             } );
 
              var configs = {};
              fluxdata.fluxs.map(function(x){
