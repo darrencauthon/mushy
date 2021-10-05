@@ -18,21 +18,30 @@ module Mushy
                         shrink:      true,
                         value:       '',
                       },
-                }
+                },
+        examples: {
+          "Sample Call" => {
+                             input: {
+                                      command: "ls",
+                                    },
+                             result: {
+                                       "text": "bin\nblue_heart.png\nthe_output.txt\n",
+                                       "success": true,
+                                       "exit_code": 0
+                                     }
+                           },
+          }
       }
 
-        documentation = {
+      documentation = {
           "Basic Usage" => "
 #{config[:description]}
 
 " + '<table class="table is-bordered"><thead><tr><td>Field</td><td>Description</td></tr></thead>' + config[:config].reduce("") { |t, i| "#{t}<tr><td>#{i[0]}</td><td>#{i[1][:description]}</td></tr>" } + "</table>" + '
 
-<pre><code>
-{
-  "text": "bin\nblue_heart.png\nthe_output.txt\n",
-  "success": true,
-  "exit_code": 0
-}
+<pre><code>' + 
+config[:examples].reduce("") { |t, i| "#{t}#{JSON.pretty_generate(i[1][:result])}" } +
+'
 </code></pre>
           ',
                         }
