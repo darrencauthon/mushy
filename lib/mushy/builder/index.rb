@@ -66,16 +66,20 @@ module Mushy
                     <section class="modal-card-body">
                         <div class="content">
                             <div v-for="(fluxType, id) in fluxTypes">
-                                <h2>{{fluxType.name}}</h2>
-                                <button class="button is-primary" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
-                                  Select {{fluxType.name}}
-                                </button>
-                                <button class="button" v-on:click.prevent.stop="fluxType.showDetails = true" v-if="fluxType['showDetails'] == false">
-                                  Open {{fluxType.name}}
-                                </button>
-                                <button class="button" v-on:click.prevent.stop="fluxType.showDetails = false" v-if="fluxType['showDetails']">
-                                  Close {{fluxType.name}}
-                                </button>
+                                <div class="level">
+                                  <div class="level-left"><h2>{{fluxType.name}}</h2></div>
+                                  <div class="level-right">
+                                    <button class="button is-primary level-item" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
+                                      Select
+                                    </button>
+                                    <button class="button level-item" v-on:click.prevent.stop="fluxType.showDetails = true" v-if="fluxType['showDetails'] == false">
+                                      Open
+                                    </button>
+                                    <button class="button level-item" v-on:click.prevent.stop="fluxType.showDetails = false" v-if="fluxType['showDetails']">
+                                      Close
+                                    </button>
+                                  </div>
+                                </div>
 
                                 <div v-if="fluxType['showDetails']">
                                   <div class="tabs">
