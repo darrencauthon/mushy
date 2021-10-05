@@ -19,6 +19,19 @@ module Mushy
                        value:       '',
                      },
         },
+        documentation: {
+          basic_usage: '
+The Bash flux will run a bash command and return the results.
+
+<code class="language-json">
+{
+  "text": "bin\nblue_heart.png\nthe_output.txt\n",
+  "success": true,
+  "exit_code": 0
+}
+</code>
+          ',
+                       }
       }
     end
 
