@@ -8,17 +8,17 @@ module Mushy
         description: 'Run a bash command.',
         config: {
           command: {
-                      description: 'The command to run in bash.',
-                      type:        'text',
-                      value:       '{{command}}',
-                    },
+                     description: 'The command to run in bash.',
+                     type:        'text',
+                     value:       '{{command}}',
+                   },
           directory: {
-                        description: 'The working directory in which the command will be run.',
-                        type:        'text',
-                        shrink:      true,
-                        value:       '',
-                      },
-                },
+                       description: 'The working directory in which the command will be run.',
+                       type:        'text',
+                       shrink:      true,
+                       value:       '',
+                     },
+        },
         examples: {
           "Sample Call" => {
                              description: 'This will run the ls command and return the full bash result.',
