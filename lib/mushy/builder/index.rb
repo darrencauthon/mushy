@@ -71,9 +71,9 @@ module Mushy
                                   Select {{fluxType.name}}
                                 </button>
                                 <button class="button" v-on:click.prevent.stop="fluxType.showDetails = true">
-                                  Examine {{fluxType.name}}
+                                  Show {{fluxType.name}}
                                 </button>
-                                <div v-if="fluxType['showDetails'] == true">
+                                <div v-if="fluxType['showDetails']">
                                   <div class="tabs">
                                     <ul>
                                         <li v-for="(a, b) in fluxType.documentation">{{b}}</li>
