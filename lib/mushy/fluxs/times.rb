@@ -12,6 +12,13 @@ module Mushy
                    type:        'integer',
                    value:       '1',
                  },
+        },
+        examples: {
+          "Basic Example" => {
+                               input: {name: "Elephant"},
+                               config: {times: 2},
+                               result: [ { name: "Elephant", index: 0 }, { name: "Elephant", index: 1 } ],
+                              }
         }
       }
     end
