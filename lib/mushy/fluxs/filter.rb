@@ -36,6 +36,20 @@ module Mushy
                  value:       {},
                },
         },
+        examples: {
+          "Match On A Value" => {
+                                  description: 'The input is returned if it matches on a value.',
+                                  input: {
+                                           name: "John",
+                                         },
+                                  config: {
+                                    matches: { name: "John" }
+                                  },
+                                  result: {
+                                            name: "John",
+                                          }
+                                }
+          }
       }
     end
 
