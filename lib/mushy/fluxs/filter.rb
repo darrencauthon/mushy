@@ -48,7 +48,19 @@ module Mushy
                                   result: {
                                             name: "John",
                                           }
-                                }
+                                },
+          "Contains A Value" => {
+                                  description: 'The input is returned if it contains a value.',
+                                  input: {
+                                           name: "John",
+                                         },
+                                  config: {
+                                    contains: { name: "H" }
+                                  },
+                                  result: {
+                                            name: "John",
+                                          }
+                                },
           }
       }
     end
