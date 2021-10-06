@@ -89,6 +89,43 @@ module Mushy
                                     directory: "test"
                                   }
                                 ]
+                       },
+          "Run For a Specific File" => {
+                         description: 'This will run the ls command in the specified directory.',
+                         config: {
+                           path: 'mushy.gemspec'
+                         },
+                         result: {
+                                   inode: "416921",
+                                   hard_links: 1,
+                                   owner: "pi",
+                                   group: "pi",
+                                   size: 1270,
+                                   date: {
+                                     year: 2021,
+                                     month: 10,
+                                     day: 1,
+                                     hour: 10,
+                                     minute: 43,
+                                     second: 35,
+                                     nanosecond: 664409766,
+                                     utc_offset: -18000,
+                                     weekday: 5,
+                                     day_of_month: 1,
+                                     day_of_year: 274,
+                                     string: "2021-10-01 10:43:35 -0500",
+                                     epoch_integer: 1633103015,
+                                     epoch_float: 1633103015.6644099,
+                                     seconds_ago: 454725.436212074
+                                   },
+                                   name: "mushy.gemspec",
+                                   type: "-",
+                                   owner_permission: "rw-",
+                                   group_permission: "r--",
+                                   other_permission: "r--",
+                                   directory: "/home/pi/Desktop/mushy",
+                                   path: "/home/pi/Desktop/mushy/mushy.gemspec"
+                                  }
                        }
                        }
       end
