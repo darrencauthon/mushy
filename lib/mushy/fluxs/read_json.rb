@@ -7,6 +7,7 @@ module Mushy
     def self.details
       {
         name: 'ReadJson',
+        title: 'Deserialize JSON',
         description: 'Read JSON and output it as an event.',
         config: {
           key: {
