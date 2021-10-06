@@ -129,6 +129,8 @@ module Mushy
         name_segments = result[:name].split "\/"
         result[:name] = name_segments.pop
         result[:directory] = name_segments.join "\/"
+      elsif result[:type] == 'd'
+        result[:directory] = result[:name]
       else
         result[:path] = File.join result[:directory], result[:name]
       end
