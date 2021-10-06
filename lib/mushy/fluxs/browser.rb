@@ -75,6 +75,37 @@ module Mushy
                                  value:       '',
                                },
         },
+        examples: {
+          "Successful Call" => {
+                                 description: 'This will open https://www.google.com and return the result.',
+                                 input: {
+                                          url: "https://www.google.com",
+                                        },
+                                 result: {
+                                   "url": "https://www.google.com/",
+                                   "status": 200,
+                                   "title": "Google",
+                                   "cookies": [
+                                                {
+                                                  "name": "1P_JAR",
+                                                  "value": "2021-10-06-12",
+                                                  "domain": ".google.com",
+                                                  "path": "/",
+                                                  "expires": 1636117150.583117,
+                                                  "size": 19,
+                                                  "httpOnly": false,
+                                                  "secure": true,
+                                                  "session": false,
+                                                  "sameSite": "None",
+                                                  "priority": "Medium"
+                                                },
+                                              ],
+                                    "headers": {},
+                                    "time": 1.486214604,
+                                    "body": "<html itemscope=\"\" itemtype=\"http://schema.org/WebPage\" lang=\"en\">...</html>"
+                                 }
+                               },
+        }
       }
     end
 
