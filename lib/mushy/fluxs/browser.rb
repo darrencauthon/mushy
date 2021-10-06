@@ -78,7 +78,7 @@ module Mushy
         examples: {
           "Successful Call" => {
                                  description: 'This will open https://www.google.com and return the result.',
-                                 input: {
+                                 config: {
                                           url: "https://www.google.com",
                                         },
                                  result: {
@@ -140,11 +140,9 @@ $('#login').click();"
                                          }
                                 },
           "Access a Page After Logging In" => {
-                                 description: 'This will open a page using cookies from the previous request. ',
+                                 description: 'This will open a page using cookies from the previous request. Note that the cookies came from another browser flux event.',
                                  input: {
                                           "url": "https://yoursitepleasethankyou/",
-                                          "status": 200,
-                                          "title": "",
                                           "cookies": [
                                                        {
                                                          "name": "session_id",
@@ -160,9 +158,6 @@ $('#login').click();"
                                                           "priority": "Medium"
                                                        }
                                                      ],
-                                           "headers": {},
-                                           "time": 4.633920809,
-                                           "body": "<html><head></head>...</html>"
                                         },
                                  config: {
                                           url: "https://www.yoursitepleasethankyou.com/myaccount",
