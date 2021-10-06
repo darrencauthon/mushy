@@ -23,7 +23,6 @@ module Mushy
     end
 
     def process event, config
-      puts event.inspect
       event
     end
 
