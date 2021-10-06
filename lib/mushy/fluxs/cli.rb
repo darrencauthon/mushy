@@ -5,9 +5,20 @@ module Mushy
     def self.details
       {
         name: 'Cli',
+        title: 'Start This Flow Via the Command Line',
         description: 'Accept CLI arguments from the run command.',
         config: {
         },
+        examples: {
+          "Calling From The Command Line" => {
+                                               description: 'Calling the CLI with command-line arguments.',
+                                               input: "mushy start file first:John last:Doe",
+                                               result: {
+                                                         "first": "John",
+                                                         "last": "Doe"
+                                                       }
+                                             },
+          }
       }
     end
 
