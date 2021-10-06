@@ -20,6 +20,77 @@ module Mushy
                                 shrink:      true,
                                 value:       '',
                               }
+      end.tap do |c|
+        c[:examples] = {
+          "Run In A Directory" => {
+                         description: 'This will run the ls command in the specified directory.',
+                         config: {
+                           directory: '/home/pi/Desktop/mushy'
+                         },
+                         result: [{
+                                   inode: "416921",
+                                   hard_links: 1,
+                                   owner: "pi",
+                                   group: "pi",
+                                   size: 1270,
+                                   date: {
+                                     year: 2021,
+                                     month: 10,
+                                     day: 1,
+                                     hour: 10,
+                                     minute: 43,
+                                     second: 35,
+                                     nanosecond: 664409766,
+                                     utc_offset: -18000,
+                                     weekday: 5,
+                                     day_of_month: 1,
+                                     day_of_year: 274,
+                                     string: "2021-10-01 10:43:35 -0500",
+                                     epoch_integer: 1633103015,
+                                     epoch_float: 1633103015.6644099,
+                                     seconds_ago: 454725.436212074
+                                   },
+                                   name: "mushy.gemspec",
+                                   type: "-",
+                                   owner_permission: "rw-",
+                                   group_permission: "r--",
+                                   other_permission: "r--",
+                                   directory: "/home/pi/Desktop/mushy",
+                                   path: "/home/pi/Desktop/mushy/mushy.gemspec"
+                                  },
+                                  {
+                                    inode: "403479",
+                                    hard_links: 3,
+                                    owner: "pi",
+                                    group: "pi",
+                                    size: 4096,
+                                    date: {
+                                      year: 2021,
+                                      month: 3,
+                                      day: 18,
+                                      hour: 8,
+                                      minute: 58,
+                                      second: 51,
+                                      nanosecond: 149096220,
+                                      utc_offset: -18000,
+                                      weekday: 4,
+                                      day_of_month: 18,
+                                      day_of_year: 77,
+                                      string: "2021-03-18 08:58:51 -0500",
+                                      epoch_integer: 1616075931,
+                                      epoch_float: 1616075931.1490963,
+                                      seconds_ago: 17482042.0544623
+                                    },
+                                    name: "test",
+                                    type: "d",
+                                    owner_permission: "rwx",
+                                    group_permission: "r-x",
+                                    other_permission: "r-x",
+                                    directory: "test"
+                                  }
+                                ]
+                       }
+                       }
       end
     end
 
