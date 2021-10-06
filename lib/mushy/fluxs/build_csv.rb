@@ -44,7 +44,7 @@ module Mushy
                                                 input_path: "things",
                                                 output_path: "records",
                                                 headers: { name: "Name", color: "Color" },
-                                                header_row:true
+                                                header_row: true
                                             },
                                     result: {
                                                 records: "Name,Color\nApple,Red\nBanana,Yellow\nPear,Green\n"
