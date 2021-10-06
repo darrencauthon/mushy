@@ -105,7 +105,41 @@ module Mushy
                                     "body": "<html itemscope=\"\" itemtype=\"http://schema.org/WebPage\" lang=\"en\">...</html>"
                                  }
                                },
-        }
+          "Login To a Site" => {
+                                 description: 'This will open https://www.yoursitepleasethankyou.com, login using javascript, and then return the state of the browser after logging in.',
+                                 input: {
+                                          url: "https://www.yoursitepleasethankyou.com",
+                                          timeout: 10,
+                                          execute: "$('#username').val('MYUSERNAME');
+$('#next').click();
+$('#password').val('MYPASSWORD');
+$('#login').click();"
+                                        },
+                                 result: {
+                                           "url": "https://yoursitepleasethankyou/",
+                                           "status": 200,
+                                           "title": "",
+                                           "cookies": [
+                                                        {
+                                                          "name": "session_id",
+                                                          "value": "1jfujsx5xbnuxmsjmgjhzfpi",
+                                                          "domain": ".yoursitepleasethankyou",
+                                                          "path": "/",
+                                                          "expires": -1,
+                                                           "size": 41,
+                                                           "httpOnly": true,
+                                                           "secure": true,
+                                                           "session": true,
+                                                           "sameSite": "Lax",
+                                                           "priority": "Medium"
+                                                        }
+                                                      ],
+                                            "headers": {},
+                                            "time": 4.633920809,
+                                            "body": "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head></head>...</html>"
+                                         }
+                                }
+                  }
       }
     end
 
