@@ -5,7 +5,7 @@ module Mushy
     def self.details
       {
         name: 'Cli',
-        title: 'Start This Flow Via the Command Line',
+        title: 'Command Line Interface',
         description: 'Accept CLI arguments from the run command.',
         config: {
         },
