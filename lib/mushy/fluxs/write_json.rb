@@ -7,6 +7,7 @@ module Mushy
     def self.details
       {
         name: 'WriteJson',
+        title: "Serialize as JSON",
         description: 'Write the incoming event as JSON.',
         config: {
           key: {
