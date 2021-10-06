@@ -7,6 +7,7 @@ module Mushy
     def self.details
       {
         name: 'WriteJson',
+        title: 'Serialize as JSON',
         description: 'Write the incoming event as JSON.',
         config: {
           key: {
@@ -15,6 +16,20 @@ module Mushy
                 value:       'json',
               },
         },
+        examples: {
+          "Example" => {
+                         description: 'Using this Flux to convert input to a JSON string.',
+                         input: {
+                                  people: [ { name: "John" }, { name: "Jane" } ]
+                                },
+                         config: {
+                                   key: 'apple'
+                                 },
+                         result: {
+                                   apple: "{\"people\":[{\"name\":\"John\"},{\"name\":\"Jane\"}]}"
+                                 }
+                       },
+          }
       }
     end
 
