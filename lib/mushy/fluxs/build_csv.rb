@@ -30,6 +30,27 @@ module Mushy
                         value:       true,
                       },
         },
+        examples: {
+          "Build a Simple CSV" => {
+                                    description: 'Converts a set of records to a CSV.',
+                                    input: {
+                                               things: [
+                                                         { name: "Apple", color:"Red" },
+                                                         { name: "Banana", color: "Yellow" },
+                                                         { name: "Pear", color: "Green" }
+                                                       ]
+                                           },
+                                    config: {
+                                                input_path: "things",
+                                                output_path: "records",
+                                                headers: { name: "Name", color: "Color" },
+                                                header_row:true
+                                            },
+                                    result: {
+                                                records: "Name,Color\nApple,Red\nBanana,Yellow\nPear,Green\n"
+                                            }
+                                  },
+                  }
       }
     end
 
