@@ -75,6 +75,119 @@ module Mushy
                                  value:       '',
                                },
         },
+        examples: {
+          "Successful Call" => {
+                                 description: 'This will open https://www.google.com and return the result.',
+                                 config: {
+                                          url: "https://www.google.com",
+                                        },
+                                 result: {
+                                   "url": "https://www.google.com/",
+                                   "status": 200,
+                                   "title": "Google",
+                                   "cookies": [
+                                                {
+                                                  "name": "1P_JAR",
+                                                  "value": "2021-10-06-12",
+                                                  "domain": ".google.com",
+                                                  "path": "/",
+                                                  "expires": 1636117150.583117,
+                                                  "size": 19,
+                                                  "httpOnly": false,
+                                                  "secure": true,
+                                                  "session": false,
+                                                  "sameSite": "None",
+                                                  "priority": "Medium"
+                                                },
+                                              ],
+                                    "headers": {},
+                                    "time": 1.486214604,
+                                    "body": "<html itemscope=\"\" itemtype=\"http://schema.org/WebPage\" lang=\"en\">...</html>"
+                                 }
+                               },
+          "Login To a Site" => {
+                                 description: 'This will open https://www.yoursitepleasethankyou.com, login using javascript, and then return the state of the browser after logging in.',
+                                 config: {
+                                          url: "https://www.yoursitepleasethankyou.com",
+                                          timeout: 10,
+                                          execute: "$('#username').val('MYUSERNAME');
+$('#next').click();
+$('#password').val('MYPASSWORD');
+$('#login').click();"
+                                        },
+                                 result: {
+                                           "url": "https://yoursitepleasethankyou/",
+                                           "status": 200,
+                                           "title": "",
+                                           "cookies": [
+                                                        {
+                                                          "name": "session_id",
+                                                          "value": "1jfujsx5xbnuxmsjmgjhzfpi",
+                                                          "domain": ".yoursitepleasethankyou",
+                                                          "path": "/",
+                                                          "expires": -1,
+                                                           "size": 41,
+                                                           "httpOnly": true,
+                                                           "secure": true,
+                                                           "session": true,
+                                                           "sameSite": "Lax",
+                                                           "priority": "Medium"
+                                                        }
+                                                      ],
+                                            "headers": {},
+                                            "time": 4.633920809,
+                                            "body": "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head></head>...</html>"
+                                         }
+                                },
+          "Access a Page After Logging In" => {
+                                 description: 'This will open a page using cookies from the previous request. Note that the cookies came from another browser flux event.',
+                                 input: {
+                                          "url": "https://yoursitepleasethankyou/",
+                                          "cookies": [
+                                                       {
+                                                         "name": "session_id",
+                                                         "value": "1jfujsx5xbnuxmsjmgjhzfpi",
+                                                         "domain": ".yoursitepleasethankyou",
+                                                         "path": "/",
+                                                         "expires": -1,
+                                                          "size": 41,
+                                                          "httpOnly": true,
+                                                          "secure": true,
+                                                          "session": true,
+                                                          "sameSite": "Lax",
+                                                          "priority": "Medium"
+                                                       }
+                                                     ],
+                                        },
+                                 config: {
+                                          url: "https://www.yoursitepleasethankyou.com/myaccount",
+                                          carry_cookies_from: "{{cookies}}"
+                                        },
+                                 result: {
+                                           "url": "https://yoursitepleasethankyou/",
+                                           "status": 200,
+                                           "title": "",
+                                           "cookies": [
+                                                        {
+                                                          "name": "session_id",
+                                                          "value": "1jfujsx5xbnuxmsjmgjhzfpi",
+                                                          "domain": ".yoursitepleasethankyou",
+                                                          "path": "/",
+                                                          "expires": -1,
+                                                           "size": 41,
+                                                           "httpOnly": true,
+                                                           "secure": true,
+                                                           "session": true,
+                                                           "sameSite": "Lax",
+                                                           "priority": "Medium"
+                                                        }
+                                                      ],
+                                            "headers": {},
+                                            "time": 4.633920809,
+                                            "body": "<html><head></head>Your name is John Doe...</html>"
+                                         }
+                                }
+                  }
       }
     end
 

@@ -19,6 +19,7 @@ module Mushy
               documentation[item[0]] = [
                 item[1][:description],
                 code_sample('Input', item[1][:input]),
+                code_sample('Config', item[1][:config]),
                 code_sample('Result', item[1][:result]),
               ].select { |x| x }.reduce('') { |t, i| t + i }
             end
