@@ -107,12 +107,17 @@ module Mushy
                                },
           "Login To a Site" => {
                                  description: 'This will open https://www.yoursitepleasethankyou.com, login using javascript, and then return the state of the browser after logging in.',
-                                 config: {
+                                 input: {
                                           url: "https://www.yoursitepleasethankyou.com",
+                                          username: "MYUSERNAME",
+                                          password: "MYPASSWORD",
+                                        },
+                                 config: {
+                                          url: "{{url}}",
                                           timeout: 10,
-                                          execute: "$('#username').val('MYUSERNAME');
+                                          execute: "$('#username').val('{{username}}');
 $('#next').click();
-$('#password').val('MYPASSWORD');
+$('#password').val('{{password}}');
 $('#login').click();"
                                         },
                                  result: {
