@@ -15,6 +15,20 @@ module Mushy
                 value:       'json',
               },
         },
+        examples: {
+          "Example" => {
+                         description: 'Using this Flux to convert input to a JSON string.',
+                         input: {
+                                  people: [ { name: "John" }, { name: "Jane" } ]
+                                },
+                         config: {
+                                   key: 'apple'
+                                 },
+                         result: {
+                                   apple: "{\"people\":[{\"name\":\"John\"},{\"name\":\"Jane\"}]}"
+                                 }
+                       },
+          }
       }
     end
 
