@@ -13,6 +13,20 @@ module Mushy
                       value:       '',
                     },
         },
+        examples: {
+          "Example" => {
+                         description: 'Using this Flux to build a document',
+                         input: {
+                                  people: [ { name: "John" }, { name: "Jane" } ]
+                                },
+                         config: {
+                                   document: '{% for person in people %} {{ person.name }} {% endfor %}'
+                                 },
+                         result: {
+                                   document: ' John  Jane ',
+                                 }
+                       },
+          }
       }
     end
 
