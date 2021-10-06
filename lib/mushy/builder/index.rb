@@ -64,7 +64,7 @@ module Mushy
                         <div class="content">
                             <div v-for="(fluxType, id) in fluxTypes">
                                 <div class="level">
-                                  <div class="level-left"><h2>{{fluxType.name}}</h2></div>
+                                  <div class="level-left"><h2>{{fluxType.title || fluxType.name}}</h2></div>
                                   <div class="level-right">
                                     <button class="button is-primary level-item" v-on:click.prevent.stop="setup.flux.value = fluxType.name;setup.fluxTypeSelect['is-active'] = false">
                                       Select
