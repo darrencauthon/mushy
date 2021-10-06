@@ -7,6 +7,7 @@ module Mushy
     def self.details
       {
         name: 'BuildCsv',
+        title: "Build CSV",
         description: 'Build a CSV.',
         config: {
           input_path: {
