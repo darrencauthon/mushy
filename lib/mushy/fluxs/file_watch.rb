@@ -7,14 +7,42 @@ module Mushy
     def self.details
       {
         name: 'FileWatch',
+        title: 'File Watcher',
         description: 'Watch for file changes.',
         config: {
           directory: {
-                       description: 'The directory to watch.',
+                       description: 'The directory to watch, defaults to the current directory.',
                        type:        'text',
+                       shrink:      true,
                        value:       '',
                      },
         },
+        examples: {
+          "Files Added" => {
+                             description: 'When a file is added, this type of result will be returned.',
+                             result: {
+                                       modified: [],
+                                       added: ["/home/pi/Desktop/mushy/bin/hey.txt"],
+                                       removed:[]
+                                     }
+                           },
+          "Files Removed" => {
+                               description: 'When a file is deleted, this type of result will be returned.',
+                               result: {
+                                         modified: [],
+                                         added: [],
+                                         removed:["/home/pi/Desktop/mushy/mushy-0.15.3.gem"]
+                                       }
+                             },
+          "Files Modified" => {
+                                description: 'When a file is modified, this type of result will be returned.',
+                                result: {
+                                          modified: ["/home/pi/Desktop/mushy/lib/mushy/fluxs/environment.rb"],
+                                          added: [],
+                                          removed:[]
+                                        }
+                              },
+        }
       }
     end
 
