@@ -8,13 +8,19 @@ describe Mushy::ReadJson do
 
   let(:config) { { } }
 
+  let(:key) { SecureRandom.uuid }
+
+  before do
+    config[:key] = key
+  end
+
   it "should convert the string data to a series of events" do
 
     another_key, another_value = SecureRandom.uuid, SecureRandom.uuid
 
     data = { another_key => another_value }
 
-    config[:json] = data.to_json
+    event[key] = data.to_json
 
     result = flux.process event, config
 
@@ -23,13 +29,13 @@ describe Mushy::ReadJson do
   end
 
   it "nil should be returned as nil" do
-    config[:json] = nil
+    event[key] = nil
     result = flux.process event, config
     result.must_be_nil
   end
 
   it "empty should be returned as nil" do
-    config[:json] = ''
+    event[key] = ''
     result = flux.process event, config
     result.must_be_nil
   end
