@@ -77,7 +77,6 @@ module Mushy
       end
 
       def self.get_flow file
-        puts "trying to get: #{file}"
         file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
         data = JSON.parse File.open(file).read
 
