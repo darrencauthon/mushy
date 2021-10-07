@@ -7,6 +7,7 @@ module Mushy
     def self.details
       {
         name: 'ReadCsv',
+        title: 'Read CSV',
         description: 'Read CSV content into events.',
         config: {
           data: {
