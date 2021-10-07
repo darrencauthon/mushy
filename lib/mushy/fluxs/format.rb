@@ -20,7 +20,7 @@ module Mushy
                                           }
                                 },
           "Changing The Event" => {
-                                    description: 'It only returns what is passed to it.',
+                                    description: 'The common fluxing can still be used to alter the event.',
                                     input: {
                                              things: [
                                                        { name: "Elephant", type: "Mammal" },
