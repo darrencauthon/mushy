@@ -19,11 +19,9 @@ describe Mushy::Browser do
     flux.config = config
   end
 
-  it "should allow return information about the page" do
+  #it "should allow return information about the page" do
     #result = flux.execute event
-
-    #puts result.inspect
-  end
+  #end
 
   describe "passing headers" do
 
@@ -31,11 +29,9 @@ describe Mushy::Browser do
       config[:headers] = { test: 'abcd' }
     end
 
-    it "should allow return information about the page" do
+    #it "should allow return information about the page" do
       #result = flux.execute event
-
-      #puts result[:headers].inspect
-    end
+    #end
 
   end
 
@@ -61,20 +57,18 @@ describe Mushy::Browser do
       flux.config = config
     end
 
-    it "should allow return information about the page" do
+    #it "should allow return information about the page" do
 
-      return
+      #return
 
-      result = flux.execute event
+      #result = flux.execute event
 
-      flux.config[:url] = 'about:blank/civroa.aspx?which=16CV04462'
-      flux.config[:execute] = nil
+      #flux.config[:url] = 'about:blank'
+      #flux.config[:execute] = nil
 
-      result = flux.execute result
+      #result = flux.execute result
 
-      puts result[:url].inspect
-
-    end
+    #end
 
   end
 
