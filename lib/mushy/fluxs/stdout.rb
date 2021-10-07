@@ -5,6 +5,7 @@ module Mushy
     def self.details
       {
         name: 'Stdout',
+        title: 'Stdout / Print',
         description: 'Standard Out',
         config: {
           message: {
