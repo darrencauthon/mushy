@@ -20,6 +20,25 @@ module Mushy
                      value: { url: 'a|@href' },
                    }
         },
+        examples: {
+          "Example" => {
+                         description: 'Pulling all links out of HTML.',
+                         input: {
+                                  html: '<a href="one">First</a><a href="two">Second</a>'
+                                },
+                         config: {
+                                   path: 'html',
+                                   extract: {
+                                     url: "a|@href",
+                                     name: "a"
+                                   },
+                                 },
+                         result: [
+                                   { url: 'one', name: 'First' },
+                                   { url: 'two', name: 'Second' }
+                                 ]
+                       },
+          }
       }
     end
 
