@@ -21,6 +21,31 @@ module Mushy
                      value:       '',
                    },
         },
+        examples: {
+          "With Headers" => {
+                              description: 'Using this Flux to read a CSV into many events.',
+                              input: {
+                                       csv: "first,last,height\njane,doe,short"
+                                     },
+                              config: {
+                                        data: '{{csv}}'
+                                      },
+                              result: { "first": "jane", "last": "doe", "height": "short" }
+                            },
+          "No Headers" => {
+                            description: 'Using this Flux to read a CSV into many events.',
+                            input: {
+                                     csv: "john,doe,tall\njane,doe,short"
+                                   },
+                            config: {
+                                      data: '{{csv}}'
+                                    },
+                            result: [
+                                      { "a": "john", "b": "doe", "c": "tall" },
+                                      { "a": "jane", "b": "doe", "c": "short" }
+                                    ]
+                          },
+        }
       }
     end
 
