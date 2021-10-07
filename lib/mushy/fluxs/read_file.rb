@@ -37,7 +37,7 @@ module Mushy
                                  },
                          result: { csvdata: 'a,b,c\nd\n\e\f'}
                        },
-                  }
+        }
       }
     end
 
