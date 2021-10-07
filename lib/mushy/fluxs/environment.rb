@@ -13,6 +13,17 @@ module Mushy
                        value:       {},
                      },
         },
+        examples: {
+          "Example" => {
+                         description: 'Get environmental variables.',
+                         config: {
+                                   variables: { text_domain: 'TEXTDOMAIN' }
+                                 },
+                         result: {
+                                   text_domain: 'Linux-PAM',
+                                 }
+                       },
+        }
       }
     end
 
