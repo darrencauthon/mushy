@@ -135,7 +135,7 @@ module Mushy
                          details[:config][:incoming_split] = { type: 'text', shrink: true, description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
                          details[:config][:outgoing_split] = { type: 'text', shrink: true, description: 'Split an outgoing event into multiple events by this key.', default: '' }
                          details[:config][:merge] = { type: 'text', shrink: true, description: 'A comma-delimited list of fields from the event to carry through. Use * to merge all fields.', default: '' }
-                         details[:config][:group] = { type: 'text', shrink: true, description: 'Group events by a field, which is stored in a key. The format is group_by|group_key.', default: '' }
+                         details[:config][:group] = { type: 'text', shrink: true, description: 'Group events by this key, with the value as the key. If a group key is provided like group_by|group_key, then multiple events with the results under group_key will be returned.', default: '' }
                          details[:config][:limit] = { type: 'integer', shrink: true, description: 'Limit the number of events to this number.', default: '' }
                          details[:config][:join] = { type: 'text', shrink: true, description: 'Join all of the events from this flux into one event, under this name.', default: '' }
                          details[:config][:sort] = { type: 'text', shrink: true, description: 'Sort by this key.', default: '' }
