@@ -14,7 +14,13 @@ d,e,f}
 
     result = flux.process event, config
 
-    puts result.inspect
+    result.count.must_equal 2
+    result[0]['a'].must_equal 'a'
+    result[0]['b'].must_equal 'b'
+    result[0]['c'].must_equal 'c'
+    result[1]['a'].must_equal 'd'
+    result[1]['b'].must_equal 'e'
+    result[1]['c'].must_equal 'f'
   end
 
   it "should allow headers" do
