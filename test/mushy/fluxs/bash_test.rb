@@ -8,12 +8,12 @@ describe Mushy::Bash do
 
   let(:config) { {} }
 
-  it "should return the event it was given" do
-    config[:command] = 'ls'
+  #it "should return the event it was given" do
+    #config[:command] = 'ls'
 
-    result = flux.process event, config
+    #result = flux.process event, config
 
-    puts result.inspect
-  end
+    #puts result.inspect
+  #end
 
 end
