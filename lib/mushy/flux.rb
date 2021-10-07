@@ -121,11 +121,9 @@ module Mushy
       result_key = by.split('|')[1]
       grouped_results = results.group_by { |x| x[group_by] }
 
-      if result_key
-        return grouped_results.map { |k, v| SymbolizedHash.new( { result_key => v } ) }
-      else
-        return grouped_results
-      end
+      return grouped_results unless result_key
+
+      grouped_results.map { |k, v| SymbolizedHash.new( { result_key => v } ) }
     end
 
     def outgoing_split_these_results results, event, by
