@@ -167,7 +167,7 @@ module Mushy
        },
        text:  {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a><div class="control"><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
+           template: '<div><div class="level"><div class="level-left"><div class="level-item"><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label></div><div class="level-item"> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a></div></div></div> <div class="control"><input type="text" :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value);" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="input"></div></div>'
        },
        hide:  {
            props: ['label', 'description'],
