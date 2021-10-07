@@ -130,12 +130,29 @@ describe Mushy::Flux do
 
         result = flux.execute event
 
+        result.is_a?(Array).must_equal true
         result.count.must_equal 2
         result[0][:hey].count.must_equal 2
         result[0][:hey][0][:y].must_equal 1
         result[0][:hey][1][:y].must_equal 2
         result[1][:hey].count.must_equal 1
         result[1][:hey][0][:y].must_equal 3
+      end
+
+      it "should group using the value as the key when it is not provided" do
+
+        flux.return_this = [ { a: 'b', y: 1 }, { a: 'b', y: 2 }, { a: 'c', y: 3 } ]
+
+        flux.config[:group] = 'a'
+
+        result = flux.execute event
+
+        result.is_a?(Hash).must_equal true
+        result['b'].count.must_equal 2
+        result['b'][0][:y].must_equal 1
+        result['b'][1][:y].must_equal 2
+        result['c'].count.must_equal 1
+        result['c'][0][:y].must_equal 3
       end
 
     end
