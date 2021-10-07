@@ -183,7 +183,7 @@ module Mushy
        },
        textarea: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
-           template: '<div><div class="level"><div class="level-left"><div class="level-item"><div class="level"><div class="level-left"><div class="level-item"><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label></div><div class="level-item"> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a></div></div></div> <div class="control"><textarea :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="textarea"></textarea></div></div>'
+           template: '<div><div class="level"><div class="level-left"><div class="level-item"><mip-label :id="id" :label="label" :description="description" :hide_description="shrink && !value"></mip-label></div><div class="level-item"> <a href="#" v-on:click.prevent.stop="shrink=false" v-show="shrink && !value">[^]</a></div></div></div> <div class="control"><textarea :name="id" v-if="value || !shrink" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit(\\'update:value\\', $event.target.value)" :disabled="disabled == \\'true\\'" :readonly="readonly == \\'true\\'" class="textarea"></textarea></div></div>'
        },
        json: {
            props: ['label', 'placeholder', 'disabled', 'readonly', 'value', 'description', 'shrink'],
