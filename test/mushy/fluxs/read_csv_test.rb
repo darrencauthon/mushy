@@ -49,7 +49,13 @@ d,e,f}
 
     result = flux.execute event
 
-    puts result.inspect
+    result.count.must_equal 2
+    result[0][:first].must_equal 'a'
+    result[0][:second].must_equal 'b'
+    result[0][:third].must_equal 'c'
+    result[1][:first].must_equal 'd'
+    result[1][:second].must_equal 'e'
+    result[1][:third].must_equal 'f'
   end
 
 end
