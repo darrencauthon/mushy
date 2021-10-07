@@ -5,6 +5,7 @@ module Mushy
     def self.details
       {
         name: 'Environment',
+        title: 'Environment Variables',
         description: 'Pull environment variables.',
         config: {
           variables: {
