@@ -12,8 +12,6 @@ describe Mushy::Bash do
     #config[:command] = 'ls'
 
     #result = flux.process event, config
-
-    #puts result.inspect
   #end
 
 end
