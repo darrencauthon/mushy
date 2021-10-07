@@ -14,7 +14,13 @@ d,e,f}
 
     result = flux.process event, config
 
-    puts result.inspect
+    result.count.must_equal 2
+    result[0]['a'].must_equal 'a'
+    result[0]['b'].must_equal 'b'
+    result[0]['c'].must_equal 'c'
+    result[1]['a'].must_equal 'd'
+    result[1]['b'].must_equal 'e'
+    result[1]['c'].must_equal 'f'
   end
 
   it "should allow headers" do
@@ -25,7 +31,10 @@ d,e,f}
 
     result = flux.process event, config
 
-    puts result.inspect
+    result.count.must_equal 1
+    result[0]['a'].must_equal 'd'
+    result[0]['b'].must_equal 'e'
+    result[0]['c'].must_equal 'f'
   end
 
   it "should allow a model to convert header-less data to something better" do
@@ -40,7 +49,13 @@ d,e,f}
 
     result = flux.execute event
 
-    puts result.inspect
+    result.count.must_equal 2
+    result[0][:first].must_equal 'a'
+    result[0][:second].must_equal 'b'
+    result[0][:third].must_equal 'c'
+    result[1][:first].must_equal 'd'
+    result[1][:second].must_equal 'e'
+    result[1][:third].must_equal 'f'
   end
 
 end

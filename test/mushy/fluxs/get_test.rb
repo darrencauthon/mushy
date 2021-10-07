@@ -8,22 +8,20 @@ describe Mushy::Get do
 
   let(:config) { {} }
 
-  it "should make a GET call" do
-    config[:url] = 'https://www.google.com'
+  #it "should make a GET call" do
+    #config[:url] = 'https://www.google.com'
 
-    result = flux.process event, config
+    #result = flux.process event, config
 
-    #puts result.inspect
-  end
+  #end
 
-  it "should allow for the controlling of the form with the model" do
+  #it "should allow for the controlling of the form with the model" do
 
-    flux.config[:model] = { reason_phrase: '{{reason_phrase}}' }
-    flux.config[:url] = 'https://www.google.com'
+    #flux.config[:model] = { reason_phrase: '{{reason_phrase}}' }
+    #flux.config[:url] = 'https://www.google.com'
 
-    result = flux.execute event
+    #result = flux.execute event
 
-    puts result.inspect
-  end
+  #end
 
 end

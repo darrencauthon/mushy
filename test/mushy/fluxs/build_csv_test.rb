@@ -22,8 +22,6 @@ describe Mushy::BuildCsv do
 
     result = flux.process event, config
 
-    #puts result.inspect
-
   end
 
 end
