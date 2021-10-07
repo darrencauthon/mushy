@@ -119,7 +119,11 @@ module Mushy
     def group_these_results results, event, by
       group_by = by.split('|')[0]
       result_key = by.split('|')[1]
-      results.group_by { |x| x[group_by] }.map { |k, v| SymbolizedHash.new( { result_key => v } ) }
+      grouped_results = results.group_by { |x| x[group_by] }
+
+      return grouped_results unless result_key
+
+      grouped_results.map { |k, v| SymbolizedHash.new( { result_key => v } ) }
     end
 
     def outgoing_split_these_results results, event, by
