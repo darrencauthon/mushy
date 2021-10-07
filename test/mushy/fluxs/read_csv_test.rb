@@ -31,7 +31,10 @@ d,e,f}
 
     result = flux.process event, config
 
-    puts result.inspect
+    result.count.must_equal 1
+    result[0]['a'].must_equal 'd'
+    result[0]['b'].must_equal 'e'
+    result[0]['c'].must_equal 'f'
   end
 
   it "should allow a model to convert header-less data to something better" do
