@@ -7,7 +7,8 @@ module Mushy
     def self.details
       {
         name: 'ParseHtml',
-        description: 'Parses HTML.',
+        title: 'Parse HTML',
+        description: 'Extract data from HTML.',
         config: {
           path: {
                   description: 'The path to the HTML in the incoming event.',
