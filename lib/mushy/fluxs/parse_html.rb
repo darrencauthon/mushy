@@ -7,7 +7,8 @@ module Mushy
     def self.details
       {
         name: 'ParseHtml',
-        description: 'Parses HTML.',
+        title: 'Parse HTML',
+        description: 'Extract data from HTML.',
         config: {
           path: {
                   description: 'The path to the HTML in the incoming event.',
@@ -20,6 +21,40 @@ module Mushy
                      value: { url: 'a|@href' },
                    }
         },
+        examples: {
+          "Example 1" => {
+                           description: 'Pulling all links out of HTML.',
+                           input: {
+                                    html: '<a href="one">First</a><a href="two">Second</a>'
+                                  },
+                           config: {
+                                     path: 'html',
+                                     extract: {
+                                       url: "a|@href",
+                                       name: "a"
+                                     },
+                                   },
+                           result: [
+                              { url: 'one', name: 'First' },
+                              { url: 'two', name: 'Second' }
+                            ]
+                         },
+          "Example 2" => {
+                           description: 'Pulling the contents of a single div.',
+                           input: {
+                                      html: "<div class=\"main\" data-this=\"you\">HEY</a>"
+                                  },
+                           config: {
+                                     path: 'html',
+                                     extract: {
+                                                content: "div.main",
+                                                class: "div|@class",
+                                                "data-this" => "div|@data-this",
+                                              },
+                                   },
+                           result: { content: 'HEY', class: 'main', "data-this" => "you" },
+                         },
+          }
       }
     end
 

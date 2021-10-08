@@ -5,10 +5,11 @@ module Mushy
     def self.details
       {
         name: 'ReadFile',
+        title: 'Read File',
         description: 'Read a file.',
         config: {
-          name: {
-                  description: 'The name of the file to read.',
+          file: {
+                  description: 'The file to read.',
                   type:        'text',
                   value:       'file.csv',
                 },
@@ -18,24 +19,37 @@ module Mushy
                   shrink:      true,
                   value:       '',
                 },
-          path: {
-                  description: 'The path in the event to return the contents of the file.',
-                  type:        'text',
-                  value:       'content',
-                },
+          key: {
+                 description: 'The key in the resulting event to return the contents of the file.',
+                 type:        'text',
+                 value:       'content',
+               },
         },
+        examples: {
+          "Example" => {
+                         description: 'Using this Flux to read the contents of a text file.',
+                         input: {
+                                  file: "data.csv"
+                                },
+                         config: {
+                                   file: '{{file}}',
+                                   key: 'csvdata'
+                                 },
+                         result: { csvdata: 'a,b,c\nd\n\e\f'}
+                       },
+        }
       }
     end
 
     def process event, config
-      file = config[:name]
+      file = config[:file]
 
       file = File.join(config[:directory], file) if config[:directory].to_s != ''
 
       content = File.open(file).read
 
       {
-        config[:path] => content
+        config[:key] => content
       }
     end
 
