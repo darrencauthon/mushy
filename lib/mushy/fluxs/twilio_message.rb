@@ -5,6 +5,7 @@ module Mushy
     def self.details
       {
         name: 'TwilioMessage',
+        title: 'Twilio Message',
         description: 'Send a Twilio Message.',
         config: {
           account_sid: {
