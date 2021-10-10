@@ -18,22 +18,22 @@ module Mushy
                         value:       '{{twilio_auth_token}}',
                       },
           from: {
-                  description: 'From.',
+                  description: 'The phone number from which the message will be sent.',
                   type:        'text',
                   value:       '+1{{from}}',
                 },
           to: {
-                description: 'To.',
+                description: 'The phone number to which the message will be sent.',
                 type:        'text',
                 value:       '+1{{to}}',
               },
           body: {
-                  description: 'Body.',
+                  description: 'The content of the message.',
                   type:        'text',
                   value:       '{{body}}',
                 },
           media_url: {
-                       description: 'Media URL.',
+                       description: 'A URL to a file that can be included with the text message, like https://.../your_file.png.',
                        type:        'text',
                        value:       '',
                        shrink:      true,
@@ -74,18 +74,18 @@ module Mushy
                                            media: "/2010-04-01/Accounts/ABC/Messages/DEF/Media.json"
                                          }
                                        }
-                             }
+                             },
+          "A Failed Call" => {
+                               description: "This is what a failed call may look like.",
+                               result: {
+                                         code: 20003,
+                                         detail: "Your AccountSid or AuthToken was incorrect.",
+                                         message: "Authentication Error - invalid username",
+                                         more_info: "https://www.twilio.com/docs/errors/20003",
+                                         status: 401
+                                       }
+                             },
         },
-        "A Failed Call" => {
-          description: "This is what a failed call may look like.",
-          result: {
-                    code: 20003,
-                    detail: "Your AccountSid or AuthToken was incorrect.",
-                    message: "Authentication Error - invalid username",
-                    more_info: "https://www.twilio.com/docs/errors/20003",
-                    status: 401
-                  }
-        }
       }
     end
 
