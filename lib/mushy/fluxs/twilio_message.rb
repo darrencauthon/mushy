@@ -41,6 +41,7 @@ module Mushy
         },
         examples: {
           "Basic Example" => {
+                               description: "This is what a basic text message.",
                                input: { message: "Hello World!" },
                                config: {
                                  account_sid: 'Your Twilio Account SID',
@@ -74,6 +75,16 @@ module Mushy
                                          }
                                        }
                              }
+        },
+        "A Failed Call" => {
+          description: "This is what a failed call may look like.",
+          result: {
+                    code: 20003,
+                    detail: "Your AccountSid or AuthToken was incorrect.",
+                    message: "Authentication Error - invalid username",
+                    more_info: "https://www.twilio.com/docs/errors/20003",
+                    status: 401
+                  }
         }
       }
     end
