@@ -77,7 +77,8 @@ module Mushy
         from: "From",
         to: "To",
         body: "Body",
-      }.reduce("") { |t, i| "#{t} --data-urlencode \"#{i[1]}=#{config[i[0]]}\"" }
+      }.select { |x| config[x].to_s != "" }
+       .reduce("") { |t, i| "#{t} --data-urlencode \"#{i[1]}=#{config[i[0]]}\"" }
 
       config[:command] = "curl -X POST https://api.twilio.com/2010-04-01/Accounts/#{config[:account_sid]}/Messages.json -u #{config[:account_sid]}:#{config[:auth_token]} #{arguments}"
 
