@@ -32,6 +32,12 @@ module Mushy
                   type:        'text',
                   value:       '{{body}}',
                 },
+          media_url: {
+                       description: 'Media URL.',
+                       type:        'text',
+                       value:       '',
+                       shrink:      true,
+                     },
         },
         examples: {
           "Basic Example" => {
@@ -77,6 +83,7 @@ module Mushy
         from: "From",
         to: "To",
         body: "Body",
+        media_url: "MediaUrl",
       }.select { |x| config[x].to_s != "" }
        .reduce("") { |t, i| "#{t} --data-urlencode \"#{i[1]}=#{config[i[0]]}\"" }
 
