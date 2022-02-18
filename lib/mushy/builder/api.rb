@@ -31,7 +31,17 @@ module Mushy
       end
 
       def self.start file, event
-        file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
+        original_file = file
+        file = [file]
+               .map { |x| "#{x}.mushy" unless x.downcase.end_with?('.mushy') }
+               .select { |x| File.exist?(x) }
+               .first
+
+        unless file
+          puts "#{original_file} does not exist."
+          return
+        end
+
         flow = File.open(file).read
         flow = Mushy::Flow.parse flow
 
