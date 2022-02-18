@@ -32,8 +32,8 @@ module Mushy
 
       def self.start file, event
         original_file = file
-        file = [file]
-               .map { |x| "#{x}.mushy" unless x.downcase.end_with?('.mushy') }
+        file = [file, "#{Dir.home}/.mushy/#{file}"]
+               .map { |x| (x.downcase.end_with?('.mushy') ? x : "#{x}.mushy") }
                .select { |x| File.exist?(x) }
                .first
 
