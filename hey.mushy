@@ -1,0 +1,29 @@
+{
+  "fluxs": [
+    {
+      "id": "0294b0c4-296f-44cd-9891-95fe75ebe4d2",
+      "name": "Start it up",
+      "flux": "Cli",
+      "parents": [
+
+      ],
+      "config": {
+        "model": {
+        }
+      }
+    },
+    {
+      "id": "7779dce1-1ce8-4241-8e94-ddcd5cb4f8df",
+      "name": "Output something",
+      "flux": "Stdout",
+      "parents": [
+        "0294b0c4-296f-44cd-9891-95fe75ebe4d2"
+      ],
+      "config": {
+        "message": "Hello.",
+        "model": {
+        }
+      }
+    }
+  ]
+}
