@@ -324,7 +324,7 @@ module Mushy
        });
    }
 
-   var thingTemplate = '<div v-bind:class="{ \\\'ml-3\\\': data.foghat==\\\'free\\\', \\\'column\\\': data.foghat!=\\\'free\\\', \\\'is-full\\\': data.foghat!=\\\'half\\\' && data.foghat!=\\\'free\\\', \\\'is-half\\\': data.foghat==\\\'half\\\' }">';
+   var thingTemplate = '<div v-show="data.hide != true" v-bind:class="{ \\\'ml-3\\\': data.foghat==\\\'free\\\', \\\'column\\\': data.foghat!=\\\'free\\\', \\\'is-full\\\': data.foghat!=\\\'half\\\' && data.foghat!=\\\'free\\\', \\\'is-half\\\': data.foghat==\\\'half\\\' }">';
    for (var property in components)
        thingTemplate = thingTemplate + '<mip-' + property + ' v-if="data.type == \\'' + property + '\\'" :id="id" ' + components[property].props.map(function(x){ return ':' + x + '.sync="data.' + x + '"';}).join(' ') + '></mip-' + property + '>'
    thingTemplate = thingTemplate + '</div>';
@@ -335,7 +335,7 @@ module Mushy
                       console: console,
                   }
         },
-        props: ['data', 'value', 'id', 'model', 'foghat'],
+        props: ['data', 'value', 'id', 'model', 'foghat', 'hide'],
         template: thingTemplate
     });
 
@@ -446,7 +446,7 @@ module Mushy
                    },
                    id: { type: 'hide', value: '' },
                    name: { type: 'text', value: '' },
-                   flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options},
+                   flux: { type: 'select', value: fluxdata.fluxs[0].name, options: options, hide: true },
                    open_flux: { type: 'button', name: 'Select a Flux', foghat: 'free', medium: 'hey', color: 'is-primary',
                                 click: function() {
                                            Vue.set(app.setup.fluxTypeSelect, 'is-active', true);
