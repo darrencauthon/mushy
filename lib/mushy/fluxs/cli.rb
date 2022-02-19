@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Cli',
         title: 'Command Line Interface',
+        group: { name: 'Starters' },
         description: 'Accept CLI arguments from the run command.',
         config: {
         },

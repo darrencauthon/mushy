@@ -17,6 +17,7 @@ module Mushy
     def self.details
       {
         name: 'Interval',
+        group: { name: 'Starters' },
         description: 'Fire an event every X minutes.',
         config: {},
       }.tap do |c|

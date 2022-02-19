@@ -62,7 +62,9 @@ module Mushy
                     </header>
                     <section class="modal-card-body">
                         <div class="content">
-                            <div v-for="(fluxType, id) in fluxTypes">
+                            <div v-for="(fluxGroup) in fluxGroups">
+                            <h2 style="font-style:italic">{{fluxGroup.name}}</h2>
+                            <div v-for="(fluxType, id) in fluxGroup.fluxs">
                                 <div class="level">
                                   <div class="level-left"><h2>{{fluxType.title || fluxType.name}}</h2></div>
                                   <div class="level-right">
@@ -86,6 +88,7 @@ module Mushy
                                   </div>
                                   <div v-for="(a, b) in fluxType.documentation" v-if="fluxType['detailsTab'] == b" v-html="a"></div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </section>
@@ -385,6 +388,13 @@ module Mushy
                  x['detailsTab'] = Object.getOwnPropertyNames(x.documentation)[0];
              } );
 
+             fluxGroups = {}
+             fluxdata.fluxs.map(function(x) {
+                 if (x.group) {} else { x.group = { name: 'Others' } }
+                 if (fluxGroups[x.group.name]) {} else { fluxGroups[x.group.name] = x.group; x.group.fluxs = [] }
+                 fluxGroups[x.group.name].fluxs.push(x);
+             } );
+
              var configs = {};
              fluxdata.fluxs.map(function(x){
                  configs[x.name] = x.config;
@@ -566,6 +576,7 @@ module Mushy
                      },
                      configs: configs,
                      fluxTypes: fluxTypesWithDetails,
+                     fluxGroups: fluxGroups,
                      setup: setup,
                      flux_name_for: function(ids, fluxes) {
                          var fluxs = fluxes.filter(function(x){ return ids.includes(x.id) });
