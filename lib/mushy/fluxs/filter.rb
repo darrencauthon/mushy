@@ -5,8 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Filter',
+        title: 'Filter events',
         description: 'Filters events based on criteria.',
-        fluxGroup: { name: 'General' },
+        fluxGroup: { name: 'Flows' },
         config: {
           equal: {
                  description: 'Provide key/value pairs that must match in the event.',
