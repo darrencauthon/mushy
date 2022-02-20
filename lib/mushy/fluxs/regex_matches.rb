@@ -15,8 +15,28 @@ module Mushy
                    value: '{{value}}' }
         },
         examples: {
-        }
-      }
+          'Simple Example' => {
+                                description: 'The simplest regex.',
+                                input: { text: 'apple orange' },
+                                config: {
+                                  regex: '(\w+)',
+                                  value: 'apple orange'
+                                },
+                                result: [ { match1: 'apple' }, { match2: 'orange' } ]
+                              },
+          'Named Parameters' => {
+                         description: 'Named Parameters.',
+                         input: {
+                                  text: 'apple 1 orange 2'
+                                },
+                         config: {
+                                   regex: '(?&lt;name&gt;\w+) (?&lt;count&gt;\d+)',
+                                   value: '{{text}}'
+                                 },
+                         result: [ { name: 'apple', count: '1' }, { name: 'orange', count: '2' } ]
+                       },
+                  }
+    }
     end
 
     def process(_, config)
