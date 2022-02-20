@@ -5,8 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Document',
+        title: 'Make a multi-line liquid value',
         description: 'Create a multi-line document.',
-        fluxGroup: { name: 'Export', position: 0 },
+        fluxGroup: { name: 'Flows' },
         config: {
           document: {
                       description: 'The multi-line document you wish to create.',

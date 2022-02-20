@@ -5,8 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Pwd',
+        title: 'Get the working directory',
         description: 'Run the "pwd" command.',
-        fluxGroup: { name: 'General' },
+        fluxGroup: { name: 'Environment' },
         config: Mushy::Bash.details[:config].tap { |c| c.delete :command },
       }.tap do |c|
         c[:examples] = {
