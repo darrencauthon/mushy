@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'SenseHatLedMatrix',
+        title: 'Use LED Matrix',
         description: 'Interface with the LED Matrix.',
+        fluxGroup: { name: 'SenseHAT' },
         config: Mushy::SimplePythonProgram.default_config.tap do |config|
           config[:get_pixels] = {
                                   description: 'Specify the pixels you want returned as events. Use "all" to return all 64, 3,3 to return x:3 y:3, or "none" to return none.',

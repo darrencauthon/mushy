@@ -9,6 +9,7 @@ module Mushy
         name: 'WriteJson',
         title: 'Serialize as JSON',
         description: 'Write the incoming event as JSON.',
+        fluxGroup: { name: 'JSON' },
         config: {
           key: {
                 description: 'The key of the outgoing field that will contain the JSON.',

@@ -7,7 +7,8 @@ module Mushy
     def self.details
       {
         name: 'GlobalVariables',
-        title: 'Global Variables',
+        title: 'Set global variables',
+        fluxGroup: { name: 'Flows' },
         description: 'Add global variables to use in any future flux. Returns what was passed to it.',
         config: {
           values: {

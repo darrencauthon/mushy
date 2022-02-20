@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'SenseHatEnvironmentalSensors',
+        title: 'Read Environmental Sensors',
         description: 'Pull values from the Sense HAT environmental sensors.',
+        fluxGroup: { name: 'SenseHAT' },
         config: Mushy::SimplePythonProgram.default_config,
       }.tap do |c|
         measurements

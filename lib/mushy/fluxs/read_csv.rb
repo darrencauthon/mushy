@@ -8,6 +8,7 @@ module Mushy
       {
         name: 'ReadCsv',
         title: 'Read CSV',
+        fluxGroup: { name: 'CSV' },
         description: 'Read CSV content into events.',
         config: {
           data: {

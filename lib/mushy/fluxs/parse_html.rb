@@ -8,6 +8,7 @@ module Mushy
       {
         name: 'ParseHtml',
         title: 'Parse HTML',
+        fluxGroup: { name: 'Web' },
         description: 'Extract data from HTML.',
         config: {
           path: {

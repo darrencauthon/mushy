@@ -62,7 +62,9 @@ module Mushy
                     </header>
                     <section class="modal-card-body">
                         <div class="content">
-                            <div v-for="(fluxType, id) in fluxTypes">
+                            <div v-for="(fluxGroup) in fluxGroups">
+                            <h2 style="font-style:italic">{{fluxGroup.name}}</h2>
+                            <div v-for="(fluxType, id) in fluxGroup.fluxs">
                                 <div class="level">
                                   <div class="level-left"><h2>{{fluxType.title || fluxType.name}}</h2></div>
                                   <div class="level-right">
@@ -86,6 +88,7 @@ module Mushy
                                   </div>
                                   <div v-for="(a, b) in fluxType.documentation" v-if="fluxType['detailsTab'] == b" v-html="a"></div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </section>
@@ -385,6 +388,16 @@ module Mushy
                  x['detailsTab'] = Object.getOwnPropertyNames(x.documentation)[0];
              } );
 
+             fluxGroups = []
+             fluxdata.fluxs.map(function(x) {
+                 if (x.fluxGroup) {} else { x.fluxGroup = { name: 'Others', position: 999999 } };
+                 rowboat = fluxGroups.filter(function(y) { return y.name == x.fluxGroup.name })[0];
+                 if (rowboat) {} else { fluxGroups.push(x.fluxGroup); x.fluxGroup.fluxs = [] }
+                 rowboat = fluxGroups.filter(function(y) { return y.name == x.fluxGroup.name })[0];
+                 rowboat.fluxs.push(x);
+             } );
+             fluxGroups = fluxGroups.sort(function(x, y) { return (x.position || 1000) - (y.position || 1000); })
+
              var configs = {};
              fluxdata.fluxs.map(function(x){
                  configs[x.name] = x.config;
@@ -566,6 +579,7 @@ module Mushy
                      },
                      configs: configs,
                      fluxTypes: fluxTypesWithDetails,
+                     fluxGroups: fluxGroups,
                      setup: setup,
                      flux_name_for: function(ids, fluxes) {
                          var fluxs = fluxes.filter(function(x){ return ids.includes(x.id) });

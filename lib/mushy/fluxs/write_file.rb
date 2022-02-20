@@ -7,6 +7,7 @@ module Mushy
         name: 'WriteFile',
         title: 'Write File',
         description: 'Write a file.',
+        fluxGroup: { name: 'Files' },
         config: file_saving_config.merge({
                   data: {
                           description: 'The text to write. You can use Liquid templating here to pull data from the event, or write hardcoded data.',

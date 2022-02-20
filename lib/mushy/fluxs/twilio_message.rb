@@ -5,7 +5,8 @@ module Mushy
     def self.details
       {
         name: 'TwilioMessage',
-        title: 'Twilio Message',
+        title: 'Send SMS',
+        fluxGroup: { name: 'Twilio' },
         description: 'Send a Twilio Message.',
         config: {
           account_sid: {

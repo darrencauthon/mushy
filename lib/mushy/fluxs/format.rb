@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Format',
+        title: 'Alter the format of an event',
         description: 'Return the event passed to it. This opens the opportunity to use the common fluxing to alter the event.',
+        fluxGroup: { name: 'Flows' },
         config: {},
         examples: {
           "Simplest Example" => {

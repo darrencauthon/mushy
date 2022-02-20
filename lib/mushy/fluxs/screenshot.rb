@@ -92,6 +92,7 @@ module Mushy
                                         }
                                },
         }
+        config[:fluxGroup] = { name: 'Export' }
       end
     end
 

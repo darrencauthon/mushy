@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Collection',
-        description: 'Collects events.',
+        title: 'Collect and retrieve events',
+        description: 'Collect and retrieve events for the flow.',
+        fluxGroup: { name: 'Flows' },
         config: {
           id: {
                 description: 'The path to the unique id in the body of the element.',

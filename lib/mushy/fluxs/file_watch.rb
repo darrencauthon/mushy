@@ -7,7 +7,8 @@ module Mushy
     def self.details
       {
         name: 'FileWatch',
-        title: 'File Watcher',
+        title: 'Start a flow when files change',
+        fluxGroup: { name: 'Starters', position: 0 },
         description: 'Watch for file changes.',
         config: {
           directory: {

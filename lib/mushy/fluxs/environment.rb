@@ -5,8 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Environment',
-        title: 'Environment Variables',
+        title: 'Pull environment variables',
         description: 'Pull environment variables.',
+        fluxGroup: { name: 'Environment' },
         config: {
           variables: {
                        description: 'Map the environment variables to a new event.',

@@ -7,6 +7,8 @@ module Mushy
     def self.details
       {
         name: 'Browser',
+        title: 'Use a browser',
+        fluxGroup: { name: 'Web' },
         description: 'Visit a page in a browser.',
         config: {
           url: {

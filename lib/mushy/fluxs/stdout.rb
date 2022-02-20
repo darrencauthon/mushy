@@ -5,7 +5,8 @@ module Mushy
     def self.details
       {
         name: 'Stdout',
-        title: 'Stdout / Print',
+        title: 'Export text to stdout',
+        fluxGroup: { name: 'Environment' },
         description: 'Standard Out',
         config: {
           message: {

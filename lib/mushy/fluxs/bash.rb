@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Bash',
+        title: 'Execute a command via bash',
         description: 'Run a bash command.',
+        fluxGroup: { name: 'Execute' },
         config: {
           command: {
                      description: 'The command to run in bash.',

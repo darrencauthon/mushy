@@ -8,6 +8,7 @@ module Mushy
       {
         name: 'ReadJson',
         title: 'Deserialize JSON',
+        fluxGroup: { name: 'JSON' },
         description: 'Read JSON and output it as an event.',
         config: {
           key: {
