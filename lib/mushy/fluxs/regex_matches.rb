@@ -7,10 +7,12 @@ module Mushy
         description: 'Use a regex to search content.',
         fluxGroup: { name: 'Regex' },
         config: {
-          matches: { description: '',
-                     type: 'keyvalue',
-                     shrink: true,
-                     value: {} }
+          regex: { description: 'The regular expression to use.',
+                   type: 'text',
+                   value: '(\w+)' },
+          value: { description: 'The value against which to use the regular expression.',
+                   type: 'text',
+                   value: '{{value}}' }
         },
         examples: {
         }
@@ -22,9 +24,19 @@ module Mushy
 
       keys = config[:regex].scan(/\?<(\w+)>/).flatten
 
-      matches = config[:value].scan Regexp.new(config[:regex])
-      matches.map do |match|
-        match.each_with_index.reduce({}) { |t, i| t[(keys[i[1]] || "match#{i[1] + 1}").to_sym] = i[0]; t }
+      regex = Regexp.new config[:regex]
+
+      config[:value].scan(regex).map do |match|
+        convert_the_match_to_a_hash match, keys
+      end
+    end
+
+    def convert_the_match_to_a_hash(match, keys)
+      {}.tap do |hash|
+        match.each_with_index do |item, index|
+          key = (keys[index] || "match#{index + 1}").to_sym
+          hash[key] = item
+        end
       end
     end
   end
