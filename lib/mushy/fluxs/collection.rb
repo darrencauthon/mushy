@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Collection',
         description: 'Collects events.',
+        fluxGroup: { name: 'Data', position: 0 },
         config: {
           id: {
                 description: 'The path to the unique id in the body of the element.',

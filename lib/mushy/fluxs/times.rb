@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Times',
         description: 'Return the event passed to it, X times.',
+        fluxGroup: { name: 'General' },
         config: {
           times: {
                    description: 'The number of times this event should be returned.',

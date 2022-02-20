@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Document',
         description: 'Create a multi-line document.',
+        fluxGroup: { name: 'Export', position: 0 },
         config: {
           document: {
                       description: 'The multi-line document you wish to create.',

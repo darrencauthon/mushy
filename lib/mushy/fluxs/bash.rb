@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Bash',
         description: 'Run a bash command.',
+        fluxGroup: { name: 'General' },
         config: {
           command: {
                      description: 'The command to run in bash.',

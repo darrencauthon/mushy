@@ -6,6 +6,7 @@ module Mushy
       Mushy::Bash.details[:config].tap do |config|
         config.delete :command
         config.delete :directory
+        config[:fluxGroup] = { name: 'Python' }
       end
     end
 

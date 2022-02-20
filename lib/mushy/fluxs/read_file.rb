@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'ReadFile',
         title: 'Read File',
+        fluxGroup: { name: 'Files' },
         description: 'Read a file.',
         config: {
           file: {

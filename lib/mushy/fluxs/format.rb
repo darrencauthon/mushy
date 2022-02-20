@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Format',
         description: 'Return the event passed to it. This opens the opportunity to use the common fluxing to alter the event.',
+        fluxGroup: { name: 'General' },
         config: {},
         examples: {
           "Simplest Example" => {

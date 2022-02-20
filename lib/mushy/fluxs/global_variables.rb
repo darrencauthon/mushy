@@ -8,6 +8,7 @@ module Mushy
       {
         name: 'GlobalVariables',
         title: 'Global Variables',
+        fluxGroup: { name: 'General' },
         description: 'Add global variables to use in any future flux. Returns what was passed to it.',
         config: {
           values: {

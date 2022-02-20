@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Ls',
+        title: 'List Files',
         description: 'Run the "ls" command.',
+        fluxGroup: { name: 'Files' },
         config: Mushy::Bash.details[:config].tap { |c| c.delete :command },
       }.tap do |c|
         c[:config][:recursive] = {

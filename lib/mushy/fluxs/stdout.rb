@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Stdout',
         title: 'Stdout / Print',
+        fluxGroup: { name: 'General' },
         description: 'Standard Out',
         config: {
           message: {

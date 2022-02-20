@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Filter',
         description: 'Filters events based on criteria.',
+        fluxGroup: { name: 'General' },
         config: {
           equal: {
                  description: 'Provide key/value pairs that must match in the event.',

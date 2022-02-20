@@ -6,6 +6,7 @@ module Mushy
       {
         name: 'Pwd',
         description: 'Run the "pwd" command.',
+        fluxGroup: { name: 'General' },
         config: Mushy::Bash.details[:config].tap { |c| c.delete :command },
       }.tap do |c|
         c[:examples] = {

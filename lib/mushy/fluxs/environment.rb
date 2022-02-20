@@ -7,6 +7,7 @@ module Mushy
         name: 'Environment',
         title: 'Environment Variables',
         description: 'Pull environment variables.',
+        fluxGroup: { name: 'General', position: 0 },
         config: {
           variables: {
                        description: 'Map the environment variables to a new event.',

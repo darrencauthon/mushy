@@ -48,8 +48,9 @@ module Mushy
 
     def self.details
       {
-        name: 'Smtp',
+        name: 'Send Email Using SMTP',
         description: 'Send email through SMTP.',
+        fluxGroup: { name: 'Email' },
         config: {
           from: {
                   description: 'From whom the email will be sent.',

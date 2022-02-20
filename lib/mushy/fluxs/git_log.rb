@@ -5,7 +5,9 @@ module Mushy
     def self.details
       {
         name: 'GitLog',
+        title: 'Get git logs',
         description: 'Return git logs.',
+        fluxGroup: { name: 'Git' },
         config: {
           directory: {
                        description: 'The working directory in which the command will be run.',
