@@ -9,7 +9,7 @@ module Mushy
         name: 'BuildCsv',
         title: "Build CSV",
         description: 'Build a CSV.',
-        fluxGroup: { name: 'CSV', position: 0 },
+        fluxGroup: { name: 'CSV' },
         config: {
           input_path: {
                         description: 'The path to the set of records to include in the CSV.',

@@ -8,7 +8,7 @@ module Mushy
       {
         name: 'FileWatch',
         title: 'Start a flow when files change',
-        fluxGroup: { name: 'Starters' },
+        fluxGroup: { name: 'Starters', position: 0 },
         description: 'Watch for file changes.',
         config: {
           directory: {

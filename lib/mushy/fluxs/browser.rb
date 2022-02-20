@@ -8,7 +8,7 @@ module Mushy
       {
         name: 'Browser',
         title: 'Use a browser',
-        fluxGroup: { name: 'Web', position: 0 },
+        fluxGroup: { name: 'Web' },
         description: 'Visit a page in a browser.',
         config: {
           url: {

@@ -18,7 +18,7 @@ module Mushy
       {
         name: 'Interval',
         title: 'Start a flow on a regular interval',
-        fluxGroup: { name: 'Starters' },
+        fluxGroup: { name: 'Starters', position: 0 },
         description: 'Fire an event every X minutes.',
         config: {},
       }.tap do |c|
