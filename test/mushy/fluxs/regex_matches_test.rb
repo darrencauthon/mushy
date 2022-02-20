@@ -48,4 +48,35 @@ describe Mushy::RegexMatches do
       end
     end
   end
+
+  describe 'named parameters' do
+    describe 'a simple regex match' do
+      it 'should return the value' do
+        config[:value] = 'apple orange banana'
+        config[:regex] = '(?<name>\w+)'
+
+        _(result.count).must_equal 3
+        _(result[0][:name]).must_equal 'apple'
+        _(result[1][:name]).must_equal 'orange'
+        _(result[2][:name]).must_equal 'banana'
+      end
+    end
+
+    describe 'a multiple matches' do
+      it 'should return the value' do
+        config[:value] = 'apple 1 orange 3 banana 9'
+        config[:regex] = '(?<name>\w+) (?<count>\d+)'
+
+        _(result.count).must_equal 3
+        _(result[0][:name]).must_equal 'apple'
+        _(result[0][:count]).must_equal '1'
+
+        _(result[1][:name]).must_equal 'orange'
+        _(result[1][:count]).must_equal '3'
+
+        _(result[2][:name]).must_equal 'banana'
+        _(result[2][:count]).must_equal '9'
+      end
+    end
+  end
 end

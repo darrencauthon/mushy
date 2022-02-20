@@ -19,11 +19,12 @@ module Mushy
 
     def process(_, config)
       return [] unless config[:value]
-      #(?<name>\w+) (?<count>\d+)
+
+      keys = config[:regex].scan(/\?<(\w+)>/).flatten
 
       matches = config[:value].scan Regexp.new(config[:regex])
       matches.map do |match|
-        match.each_with_index.reduce({}) { |t, i| t["match#{i[1] + 1}".to_sym] = i[0]; t }
+        match.each_with_index.reduce({}) { |t, i| t[(keys[i[1]] || "match#{i[1] + 1}").to_sym] = i[0]; t }
       end
     end
   end
