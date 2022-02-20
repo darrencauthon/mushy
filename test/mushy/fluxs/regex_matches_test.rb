@@ -9,7 +9,16 @@ describe Mushy::RegexMatches do
 
   let(:result) { flux.process event, config }
 
-  describe 'there are no regex matches' do
+  describe 'no content' do
+    it 'should return the event it was given' do
+      config[:value] = nil
+      config[:regex] = '(\w+)'
+
+      _(result.count).must_equal 0
+    end
+  end
+
+  describe 'a simple regex match' do
     it 'should return the event it was given' do
       config[:value] = 'apple orange banana'
       config[:regex] = '(\w+)'

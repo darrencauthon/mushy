@@ -13,8 +13,13 @@ module Mushy
       }
     end
 
-    def process(_, _)
-      [{ match: 'apple' }, { match: 'orange' }, { match: 'banana' }]
+    def process(_, config)
+      return [] unless config[:value]
+
+      matches = config[:value].scan /(\w+)/
+      matches.map do |match|
+        { match: match[0] }
+      end
     end
   end
 end
