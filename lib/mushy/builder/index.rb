@@ -388,12 +388,15 @@ module Mushy
                  x['detailsTab'] = Object.getOwnPropertyNames(x.documentation)[0];
              } );
 
-             fluxGroups = {}
+             fluxGroups = []
              fluxdata.fluxs.map(function(x) {
-                 if (x.group) {} else { x.group = { name: 'Others' } }
-                 if (fluxGroups[x.group.name]) {} else { fluxGroups[x.group.name] = x.group; x.group.fluxs = [] }
-                 fluxGroups[x.group.name].fluxs.push(x);
+                 if (x.fluxGroup) {} else { x.fluxGroup = { name: 'Others', position: 999999 } };
+                 rowboat = fluxGroups.filter(function(y) { return y.name == x.fluxGroup.name })[0];
+                 if (rowboat) {} else { fluxGroups.push(x.fluxGroup); x.fluxGroup.fluxs = [] }
+                 rowboat = fluxGroups.filter(function(y) { return y.name == x.fluxGroup.name })[0];
+                 rowboat.fluxs.push(x);
              } );
+             fluxGroups = fluxGroups.sort(function(x, y) { return (x.position || 1000) - (y.position || 1000); })
 
              var configs = {};
              fluxdata.fluxs.map(function(x){

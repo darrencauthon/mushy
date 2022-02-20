@@ -6,7 +6,7 @@ module Mushy
       {
         name: 'Cli',
         title: 'Command Line Interface',
-        group: { name: 'Starters' },
+        fluxGroup: { name: 'Starters', position: 0 },
         description: 'Accept CLI arguments from the run command.',
         config: {
         },
