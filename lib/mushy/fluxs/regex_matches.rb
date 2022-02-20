@@ -21,6 +21,7 @@ module Mushy
 
     def process(_, config)
       return [] unless config[:value]
+      return [] if (config[:regex] || '').strip == ''
 
       keys = config[:regex].scan(/\?<(\w+)>/).flatten
 

@@ -9,12 +9,25 @@ describe Mushy::RegexMatches do
 
   let(:result) { flux.process event, config }
 
-  describe 'no content' do
-    it 'should return the event it was given' do
-      config[:value] = nil
-      config[:regex] = '(\w+)'
+  [nil, '', ' '].each do |nothing|
+    describe 'no content' do
+      it 'should return nothing' do
+        config[:value] = nothing
+        config[:regex] = '(\w+)'
 
-      _(result.count).must_equal 0
+        _(result.count).must_equal 0
+      end
+    end
+  end
+
+  [nil, '', ' '].each do |nothing|
+    describe 'no regex' do
+      it 'should return nothing' do
+        config[:value] = 'apple'
+        config[:regex] = nothing
+
+        _(result.count).must_equal 0
+      end
     end
   end
 
@@ -31,7 +44,7 @@ describe Mushy::RegexMatches do
       end
     end
 
-    describe 'a multiple matches' do
+    describe 'multiple matches' do
       it 'should return the value' do
         config[:value] = 'apple 1 orange 3 banana 9'
         config[:regex] = '(\w+) (\d+)'
@@ -62,7 +75,7 @@ describe Mushy::RegexMatches do
       end
     end
 
-    describe 'a multiple matches' do
+    describe 'multiple matches' do
       it 'should return the value' do
         config[:value] = 'apple 1 orange 3 banana 9'
         config[:regex] = '(?<name>\w+) (?<count>\d+)'
