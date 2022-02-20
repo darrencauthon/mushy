@@ -5,8 +5,9 @@ module Mushy
     def self.details
       {
         name: 'Times',
+        title: 'Repeat an event X times',
         description: 'Return the event passed to it, X times.',
-        fluxGroup: { name: 'General' },
+        fluxGroup: { name: 'Flows' },
         config: {
           times: {
                    description: 'The number of times this event should be returned.',
