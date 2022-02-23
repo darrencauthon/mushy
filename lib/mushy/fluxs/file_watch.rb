@@ -53,9 +53,9 @@ module Mushy
 
       listener = Listen.to(directory) do |modified, added, removed|
         the_event = {
-                      modified: modified,
-                      added: added,
-                      removed: removed,
+                      modified: modified.map { |f| Mushy::Ls.new.process({}, { path: f })[0] },
+                      added: added.map { |f| Mushy::Ls.new.process({}, { path: f })[0] },
+                      removed: removed.map { |f| Mushy::Ls.new.process({}, { path: f })[0] },
                     }
         block.call the_event
       end
