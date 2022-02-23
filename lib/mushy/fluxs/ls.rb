@@ -144,7 +144,8 @@ module Mushy
     end
 
     def build_the_command_from arguments
-      "ls #{arguments.join(' ')}"
+      command = 'ls'
+      "#{command} #{arguments.join(' ')}"
     end
 
     def build_the_arguments_from config
