@@ -17,7 +17,7 @@ module Mushy
       while the_command_to_use.nil? && (command = commands.shift) # keep trying till we find one that works
         the_command_to_use = command if Mushy::Bash.new.process({}, { command: "#{command} --full-time" })[:success]
       end
-      the_command_to_use
+      the_command_to_use || -1
     end
 
     def self.details
@@ -152,6 +152,8 @@ module Mushy
     end
 
     def process event, config
+      raise 'ls is not available' if self.class.the_ls_command == -1
+
       arguments = build_the_arguments_from config
 
       config[:command] = build_the_command_from arguments
