@@ -150,7 +150,7 @@ module Mushy
     end
 
     def build_the_command_from arguments, config
-      command = config[:config][:command].to_s == '' ? 'ls' : config[:config][:command]
+      command = config[:command].to_s == '' ? 'ls' : config[:command]
 
       "#{command} #{arguments.join(' ')}"
     end
