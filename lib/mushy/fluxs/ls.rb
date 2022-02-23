@@ -2,6 +2,24 @@ module Mushy
 
   class Ls < Bash
 
+    def self.the_ls_command
+      @the_ls_command ||= find_the_right_ls_command_to_use
+    end
+
+    def self.find_the_right_ls_command_to_use
+      commands = [
+        'ls', # the normal method used to pull file information
+        'gls' # BSD users don't get the version of ls this needs,
+              # so we might need to use gls after the user runs (brew install coreutils)
+      ]
+
+      the_command_to_use = nil
+      while the_command_to_use.nil? && (command = commands.shift) # keep trying till we find one that works
+        the_command_to_use = command if Mushy::Bash.new.process({}, { command: "#{command} --full-time" })[:success]
+      end
+      the_command_to_use || -1
+    end
+
     def self.details
       {
         name: 'Ls',
@@ -134,6 +152,8 @@ module Mushy
     end
 
     def process event, config
+      raise 'ls is not available' if self.class.the_ls_command == -1
+
       arguments = build_the_arguments_from config
 
       config[:command] = build_the_command_from arguments
@@ -144,7 +164,8 @@ module Mushy
     end
 
     def build_the_command_from arguments
-      "ls #{arguments.join(' ')}"
+      command = self.class.the_ls_command
+      "#{command} #{arguments.join(' ')}"
     end
 
     def build_the_arguments_from config
