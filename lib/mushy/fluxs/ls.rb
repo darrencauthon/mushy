@@ -2,6 +2,16 @@ module Mushy
 
   class Ls < Bash
 
+    def self.the_ls_command
+      if @the_ls_command.nil? # find out which ls command we should use
+        options = ['ls', 'gls'] # usually we should use ls, but BSD might need gls after (brew install coreutils)
+        while @the_ls_command.nil? && (command = options.shift) # keep trying till we find an answer
+          @the_ls_command = command if Mushy::Bash.new.process({}, { command: "#{command} --full-time" })[:success]
+        end
+      end
+      @the_ls_command
+    end
+
     def self.details
       {
         name: 'Ls',
@@ -144,7 +154,7 @@ module Mushy
     end
 
     def build_the_command_from arguments
-      command = 'ls'
+      command = self.class.the_ls_command
       "#{command} #{arguments.join(' ')}"
     end
 
