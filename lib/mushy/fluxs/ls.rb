@@ -22,6 +22,12 @@ module Mushy
                                 shrink:      true,
                                 value:       '',
                               }
+        c[:config][:command] = {
+                                 description: 'Command, defaults to "ls" but might be "gls" on BSD.',
+                                 type:        'text',
+                                 shrink:      true,
+                                 value:       '',
+                               }
       end.tap do |c|
         c[:examples] = {
           "Run In A Directory" => {
@@ -136,15 +142,16 @@ module Mushy
     def process event, config
       arguments = build_the_arguments_from config
 
-      config[:command] = build_the_command_from arguments
+      config[:command] = build_the_command_from arguments, config
       result = super event, config
 
       things = turn_the_ls_output_to_events result, config, event
       things
     end
 
-    def build_the_command_from arguments
-      command = 'ls'
+    def build_the_command_from arguments, config
+      command = config[:config][:command].to_s == '' ? 'ls' : config[:config][:command]
+
       "#{command} #{arguments.join(' ')}"
     end
 
