@@ -3,13 +3,21 @@ module Mushy
   class Ls < Bash
 
     def self.the_ls_command
-      if @the_ls_command.nil? # find out which ls command we should use
-        options = ['ls', 'gls'] # usually we should use ls, but BSD might need gls after (brew install coreutils)
-        while @the_ls_command.nil? && (command = options.shift) # keep trying till we find an answer
-          @the_ls_command = command if Mushy::Bash.new.process({}, { command: "#{command} --full-time" })[:success]
-        end
+      @the_ls_command ||= find_the_right_ls_command_to_use
+    end
+
+    def self.find_the_right_ls_command_to_use
+      commands = [
+        'ls', # the normal method used to pull file information
+        'gls' # BSD users don't get the version of ls this needs,
+              # so we might need to use gls after the user runs (brew install coreutils)
+      ]
+
+      the_command_to_use = nil
+      while the_command_to_use.nil? && (command = commands.shift) # keep trying till we find one that works
+        the_command_to_use = command if Mushy::Bash.new.process({}, { command: "#{command} --full-time" })[:success]
       end
-      @the_ls_command
+      the_command_to_use
     end
 
     def self.details
