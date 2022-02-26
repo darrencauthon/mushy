@@ -1,5 +1,8 @@
 require 'daemons'
 
+module Mushy::Builder
+end
+
 module Mushy::Builder::Api
   def self.run(data)
     data = SymbolizedHash.new JSON.parse(data)

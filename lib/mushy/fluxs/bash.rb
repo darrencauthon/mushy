@@ -1,4 +1,4 @@
-class Mushy::Bash < Flux
+class Mushy::Bash < Mushy::Flux
   def self.details
     {
       name: 'Bash',
