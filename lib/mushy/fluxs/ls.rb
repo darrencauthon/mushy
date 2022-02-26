@@ -254,6 +254,10 @@ module Mushy
 
       result[:date] = Mushy::DateParts.parse result[:date]
 
+      if File.exist?(result[:name]) && result[:name].start_with?(directory)
+        result[:name] = result[:name].split("\/")[-1]
+      end
+
       result[:directory] = directory
 
       if result[:type] == 'd' && result[:directory] == result[:name]
