@@ -16,16 +16,14 @@ class MushyCLI < Thor
 
   desc "build FILE", 'Build a flow.'
   def build
-
-    MushyCLI.set_special( { method: 'build', file: file } )
-
+    MushyCLI.set_special_values( { method: 'build', file: file } )
   end
 
-  def self.set_special data
+  def self.set_special_values data
     @special = data
   end
 
-  def self.get_special
+  def self.get_special_values
     @special
   end
 
@@ -33,12 +31,12 @@ end
 
 MushyCLI.start(ARGV)
 
-exit unless MushyCLI.get_special
+exit unless MushyCLI.get_special_values
 
 require 'sinatra'
 enable :run
 
-the_file = MushyCLI.get_special[:file]
+the_file = MushyCLI.get_special_values[:file]
 
 get '/' do
   Mushy::Builder::Index.file
