@@ -23,9 +23,6 @@ class Mushy::Environment < Mushy::Flux
   end
 
   def process(_, config)
-    config[:variables].reduce({}) do |t, i|
-      t[i[0]] = ENV[i[1]]
-      t
-    end
+    config[:variables].each_with_object({}) { |t, i| t[i[0]] = ENV[i[1]] }
   end
 end
