@@ -11,7 +11,7 @@ module Mushy::Builder::Api
 
     config = SymbolizedHash.new data[:config]
 
-    flux = Mushy::Flow.build_flux( { type: data[:setup][:flux], config: config } )
+    flux = Mushy::Flow.build_flux({ type: data[:setup][:flux], config: config })
 
     result = flux.execute event
 
@@ -28,9 +28,9 @@ module Mushy::Builder::Api
   def self.start(file, event)
     original_file = file
     file = [file, "#{Dir.home}/.mushy/#{file}"]
-            .map { |x| (x.downcase.end_with?('.mushy') ? x : "#{x}.mushy") }
-            .select { |x| File.exist?(x) }
-            .first
+             .map { |x| (x.downcase.end_with?('.mushy') ? x : "#{x}.mushy") }
+             .select { |x| File.exist?(x) }
+             .first
 
     unless file
       puts "#{original_file} does not exist."
@@ -134,7 +134,7 @@ module Mushy::Builder::Api
     {
       fluxs: Mushy::Flux.all
                         .select { |x| x.respond_to? :details }
-                        .select { |x| x.details }
+                        .select(&:details)
                         .map do |flux|
                           details = flux.details
 
@@ -152,19 +152,19 @@ module Mushy::Builder::Api
 
                           details[:config][:error_strategy] = {
                             description: 'Error strategy. (return to return an event with "exception" returning the error, or ignore to ignore the exception)',
-                            type:        'select',
-                            options:     ['', 'return', 'ignore'],
-                            value:       '',
-                            shrink:      true,
+                            type: 'select',
+                            options: ['', 'return', 'ignore'],
+                            value: '',
+                            shrink: true
                           }
 
                           if flux.new.respond_to? :loop
                             details[:config][:run_strategy] = {
                               description: 'Run this using this strategy. (select "daemon" if this should be run in the background)',
-                              type:        'select',
-                              options:     ['', 'inline', 'daemon'],
-                              value:       '',
-                              shrink:      true,
+                              type: 'select',
+                              options: ['', 'inline', 'daemon'],
+                              value: '',
+                              shrink: true
                             }
                           end
 
@@ -173,9 +173,9 @@ module Mushy::Builder::Api
                             .select { |_, v| v[:editors].nil? }
                             .each do |_, v|
                               v[:editors] = [
-                                              { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
-                                              { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
-                                            ]
+                                { id: 'new_key', target: 'key', field: { type: 'text', value: '', default: '' } },
+                                { id: 'new_value', target: 'value', field: { type: 'text', value: '', default: '' } }
+                              ]
                             end
 
                           details
