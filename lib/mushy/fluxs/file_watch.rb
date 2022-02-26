@@ -17,6 +17,12 @@ module Mushy
                        shrink:      true,
                        value:       '',
                      },
+          include_all_file_details: {
+                       description: 'If true, returns all details for the file. If false, just path & name are returned',
+                       type:        'boolean',
+                       shrink:      true,
+                       value:       '',
+                     }
         },
         examples: {
           "Files Added" => {
@@ -70,10 +76,14 @@ module Mushy
     end
 
     def get_the_details_for(file)
-      {
-        path: file,
-        name: file.split("\/").pop
-      }
+      if config[:include_all_file_details].to_s == 'true'
+        Mushy::Ls.new.process({}, { path: file })[0]
+      else
+        {
+          path: file,
+          name: file.split("\/").pop
+        }
+      end
     end
 
   end

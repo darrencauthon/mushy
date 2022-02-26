@@ -8,6 +8,7 @@
 
       ],
       "config": {
+        "include_all_file_details": "false",
         "model": {
         }
       }
@@ -20,7 +21,7 @@
         "c4457b41-156b-4189-892e-0dd1ed890592"
       ],
       "config": {
-        "document": "{% for file in modified %}\n  {{ file.path }} OR {{file.name}}\n{% endfor %}",
+        "document": "{% for file in modified %}\n  path: {{ file.path }} , name: {{file.name}} , directory: {{file.directory}}\n{% endfor %}",
         "model": {
         }
       }
