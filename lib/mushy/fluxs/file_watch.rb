@@ -47,15 +47,14 @@ module Mushy
       }
     end
 
-    def loop &block
-
+    def loop(&block)
       directory = config[:directory].to_s != '' ? config[:directory] : Dir.pwd
 
       listener = Listen.to(directory) do |modified, added, removed|
         the_event = {
-                      modified: modified.map { |f| Mushy::Ls.new.process({}, { path: f })[0] },
-                      added: added.map { |f| Mushy::Ls.new.process({}, { path: f })[0] },
-                      removed: removed.map { |f| Mushy::Ls.new.process({}, { path: f })[0] },
+                      modified: modified.map { |f| get_the_details_for(f) },
+                      added: added.map { |f| get_the_details_for(f) },
+                      removed: removed.map { |f| get_the_details_for(f) }
                     }
         block.call the_event
       end
@@ -68,6 +67,13 @@ module Mushy
 
     def process event, config
       event
+    end
+
+    def get_the_details_for(file)
+      {
+        path: file,
+        name: file.split("\/").pop
+      }
     end
 
   end
