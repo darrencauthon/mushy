@@ -79,9 +79,11 @@ module Mushy
       if config[:include_all_file_details].to_s == 'true'
         Mushy::Ls.new.process({}, { path: file })[0]
       else
+        segments = file.split("\/")
         {
           path: file,
-          name: file.split("\/").pop
+          name: segments.pop,
+          directory: segments.join("\/")
         }
       end
     end
