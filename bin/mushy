@@ -4,7 +4,6 @@ require 'thor'
 require 'mushy'
 
 class MushyCLI < Thor
-
   argument :file, optional: true, type: :string
   argument :values, optional: true, type: :hash
 
@@ -26,7 +25,6 @@ class MushyCLI < Thor
   def self.get_special_values
     @special
   end
-
 end
 
 MushyCLI.start(ARGV)
