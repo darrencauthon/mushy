@@ -29,7 +29,7 @@ module Mushy
                              description: 'When a file is added, this type of result will be returned.',
                              result: {
                                        modified: [],
-                                       added: ["/home/pi/Desktop/mushy/bin/hey.txt"],
+                                       added: [ { path: '/home/pi/Desktop/mushy/bin/hey.txt', directory: '/home/pi/Desktop/mushy/bin', name: 'hey.txt' } ],
                                        removed:[]
                                      }
                            },
@@ -38,13 +38,13 @@ module Mushy
                                result: {
                                          modified: [],
                                          added: [],
-                                         removed:["/home/pi/Desktop/mushy/mushy-0.15.3.gem"]
+                                         removed:[{ path: '/home/pi/Desktop/mushy/mushy-0.15.3.gem', directory: '/home/pi/Desktop/mushy', name: 'mushy-0.15.3.gem'} ]
                                        }
                              },
           "Files Modified" => {
                                 description: 'When a file is modified, this type of result will be returned.',
                                 result: {
-                                          modified: ["/home/pi/Desktop/mushy/lib/mushy/fluxs/environment.rb"],
+                                          modified: [ { path: '/home/pi/Desktop/mushy/lib/mushy/fluxs/environment.rb', directory: '/home/pi/Desktop/mushy/lib/mushy/fluxs/environment.rb', name: 'environment.rb' } ],
                                           added: [],
                                           removed:[]
                                         }
