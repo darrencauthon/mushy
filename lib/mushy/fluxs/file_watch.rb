@@ -17,6 +17,12 @@ module Mushy
                        shrink:      true,
                        value:       '',
                      },
+          include_all_file_details: {
+                       description: 'If true, returns all details for the file. If false, just path & name are returned',
+                       type:        'boolean',
+                       shrink:      true,
+                       value:       '',
+                     }
         },
         examples: {
           "Files Added" => {
@@ -47,15 +53,14 @@ module Mushy
       }
     end
 
-    def loop &block
-
+    def loop(&block)
       directory = config[:directory].to_s != '' ? config[:directory] : Dir.pwd
 
       listener = Listen.to(directory) do |modified, added, removed|
         the_event = {
-                      modified: modified,
-                      added: added,
-                      removed: removed,
+                      modified: modified.map { |f| get_the_details_for(f) },
+                      added: added.map { |f| get_the_details_for(f) },
+                      removed: removed.map { |f| get_the_details_for(f) }
                     }
         block.call the_event
       end
@@ -68,6 +73,17 @@ module Mushy
 
     def process event, config
       event
+    end
+
+    def get_the_details_for(file)
+      if config[:include_all_file_details].to_s == 'true'
+        Mushy::Ls.new.process({}, { path: file })[0]
+      else
+        {
+          path: file,
+          name: file.split("\/").pop
+        }
+      end
     end
 
   end
