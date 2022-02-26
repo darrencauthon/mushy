@@ -1,9 +1,9 @@
 {
   "fluxs": [
     {
-      "id": "0294b0c4-296f-44cd-9891-95fe75ebe4d2",
-      "name": "Start it up",
-      "flux": "Cli",
+      "id": "c4457b41-156b-4189-892e-0dd1ed890592",
+      "name": "Start watching for file changes",
+      "flux": "FileWatch",
       "parents": [
 
       ],
@@ -13,14 +13,27 @@
       }
     },
     {
-      "id": "7779dce1-1ce8-4241-8e94-ddcd5cb4f8df",
-      "name": "Output something",
-      "flux": "Stdout",
+      "id": "6e8a89ef-5acf-481a-9b4f-2a637bd6983b",
+      "name": "Create a list of files",
+      "flux": "Document",
       "parents": [
-        "0294b0c4-296f-44cd-9891-95fe75ebe4d2"
+        "c4457b41-156b-4189-892e-0dd1ed890592"
       ],
       "config": {
-        "message": "Hello.",
+        "document": "{% for file in modified %}\n  {{ file.path }} OR {{file.name}}\n{% endfor %}",
+        "model": {
+        }
+      }
+    },
+    {
+      "id": "76797d64-f263-4b6c-a11e-f60da07a0b75",
+      "name": "output the document",
+      "flux": "Stdout",
+      "parents": [
+        "6e8a89ef-5acf-481a-9b4f-2a637bd6983b"
+      ],
+      "config": {
+        "message": "{{document}}",
         "model": {
         }
       }

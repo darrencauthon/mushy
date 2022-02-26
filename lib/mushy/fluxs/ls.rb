@@ -225,6 +225,7 @@ module Mushy
     end
 
     def pull_file segments, directory
+
       result = {}
 
       [:inode, :help, :hard_links, :owner, :group, :size].each do |key|
