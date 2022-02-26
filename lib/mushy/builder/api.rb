@@ -1,13 +1,9 @@
 require 'daemons'
 
 module Mushy
-
   module Builder
-
     module Api
-
       def self.run data
-
         data = SymbolizedHash.new JSON.parse(data)
 
         event = SymbolizedHash.new JSON.parse(data[:setup][:event].to_json)
@@ -22,12 +18,10 @@ module Mushy
       end
 
       def self.save file, data
-
         file = "#{file}.mushy" unless file.downcase.end_with?('.mushy')
 
         data = SymbolizedHash.new JSON.parse(data)
         Mushy::WriteFile.new.process( {}, { name: file, data: JSON.pretty_generate(data) })
-
       end
 
       def self.start file, event
@@ -118,7 +112,6 @@ module Mushy
         new_fluxs = [fluxs.first]
 
         loop do
-
           next_fluxs = fluxs.select { |x| x['parents'].include? new_fluxs[-1]['id'] }
 
           unless next_fluxs.any?
@@ -128,7 +121,6 @@ module Mushy
           new_fluxs = [new_fluxs, next_fluxs].flatten
 
           break unless next_fluxs.any?
-
         end
 
         new_fluxs
@@ -183,9 +175,6 @@ module Mushy
                  end.sort_by { |x| x[:name] }
         }
       end
-
     end
-
   end
-
 end
