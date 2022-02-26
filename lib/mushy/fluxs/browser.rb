@@ -141,100 +141,100 @@ $('#login').click();"
             body: '<html xmlns="http://www.w3.org/1999/xhtml"><head></head>...</html>'
           }
         },
-        "Access a Page After Logging In" => {
-                                description: 'This will open a page using cookies from the previous request. Note that the cookies came from another browser flux event.',
-                                input: {
-                                        "url": "https://yoursitepleasethankyou/",
-                                        "cookies": [
-                                                      {
-                                                        "name": "session_id",
-                                                        "value": "1jfujsx5xbnuxmsjmgjhzfpi",
-                                                        "domain": ".yoursitepleasethankyou",
-                                                        "path": "/",
-                                                        "expires": -1,
-                                                        "size": 41,
-                                                        "httpOnly": true,
-                                                        "secure": true,
-                                                        "session": true,
-                                                        "sameSite": "Lax",
-                                                        "priority": "Medium"
-                                                      }
-                                                    ],
-                                      },
-                                config: {
-                                        url: "https://www.yoursitepleasethankyou.com/myaccount",
-                                        carry_cookies_from: "{{cookies}}"
-                                      },
-                                result: {
-                                          "url": "https://yoursitepleasethankyou/",
-                                          "status": 200,
-                                          "title": "",
-                                          "cookies": [
-                                                      {
-                                                        "name": "session_id",
-                                                        "value": "1jfujsx5xbnuxmsjmgjhzfpi",
-                                                        "domain": ".yoursitepleasethankyou",
-                                                        "path": "/",
-                                                        "expires": -1,
-                                                          "size": 41,
-                                                          "httpOnly": true,
-                                                          "secure": true,
-                                                          "session": true,
-                                                          "sameSite": "Lax",
-                                                          "priority": "Medium"
-                                                      }
-                                                    ],
-                                          "headers": {},
-                                          "time": 4.633920809,
-                                          "body": "<html><head></head>Your name is John Doe...</html>"
-                                        }
-                              }
-                }
+        'Access a Page After Logging In' => {
+          description: 'This will open a page using cookies from the previous request. Note that the cookies came from another browser flux event.',
+          input: {
+            url: 'https://yoursitepleasethankyou/',
+            cookies: [
+              {
+                name: 'session_id',
+                value: '1jfujsx5xbnuxmsjmgjhzfpi',
+                domain: '.yoursitepleasethankyou',
+                path: '/',
+                expires: -1,
+                size: 41,
+                httpOnly: true,
+                secure: true,
+                session: true,
+                sameSite: 'Lax',
+                priority: 'Medium'
+              }
+            ]
+          },
+          config: {
+            url: 'https://www.yoursitepleasethankyou.com/myaccount',
+            carry_cookies_from: '{{cookies}}'
+          },
+          result: {
+            url: 'https://yoursitepleasethankyou/',
+            status: 200,
+            title: '',
+            cookies: [
+              {
+                name: 'session_id',
+                value: '1jfujsx5xbnuxmsjmgjhzfpi',
+                domain: '.yoursitepleasethankyou',
+                path: '/',
+                expires: -1,
+                size: 41,
+                httpOnly: true,
+                secure: true,
+                session: true,
+                sameSite: 'Lax',
+                priority: 'Medium'
+              }
+            ],
+            headers: {},
+            time: 4.633920809,
+            body: '<html><head></head>Your name is John Doe...</html>'
+          }
+        }
+      }
     }
   end
 
   def process event, config
-
     timeout = config[:timeout] ? config[:timeout].to_i : 5
 
     browser = Ferrum::Browser.new(
       headless: (config[:headless].to_s != 'false'),
-      timeout: timeout)
+      timeout: timeout
+    )
 
     get_the_cookies_from(event, config).each { |c| browser.cookies.set(c) }
 
     browser.headers.add get_the_headers_from(event, config)
 
-    the_start = Time.now
+    the_start = Time.now.utc
     browser.goto config[:url]
-    time = Time.now - the_start
+    time = Time.now.utc - the_start
 
     browser.execute(config[:execute]) if config[:execute]
 
-    sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing] && config[:wait_before_closing].to_i > 0
+    sleep(config[:wait_before_closing].to_i) if config[:wait_before_closing]&.to_i&.positive?
 
     result = {
       url: browser.url,
       status: browser.network.status,
       title: browser.frames[0].title,
-      cookies: browser.cookies.all.map { |k, v| v.instance_variable_get('@attributes') },
+      cookies: browser.cookies.all.map { |_, v| v.instance_variable_get('@attributes') },
       headers: browser.headers.get,
       time: time,
       body: browser.body
     }
 
-    result = adjust( { browser: browser, result: result, config: config } )
+    result = adjust({ browser: browser, result: result, config: config })
 
     browser.quit
 
     result
   end
 
-  def adjust input
+  def adjust(input)
     input[:result]
   end
 
-  def get_the_cookies_from event, config
+  def get_the_cookies_from(event, config)
     carry_cookies_from = config[:carry_cookies_from].to_s == '' ? 'cookies' : config[:carry_cookies_from]
     cookies = event[carry_cookies_from.to_sym]
     cookies = [] unless cookies.is_a?(Array)
@@ -243,7 +243,7 @@ $('#login').click();"
     cookies
   end
 
-  def get_the_headers_from event, config
+  def get_the_headers_from(event, config)
     carry_headers_from = config[:carry_headers_from].to_s == '' ? 'headers' : config[:carry_headers_from]
     headers = event[carry_headers_from.to_sym]
     headers = {} unless headers.is_a?(Hash)

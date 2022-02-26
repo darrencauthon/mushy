@@ -138,7 +138,7 @@ module Mushy::Builder::Api
                         .map do |flux|
                           details = flux.details
 
-                          details[:documentation] = Documentation.build_from details
+                          details[:documentation] = Mushy::Builder::Documentation.build_from details
 
                           details[:config][:incoming_split] = { type: 'text', shrink: true, description: 'Split an incoming event into multiple events by this key, an each event will be processed independently.', default: '' }
                           details[:config][:outgoing_split] = { type: 'text', shrink: true, description: 'Split an outgoing event into multiple events by this key.', default: '' }
