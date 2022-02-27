@@ -54,12 +54,7 @@ class Mushy::FileWatch < Mushy::Flux
     directory = config[:directory].to_s != '' ? config[:directory] : Dir.pwd
 
     listener = Listen.to(directory) do |modified, added, removed|
-      the_event = {
-        modified: modified.map { |f| get_the_details_for(f) },
-        added: added.map { |f| get_the_details_for(f) },
-        removed: removed.map { |f| get_the_details_for(f) }
-      }
-      block.call the_event
+      block.call convert_changes_to_event(modified, added, removed)
     end
 
     listener.start
@@ -72,10 +67,14 @@ class Mushy::FileWatch < Mushy::Flux
   end
 
   def test(_, _)
+    convert_changes_to_event([], [], [])
+  end
+
+  def convert_changes_to_event(modified, added, removed)
     {
-      added: [],
-      modified: [],
-      deleted: []
+      modified: modified.map { |f| get_the_details_for(f) },
+      added: added.map { |f| get_the_details_for(f) },
+      removed: removed.map { |f| get_the_details_for(f) }
     }
   end
 
