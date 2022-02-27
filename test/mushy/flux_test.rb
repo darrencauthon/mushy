@@ -20,10 +20,50 @@ class MushyFluxTestClassWithLambda < Mushy::Flux
 
 end
 
+class MushyFluxTestClassWithTestMethod < Mushy::Flux
+
+  attr_accessor :return_this
+  attr_accessor :test_called
+
+  def test event, config
+    self.test_called = true
+    return_this
+  end
+
+  def process event, config
+    return_this
+  end
+
+end
+
 describe Mushy::Flux do
 
   let(:flux) { Mushy::Flux.new }
   let(:event) { {} }
+
+  describe 'test mode' do
+    let(:flux) { MushyFluxTestClassWithTestMethod.new }
+
+    before { flux.return_this = {} }
+
+    describe 'when the test mode is on' do
+      before { flux.config[:_test_mode] = true }
+
+      it 'should call the test mode instead of process' do
+        flux.execute(event)
+        _(flux.test_called).must_equal true
+      end
+    end
+
+    describe 'when the test mode is off' do
+      before { flux.config[:_test_mode] = false }
+
+      it 'should call the test mode instead of process' do
+        flux.execute(event)
+        _(flux.test_called).wont_equal true
+      end
+    end
+  end
 
   describe "the basics" do
 

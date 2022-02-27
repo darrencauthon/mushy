@@ -71,6 +71,10 @@ class Mushy::FileWatch < Mushy::Flux
     event
   end
 
+  def test(event, config)
+    process(event, config)
+  end
+
   def get_the_details_for(file)
     if config[:include_all_file_details].to_s == 'true'
       Mushy::Ls.new.process({}, { path: file })[0]
