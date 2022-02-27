@@ -44,21 +44,30 @@ describe Mushy::Flux do
   describe 'test mode' do
     let(:flux) { MushyFluxTestClassWithTestMethod.new }
 
-    before { flux.return_this = {} }
+    before { flux.return_this = {} if flux.respond_to?(:return_this) }
 
     describe 'when the test mode is on' do
       before { flux.config[:_test_mode] = true }
 
-      it 'should call the test mode instead of process' do
+      it 'should call the test instead of process' do
         flux.execute(event)
         _(flux.test_called).must_equal true
+      end
+
+      describe 'but the class does not have a test method' do
+        let(:flux) { MushyFluxTestClassWithLambda.new }
+        it 'should call the process' do
+          flux.do_this = ->(_, _) { { hello: 'world' } }
+          result = flux.execute(event)
+          _(result[:hello]).must_equal 'world'
+        end
       end
     end
 
     describe 'when the test mode is off' do
       before { flux.config[:_test_mode] = false }
 
-      it 'should call the test mode instead of process' do
+      it 'should call the process instead of test' do
         flux.execute(event)
         _(flux.test_called).wont_equal true
       end
