@@ -71,8 +71,12 @@ class Mushy::FileWatch < Mushy::Flux
     event
   end
 
-  def test(event, config)
-    process(event, config)
+  def test(_, _)
+    {
+      added: [],
+      modified: [],
+      deleted: []
+    }
   end
 
   def get_the_details_for(file)
