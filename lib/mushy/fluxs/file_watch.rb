@@ -54,12 +54,7 @@ class Mushy::FileWatch < Mushy::Flux
     directory = config[:directory].to_s != '' ? config[:directory] : Dir.pwd
 
     listener = Listen.to(directory) do |modified, added, removed|
-      the_event = {
-        modified: modified.map { |f| get_the_details_for(f) },
-        added: added.map { |f| get_the_details_for(f) },
-        removed: removed.map { |f| get_the_details_for(f) }
-      }
-      block.call the_event
+      block.call convert_changes_to_event(modified, added, removed, config)
     end
 
     listener.start
@@ -71,7 +66,22 @@ class Mushy::FileWatch < Mushy::Flux
     event
   end
 
-  def get_the_details_for(file)
+  def test(_, config)
+    modified = [Mushy::Ls.new.process({}, {}).select { |x| x[:type] == '-' }.sample]
+               .compact
+               .map { |x| x[:path] }
+    convert_changes_to_event(modified, [], [], config)
+  end
+
+  def convert_changes_to_event(modified, added, removed, config)
+    {
+      modified: modified.map { |f| get_the_details_for(f, config) },
+      added: added.map { |f| get_the_details_for(f, config) },
+      removed: removed.map { |f| get_the_details_for(f, config) }
+    }
+  end
+
+  def get_the_details_for(file, config)
     if config[:include_all_file_details].to_s == 'true'
       Mushy::Ls.new.process({}, { path: file })[0]
     else

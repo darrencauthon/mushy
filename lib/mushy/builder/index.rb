@@ -479,6 +479,7 @@ module Mushy
                                       Vue.set(app.results, 'errorMessage', '');
                                       var the_setup = thingToData(app.setup);
                                       the_setup.event = c.test_event;
+                                      c['_test_mode'] = true;
                                       axios.post('/run', { config: c, setup: the_setup })
                                        .then(function(r){
                                            Vue.set(app.setup.testResultModal, 'is-active', true);

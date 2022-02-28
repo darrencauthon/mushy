@@ -63,7 +63,8 @@ module Mushy
       the_original_join = mashed_config[:join]
       mashed_config[:join] = nil if mashed_config[:incoming_split]
 
-      results = process event, mashed_config
+      method = config[:_test_mode] && respond_to?(:test) ? :test : :process
+      results = send(method, event, mashed_config)
 
       returned_one_result = results.is_a?(Hash)
 
