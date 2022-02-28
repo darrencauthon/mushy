@@ -15,7 +15,13 @@ class Mushy::FileWatch < Mushy::Flux
           value: ''
         },
         include_all_file_details: {
-          description: 'If true, returns all details for the file. If false, just path & name are returned',
+          description: 'If true, returns all details for the file. If false, just path & name are returned.',
+          type: 'boolean',
+          shrink: true,
+          value: ''
+        },
+        merge_all_file_changes: {
+          description: 'If true, all changes are merged into one "files". If false, added/modified/removed are returned separately.',
           type: 'boolean',
           shrink: true,
           value: ''
@@ -74,10 +80,16 @@ class Mushy::FileWatch < Mushy::Flux
   end
 
   def convert_changes_to_event(modified, added, removed, config)
-    {
+    result = {
       modified: modified.map { |f| get_the_details_for(f, config) },
       added: added.map { |f| get_the_details_for(f, config) },
       removed: removed.map { |f| get_the_details_for(f, config) }
+    }
+
+    return result unless config[:merge_all_file_changes].to_s == 'true'
+
+    {
+      files: [:added, :modified, :removed].map { |x| result[x] }.flatten
     }
   end
 
