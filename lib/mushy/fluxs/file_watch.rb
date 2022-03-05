@@ -25,6 +25,24 @@ class Mushy::FileWatch < Mushy::Flux
           type: 'boolean',
           shrink: true,
           value: ''
+        },
+        include_added: {
+          description: 'Include added fields, defaults to true.',
+          type: 'boolean',
+          shrink: true,
+          value: ''
+        },
+        include_modified: {
+          description: 'Include modified fields, defaults to true.',
+          type: 'boolean',
+          shrink: true,
+          value: ''
+        },
+        include_removed: {
+          description: 'Include removed fields, defaults to true.',
+          type: 'boolean',
+          shrink: true,
+          value: ''
         }
       },
       examples: {
@@ -80,6 +98,10 @@ class Mushy::FileWatch < Mushy::Flux
   end
 
   def convert_changes_to_event(modified, added, removed, config)
+    modified = [] if config[:include_modified].to_s == 'false'
+    added = [] if config[:include_added].to_s == 'false'
+    removed = [] if config[:include_removed].to_s == 'false'
+
     result = {
       modified: modified.map { |f| get_the_details_for(f, config) },
       added: added.map { |f| get_the_details_for(f, config) },
