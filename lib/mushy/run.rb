@@ -1,8 +1,3 @@
-module Mushy
-
-  class Run
-    attr_accessor :id
-    attr_accessor :flow_id
-  end
-
+class Mushy::Run
+  attr_accessor(:id, :flow_id)
 end
