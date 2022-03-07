@@ -10,7 +10,9 @@ class MushyCLI < Thor
   desc "start FILE", "Run this workflow file."
   def start
     v = values || {}
-    Mushy::Builder::Api.start file, v
+    Mushy::Builder::Api.start(file, v).tap do |run|
+      MushyCLI.set_special_values({ method: 'web', run: run }) if run.is_a?(Mushy::FireUpAWebServer)
+    end
   end
 
   desc "build FILE", 'Build a flow.'
@@ -34,54 +36,60 @@ exit unless MushyCLI.get_special_values
 require 'sinatra'
 enable :run
 
-the_file = MushyCLI.get_special_values[:file]
+if MushyCLI.get_special_values[:method] == 'web'
+  get '/' do
+    '.'
+  end
+elsif MushyCLI.get_special_values[:method] == 'build'
+  the_file = MushyCLI.get_special_values[:file]
 
-get '/' do
-  Mushy::Builder::Index.file
-end
+  get '/' do
+    Mushy::Builder::Index.file
+  end
 
-get '/bulma.css' do
-  content_type :css
-  Mushy::Builder::Bulma.file
-end
+  get '/bulma.css' do
+    content_type :css
+    Mushy::Builder::Bulma.file
+  end
 
-get '/dark.css' do
-  content_type :css
-  Mushy::Builder::Dark.file
-end
+  get '/dark.css' do
+    content_type :css
+    Mushy::Builder::Dark.file
+  end
 
-get '/axios.js' do
-  content_type :js
-  Mushy::Builder::Axios.file
-end
+  get '/axios.js' do
+    content_type :js
+    Mushy::Builder::Axios.file
+  end
 
-get '/vue.js' do
-  content_type :js
-  Mushy::Builder::Vue.file
-end
+  get '/vue.js' do
+    content_type :js
+    Mushy::Builder::Vue.file
+  end
 
-get '/flow' do
-  content_type :json
-  Mushy::Builder::Api.get_flow(the_file).to_json
-end
+  get '/flow' do
+    content_type :json
+    Mushy::Builder::Api.get_flow(the_file).to_json
+  end
 
-get '/fluxs' do
-  content_type :json
-  Mushy::Builder::Api.get_fluxs.to_json
-end
+  get '/fluxs' do
+    content_type :json
+    Mushy::Builder::Api.get_fluxs.to_json
+  end
 
-post '/run' do
-  content_type :json
+  post '/run' do
+    content_type :json
 
-  result = Mushy::Builder::Api.run request.body.read
+    result = Mushy::Builder::Api.run request.body.read
 
-  { result: result }.to_json
-end
+    { result: result }.to_json
+  end
 
-post '/save' do
-  content_type :json
+  post '/save' do
+    content_type :json
 
-  result = Mushy::Builder::Api.save the_file, request.body.read
+    result = Mushy::Builder::Api.save the_file, request.body.read
 
-  { result: result }.to_json
+    { result: result }.to_json
+  end
 end
