@@ -1,7 +1,7 @@
 class Mushy::Web < Mushy::Flux
   def self.details
     {
-      name: 'Api',
+      name: 'Web',
       title: 'Set up a web endpoint',
       description: '',
       fluxGroup: { name: '' },
