@@ -33,7 +33,7 @@ module Mushy
       [fluxes.map do |flux|
         events = runner.run_event_with_flux event, flux, flow
 
-        return [events, false] if flux.is_a?(Mushy::Stop)
+        return [events, false] if flux.is_a?(Object.const_get('Mushy::Stop'))
 
         events
       end.flatten, true]
