@@ -20,8 +20,8 @@ module Mushy
 
                               return result[0].flatten unless result[1]
 
-                              result[0].flatten
-                            end
+                              result[0]
+                            end.flatten
       end
 
       run
