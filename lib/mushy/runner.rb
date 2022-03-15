@@ -15,17 +15,20 @@ module Mushy
       events = run_event_with_flux starting_event, flux, flow
 
       while events.any?
-        events = events.map { |e| runner.run_event_in_flow e, flow }.flatten
+        events = events.map do |event|
+                              runner.run_event_in_flow(event, flow).flatten
+                            end
       end
 
       run
     end
 
     def run_event_in_flow(event, flow)
-      flow.fluxs_for(event)
-        .map do |flux|
-          runner.run_event_with_flux event, flux, flow
-        end.flatten
+      fluxes = flow.fluxs_for(event)
+
+      fluxes.map do |flux|
+        runner.run_event_with_flux event, flux, flow
+      end.flatten
     end
 
     def run_event_with_flux event, flux, flow
