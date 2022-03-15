@@ -27,7 +27,8 @@ module Mushy
       fluxes = flow.fluxs_for(event)
 
       fluxes.map do |flux|
-        runner.run_event_with_flux event, flux, flow
+        events = runner.run_event_with_flux event, flux, flow
+        events
       end.flatten
     end
 
