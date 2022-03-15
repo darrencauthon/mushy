@@ -28,6 +28,11 @@ module Mushy
 
       fluxes.map do |flux|
         events = runner.run_event_with_flux event, flux, flow
+
+        if flux.is_a?(Mushy::Stop)
+          #return events
+        end
+
         events
       end.flatten
     end
