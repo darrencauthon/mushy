@@ -23,7 +23,7 @@ module Mushy
 
     def run_event_in_flow event, flow
       flow.fluxs_for(event)
-        .map { |s| runner.run_event_with_flux event, s, flow }
+        .map { |flux| runner.run_event_with_flux event, flux, flow }
         .flatten
     end
 
