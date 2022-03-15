@@ -20,7 +20,7 @@ module Mushy
 
     def process event, config
       puts config[:message]
-      nil
+      event
     end
 
   end
