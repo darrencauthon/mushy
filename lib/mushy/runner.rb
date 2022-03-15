@@ -18,7 +18,7 @@ module Mushy
         events = events.map do |event|
                               result = runner.run_event_in_flow(event, flow)
 
-                              return result[0] unless result[1]
+                              return result[0].flatten unless result[1]
 
                               result[0].flatten
                             end
