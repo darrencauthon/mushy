@@ -13,4 +13,8 @@ class Mushy::Stop < Mushy::Flux
   def process(event, _)
     event
   end
+
+  def stop(event)
+    event
+  end
 end
