@@ -62,7 +62,7 @@ if MushyCLI.get_special_values[:method] == 'web'
       secure?: nil,
       forwarded?: nil,
     }.reduce({}) { |t, i| t[i[0]] = i[1] || request.send(i[0]).to_s; t }
-    values = { method: :get, params: params, request: raw }
+    values = { method: request.request_method, params: params, request: raw }
     Mushy::Builder::Api.start(the_file, values)
   end
 elsif MushyCLI.get_special_values[:method] == 'build'
