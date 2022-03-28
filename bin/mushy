@@ -38,38 +38,37 @@ enable :run
 
 if MushyCLI.get_special_values[:method] == 'web'
   hey = lambda do |file, request, params|
-    raw = {
-      accept: request.accept.map(&:to_s),
-      body: request.body.read,
-      scheme: nil,
-      script_name: nil,
-      path_info: nil,
-      port: nil,
-      request_method: nil,
-      query_string: nil,
-      content_length: nil,
-      media_type: nil,
-      host: nil,
-      form_data?: nil,
-      referrer: nil,
-      user_agent: nil,
-      xhr?: nil,
-      url: nil,
-      path: nil,
-      ip: nil,
-      secure?: nil,
-      forwarded?: nil,
-    }.reduce({}) { |t, i| t[i[0]] = i[1] || request.send(i[0]).to_s; t }
-
-    values = { method: request.request_method, params: params, request: raw }
-    Mushy::Builder::Api.start(file, values)
   end
 
   [:get, :post, :patch, :delete].each do |method|
     self.send(method, '/') { hey.call(MushyCLI.get_special_values[:file], request, params) }
     (1..10).map { |x| (1...x).map { |_| '*' }.join('/') }.each do |url|
       self.send(method, url) do
-        hey.call(MushyCLI.get_special_values[:file], request, params)
+        raw = {
+          accept: request.accept.map(&:to_s),
+          body: request.body.read,
+          scheme: nil,
+          script_name: nil,
+          path_info: nil,
+          port: nil,
+          request_method: nil,
+          query_string: nil,
+          content_length: nil,
+          media_type: nil,
+          host: nil,
+          form_data?: nil,
+          referrer: nil,
+          user_agent: nil,
+          xhr?: nil,
+          url: nil,
+          path: nil,
+          ip: nil,
+          secure?: nil,
+          forwarded?: nil,
+        }.reduce({}) { |t, i| t[i[0]] = i[1] || request.send(i[0]).to_s; t }
+
+        values = { method: request.request_method, params: params, request: raw }
+        Mushy::Builder::Api.start(MushyCLI.get_special_values[:file], values)
       end
     end
   end
