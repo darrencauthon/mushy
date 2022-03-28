@@ -42,7 +42,7 @@ if MushyCLI.get_special_values[:method] == 'web'
   get '/' do
     raw = {
       accept: request.accept.map(&:to_s),
-      #body: nil,
+      body: request.body.read,
       scheme: nil,
       script_name: nil,
       path_info: nil,
