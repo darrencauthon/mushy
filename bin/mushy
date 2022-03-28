@@ -41,7 +41,6 @@ if MushyCLI.get_special_values[:method] == 'web'
   end
 
   [:get, :post, :patch, :delete].each do |method|
-    self.send(method, '/') { hey.call(MushyCLI.get_special_values[:file], request, params) }
     (1..10).map { |x| (1...x).map { |_| '*' }.join('/') }.each do |url|
       self.send(method, url) do
         raw = {
