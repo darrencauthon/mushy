@@ -65,12 +65,12 @@ if MushyCLI.get_special_values[:method] == 'web'
     Mushy::Builder::Api.start(file, values)
   end
 
-  get('/') { hey.call(MushyCLI.get_special_values[:file], request, params) }
-  get('/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
-  get('/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
-  get('/*/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
-  get('/*/*/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
-  get('/*/*/*/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
+  self.send(:get, '/') { hey.call(MushyCLI.get_special_values[:file], request, params) }
+  self.send(:get, '/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
+  self.send(:get, '/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
+  self.send(:get, '/*/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
+  self.send(:get, '/*/*/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
+  self.send(:get, '/*/*/*/*/*') { hey.call(MushyCLI.get_special_values[:file], request, params) }
 elsif MushyCLI.get_special_values[:method] == 'build'
   the_file = MushyCLI.get_special_values[:file]
 
