@@ -55,14 +55,12 @@ if MushyCLI.get_special_values[:method] == 'web'
       form_data?: nil,
       referrer: nil,
       user_agent: nil,
-      #cookies: nil,
       xhr?: nil,
       url: nil,
       path: nil,
       ip: nil,
       secure?: nil,
       forwarded?: nil,
-      #env: nil
     }.reduce({}) { |t, i| t[i[0]] = i[1] || request.send(i[0]).to_s; t}
     values = { method: :get, params: params, request: raw }
     Mushy::Builder::Api.start(the_file, values)
