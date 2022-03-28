@@ -40,7 +40,7 @@ if MushyCLI.get_special_values[:method] == 'web'
   the_file = MushyCLI.get_special_values[:file]
 
   get '/' do
-    values = { method: :post }
+    values = { method: :get, params: params }
     Mushy::Builder::Api.start(the_file, values)
   end
 elsif MushyCLI.get_special_values[:method] == 'build'
