@@ -12,6 +12,9 @@ class Mushy::Web < Mushy::Flux
     }
   end
 
-  def process(_, config)
+  def process(event, _)
+    puts event.inspect
+    puts 'method!!!' if event[:method]
+    event
   end
 end

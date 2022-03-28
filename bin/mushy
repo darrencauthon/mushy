@@ -11,7 +11,7 @@ class MushyCLI < Thor
   def start
     v = values || {}
     Mushy::Builder::Api.start(file, v).tap do |run|
-      MushyCLI.set_special_values({ method: 'web', run: run }) if run.is_a?(Mushy::FireUpAWebServer)
+      MushyCLI.set_special_values({ method: 'web', file: file, run: run }) if run.is_a?(Mushy::FireUpAWebServer)
     end
   end
 
@@ -37,8 +37,11 @@ require 'sinatra'
 enable :run
 
 if MushyCLI.get_special_values[:method] == 'web'
+  the_file = MushyCLI.get_special_values[:file]
+
   get '/' do
-    '.'
+    values = { method: :post }
+    Mushy::Builder::Api.start(the_file, values)
   end
 elsif MushyCLI.get_special_values[:method] == 'build'
   the_file = MushyCLI.get_special_values[:file]

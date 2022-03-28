@@ -73,12 +73,16 @@ module Mushy::Builder::Api
 
     web_flux = flow.fluxs.select { |x| x.is_a?(Mushy::Web) }.first
     if web_flux
-      return Mushy::FireUpAWebServer.new.tap do |x|
-               x.id = SecureRandom.uuid
-               x.flow_id = flow.id
-               x.flow = flow
-               x.flux = web_flux
-             end
+      if event[:method]
+        return Mushy::Runner.new.start event, web_flux, flow
+      else
+        return Mushy::FireUpAWebServer.new.tap do |x|
+                x.id = SecureRandom.uuid
+                x.flow_id = flow.id
+                x.flow = flow
+                x.flux = web_flux
+              end
+      end
     end
 
     cli_flux = flow.fluxs.select { |x| x.is_a?(Mushy::Cli) }.first
