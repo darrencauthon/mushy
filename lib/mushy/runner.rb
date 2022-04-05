@@ -15,16 +15,28 @@ module Mushy
       events = run_event_with_flux starting_event, flux, flow
 
       while events.any?
-        events = events.map { |e| runner.run_event_in_flow e, flow }.flatten
+        events = events.map do |event|
+                              result = runner.run_event_in_flow(event, flow)
+
+                              return result[0].flatten unless result[1]
+
+                              result[0]
+                            end.flatten
       end
 
       run
     end
 
-    def run_event_in_flow event, flow
-      flow.fluxs_for(event)
-        .map { |s| runner.run_event_with_flux event, s, flow }
-        .flatten
+    def run_event_in_flow(event, flow)
+      fluxes = flow.fluxs_for(event)
+
+      [fluxes.map do |flux|
+        events = runner.run_event_with_flux event, flux, flow
+
+        return [flux.stop(events[0]), false] if flux.respond_to?(:stop)
+
+        events
+      end.flatten, true]
     end
 
     def run_event_with_flux event, flux, flow
