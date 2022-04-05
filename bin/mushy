@@ -70,6 +70,8 @@ if MushyCLI.get_special_values[:method] == 'web'
         Mushy::Builder::Api.start(MushyCLI.get_special_values[:file], values).tap do |result|
           puts result.inspect
         end
+        content_type :json
+        {}
       end
     end
   end
