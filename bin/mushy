@@ -10,7 +10,9 @@ class MushyCLI < Thor
   desc "start FILE", "Run this workflow file."
   def start
     v = values || {}
-    Mushy::Builder::Api.start file, v
+    Mushy::Builder::Api.start(file, v).tap do |run|
+      MushyCLI.set_special_values({ method: 'web', file: file, run: run }) if run.is_a?(Mushy::FireUpAWebServer)
+    end
   end
 
   desc "build FILE", 'Build a flow.'
@@ -34,54 +36,91 @@ exit unless MushyCLI.get_special_values
 require 'sinatra'
 enable :run
 
-the_file = MushyCLI.get_special_values[:file]
+if MushyCLI.get_special_values[:method] == 'web'
+  hey = lambda do |file, request, params|
+  end
 
-get '/' do
-  Mushy::Builder::Index.file
-end
+  [:get, :post, :patch, :delete].each do |method|
+    (1..10).map { |x| (1...x).map { |_| '*' }.join('/') }.each do |url|
+      self.send(method, url) do
+        raw = {
+          accept: request.accept.map(&:to_s),
+          body: request.body.read,
+          scheme: nil,
+          script_name: nil,
+          path_info: nil,
+          port: nil,
+          request_method: nil,
+          query_string: nil,
+          content_length: nil,
+          media_type: nil,
+          host: nil,
+          form_data?: nil,
+          referrer: nil,
+          user_agent: nil,
+          xhr?: nil,
+          url: nil,
+          path: nil,
+          ip: nil,
+          secure?: nil,
+          forwarded?: nil,
+        }.reduce({}) { |t, i| t[i[0]] = i[1] || request.send(i[0]).to_s; t }
 
-get '/bulma.css' do
-  content_type :css
-  Mushy::Builder::Bulma.file
-end
+        values = { method: request.request_method, params: params, request: raw }
+        Mushy::Builder::Api.start(MushyCLI.get_special_values[:file], values)
+      end
+    end
+  end
+elsif MushyCLI.get_special_values[:method] == 'build'
+  the_file = MushyCLI.get_special_values[:file]
 
-get '/dark.css' do
-  content_type :css
-  Mushy::Builder::Dark.file
-end
+  get '/' do
+    Mushy::Builder::Index.file
+  end
 
-get '/axios.js' do
-  content_type :js
-  Mushy::Builder::Axios.file
-end
+  get '/bulma.css' do
+    content_type :css
+    Mushy::Builder::Bulma.file
+  end
 
-get '/vue.js' do
-  content_type :js
-  Mushy::Builder::Vue.file
-end
+  get '/dark.css' do
+    content_type :css
+    Mushy::Builder::Dark.file
+  end
 
-get '/flow' do
-  content_type :json
-  Mushy::Builder::Api.get_flow(the_file).to_json
-end
+  get '/axios.js' do
+    content_type :js
+    Mushy::Builder::Axios.file
+  end
 
-get '/fluxs' do
-  content_type :json
-  Mushy::Builder::Api.get_fluxs.to_json
-end
+  get '/vue.js' do
+    content_type :js
+    Mushy::Builder::Vue.file
+  end
 
-post '/run' do
-  content_type :json
+  get '/flow' do
+    content_type :json
+    Mushy::Builder::Api.get_flow(the_file).to_json
+  end
 
-  result = Mushy::Builder::Api.run request.body.read
+  get '/fluxs' do
+    content_type :json
+    Mushy::Builder::Api.get_fluxs.to_json
+  end
 
-  { result: result }.to_json
-end
+  post '/run' do
+    content_type :json
 
-post '/save' do
-  content_type :json
+    result = Mushy::Builder::Api.run request.body.read
 
-  result = Mushy::Builder::Api.save the_file, request.body.read
+    { result: result }.to_json
+  end
 
-  { result: result }.to_json
+  post '/save' do
+    content_type :json
+
+    result = Mushy::Builder::Api.save the_file, request.body.read
+
+    { result: result }.to_json
+  end
 end

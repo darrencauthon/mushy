@@ -1,8 +1,7 @@
-module Mushy
+class Mushy::Run
+  attr_accessor(:id, :flow_id)
+end
 
-  class Run
-    attr_accessor :id
-    attr_accessor :flow_id
-  end
-
+class Mushy::FireUpAWebServer < Mushy::Run
+  attr_accessor(:flow, :flux)
 end
