@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
 require 'faraday'
 
+#
+# Look at the content given by the bridge.
+#
 class Mushy::Get < Flux
-  def process event, config
+  def process(_event, config) # rubocop:disable Metrics/MethodLength
     faraday = Faraday.new do |connection|
       connection.adapter Faraday.default_adapter
     end
