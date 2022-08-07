@@ -5,7 +5,7 @@ require 'faraday'
 #
 # Look at the content given by the bridge.
 #
-class Mushy::Get < Flux
+class Mushy::Get < Mushy::Flux
   def self.details
     {
       name: 'Get',
