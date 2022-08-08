@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors        = ['Darren Cauthon']
   s.email          = 'darren@cauthon.com'
   s.files          = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  s.executables    = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  s.executables    = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ["lib"]
   s.homepage       = 'https://cauthon.com'
   s.license        = 'MIT'
