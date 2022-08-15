@@ -6,6 +6,7 @@ Dir[File.dirname(__FILE__) + '/mushy/*.rb'].each { |f| require f }
 important_flux_files = [
   :bash,
   :browser,
+  :http_operation,
   :simple_python_program
 ].map { |x| "#{x}.rb" }
 

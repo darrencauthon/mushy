@@ -3,9 +3,9 @@
 require 'faraday'
 
 #
-# A GET request.
+# A POST request.
 #
-class Mushy::Get < Mushy::HttpOperation
+class Mushy::Post < Mushy::HttpOperation
   def self.details
     super.merge({
                   examples: {
