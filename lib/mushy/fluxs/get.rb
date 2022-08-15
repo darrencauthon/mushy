@@ -3,7 +3,7 @@
 require 'faraday'
 
 #
-# Look at the content given by the bridge.
+# A GET request.
 #
 class Mushy::Get < Mushy::Flux
   def self.details
