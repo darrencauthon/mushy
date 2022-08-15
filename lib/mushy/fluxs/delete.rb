@@ -10,20 +10,18 @@ class Mushy::Delete < Mushy::HttpOperation
     super.merge({
                   examples: {
                     'Successful Call' => {
-                      description: "This will send a #{operation.upcase} to https://www.google.com.",
-                      config: { url: 'https://www.google.com' },
+                      description: 'This will send a DELETE to an API endpoint.',
+                      config: { url: 'http://localhost:3000/api/v1/db/data/v1/people/1' },
                       result: {
                         status: 200,
-                        url: 'https://www.google.com',
-                        time: 0.12829399993643165,
+                        url: 'http://localhost:3000/api/v1/db/data/v1/people/1',
+                        time: 0.11498799989931285,
                         reason_phrase: 'OK',
                         headers: {
-                          'access-control-allow-origin': '*',
-                          'content-type': 'application/json; charset=utf-8',
-                          'content-length': '193',
-                          'keep-alive': 'timeout=5'
+                          'content-type' => 'application/json; charset=utf-8',
+                          'content-length' => '1'
                         },
-                        body: '{}'
+                        body: '1'
                       }
                     }
                   }
