@@ -73,13 +73,16 @@ class Mushy::Get < Mushy::Flux
       connection.adapter Faraday.default_adapter
     end
 
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     response = faraday.get config[:url]
+    time = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
 
     url = response.instance_variable_get(:@env).url.to_s
 
     {
       status: response.status,
       url: url,
+      time: time,
       reason_phrase: response.reason_phrase,
       headers: response.headers,
       body: response.body
