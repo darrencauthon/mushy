@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.homepage       = 'https://cauthon.com'
   s.license        = 'MIT'
+  s.bindir         = 'exe'
 
   s.add_development_dependency 'minitest', '~> 5'
   s.add_runtime_dependency 'sinatra', '~> 2.1'
