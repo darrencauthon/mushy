@@ -23,6 +23,12 @@ class Mushy::Get < Mushy::Flux
           type: 'keyvalue',
           shrink: true,
           value: {}
+        },
+        params: {
+          description: 'Parameters for the URL.',
+          type: 'keyvalue',
+          shrink: true,
+          value: {}
         }
       },
       examples: {
@@ -58,15 +64,18 @@ class Mushy::Get < Mushy::Flux
   end
 
   def process(_event, config) # rubocop:disable Metrics/MethodLength
-    faraday = Faraday.new do |connection|
+    args = {
+      params: config[:params],
+      headers: config[:headers]
+    }
+
+    faraday = Faraday.new(**args) do |connection|
       connection.adapter Faraday.default_adapter
     end
 
-    headers = config[:headers] || {}
-    data = {}
-    url = config[:url]
+    response = faraday.get config[:url]
 
-    response = faraday.get config[:url], data, headers
+    url = response.instance_variable_get(:@env).url.to_s
 
     {
       status: response.status,
